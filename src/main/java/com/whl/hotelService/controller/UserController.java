@@ -11,6 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class UserController {
     @GetMapping(value = "login")
     public void getLogin() {
-        log.info("getLogin()");
+        log.info("getLogin");
     }
 }
