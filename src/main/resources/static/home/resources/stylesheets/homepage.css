@@ -5,6 +5,68 @@
     justify-content: flex-start;
 }
 
-#main > .content-container > .image-container > .hotelImage {
+#main > .search-container {
+    box-sizing: border-box;
+    padding: 1.5rem 157.5px;
+    background-color: #4a4a4a;
+}
 
+#main > .search-container > .search-form {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#main > .search-container > .search-form input {
+    cursor: pointer;
+    border: none;
+    background-color: #4a4a4a;
+}
+
+#main > .search-container > .search-form input::placeholder {
+    color: #ffffff;
+}
+
+#main > .search-container > .search-form > .search-button {
+    padding: 0.925rem 1.5rem;
+    background-color: #4a4a4a;
+    color: #ffffff;
+    border-radius: 0.375rem;
+    border: 0.0625rem solid #ffffff;
+}
+
+
+#main > .search-container > .search-form > .search-item {
+    box-sizing: border-box;
+}
+
+#main > .search-container > .search-form > .search-item > .text {
+    color: #ffffff;
+}
+
+
+#main > .search-container > .search-form > .search-item:first-child > .search > .icon {
+    height: 1.25rem;
+    margin-bottom: 0.275rem;
+}
+
+#main > .search-container > .search-form > .search-item:nth-child(4) {
+    box-sizing: border-box;
+    padding-right: 2.5rem;
+}
+
+#main > .search-container > .search-form > .search-item:nth-child(4) > .people {
+    margin: 0 0.25rem;
+    color: #ffffff;
+}
+
+#main > .search-container > .search-form > .search-item:nth-child(4) > .minus > .icon {
+    height: 1.125rem;
+    margin-bottom: 0.25rem;
+}
+
+#main > .search-container > .search-form > .search-item:nth-child(4) > .plus > .icon {
+    height: 1.125rem;
+    margin-bottom: 0.25rem;
 }
