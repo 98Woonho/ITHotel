@@ -40,6 +40,13 @@ ol, ul {
     padding-inline: unset;
 }
 
+button {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+}
+
 .spring {
     flex: 1;
 }
