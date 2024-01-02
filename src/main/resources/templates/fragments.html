@@ -21,7 +21,7 @@
 
 <header id="header" class="content-container-wrapper" th:fragment="header">
     <h1 class="item logo">
-        <a href="#" class="link">
+        <a th:href="@{/home/homepage}" class="link">
             <img th:src="@{/resources/images/ITHOTEL.header.png}" class="title-logo">
         </a>
     </h1>
@@ -61,7 +61,7 @@
 <footer id="footer" class="content-container-wrapper" th:fragment="footer">
     <div class="content-container">
         <div class="content-container-left">
-            <a href="#" class="link">
+            <a th:href="@{/home/homepage}" class="link">
                 <img th:src="@{/resources/images/ITHOTEL.header.png}" class="title-logo">
             </a>
             <p class="copyright">Copyright ⓒ 2023 ITHOTEL Inc.</p>

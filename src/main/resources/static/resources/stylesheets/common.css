@@ -24,8 +24,8 @@ body {
 body > .content-container-wrapper {
     align-items: center;
     display: flex;
-    flex-direction: row;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: flex-start;
 }
 
 body > .content-container-wrapper > .content-container {
@@ -157,6 +157,7 @@ button {
 
 
 #header > .logo {
+    z-index: 5;
     width: 477px;
     height: inherit;
     margin: 0 auto;
@@ -199,6 +200,15 @@ button {
     height: 7.5rem;
 }
 
+#footer > .content-container {
+    margin: auto 0;
+
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
 #footer > .content-container > .content-container-right > .icon-container {
     align-items: center;
     display: flex;
@@ -234,14 +244,6 @@ button {
     color: #706958;
     font-weight: 400;
     font-size: 0.9rem;
-}
-
-
-#footer > .content-container {
-    align-items: center;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
 }
 
 #footer > .content-container > .content-container-left > .copyright {
