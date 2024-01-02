@@ -1,10 +1,7 @@
 @charset "UTF-8";
 
-#main {
-    align-items: stretch;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
+#main > .content-container {
+
 }
 
 .title-container > .title {
@@ -37,4 +34,8 @@
 
 .list-container {
     border-top: 0.175rem solid #575757;
+}
+
+.list-container > .area-container > .area {
+    border-top: 0.0625rem solid #D2C4A5;
 }

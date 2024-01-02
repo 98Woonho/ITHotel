@@ -24,8 +24,8 @@ body {
 body > .content-container-wrapper {
     align-items: center;
     display: flex;
-    flex-direction: row;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: flex-start;
 }
 
 body > .content-container-wrapper > .content-container {
@@ -157,6 +157,7 @@ button {
 
 
 #header > .logo {
+    z-index: 5;
     width: 477px;
     height: inherit;
     margin: 0 auto;
