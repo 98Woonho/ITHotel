@@ -33,6 +33,12 @@ body > .content-container-wrapper > .content-container {
     margin: 0 auto;
 }
 
+h1, h2, h3, h4, h5, h6 {
+    font: inherit;
+    margin-block: unset;
+    margin-inline: unset;
+}
+
 ol, ul {
     list-style-type: none;
     margin-block: unset;
@@ -248,4 +254,34 @@ button {
 
 #footer > .content-container > .content-container-left > .copyright {
     margin: unset;
+}
+
+#findTop > .title-container > .title {
+    text-align: center;
+    margin: 4rem 0;
+    font-size: 2.75rem;
+    font-weight: 500;
+}
+
+#findTop > .link-container {
+    margin-bottom: 1rem;
+}
+
+#findTop > .link-container > .link:first-child {
+    border-right: 0.0625rem solid #D2C4A5;
+}
+
+#findTop > .link-container > .link:nth-child(2) {
+    margin-left: 1.25rem;
+}
+
+#findTop > .link-container > .link > .icon {
+    height: 1.25rem;
+    margin-bottom: 0.25rem;
+}
+
+#findTop > .link-container > .link > .text {
+    color: #4D473C;
+    font-size: 1.2rem;
+    padding-right: 1.25rem;
 }

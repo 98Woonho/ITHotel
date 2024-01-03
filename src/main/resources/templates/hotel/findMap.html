@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <th:block th:insert="~{fragments.html :: headCdns}"></th:block>
+    <link rel="stylesheet" th:href="@{/resources/stylesheets/common.css}">
+    <link rel="stylesheet" th:href="@{/hotel/resources/stylesheets/findMap.css}">
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ea7f9c895362adfeaa8d4cec51df919e&libraries=services"></script>
+    <script defer th:src="@{/hotel/resources/scripts/findMap.js}"></script>
+    <title>Document</title>
+</head>
+<body>
+<th:block th:replace="~{fragments.html :: header}"></th:block>
+
+<main id="main" class="content-container-wrapper">
+    <div class="content-container">
+        <th:block th:replace="~{fragments.html :: findTop}"></th:block>
+        <div id="map"></div>
+    </div>
+</main>
+
+
+<th:block th:replace="~{fragments.html :: footer}"></th:block>
+</body>
+</html>
