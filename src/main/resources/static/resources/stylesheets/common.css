@@ -144,7 +144,7 @@ button {
 
 #header > .menu > .subMenu > .hotelArea > .hotel {
     margin-left: 1.25rem;
-    margin-bottom: 0.625rem;
+    padding-bottom: 0.625rem;
     border-bottom: 0.25rem solid transparent;
     box-sizing: border-box;
     transition-duration: 250ms;
