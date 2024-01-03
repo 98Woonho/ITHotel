@@ -1,0 +1,97 @@
+a{
+    color: inherit;
+    text-decoration: none;
+}
+
+a:hover{
+    color: inherit;
+}
+
+#main > .content-container{
+    height: 550px;
+}
+
+#main > .content-container > .title-container{
+    text-align: center;
+}
+
+#main > .content-container > .title-container:after{
+    content: "";
+    display: block;
+    width: 450px;
+    border-bottom: 1px solid #bcbcbc;
+    margin: 40px auto;
+}
+
+#main > .content-container > .form-login {
+    width: 450px;
+    margin: 0 auto;
+}
+
+#main > .content-container > form > .form-login{
+    width: 450px;
+    margin: 0 auto;
+}
+
+#main > .content-container > form > .form-login > .login_btn{
+    width: 450px;
+    height: 50px;
+    margin-top: 20px;
+}
+
+#main > .content-container > .form-login > .register_btn{
+    width: 450px;
+    height: 50px;
+    margin-top: 20px;
+}
+
+#main > .content-container > form > .form-login > .form-control{
+    height: 50px;
+}
+
+#main > .content-container > form > .form-option{
+    width: 450px;
+    display: flex;
+    justify-content: space-between;
+    margin: 0 auto;
+}
+
+#main > .content-container > form > .form-option > .form-remember{
+    display: inline;
+    cursor: pointer;
+}
+
+#main > .content-container > form > .form-option > .form-remember > *{
+    cursor: pointer;
+}
+
+#main > .content-container > form > .form-option > .form-find{
+    text-align: right;
+}
+
+#main > .content-container > form > .form-option > .form-find > *{
+    display: inline;
+}
+
+#main > .content-container > form > .form-option > .form-find > .form-findId{
+    border-right: 1px solid #bcbcbc;
+    padding: 2px;
+}
+
+#main > .content-container > form > .form-option > .form-find > .form-findPw{
+    margin: 4px;
+}
+
+#main > .content-container > .form-oauth2{
+    width: 450px;
+    display: flex;
+    justify-content: space-between;
+    margin: 0 auto;
+}
+
+#main > .content-container > .form-oauth2 > .oauth2-btn{
+    width: 220px;
+    height: 50px;
+    margin-top: 20px;
+    display: inline;
+}

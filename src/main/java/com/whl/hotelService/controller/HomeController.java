@@ -13,4 +13,7 @@ public class HomeController {
     public void getHomepage() {
         log.info("getHomepage()");
     }
+
+    @GetMapping(value = "member_homepage")
+    public void getMember_Homepage() { log.info("getMember_Homepage()");}
 }
