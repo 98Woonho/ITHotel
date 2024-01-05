@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -7,13 +7,38 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <th:block th:insert="~{fragments.html :: headCdns}"></th:block>
     <link rel="stylesheet" th:href="@{/resources/stylesheets/common.css}">
+    <link rel="stylesheet" th:href="@{/hotel/resources/stylesheets/info.css}">
     <title>Document</title>
 </head>
 <body>
 <th:block th:replace="~{fragments.html :: header}"></th:block>
 
-<main id="main" class="content-container-wrapper"></main>
+<main id="main" class="content-container-wrapper">
+    <div class="content-container">
+        <div class="info-container">
+            <div class="menu">
+                <div class="title-container">
+                    <h1 class="title">호텔 소개</h1>
+                </div>
+                <div class="link-container">
+                    <a href="#" class="link">소개</a>
+                    <a href="#" class="link">서울</a>
+                    <a href="#" class="link">부산</a>
+                    <a href="#" class="link">울산</a>
+                </div>
+            </div>
+            <div class="info">
+                <div class="title-container">
+                    <h1 class="title">소개</h1>
+                </div>
+                <img th:src="@{/home/resources/images/hotel1.jpg}" alt="">
+                <span class="text">우리 호텔은 품위와 모던한 편안함이 공존하는 곳으로, 세련된 디자인과 최상의 서비스로 고객님들에게 특별한 경험을 선사합니다. 각 방은 세심한 신경 쓴 인테리어로 꾸며져 있으며, 편안한 침대와 최신 시설을 갖추어 고객님들의 휴식을 최적화합니다. 또한, 우리 호텔은 도시의 중심에 자리하여 주요 관광지와 비즈니스 지구에 손쉽게 접근할 수 있습니다. 풍부한 아침 식사와 다양한 레스토랑, 혹은 특별한 이벤트를 위한 고급 별도 공간까지, 우리 호텔에서는 다양한 요구에 부응할 수 있도록 노력하고 있습니다. 여행의 피로를 풀고 편안한 숙박을 경험하시기 위해 저희 호텔을 선택해 주셔서 감사합니다.</span>
+            </div>
+        </div>
+    </div>
+</main>
 
 <th:block th:replace="~{fragments.html :: footer}"></th:block>
+
 </body>
 </html>
