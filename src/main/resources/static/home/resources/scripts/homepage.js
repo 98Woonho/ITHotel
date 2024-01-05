@@ -10,5 +10,4 @@ function slideImage(direction) {
     }
     const translateValue = -currentIndex * 33.33333333333 + '%';
     slide.style.transform = 'translateX(' + translateValue + ')';
-    console.log(totalImages)
 }

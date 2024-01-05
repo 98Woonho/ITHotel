@@ -18,4 +18,9 @@ public class HotelController {
     public void getFindMap() {
         log.info("getFindMap()");
     }
+
+    @GetMapping(value="info")
+    public void getInfo() {
+        log.info("getInfo()");
+    }
 }
