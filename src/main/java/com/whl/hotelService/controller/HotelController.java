@@ -23,4 +23,9 @@ public class HotelController {
     public void getInfo() {
         log.info("getInfo()");
     }
+
+    @GetMapping(value="reservationStep1")
+    public void getReservationStep1() {
+        log.info("getReservationStep1()");
+    }
 }
