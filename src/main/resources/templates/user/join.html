@@ -1,40 +1,44 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="ko" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
   <meta charset="UTF-8">
   <title>Title</title>
+
+  <!-- join.css    -->
+  <link rel="stylesheet" th:href="@{/user/resources/stylesheets/join.css}">
+
 </head>
 <body>
 
 <h1>JOIN PAGE</h1>
-<form name="joinform" action="/user/join" method="post" onsubmit="return false">
-  <div>
+<form name="joinform" action="/user/join" method="post">
+  <div class="join_wrapper">
     <div>
-      <label>아이디</label><span th:text="${user_id}"></span> <br/>
-      <input name="user_id" placeholder="아이디"/> <button onclick="IdCheck() ">중복확인</button> <br/>
+      <label>아이디</label><span th:text="${user_id}" id="idCheck" class="msg"></span> <br/>
+      <input name="user_id" id="user_id" placeholder="아이디"/> <button type="button" onclick="IdCheck()">중복확인</button> <br/>
     </div>
     <div>
-      <label>비밀번호</label><span th:text="${password}"></span> <br/>
-      <input name="password" type="password" placeholder="비밀번호" /> <br/>
+      <label>비밀번호</label><span th:text="${password}" id="pwCheck" class="msg"></span> <br/>
+      <input name="password" type="password" oninput="Re_PwCheck()" placeholder="비밀번호" /> <br/>
     </div>
     <div>
-      <label>비밀번호확인</label><span class="pwCheck" th:text="${repassword}"></span> <br/>
-      <input name="repassword" type="password" oninput="PwCheck()" placeholder="비밀번호 확인" /> <br/>
+      <label>비밀번호확인</label><span th:text="${repassword}" id="re_pwCheck" class="msg"></span> <br/>
+      <input name="repassword" type="password" oninput="Re_PwCheck()" placeholder="비밀번호 확인" /> <br/>
     </div>
     <div>
-      <label>이름</label><span th:text="${name}"></span> <br/>
+      <label>이름</label><span th:text="${name}" class="msg"></span> <br/>
       <input name="name" placeholder="이름" /> <br/>
     </div>
     <div>
-      <label>이메일</label><span th:text="${email}"></span> <br/>
-      <input name="email" placeholder="이메일" /> <br/>
+      <label>이메일</label><span th:text="${email}" class="msg"></span> <br/>
+      <input name="email" type=email placeholder="이메일" /> <br/>
     </div>
     <div>
-      <label>우편번호</label><span th:text="${zipcode}"></span> <br/>
+      <label>우편번호</label><span th:text="${zipcode}" class="msg"></span> <br/>
       <input name="zipcode" placeholder="우편번호" /> <br/>
     </div>
     <div>
-      <label>주소</label><span th:text="${addr1}"></span> <br/>
+      <label>주소</label><span th:text="${addr1}" class="msg"></span> <br/>
       <input name="addr1" placeholder="주소" /> <br/>
     </div>
     <div>
@@ -42,7 +46,7 @@
       <input name="addr2" placeholder="상세주소" /> <br/>
     </div>
     <div>
-      <button onclick="isValid()">가입요청</button>
+      <button>가입요청</button>
     </div>
   </div>
 </form>
@@ -50,25 +54,67 @@
 <!-- axios -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js" integrity="sha512-uMtXmF28A2Ab/JJO2t/vYhlaa/3ahUOgj1Zf27M5rOo8/+fcTUVH0/E0ll68njmjrLqOBjXM3V9NiPFL5ywWPQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-
 <script>
-  const IdCheck = function (){
-      axios.get('/user/ConfirmId/')
-              .then(res=>{
+  const IdCheck = () => {
+    const user_id = document.joinform.user_id.value;
+    const id_msg = document.querySelector('#idCheck');
+    let regexpId = new RegExp("^[A-Za-z0-9]{6,16}$");
+    if(regexpId.test(user_id.trim())) {
+      axios.get('/user/ConfirmId?user_id=' + user_id)
+              .then(res => {
                 console.log(res);
+                if (res.data.success) {
+                  document.querySelector('#idCheck').style.color = 'green';
+                  document.querySelector('#idCheck').innerHTML = res.data.message;
+                  return true;
+                } else {
+                  document.querySelector('#idCheck').style.color = 'orange';
+                  document.querySelector('#idCheck').innerHTML = res.data.message;
+                  return false;
+                }
               })
-              .catch(err=>{
+              .catch(err => {
                 console.log(err);
               });
+    } else
+      id_msg.textContent = "아이디는 소문자와 숫자로만 이루어진 6~16자여야 합니다.";
   }
 
-  const PwCheck = function(){
-    const pw = document.joinform.password;
-    const re_pw = document.joinform.repassword;
-    if(pw != re_pw)
-      document.querySelector('.pwCheck').textContent('비밀번호가 일치하지 않습니다.')
-    else
-      document.querySelector('.pwCheck').textContent('비밀번호가 일치합니다.');
+  const PwCheck = () => {
+    const pw = document.joinform.password.value;
+    const pw_msg = document.querySelector('#pwCheck');
+    let regexpPw = new RegExp("^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$");
+
+    if(!regexpPw.test(pw.trim())) {
+      pw_msg.textContent = "비밀번호는 영문,숫자,특수문자가 1개 이상 포함된 8~15자여야 합니다."
+      pw_msg.style.color = 'orange';
+      return false;
+    }else{
+      pw_msg.textContent = "사용가능한 비밀번호입니다."
+      pw_msg.style.color = 'green';
+      pw_msg.textContent = null;
+      return true;
+    }
+  }
+
+  const Re_PwCheck = () => {
+    const pw = document.joinform.password.value;
+    const re_pw = document.joinform.repassword.value;
+    const re_pw_msg = document.querySelector('#re_pwCheck');
+
+    if(PwCheck()) {
+      if (pw !== re_pw) {
+        re_pw_msg.textContent = "비밀번호와 일치하지 않습니다.";
+        re_pw_msg.style.color = 'orange';
+        return false;
+      } else {
+        re_pw_msg.textContent = "비밀번호와 일치합니다.";
+        re_pw_msg.style.color = 'green';
+        return true;
+      }
+    }else
+      re_pw_msg.textContent = null;
+      return false;
   }
 
 </script>

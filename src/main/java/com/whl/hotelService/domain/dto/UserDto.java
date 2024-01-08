@@ -17,11 +17,9 @@ public class UserDto {
     private String user_id;
 
     @NotBlank(message="비밀번호를 입력하세요")
-    @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$", message="영문,숫자,특수문자가 1개 이상 포함된 8~15자로 이루어져야합니다.")
     private String password;
 
     @NotBlank(message="비밀번호확인을 입력하세요")
-    @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$", message="영문,숫자,특수문자가 1개 이상 포함된 8~15자로 이루어져야합니다.")
     private String repassword;
 
     @NotBlank(message="이름을 입력하세요")

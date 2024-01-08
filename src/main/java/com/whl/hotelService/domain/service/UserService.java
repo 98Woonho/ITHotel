@@ -5,7 +5,6 @@ import com.whl.hotelService.domain.entity.User;
 import com.whl.hotelService.domain.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 
 @Service
 public class UserService {
@@ -13,18 +12,14 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    private User user = new User();
-
-    public boolean idValid(String id, Model model){
-        if(userRepository.existsById(id)){
-            model.addAttribute("user_id","동일한 아이디가 존재합니다.");
+    public boolean idValid(String id){
+        if(userRepository.existsById(id))
             return false;
-        }
-        model.addAttribute("user_id", "이 아이디는 사용가능합니다.");
         return true;
     }
 
     public boolean memberjoin(UserDto dto){
+        User user = new User();
         user.setUser_id(dto.getUser_id());
         user.setPassword(dto.getPassword());
         user.setRepassword(dto.getRepassword());
