@@ -59,8 +59,14 @@ dependencies {
 	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.2'
 	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.2'
 
-	//Devtools
+	//MAIL
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+
+	//DEVTOOLS
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+	//VALIDATOR
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
 
 	//Test
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'

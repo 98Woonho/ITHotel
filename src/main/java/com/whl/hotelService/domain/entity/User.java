@@ -19,6 +19,13 @@ public class User {
     @Id
     private String user_id;
     private String password;
+    private String repassword;
+    private String name;
+    private String email;
+    private String zipcode;
+    private String addr1;
+    private String addr2;
+
     private String role;
 
     private String provider;
@@ -28,6 +35,12 @@ public class User {
         UserDto dto = UserDto.builder()
                 .user_id(user.getUser_id())
                 .password(user.getPassword())
+                .repassword(user.getRepassword())
+                .name(user.getName())
+                .email(user.getEmail())
+                .zipcode(user.getZipcode())
+                .addr1(user.getAddr1())
+                .addr2(user.getAddr2())
                 .role(user.getRole())
                 .provider(user.getProvider())
                 .provider_id(user.getProvider_id())
