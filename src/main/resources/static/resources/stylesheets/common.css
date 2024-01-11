@@ -13,7 +13,6 @@ body {
     font-size: 1rem;
     font-weight: 300;
     margin: unset;
-    min-width: 1382px;
 
     align-items: stretch;
     display: flex;
@@ -29,8 +28,8 @@ body > .content-container-wrapper {
 }
 
 body > .content-container-wrapper > .content-container {
-    width: 1200px;
-    margin: 0 auto;
+    max-width: 1200px;
+    width: 100%;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -325,23 +324,36 @@ button {
     justify-content: space-between;
 }
 
-.search-container > .search-form > .search-item > .adult-container {
+.search-container > .search-form > .search-item:nth-child(4) input {
+    pointer-events: none;
+    width: 30px;
+}
+
+.search-container > .search-form > .search-item:nth-child(4) input::placeholder {
+    text-align: center;
+}
+
+
+.search-container > .search-form > .search-item:nth-child(4) > .adult-container {
     margin-right: 2rem;
     text-align: center;
 }
 
-.search-container > .search-form > .search-item > .child-container {
-    text-align: center;
+.search-container > .search-form > .search-item:nth-child(4) > .adult-container > .count-container,
+.search-container > .search-form > .search-item:nth-child(4) > .child-container > .count-container{
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
 }
 
+.search-container > .search-form > .search-item:nth-child(4) > .child-container {
+    text-align: center;
+}
 
 .search-container > .search-form > .search-item:first-child > .search > .icon {
     height: 1.25rem;
     margin-bottom: 0.275rem;
-}
-
-.search-container > .search-form > .search-item:nth-child(4) .people {
-    margin: 0 0.5rem;
 }
 
 .search-container > .search-form > .search-item:nth-child(4) .icon {

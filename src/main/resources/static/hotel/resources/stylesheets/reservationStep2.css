@@ -1,0 +1,86 @@
+@charset "UTF-8";
+
+.title-container > .title {
+    text-align: center;
+    margin: 4rem 0 2rem 0;
+    font-size: 2.25rem;
+    font-weight: 500;
+    padding-bottom: 0.5rem;
+}
+
+.step-container {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+    margin-bottom: 2rem;
+}
+
+.step-container > .step {
+    width: 1.75rem;
+    height: 1.75rem;
+
+    border: 0.0625rem solid #AD9E87;
+    border-radius: 50%;
+    font-weight: 500;
+
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.step-container > .step:nth-child(3) {
+    color: #ffffff;
+    background-color: #AD9E87;
+}
+
+.step-container > .line {
+    width: 2rem;
+    height: 0;
+    border: 0.0625rem solid #AD9E87;
+}
+
+.confirmation-payment-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+
+    margin-top: 2.5rem;
+}
+
+.confirmation-payment-container > .confirmation-container {
+
+}
+
+.confirmation-payment-container > .confirmation-container > .hotel-confirmation-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: stretch;
+}
+
+.confirmation-payment-container > .confirmation-container > .hotel-confirmation-container > .image-container {
+    overflow: hidden;
+    height: 300px;
+}
+
+.confirmation-payment-container > .confirmation-container > .hotel-confirmation-container > .image-container img {
+    margin-right: 3.25rem;
+    width: 550px;
+}
+
+.confirmation-payment-container > .confirmation-container > .hotel-confirmation-container > .info {
+    border-bottom: #9c9c9c 0.0625rem solid;
+}
+
+.confirmation-payment-container > .confirmation-container > .hotel-confirmation-container > .info li {
+    margin-bottom: 1rem;
+}
+
+.confirmation-payment-container > .confirmation-container > .hotel-confirmation-container > .info li > .bold {
+    display: inline-block;
+    width: 10rem;
+    font-weight: 500;
+}

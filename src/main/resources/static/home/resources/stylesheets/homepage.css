@@ -11,24 +11,40 @@ input:focus {
     justify-content: flex-start;
 }
 
+#main > .content-container {
+    margin: 0 auto;
+}
+
+.slide-container {
+    max-height: 600px;
+    height: 100%;
+}
+
 .slide {
     overflow: hidden;
     margin: 0 auto;
     position: relative;
-    height: 600px;
+    max-height: 600px;
+    height: 100%;
 }
 
 .slide ul {
+    position: relative;
     width: 300vw;
     list-style: none;
     font-size: 0;
-    margin-top: -300px;
     transition: transform 0.5s ease-in-out;
+    height: 100%;
 }
 
 .slide ul li {
     width: 100vw;
     display: inline-block;
+}
+
+.slide ul li img {
+    width: 100%;
+    max-height: 800px;
 }
 
 .slide button.prev {
@@ -37,7 +53,7 @@ input:focus {
     left: 0;
     top: 50%;
     transform: translateY(-50%);
-    margin-left: 5rem;
+    margin-left: 5%;
 }
 
 .slide button.next {
@@ -46,5 +62,5 @@ input:focus {
     right: 0;
     top: 50%;
     transform: translateY(-50%);
-    margin-right: 5rem;
+    margin-right: 5%;
 }
