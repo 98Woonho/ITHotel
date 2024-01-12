@@ -26,30 +26,44 @@
         </div>
         <div class="confirmation-payment-container">
             <div class="confirmation-container">
-                <div class="hotel-confirmation-container">
-                    <div class="image-container">
-                        <img th:src="@{/hotel/resources/images/sample.jpg}" alt="">
-                    </div>
-                    <ul class="info">
-                        <li>
-                            <span class="text bold">호텔 및 객실</span>
-                            <span class="text">ITHOTEL서울, 프리미엄 디럭스</span>
-                        </li>
-                        <li>
-                            <span class="text bold">투숙 날짜</span>
-                            <span class="text">2024년 00월 00일 ~ 2024년 00월 00일 (n박)</span>
-                        </li>
-                        <li>
-                            <span class="text bold">인원</span>
-                            <span class="text">성인 0, 어린이 0</span>
-                        </li>
-                    </ul>
+                <div class="image-container">
+                    <img th:src="@{/hotel/resources/images/sample.jpg}" alt="">
                 </div>
-                <div class="charge-confirmation-container">
-
+                <ul class="info">
+                    <li>
+                        <span class="text bold">호텔 및 객실</span>
+                        <span class="text">ITHOTEL서울, 프리미엄 디럭스</span>
+                    </li>
+                    <li>
+                        <span class="text bold">투숙 날짜</span>
+                        <span class="text">2024년 00월 00일 ~ 2024년 00월 00일 (n박)</span>
+                    </li>
+                    <li>
+                        <span class="text bold">인원</span>
+                        <span class="text">성인 0, 어린이 0</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="payment-container">
+                <div class="payment-left">
+                    <span class="text subtitle">예약자 정보</span>
+                    <div class="user-info-container">
+                        <span class="text">예약자 정보(이름, 연락처 등)</span>
+                    </div>
+                    <span class="text subtitle">결제 수단</span>
+                    <div class="payment-method-container">
+                        <span class="text">결제 수단</span>
+                    </div>
+                </div>
+                <div class="payment-right">
+                    <span class="text subtitle">결제 금액</span>
+                    <div class="price-container">
+                        <span class="text">결제 금액 및 약관동의 및 예약버튼</span>
+                    </div>
                 </div>
             </div>
         </div>
+    </div>
     </div>
 </main>
 
