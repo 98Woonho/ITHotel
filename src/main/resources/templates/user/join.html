@@ -1,191 +1,32 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
   <meta charset="UTF-8">
   <title>Title</title>
-
-  <!-- join.css    -->
-  <link rel="stylesheet" th:href="@{/user/resources/stylesheets/join.css}">
-
 </head>
 <body>
 
 <h1>JOIN PAGE</h1>
-<form name="joinform" action="/user/join" method="post">
-  <div class="join_wrapper">
-    <div>
-      <label>아이디</label><span th:text="${user_id}" id="id_msg" class="msg"></span> <br/>
-      <input name="user_id" id="user_id" placeholder="아이디"/> <button type="button" onclick="IdCheck()">중복확인</button> <br/>
-    </div>
-    <div>
-      <label>비밀번호</label><span th:text="${password}" id="pw_msg" class="msg"></span> <br/>
-      <input name="password" type="password" oninput="Re_PwCheck()" placeholder="비밀번호" /> <br/>
-    </div>
-    <div>
-      <label>비밀번호확인</label><span th:text="${repassword}" id="re_pw_msg" class="msg"></span> <br/>
-      <input name="repassword" type="password" oninput="Re_PwCheck()" placeholder="비밀번호 확인" /> <br/>
-      <input id="pwCheck" type="hidden" value="false">
-    </div>
-    <div>
-      <label>이름</label><span th:text="${name}" class="msg"></span> <br/>
-      <input name="name" placeholder="이름" /> <br/>
-    </div>
-    <div>
-      <label>이메일</label><span th:text="${email}" id="email_msg" class="msg"></span> <br/>
-      <input name="email" type="email" placeholder="이메일" /> <button type="button" onclick="SendEmail()">인증</button> <br/>
-    </div>
-    <div class="code" style="display:none;">
-      <label>인증코드</label><span id="code_msg" class="msg"></span> <br/>
-      <input name="emailCode" placeholder="인증코드입력"> <button name="email_btn" type="button" onclick="ConfirmEmail()">확인</button> <br/>
-    </div>
-    <div>
-      <label>우편번호</label><span th:text="${zipcode}" class="msg"></span> <br/>
-      <input name="zipcode" id="zipcode" placeholder="우편번호" /> <button name="address_btn" onclick="javascript:AddressSearch()">우편번호 찾기</button> <br/>
-    </div>
-    <div>6
-
-      <label>주소</label><span th:text="${addr1}" class="msg"></span> <br/>
-      <input name="addr1" id="addr1" placeholder="주소" /> <br/>
-    </div>
-    <div>
-      <label>상세주소</label> <br/>
-      <input name="addr2" id="addr2" placeholder="상세주소" /> <br/>
-    </div>
-    <div>
-      <button>가입요청</button>
-    </div>
-  </div>
+<form name="joinform" action="/user/join" method="post" onsubmit="return false">
+  USERNAME : <input name="user_id" /> <br/>
+  PASSWORD : <input name="password" type="password" /> <br/>
+  <button onclick="isValid()">가입요청</button>
 </form>
 
-<!-- axios -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js" integrity="sha512-uMtXmF28A2Ab/JJO2t/vYhlaa/3ahUOgj1Zf27M5rOo8/+fcTUVH0/E0ll68njmjrLqOBjXM3V9NiPFL5ywWPQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-<!-- map -->
-<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-
 <script>
-  const IdCheck = function(){
-    const user_id = document.joinform.user_id.value;
-    const id_msg = document.querySelector('#id_msg');
-    let regexpId = new RegExp("^[A-Za-z0-9]{6,16}$");
-    if(regexpId.test(user_id.trim())) {
-      axios.get('/user/ConfirmId?user_id=' + user_id)
-              .then(res => {
-                console.log(res);
-                if (res.data.success) {
-                  document.querySelector('#id_msg').style.color = 'green';
-                  document.querySelector('#id_msg').innerHTML = res.data.message;
-                } else {
-                  document.querySelector('#id_msg').style.color = 'orange';
-                  document.querySelector('#id_msg').innerHTML = res.data.message;
-                }
-              })
-              .catch(err => {
-                console.log(err);
-              });
-    } else
-      id_msg.textContent = "아이디는 소문자와 숫자로만 이루어진 6~16자여야 합니다.";
-  }
-
-  const PwCheck = () => {
-    const pw = document.joinform.password.value;
-    const pw_msg = document.querySelector('#pw_msg');
-    let regexpPw = new RegExp("^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$");
-
-    if(!regexpPw.test(pw.trim())) {
-      pw_msg.textContent = "비밀번호는 영문,숫자,특수문자가 1개 이상 포함된 8~15자여야 합니다.";
-      pw_msg.style.color = 'orange';
-      return false;
-    }else{
-      pw_msg.textContent = "사용가능한 비밀번호입니다.";
-      pw_msg.style.color = 'green';
-      pw_msg.textContent = null;
-      return true;
+  const form = document.joinform;
+  const isValid=()=>{
+    if(form.user_id.value.trim()===""){
+      alert("USERNAME은 반드시 입력해야 합니다.");
+      return ;
+    }else if(form.password.value.trim()===""){
+      alert("PASSWORD는 반드시 입력해야 합니다.");
+      return ;
     }
+    form.submit();
   }
 
-  const Re_PwCheck = function (){
-    const pw = document.joinform.password.value;
-    const re_pw = document.joinform.repassword.value;
-    const re_pw_msg = document.querySelector('#re_pw_msg');
-
-    if(PwCheck()) {
-      if (pw !== re_pw) {
-        re_pw_msg.textContent = "비밀번호와 일치하지 않습니다.";
-        re_pw_msg.style.color = 'orange';
-        document.querySelector('#pwCheck').value = "false";
-      } else {
-        re_pw_msg.textContent = "비밀번호와 일치합니다.";
-        re_pw_msg.style.color = 'green';
-        document.querySelector('#pwCheck').value = "true";
-      }
-    }else
-      re_pw_msg.textContent = null;
-      document.querySelector('#pwCheck').value = "false";
-  }
-
-  const EmailCheck = () => {
-    const email = document.joinform.email.value;
-    let regexEmail = new RegExp("^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$");
-    const email_msg = document.querySelector('#email_msg');
-    if(!regexEmail.test(email.trim())){
-      email_msg.textContent = "이메일 형식으로 작성해야 합니다.";
-      email_msg.style.color = 'orange';
-      return false;
-    }
-    return true;
-  }
-
-  const SendEmail = function(){
-    const email = document.joinform.email.value;
-    if(EmailCheck()){
-      axios.get('/user/sendEmail/' + email)
-              .then(res => {
-                console.log(res);
-                document.querySelector('.code').style.display = 'block';
-              })
-              .catch( err => {console.log(err);} )
-    }
-  }
-
-  const ConfirmEmail = function(){
-    const email = document.joinform.email.value;
-    const code = document.joinform.emailCode.value;
-    axios.get('/user/confirmEmail?email='+email+"&code="+code)
-            .then(res => {
-              console.log(res);
-              if(res.data.success){
-                document.querySelector('#code_msg').style.color = 'green';
-                document.querySelector('#code_msg').innerHTML = res.data.message;
-              } else {
-                document.querySelector('#code_msg').style.color = 'orange';
-                document.querySelector('#code_msg').innerHTML = res.data.message;
-              }
-            })
-            .catch( err => {console.log(err);} )
-  }
-
-  const AddressSearch = () => {
-    new daum.Postcode({
-      oncomplete: function (data) {
-        let addr = '';
-        if (data.userSelectedType === 'R') {
-          // 도로명 주소
-          addr = data.roadAddress;
-        } else {
-          // 지번 주소
-          addr = data.jibunAddress;
-        }
-
-        // 우편번호와 주소 정보를 해당 필드에 넣는다.
-        document.querySelector('#zipcode').value = data.zonecode;
-        document.querySelector('#addr1').value = addr;
-        // 커서를 상세주소 필드로 이동한다.
-        document.querySelector('#addr2').focus();
-      }
-    }).open();
-  }
 </script>
 
-</body>
+
 </html>
