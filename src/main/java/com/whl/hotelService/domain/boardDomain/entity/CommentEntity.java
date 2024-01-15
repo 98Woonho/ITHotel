@@ -1,6 +1,6 @@
-package com.whl.hotelService.boardDomain.entity;
+package com.whl.hotelService.domain.boardDomain.entity;
 
-import com.whl.hotelService.boardDomain.dto.CommentDto;
+import com.whl.hotelService.domain.boardDomain.dto.CommentDto;
 import jakarta.persistence.*;
 import lombok.*;
 

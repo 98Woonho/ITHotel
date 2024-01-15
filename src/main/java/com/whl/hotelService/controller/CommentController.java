@@ -1,14 +1,13 @@
 package com.whl.hotelService.controller;
 
-import com.whl.hotelService.boardDomain.dto.CommentDto;
-import com.whl.hotelService.boardDomain.service.CommentService;
+import com.whl.hotelService.domain.boardDomain.dto.CommentDto;
+import com.whl.hotelService.domain.boardDomain.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 

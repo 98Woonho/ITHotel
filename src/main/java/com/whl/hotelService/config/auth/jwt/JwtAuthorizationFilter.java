@@ -1,7 +1,7 @@
 package com.whl.hotelService.config.auth.jwt;
 
-import com.whl.hotelService.Userdomain.entity.User;
-import com.whl.hotelService.Userdomain.repository.UserRepository;
+import com.whl.hotelService.domain.userDomain.entity.User;
+import com.whl.hotelService.domain.userDomain.repository.UserRepository;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

@@ -3,9 +3,9 @@ package com.whl.hotelService.config.auth;
 import com.whl.hotelService.config.auth.provider.GoogleUserInfo;
 import com.whl.hotelService.config.auth.provider.KakaoUserInfo;
 import com.whl.hotelService.config.auth.provider.OAuth2UserInfo;
-import com.whl.hotelService.Userdomain.dto.UserDto;
-import com.whl.hotelService.Userdomain.entity.User;
-import com.whl.hotelService.Userdomain.repository.UserRepository;
+import com.whl.hotelService.domain.userDomain.dto.UserDto;
+import com.whl.hotelService.domain.userDomain.entity.User;
+import com.whl.hotelService.domain.userDomain.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -14,7 +14,6 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
-import java.util.Map;
 import java.util.Optional;
 
 @Service

@@ -1,6 +1,6 @@
-package com.whl.hotelService.boardDomain.repository;
+package com.whl.hotelService.domain.boardDomain.repository;
 
-import com.whl.hotelService.boardDomain.entity.BoardEntity;
+import com.whl.hotelService.domain.boardDomain.entity.BoardEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

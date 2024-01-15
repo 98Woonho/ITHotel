@@ -1,9 +1,8 @@
-package com.whl.hotelService.boardDomain.service;
+package com.whl.hotelService.domain.boardDomain.service;
 
-import com.whl.hotelService.boardDomain.dto.BoardDto;
-import com.whl.hotelService.boardDomain.entity.BoardEntity;
-import com.whl.hotelService.boardDomain.repository.BoardRepository;
-import com.whl.hotelService.boardDomain.repository.BoardRepositoy;
+import com.whl.hotelService.domain.boardDomain.dto.BoardDto;
+import com.whl.hotelService.domain.boardDomain.entity.BoardEntity;
+import com.whl.hotelService.domain.boardDomain.repository.BoardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

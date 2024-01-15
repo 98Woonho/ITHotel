@@ -1,7 +1,7 @@
 package com.whl.hotelService.config.auth.jwt;
 
 import com.whl.hotelService.config.auth.PrincipalDetails;
-import com.whl.hotelService.Userdomain.dto.UserDto;
+import com.whl.hotelService.domain.userDomain.dto.UserDto;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +24,6 @@ import java.util.stream.Collectors;
 @Slf4j
 @Component
 public class JwtTokenProvider {
-
 
     //Key 저장
     private final Key key;
