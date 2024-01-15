@@ -47,6 +47,7 @@ public class SecurityConfig {
         http.authorizeHttpRequests(
                 authorize->{
                     authorize.requestMatchers("/**").permitAll();
+                    authorize.anyRequest().authenticated();
                 }
         );
 
@@ -91,7 +92,7 @@ public class SecurityConfig {
         http.oauth2Login(
                 oauth2 ->{
                     oauth2.loginPage("/user/login");
-                    oauth2.successHandler( customLoginSuccessHandler() );
+                    oauth2.successHandler(new CustomLoginSuccessHandler());
                 }
         );
 
@@ -138,6 +139,7 @@ public class SecurityConfig {
     public CustomLoginSuccessHandler customLoginSuccessHandler(){
         return new CustomLoginSuccessHandler();
     }
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {

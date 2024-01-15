@@ -1,10 +1,10 @@
 package com.whl.hotelService.controller;
 
+import com.whl.hotelService.Userdomain.dto.UserDto;
+import com.whl.hotelService.Userdomain.service.UserService;
 import com.whl.hotelService.config.auth.jwt.JwtProperties;
 import com.whl.hotelService.config.auth.jwt.JwtTokenProvider;
 import com.whl.hotelService.config.auth.jwt.TokenInfo;
-import com.whl.hotelService.Userdomain.dto.UserDto;
-import com.whl.hotelService.Userdomain.service.UserService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -16,7 +16,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -28,7 +30,9 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Objects;
 
-import static org.apache.ibatis.ognl.Ognl.setValue;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Slf4j
 @Controller
@@ -39,9 +43,15 @@ public class UserController {
     private UserService userService;
 
     @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
     private JavaMailSender javaMailSender;
 
-    String Email_code;
+    @Autowired
+    private JwtTokenProvider jwtTokenProvider;
+
+    private String Email_code;
 
     @InitBinder
     public void dataBinder(WebDataBinder dataBinder) {
@@ -78,9 +88,6 @@ public class UserController {
         } else
             return "redirect:/user/join?msg=Join Failed";
     }
-
-    @Autowired
-    JwtTokenProvider jwtTokenProvider;
 
     @GetMapping("ConfirmId")
     public @ResponseBody JSONObject ConfirmId(String user_id, HttpServletResponse response) {

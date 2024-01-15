@@ -62,7 +62,7 @@ public class JwtTokenProvider {
 
     }
 
-    // 유저 정보를 가지고 AccessToken, RefreshToken 을 생성하는 메서드
+    // [로그인 이후 Authentication 생성용] 유저 정보를 가지고 AccessToken, RefreshToken 을 생성하는 메서드
     public TokenInfo generateToken(Authentication authentication) {
         // 권한 가져오기
         String authorities = authentication.getAuthorities().stream()
@@ -104,6 +104,8 @@ public class JwtTokenProvider {
                 .build();
     }
 
+
+    //[기타 다양한 인증을 위함]
     public TokenInfo generateToken(String Claimkey,String id,boolean isAuth) {
 
         long now = (new Date()).getTime();
@@ -124,8 +126,8 @@ public class JwtTokenProvider {
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
 
-        System.out.println("[JwtTokenProvider] generateToken() accessToken : " + accessToken);
-        System.out.println("[JwtTokenProvider] generateToken() refreshToken : " + refreshToken);
+//        .out.println("[JwtTokenProvider] generateToken() accessToken : " + accessToken);
+//        .out.println("[JwtTokenProvider] generateToken() refreshToken : " + refreshToken);
 
         return TokenInfo.builder()
                 .grantType("Bearer")
@@ -133,7 +135,6 @@ public class JwtTokenProvider {
                 .refreshToken(refreshToken)
                 .build();
     }
-
 
 
 
@@ -194,6 +195,7 @@ public class JwtTokenProvider {
             return true;
         } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
             log.info("Invalid JWT Token", e);
+            return false;
         }
         catch (ExpiredJwtException e) {
             log.info("Expired JWT Token", e);
@@ -202,9 +204,6 @@ public class JwtTokenProvider {
             log.info("Unsupported JWT Token", e);
         } catch (IllegalArgumentException e) {
             log.info("JWT claims string is empty.", e);
-        } catch(Exception etc){
-            log.info("기타예외");
-            return false;
         }
         return false;
     }
