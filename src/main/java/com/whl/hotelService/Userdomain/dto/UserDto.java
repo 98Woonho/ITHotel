@@ -1,7 +1,6 @@
-package com.whl.hotelService.domain.dto;
+package com.whl.hotelService.Userdomain.dto;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

@@ -1,7 +1,7 @@
 package com.whl.hotelService.config.auth.jwt;
 
 import com.whl.hotelService.config.auth.PrincipalDetails;
-import com.whl.hotelService.domain.dto.UserDto;
+import com.whl.hotelService.Userdomain.dto.UserDto;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
@@ -9,8 +9,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
@@ -31,12 +29,39 @@ public class JwtTokenProvider {
     //Key 저장
     private final Key key;
 
-    public JwtTokenProvider() {
-        byte[] keyBytes = KeyGenerator.getKeygen();
-        this.key = Keys.hmacShaKeyFor(keyBytes);
-        System.out.println("JwtTokenProvider Constructor  Key init: " + key);
+    String url  = "jdbc:mysql://localhost:3306/hotel_db";
+    String username = "root";
+    String password  = "1234";
+    Connection conn;
+    PreparedStatement pstmt;
+    ResultSet rs;
+
+    public JwtTokenProvider() throws Exception {
+
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        conn = DriverManager.getConnection(url,username,password);
+        pstmt = conn.prepareStatement("select * from signature");
+        rs =pstmt.executeQuery();
+
+        if(rs.next())
+        {
+
+            byte [] keyByte =  rs.getBytes("signature");                 //DB로 서명Key꺼내옴
+            this.key = Keys.hmacShaKeyFor(keyByte);                                    //this.key에 저장
+            System.out.println("[JwtTokenProvider] Key : " + this.key );
+        }
+        else {
+            byte[] keyBytes = KeyGenerator.getKeygen();     //난수키값 가져오기
+            this.key = Keys.hmacShaKeyFor(keyBytes);        // 생성된 키를 사용하여 HMAC SHA(암호화알고리즘)알고리즘에 기반한 Key 객체 생성
+            pstmt = conn.prepareStatement("insert into signature values(?,now())");
+
+            pstmt.setBytes(1, keyBytes);
+            pstmt.executeUpdate();
+            System.out.println("[JwtTokenProvider] Constructor Key init: " + key);
+        }
 
     }
+
     // 유저 정보를 가지고 AccessToken, RefreshToken 을 생성하는 메서드
     public TokenInfo generateToken(Authentication authentication) {
         // 권한 가져오기
