@@ -27,6 +27,9 @@ public class UserDto {
     @NotBlank(message="이메일을 입력하세요")
     private String email;
 
+    @NotBlank(message="전화번호를 입력하세요")
+    private String phone;
+
     @NotBlank(message="우편번호를 입력하세요")
     private String zipcode;
 

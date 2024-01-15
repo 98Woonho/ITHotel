@@ -22,6 +22,7 @@ public class User {
     private String repassword;
     private String name;
     private String email;
+    private String phone;
     private String zipcode;
     private String addr1;
     private String addr2;

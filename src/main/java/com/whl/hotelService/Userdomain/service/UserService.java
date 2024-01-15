@@ -122,6 +122,7 @@ public class UserService {
         user.setRepassword(dto.getRepassword());
         user.setName(dto.getName());
         user.setEmail(dto.getEmail());
+        user.setPhone(dto.getPhone());
         user.setZipcode(dto.getZipcode());
         user.setAddr1(dto.getAddr1());
         user.setAddr2(dto.getAddr2());
