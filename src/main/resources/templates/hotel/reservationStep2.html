@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <th:block th:insert="~{fragments.html :: headCdns}"></th:block>
+    <link rel="stylesheet" th:href="@{/resources/stylesheets/common.css}">
+    <link rel="stylesheet" th:href="@{/hotel/resources/stylesheets/reservationStep2.css}">
+    <title>예약 확인 및 결제</title>
+</head>
+<body>
+
+<th:block th:replace="~{fragments.html::header}"></th:block>
+
+<main id="main" class="content-container-wrapper">
+    <div class="content-container">
+        <div class="title-container">
+            <h1 class="title">예약 확인 및 결제</h1>
+        </div>
+        <div class="step-container">
+            <span class="step">1</span>
+            <span class="line"></span>
+            <span class="step">2</span>
+        </div>
+        <div class="confirmation-payment-container">
+            <div class="confirmation-container">
+                <div class="image-container">
+                    <img th:src="@{/hotel/resources/images/sample.jpg}" alt="">
+                </div>
+                <ul class="info">
+                    <li>
+                        <span class="text bold">호텔 및 객실</span>
+                        <span class="text">ITHOTEL서울, 프리미엄 디럭스</span>
+                    </li>
+                    <li>
+                        <span class="text bold">투숙 날짜</span>
+                        <span class="text">2024년 00월 00일 ~ 2024년 00월 00일 (n박)</span>
+                    </li>
+                    <li>
+                        <span class="text bold">인원</span>
+                        <span class="text">성인 0, 어린이 0</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="payment-container">
+                <div class="payment-left">
+                    <span class="text subtitle">예약자 정보</span>
+                    <div class="user-info-container">
+                        <span class="text">예약자 정보(이름, 연락처 등)</span>
+                    </div>
+                    <span class="text subtitle">결제 수단</span>
+                    <div class="payment-method-container">
+                        <span class="text">결제 수단</span>
+                    </div>
+                </div>
+                <div class="payment-right">
+                    <span class="text subtitle">결제 금액</span>
+                    <div class="price-container">
+                        <span class="text">결제 금액 및 약관동의 및 예약버튼</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</main>
+
+<th:block th:replace="~{fragments.html::footer}"></th:block>
+
+</body>
+</html>
