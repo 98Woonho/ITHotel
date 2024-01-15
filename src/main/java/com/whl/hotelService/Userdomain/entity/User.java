@@ -1,6 +1,6 @@
-package com.whl.hotelService.domain.entity;
+package com.whl.hotelService.Userdomain.entity;
 
-import com.whl.hotelService.domain.dto.UserDto;
+import com.whl.hotelService.Userdomain.dto.UserDto;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -19,6 +19,13 @@ public class User {
     @Id
     private String user_id;
     private String password;
+    private String repassword;
+    private String name;
+    private String email;
+    private String phone;
+    private String zipcode;
+    private String addr1;
+    private String addr2;
     private String role;
 
     private String provider;
@@ -35,3 +42,4 @@ public class User {
         return dto;
     }
 }
+
