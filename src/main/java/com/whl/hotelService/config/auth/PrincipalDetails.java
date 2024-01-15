@@ -1,6 +1,6 @@
 package com.whl.hotelService.config.auth;
 
-import com.whl.hotelService.domain.dto.UserDto;
+import com.whl.hotelService.Userdomain.dto.UserDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -29,6 +29,7 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
     public Map<String, Object> getAttributes() {
         return null;
     }
+
     @Override
     public String getName() {
         return null;

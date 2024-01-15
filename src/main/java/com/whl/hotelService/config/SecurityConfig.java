@@ -8,7 +8,7 @@ import com.whl.hotelService.config.auth.loginHandler.CustomAuthenticationFailure
 import com.whl.hotelService.config.auth.loginHandler.CustomLoginSuccessHandler;
 import com.whl.hotelService.config.auth.logoutHandler.CustomLogoutHandler;
 import com.whl.hotelService.config.auth.logoutHandler.CustomLogoutSuccessHandler;
-import com.whl.hotelService.domain.repository.UserRepository;
+import com.whl.hotelService.Userdomain.repository.UserRepository;
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -47,7 +47,6 @@ public class SecurityConfig {
         http.authorizeHttpRequests(
                 authorize->{
                     authorize.requestMatchers("/**").permitAll();
-                    authorize.anyRequest().authenticated();
                 }
         );
 
@@ -92,7 +91,7 @@ public class SecurityConfig {
         http.oauth2Login(
                 oauth2 ->{
                     oauth2.loginPage("/user/login");
-                    oauth2.successHandler(new CustomLoginSuccessHandler());
+                    oauth2.successHandler( customLoginSuccessHandler() );
                 }
         );
 
@@ -139,7 +138,6 @@ public class SecurityConfig {
     public CustomLoginSuccessHandler customLoginSuccessHandler(){
         return new CustomLoginSuccessHandler();
     }
-
 
     @Bean
     public PasswordEncoder passwordEncoder() {

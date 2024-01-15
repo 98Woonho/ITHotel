@@ -1,8 +1,8 @@
 package com.whl.hotelService.config.auth;
 
-import com.whl.hotelService.domain.dto.UserDto;
-import com.whl.hotelService.domain.entity.User;
-import com.whl.hotelService.domain.repository.UserRepository;
+import com.whl.hotelService.Userdomain.dto.UserDto;
+import com.whl.hotelService.Userdomain.entity.User;
+import com.whl.hotelService.Userdomain.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
