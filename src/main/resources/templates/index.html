@@ -15,7 +15,7 @@
     <!--    homepage.css  -->
     <link rel="stylesheet" href="/css/homepage.css">
     <!-- datePicker's css -->
-    <link rel="stylesheet" href="/css/datepicker.min.css" >
+    <link href="/css/datepicker.min.css" rel="stylesheet" type="text/css" media="all">
 
 
     <!-- js    -->
@@ -56,23 +56,6 @@
 </main>
 
 <th:block th:insert="~{fragments/footer.html :: footer_fragment}"></th:block>
-
-
-<!-- script test -->
-<script>
-    $('.checkin')
-        .datepicker({
-            dateFormat: 'yyyy-mm-dd',
-            language: 'ko',
-        });
-
-    $('.checkout')
-        .datepicker({
-            language: 'ko'
-        });
-</script>
-
-
 
 
 </body>
