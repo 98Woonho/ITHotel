@@ -1,6 +1,6 @@
 package com.whl.hotelService.domain.common.dto;
 
-import com.whl.hotelService.domain.common.entity.BoardEntity;
+import com.whl.hotelService.domain.common.entity.Board;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
@@ -26,39 +26,6 @@ public class BoardDto {
     private int boardHits; //조회수
     private LocalDateTime boardCreatedTime; // 작성시간
     private LocalDateTime boardUpdatedTime; // 수정시간
-
-//    public BoardDto(Long id, String boardWriter, String boardTitle, String boardContents, int boardHits, LocalDateTime boardCreatedTime) {
-//        this.id = id;
-//        this.boardWriter = boardWriter;
-//        this.boardTitle = boardTitle;
-//        this.boardContents = boardContents;
-//        this.boardHits = boardHits;
-//        this.boardCreatedTime = boardCreatedTime;
-//    }
-
-    public BoardDto(Long id, String boardWriter, String boardTitle, int boardHits, LocalDateTime boardCreatedTime) {
-        this.id = id;
-        this.boardWriter = boardWriter;
-        this.boardTitle = boardTitle;
-        this.boardHits = boardHits;
-        this.boardCreatedTime = boardCreatedTime;
-    }
-
-
-
-    public static BoardDto EntityToDto(BoardEntity boardEntity) { //빌더 패턴 사용
-        BoardDto boardDto = BoardDto.builder()
-                .id(boardEntity.getId())
-                .boardTitle(boardEntity.getBoardTitle())
-                .boardContents(boardEntity.getBoardContents())
-                .boardHits(boardEntity.getBoardHits())
-                .boardCreatedTime(boardEntity.getCreatedTime())
-                .boardPassword(boardEntity.getBoardPassword())
-                .boardWriter(boardEntity.getBoardWriter())
-                .boardUpdatedTime(boardEntity.getUpdatedTime())
-                .build();
-        return boardDto;
-    }
 
 }
 
