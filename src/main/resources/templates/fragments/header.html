@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+
+<th:block th:fragment="header_fragment">
+    <div class="content-container menu">
+        <h1 class="item logo">
+            <a href="/" class="link">
+                <img th:src="@{/images/ITHOTEL.header.png}" class="title-logo">
+            </a>
+        </h1>
+        <span class="spring"></span>
+        <div class="subMenu">
+            <div class="userArea">
+                <a th:href="@{/user/login}" class="link">
+                    <span class="text">로그인</span>
+                </a>
+                <a th:href="@{/user/join}" class="link">
+                    <span class="text">회원가입</span>
+                </a>
+            </div>
+            <div class="hotelArea">
+                <a th:href="@{/hotel/find}" class="link">호텔 찾기</a>
+                <a th:href="@{/hotel/info}" class="link">호텔 소개</a>
+                <a href="#" class="link">고객 문의</a>
+            </div>
+        </div>
+    </div>
+</th:block>
+
+</body>
+</html>

@@ -86,6 +86,7 @@ button {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
+
 }
 
 #header > .menu > .subMenu > .userArea > .link > .text {

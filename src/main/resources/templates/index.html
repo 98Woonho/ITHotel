@@ -5,24 +5,32 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <th:block th:insert="~{fragments.html :: headCdns}"></th:block>
-    <link rel="stylesheet" th:href="@{/resources/stylesheets/common.css}">
-    <link rel="stylesheet" th:href="@{/home/resources/stylesheets/homepage.css}">
-    <script defer th:src="@{/home/resources/scripts/homepage.js}"></script>
-
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
-    <!-- datePicker -->
-    <link href="/resources/stylesheets/datepicker.min.css" rel="stylesheet" type="text/css" media="all">
-    <script src="/resources/scripts/datepicker.js"></script>
-    <script src="/resources/scripts/datepicker.ko.js"></script>
-
     <title>홈페이지</title>
+
+    <!--  cdns  -->
+    <th:block th:insert="~{fragments/link.html :: link_fragment}"></th:block>
+
+    <!--    common.css  -->
+    <link rel="stylesheet" href="/css/common.css">
+    <!--    homepage.css  -->
+    <link rel="stylesheet" href="/css/homepage.css">
+    <!-- datePicker's css -->
+    <link rel="stylesheet" href="/css/datepicker.min.css" >
+
+
+    <!-- js    -->
+    <script defer src="/js/datepicker.js"></script>
+    <script defer src="/js/datepicker.ko.js"></script>
+    <script defer src="/js/homepage.js"></script>
+
 
 </head>
 <body>
 
-<th:block th:replace="~{fragments.html :: header}"></th:block>
+    <header id="header" class="content-container-wrapper">
+        <th:block th:insert="~{fragments/header.html :: header_fragment}"></th:block>
+    </header>
+
 
 <main id="main" class="content-container-wrapper">
     <div class="slide-container">
@@ -35,19 +43,19 @@
             </button>
             <ul>
                 <!-- 이미지는 외부 정적 경로로 변경할 예정 -->
-                <li><img th:src="@{/home/resources/images/hotel1.jpg}" alt=""></li>
-                <li><img th:src="@{/home/resources/images/hotel2.jpg}" alt=""></li>
-                <li><img th:src="@{/home/resources/images/hotel3.jpg}" alt=""></li>
+                <li><img th:src="@{/images/hotel1.jpg}" alt=""></li>
+                <li><img th:src="@{/images/hotel2.jpg}" alt=""></li>
+                <li><img th:src="@{/images/hotel3.jpg}" alt=""></li>
             </ul>
         </div>
     </div>
     <div class="content-container">
-        <thblock th:replace="~{fragments.html :: search-container}"></thblock>
+        <thblock th:replace="~{fragments/search.html :: search-container}"></thblock>
         주변 여행지나 아무 콘텐츠
     </div>
 </main>
 
-<th:block th:replace="~{fragments.html :: footer}"></th:block>
+<th:block th:insert="~{fragments/footer.html :: footer_fragment}"></th:block>
 
 
 <!-- script test -->
@@ -63,6 +71,9 @@
             language: 'ko'
         });
 </script>
+
+
+
 
 </body>
 </html>
