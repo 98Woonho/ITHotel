@@ -8,7 +8,7 @@ import com.whl.hotelService.config.auth.loginHandler.CustomAuthenticationFailure
 import com.whl.hotelService.config.auth.loginHandler.CustomLoginSuccessHandler;
 import com.whl.hotelService.config.auth.logoutHandler.CustomLogoutHandler;
 import com.whl.hotelService.config.auth.logoutHandler.CustomLogoutSuccessHandler;
-import com.whl.hotelService.domain.userDomain.repository.UserRepository;
+import com.whl.hotelService.domain.user.repository.UserRepository;
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -46,6 +46,7 @@ public class SecurityConfig {
         //요청 URL별 접근 제한
         http.authorizeHttpRequests(
                 authorize->{
+                    authorize.requestMatchers("/js/**","/css/**","/images/**","/templates").permitAll();
                     authorize.requestMatchers("/**").permitAll();
                     authorize.anyRequest().authenticated();
                 }

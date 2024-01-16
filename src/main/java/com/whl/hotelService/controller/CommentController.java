@@ -1,7 +1,7 @@
 package com.whl.hotelService.controller;
 
-import com.whl.hotelService.domain.boardDomain.dto.CommentDto;
-import com.whl.hotelService.domain.boardDomain.service.CommentService;
+import com.whl.hotelService.domain.common.dto.CommentDto;
+import com.whl.hotelService.domain.common.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

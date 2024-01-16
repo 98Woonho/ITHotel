@@ -5,19 +5,30 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <th:block th:insert="~{fragments.html :: headCdns}"></th:block>
-    <link rel="stylesheet" th:href="@{/hotel/resources/stylesheets/find.css}">
-    <link rel="stylesheet" th:href="@{/resources/stylesheets/common.css}">
-    <script defer th:src="@{/hotel/resources/scripts/find.js}"></script>
+
+    <!--  cdns  -->
+    <th:block th:insert="~{fragments/link.html :: link_fragment}"></th:block>
+
+    <!--    common.css  -->
+    <link rel="stylesheet" href="/css/common.css">
+    <!--    homepage.css  -->
+    <link rel="stylesheet" href="/css/find.css">
+
+
+    <!--    js  -->
+    <script defer src="/js/find.js"></script>
 
     <title>Document</title>
 </head>
 <body>
-<th:block th:replace="~{fragments.html :: header}"></th:block>
+
+<header id="header" class="content-container-wrapper">
+    <th:block th:insert="~{fragments/header.html :: header_fragment}"></th:block>
+</header>
 
 <main id="main" class="content-container-wrapper">
     <div class="content-container">
-        <th:block th:replace="~{fragments.html :: findTop}"></th:block>
+        <th:block th:replace="~{fragments/fragments.html :: findTop}"></th:block>
         <div class="list-container">
             <div class="subtitle-container">
                 <h1 class="subtitle">한국</h1>
@@ -87,6 +98,7 @@
     </div>
 </main>
 
-<th:block th:replace="~{fragments.html :: footer}"></th:block>
+<th:block th:insert="~{fragments/footer.html :: footer_fragment}"></th:block>
+
 </body>
 </html>

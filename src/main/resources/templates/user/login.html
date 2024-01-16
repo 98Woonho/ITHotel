@@ -5,15 +5,31 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <th:block th:insert="~{fragments.html :: headCdns}"></th:block>
-    <link rel="stylesheet" th:href="@{/resources/stylesheets/common.css}">
-    <link rel="stylesheet" th:href="@{/user/resources/stylesheets/login.css}">
+    <!--  cdns  -->
+    <th:block th:insert="~{fragments/link.html :: link_fragment}"></th:block>
+
+    <!--    common.css  -->
+    <link rel="stylesheet" href="/css/common.css">
+    <!--    homepage.css  -->
+    <link rel="stylesheet" href="/css/homepage.css">
+    <!-- datePicker's css -->
+    <link rel="stylesheet" href="/css/datepicker.min.css" >
+
+
+    <!-- js    -->
+    <script defer src="/js/datepicker.js"></script>
+    <script defer src="/js/datepicker.ko.js"></script>
+    <script defer src="/js/homepage.js}"></script>
+
     <title>로그인</title>
 
 </head>
 <body>
 
-<th:block th:replace="~{fragments.html :: header}"></th:block>
+<header id="header" class="content-container-wrapper">
+    <th:block th:insert="~{fragments/header.html :: header_fragment}"></th:block>
+</header>
+
 
 <main id="main" class="content-container-wrapper">
         <div class="content-container">
@@ -58,6 +74,7 @@
         </div>
 </main>
 
-<th:block th:replace="~{fragments.html :: footer}"></th:block>
+<th:block th:insert="~{fragments/footer.html :: footer_fragment}"></th:block>
+
 </body>
 </html>
