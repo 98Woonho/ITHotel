@@ -73,7 +73,7 @@ map.init = function (latitude, longitude) {
             location.reload();
         }
     };
-    xhr.open('GET', '/hotel/resources/json/XHR3.json');
+    xhr.open('GET', '/json/XHR3.json');
     xhr.send();
 };
 
