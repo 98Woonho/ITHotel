@@ -3,12 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="/board/resources/stylesheets/list.css">
-    <th:block th:insert="~{fragments.html :: headCdns}"></th:block>
-    <script defer th:src="@{/board/resources/js/list.js}"></script>
+    <!--  cdns  -->
+    <th:block th:insert="~{fragments/link.html :: link_fragment}"></th:block>
+
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/board/list.css">
+    <script defer src="js/board/list.js"></script>
 </head>
 <body>
-<th:block th:replace="~{fragments.html :: header}"></th:block>
+
+<header id="header" class="content-container-wrapper">
+    <th:block th:insert="~{fragments/header.html :: header_fragment}"></th:block>
+</header>
+
 <h2 style="margin: 20px">게시판</h2>
 <form class="row g-3 d-flex justify-content-end" method="get" th:action="@{/board/list}">
     <div class="col-auto">
@@ -73,7 +80,9 @@
     </ul>
 
 </nav>
-<th:block th:replace="~{fragments.html :: footer}"></th:block>
+
+<th:block th:insert="~{fragments/footer.html :: footer_fragment}"></th:block>
+
 </body>
 <script>
     const saveReq = () => {
