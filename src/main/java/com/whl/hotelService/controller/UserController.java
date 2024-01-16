@@ -1,7 +1,7 @@
 package com.whl.hotelService.controller;
 
-import com.whl.hotelService.domain.userDomain.dto.UserDto;
-import com.whl.hotelService.domain.userDomain.service.UserService;
+import com.whl.hotelService.domain.user.dto.UserDto;
+import com.whl.hotelService.domain.user.service.UserService;
 import com.whl.hotelService.config.auth.jwt.JwtProperties;
 import com.whl.hotelService.config.auth.jwt.JwtTokenProvider;
 import com.whl.hotelService.config.auth.jwt.TokenInfo;

@@ -1,6 +1,6 @@
-package com.whl.hotelService.domain.userDomain.entity;
+package com.whl.hotelService.domain.user.entity;
 
-import com.whl.hotelService.domain.userDomain.dto.UserDto;
+import com.whl.hotelService.domain.user.dto.UserDto;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;

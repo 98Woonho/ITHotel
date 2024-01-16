@@ -1,6 +1,6 @@
-package com.whl.hotelService.domain.boardDomain.dto;
+package com.whl.hotelService.domain.common.dto;
 
-import com.whl.hotelService.domain.boardDomain.entity.BoardEntity;
+import com.whl.hotelService.domain.common.entity.BoardEntity;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 

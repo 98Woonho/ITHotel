@@ -1,10 +1,10 @@
-package com.whl.hotelService.domain.boardDomain.service;
+package com.whl.hotelService.domain.common.service;
 
-import com.whl.hotelService.domain.boardDomain.dto.CommentDto;
-import com.whl.hotelService.domain.boardDomain.entity.BoardEntity;
-import com.whl.hotelService.domain.boardDomain.entity.CommentEntity;
-import com.whl.hotelService.domain.boardDomain.repository.BoardRepository;
-import com.whl.hotelService.domain.boardDomain.repository.CommentRepository;
+import com.whl.hotelService.domain.common.dto.CommentDto;
+import com.whl.hotelService.domain.common.entity.BoardEntity;
+import com.whl.hotelService.domain.common.entity.CommentEntity;
+import com.whl.hotelService.domain.common.repository.BoardRepository;
+import com.whl.hotelService.domain.common.repository.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -1,6 +1,6 @@
-package com.whl.hotelService.domain.boardDomain.dto;
+package com.whl.hotelService.domain.common.dto;
 
-import com.whl.hotelService.domain.boardDomain.entity.CommentEntity;
+import com.whl.hotelService.domain.common.entity.CommentEntity;
 import lombok.*;
 
 import java.time.LocalDateTime;

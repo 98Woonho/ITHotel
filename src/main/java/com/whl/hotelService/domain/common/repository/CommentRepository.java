@@ -1,7 +1,7 @@
-package com.whl.hotelService.domain.boardDomain.repository;
+package com.whl.hotelService.domain.common.repository;
 
-import com.whl.hotelService.domain.boardDomain.entity.BoardEntity;
-import com.whl.hotelService.domain.boardDomain.entity.CommentEntity;
+import com.whl.hotelService.domain.common.entity.BoardEntity;
+import com.whl.hotelService.domain.common.entity.CommentEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

@@ -1,9 +1,9 @@
-package com.whl.hotelService.domain.userDomain.service;
+package com.whl.hotelService.domain.user.service;
 
 import com.whl.hotelService.config.auth.jwt.JwtTokenProvider;
-import com.whl.hotelService.domain.userDomain.dto.UserDto;
-import com.whl.hotelService.domain.userDomain.entity.User;
-import com.whl.hotelService.domain.userDomain.repository.UserRepository;
+import com.whl.hotelService.domain.user.dto.UserDto;
+import com.whl.hotelService.domain.user.entity.User;
+import com.whl.hotelService.domain.user.repository.UserRepository;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;

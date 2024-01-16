@@ -1,7 +1,7 @@
 package com.whl.hotelService.config.auth.jwt;
 
 import com.whl.hotelService.config.auth.PrincipalDetails;
-import com.whl.hotelService.domain.userDomain.dto.UserDto;
+import com.whl.hotelService.domain.user.dto.UserDto;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;

@@ -1,6 +1,6 @@
 package com.whl.hotelService.config.auth;
 
-import com.whl.hotelService.domain.userDomain.dto.UserDto;
+import com.whl.hotelService.domain.user.dto.UserDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
