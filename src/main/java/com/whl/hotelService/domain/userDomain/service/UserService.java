@@ -108,6 +108,7 @@ public class UserService {
         }
 
         dto.setPassword(passwordEncoder.encode(dto.getPassword()));
+        dto.setRepassword(passwordEncoder.encode(dto.getRepassword()));
 
         Cookie[] cookies = request.getCookies();
         for(Cookie cookie : cookies){
@@ -132,5 +133,14 @@ public class UserService {
         userRepository.save(user);
 
         return userRepository.existsById(user.getUser_id());
+    }
+
+    public boolean isExists(String name, String email) {
+        User user = userRepository.findByNameAndEmail(name, email);
+        return userRepository.existsById(user.getUser_id());
+    }
+
+    public String sendId(String email){
+        return userRepository.findByEmail(email).getUser_id();
     }
 }

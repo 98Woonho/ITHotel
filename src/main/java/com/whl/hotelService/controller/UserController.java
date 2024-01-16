@@ -1,6 +1,7 @@
 package com.whl.hotelService.controller;
 
 import com.whl.hotelService.domain.userDomain.dto.UserDto;
+import com.whl.hotelService.domain.userDomain.repository.UserRepository;
 import com.whl.hotelService.domain.userDomain.service.UserService;
 import com.whl.hotelService.config.auth.jwt.JwtProperties;
 import com.whl.hotelService.config.auth.jwt.JwtTokenProvider;
@@ -63,6 +64,40 @@ public class UserController {
     public void getLogin() {
         log.info("getLogin()");
     }
+
+    @GetMapping("existId")
+    public @ResponseBody JSONObject existId(String name, String email) {
+        log.info("getConfirmEmail name : " + name + ", email : " + email);
+        JSONObject obj = new JSONObject();
+        if (userService.isExists(name, email)) {
+            obj.put("success", true);
+            obj.put("message", "입력하신 이메일로 임시코드가 발송되었습니다");
+
+            return obj;
+        }
+        obj.put("success", false);
+        obj.put("message", "회원정보에 존재하지 않는 이메일입니다.");
+
+        return obj;
+    }
+
+    @GetMapping("findId")
+    public void findId(){
+        log.info("getfindId");
+    }
+
+    @GetMapping("sendId")
+    public @ResponseBody JSONObject findId(@RequestParam boolean confirm, @RequestParam String email) {
+        log.info("getsendid");
+        JSONObject obj = new JSONObject();
+        if (confirm) {
+            obj.put("message", userService.sendId(email));
+        } else {
+            obj.put("message", "인증번호가 틀렸습니다.");
+        }
+        return obj;
+    }
+
 
     @GetMapping(value = "join")
     public void getjoin() {
