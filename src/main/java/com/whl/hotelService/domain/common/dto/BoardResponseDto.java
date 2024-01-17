@@ -13,9 +13,13 @@ public class BoardResponseDto {
     private Long id;
     private String title;
     private String content;
-    private LocalDateTime createdAt;
+    private LocalDateTime createdTime;
+    private LocalDateTime updatedTime;
     private String username;
     private String email;
+
+    //검색 타입
+    private String type;
 
 
 
@@ -24,8 +28,10 @@ public class BoardResponseDto {
         this.id = board.getId();
         this.title = board.getTitle();
         this.content = board.getContent();
-        this.createdAt = board.getCreatedTime();
+        this.createdTime = board.getCreatedTime();
+        this.updatedTime = board.getUpdatedTime();
         this.username = board.getUser().getUser_id();
         this.email = board.getUser().getEmail();
+        this.type = board.getType();
     }
 }

@@ -18,7 +18,7 @@ public class CommentResponseDto {
     private String username;
     private String email;
 
-    @Builder
+    @Builder //Entity를 Dto로 바꾸는거
     public CommentResponseDto(Comment comment) {
         this.createdTime = comment.getCreatedTime();
         this.updatedTime = comment.getUpdatedTime();

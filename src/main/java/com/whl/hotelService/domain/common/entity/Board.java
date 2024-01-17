@@ -1,6 +1,5 @@
 package com.whl.hotelService.domain.common.entity;
 
-import com.whl.hotelService.domain.common.dto.BoardDto;
 import com.whl.hotelService.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -23,6 +22,7 @@ public class Board extends BaseEntity {
     private String title; //제목
     @Column(length = 500, nullable = false)
     private String content; // 내용
+    private String type; //검색타입
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;

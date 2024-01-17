@@ -1,14 +1,11 @@
 package com.whl.hotelService.controller;
 
-import com.whl.hotelService.domain.common.dto.BoardDto;
+
 import com.whl.hotelService.domain.common.dto.BoardResponseDto;
 import com.whl.hotelService.domain.common.dto.BoardWriteRequestDto;
 import com.whl.hotelService.domain.common.dto.CommentResponseDto;
-import com.whl.hotelService.domain.common.entity.Comment;
-import com.whl.hotelService.domain.common.service.BoardService;
 import com.whl.hotelService.domain.common.service.BoardServiceImpl;
 import com.whl.hotelService.domain.common.service.CommentServiceImpl;
-import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,7 +19,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Controller
