@@ -1,8 +1,7 @@
 package com.whl.hotelService.controller;
 
-import com.whl.hotelService.domain.userDomain.dto.UserDto;
-import com.whl.hotelService.domain.userDomain.repository.UserRepository;
-import com.whl.hotelService.domain.userDomain.service.UserService;
+import com.whl.hotelService.domain.user.dto.UserDto;
+import com.whl.hotelService.domain.user.service.UserService;
 import com.whl.hotelService.config.auth.jwt.JwtProperties;
 import com.whl.hotelService.config.auth.jwt.JwtTokenProvider;
 import com.whl.hotelService.config.auth.jwt.TokenInfo;
@@ -12,6 +11,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import net.minidev.json.JSONObject;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -81,18 +81,66 @@ public class UserController {
         return obj;
     }
 
+    @GetMapping("existPw")
+    public @ResponseBody JSONObject existId(String id, String name, String email) {
+        log.info("getConfirmEmail id : " + id + " name : " + name + ", email : " + email);
+        JSONObject obj = new JSONObject();
+        if (userService.isExists(id, name, email)) {
+            obj.put("success", true);
+            obj.put("message", "입력하신 이메일로 임시코드가 발송되었습니다");
+
+            return obj;
+        }
+        obj.put("success", false);
+        obj.put("message", "회원정보에 존재하지 않는 아이디거나 이메일입니다.");
+
+        return obj;
+    }
+
     @GetMapping("findId")
     public void findId(){
         log.info("getfindId");
     }
 
+    @GetMapping("findPw")
+    public void findPw(){
+        log.info("getfindPw");
+    }
+
     @GetMapping("sendId")
-    public @ResponseBody JSONObject findId(@RequestParam boolean confirm, @RequestParam String email) {
+    public @ResponseBody JSONObject sendid(@RequestParam boolean confirm, @RequestParam String email) {
         log.info("getsendid");
         JSONObject obj = new JSONObject();
         if (confirm) {
             obj.put("message", userService.sendId(email));
         } else {
+            obj.put("message", "인증번호가 틀렸습니다.");
+        }
+        return obj;
+    }
+
+    @GetMapping("sendPw")
+    public @ResponseBody JSONObject sendpw(@RequestParam boolean confirm, @RequestParam String email) {
+        log.info("getsendpw");
+        JSONObject obj = new JSONObject();
+        if (confirm) {
+            //랜덤 임시비밀번호 생성
+            String pw = RandomStringUtils.randomAlphanumeric(16);
+
+            //메일 메시지 만들기
+            SimpleMailMessage message = new SimpleMailMessage();
+            message.setTo(email);
+            message.setSubject("[HOTEL] 임시 비밀번호 발급");
+            message.setText(pw);
+
+            javaMailSender.send(message);
+
+            userService.sendpw(email, pw);
+
+            obj.put("success", true);
+            obj.put("message", "해당 이메일로 임시 비밀번호가 전송되었습니다.");
+        } else {
+            obj.put("success", false);
             obj.put("message", "인증번호가 틀렸습니다.");
         }
         return obj;
@@ -125,15 +173,15 @@ public class UserController {
     }
 
     @GetMapping("ConfirmId")
-    public @ResponseBody JSONObject ConfirmId(String user_id, HttpServletResponse response) {
-        log.info("getConfirmId id : " + user_id);
-        boolean IdValid = userService.idValid(user_id);
+    public @ResponseBody JSONObject ConfirmId(String id, HttpServletResponse response) {
+        log.info("getConfirmId id : " + id);
+        boolean IdValid = userService.idValid(id);
         JSONObject obj = new JSONObject();
-        if (!Objects.equals(user_id, "") && IdValid) {
+        if (!Objects.equals(id, "") && IdValid) {
             obj.put("success", true);
             obj.put("message", "사용가능한 아이디입니다.");
 
-            TokenInfo tokenInfo = jwtTokenProvider.generateToken("IdAuth", user_id, true);
+            TokenInfo tokenInfo = jwtTokenProvider.generateToken("IdAuth", id, true);
             Cookie cookie = new Cookie("IdAuth", tokenInfo.getAccessToken());
             cookie.setMaxAge(JwtProperties.EXPIRATION_TIME); // 쿠키의 만료시간 설정
             cookie.setPath("/");
@@ -141,7 +189,7 @@ public class UserController {
 
             return obj;
 
-        } else if (Objects.equals(user_id, "")) {
+        } else if (Objects.equals(id, "")) {
             obj.put("success", false);
             obj.put("message", "아이디를 입력하세요");
 

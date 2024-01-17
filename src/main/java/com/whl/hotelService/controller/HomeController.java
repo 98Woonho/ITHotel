@@ -1,19 +1,18 @@
 package com.whl.hotelService.controller;
 
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
-@Slf4j
+
 @Controller
-@RequestMapping(value = "home")
+@Slf4j
 public class HomeController {
-    @GetMapping(value = "homepage")
-    public void getHomepage() {
-        log.info("getHomepage()");
+    @GetMapping("/")
+    public String home(){
+        return "index";
     }
 
-    @GetMapping(value = "member_homepage")
-    public void getMember_Homepage() { log.info("getMember_Homepage()");}
+
 }

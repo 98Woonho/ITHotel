@@ -1,8 +1,8 @@
 package com.whl.hotelService.config.auth;
 
-import com.whl.hotelService.domain.userDomain.dto.UserDto;
-import com.whl.hotelService.domain.userDomain.entity.User;
-import com.whl.hotelService.domain.userDomain.repository.UserRepository;
+import com.whl.hotelService.domain.user.dto.UserDto;
+import com.whl.hotelService.domain.user.entity.User;
+import com.whl.hotelService.domain.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -25,7 +25,7 @@ public class PrincipalDetailsService implements UserDetailsService {
 
         //Entity -> Dto
         UserDto dto = new UserDto();
-        dto.setUser_id(userOptional.get().getUser_id());
+        dto.setId(userOptional.get().getId());
         dto.setPassword(userOptional.get().getPassword());
         dto.setRole(userOptional.get().getRole());
 

@@ -1,7 +1,7 @@
 package com.whl.hotelService.config.auth.jwt;
 
 import com.whl.hotelService.config.auth.PrincipalDetails;
-import com.whl.hotelService.domain.userDomain.dto.UserDto;
+import com.whl.hotelService.domain.user.dto.UserDto;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
@@ -162,7 +162,7 @@ public class JwtTokenProvider {
         String oauthAccessToken = (String)claims.get("accessToken");
         UserDto userDto = new UserDto();
         userDto.setProvider(provider);
-        userDto.setUser_id(username);
+        userDto.setId(username);
         userDto.setPassword(password);
         userDto.setRole(auth);
 

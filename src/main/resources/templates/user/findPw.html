@@ -12,25 +12,29 @@
     <link rel="stylesheet" href="/css/common.css">
     <!--    login.css  -->
     <link rel="stylesheet" href="/css/login.css">
-    <title>아이디 찾기</title>
+    <title>비밀번호 찾기</title>
 </head>
 <body>
-<div class="findId_wrapper">
-        <div>
-            <label>이름</label> <br/>
-            <input name="name" id="name" placeholder="이름"> <br/>
-        </div>
-        <div>
-            <label>이메일</label> <span id="email_msg"></span> <br/>
-            <input name="email" id="email" placeholder="회원가입시 등록한 이메일"> <button type="button" onclick="SendEmail()">인증</button><br/>
-        </div>
-        <div class="code" style="display:none;">
-            <label>인증코드</label> <span id="code_msg"></span> <br/>
-            <input name="emailCode" id="emailCode" placeholder="인증코드"> <br/>
-        </div>
-        <div>
-            <button type="button" onclick="isValid()">아이디 찾기</button>
-        </div>
+<div class="findPw_wrapper">
+    <div>
+        <label>아이디</label> <br/>
+        <input name="id" id="id" placeholder="아이디"> <br/>
+    </div>
+    <div>
+        <label>이름</label> <br/>
+        <input name="name" id="name" placeholder="이름"> <br/>
+    </div>
+    <div>
+        <label>이메일</label> <span id="email_msg"></span> <br/>
+        <input name="email" id="email" placeholder="회원가입시 등록한 이메일"> <button type="button" onclick="SendEmail()">인증</button><br/>
+    </div>
+    <div class="code" style="display:none;">
+        <label>인증코드</label> <span id="code_msg"></span> <br/>
+        <input name="emailCode" id="emailCode" placeholder="인증코드"> <br/>
+    </div>
+    <div>
+        <button type="button" onclick="isValid()">아이디 찾기</button>
+    </div>
 </div>
 
 <!-- axios -->
@@ -39,10 +43,14 @@
 
 <script>
     const isValid = function(){
+        const id = document.querySelector('#id').value;
         const name = document.querySelector('#name').value;
         const email = document.querySelector('#email').value;
         const code = document.querySelector('#emailCode').value;
-        if(name === ""){
+        if(id === ""){
+            alert('아이디를 입력하세요');
+            return ;
+        } else if(name === ""){
             alert('이름을 입력하세요');
             return ;
         } else if(email === "") {
@@ -56,7 +64,7 @@
                     alert('이메일 인증이 필요합니다.');
                     return ;
                 }
-                axios.get('/user/sendId?confirm=' + res.data.success + '&email=' + email)
+                axios.get('/user/sendPw?confirm=' + res.data.success + '&email=' + email)
                     .then(res => {
                         console.log(res);
                         alert(res.data.message);
@@ -72,7 +80,7 @@
         const email = document.querySelector('#email').value;
         let regexEmail = new RegExp("^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$");
         const email_msg = document.querySelector('#email_msg');
-        axios.get('/user/existId?name=' + name + '&email=' + email)
+        axios.get('/user/existPw?name=' + name + '&email=' + email)
             .then(res => {
                 console.log(res);
                 if(res.data.success){

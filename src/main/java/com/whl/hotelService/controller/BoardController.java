@@ -1,7 +1,7 @@
 package com.whl.hotelService.controller;
 
-import com.whl.hotelService.domain.boardDomain.dto.BoardDto;
-import com.whl.hotelService.domain.boardDomain.service.BoardService;
+import com.whl.hotelService.domain.common.dto.BoardDto;
+import com.whl.hotelService.domain.common.service.BoardService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

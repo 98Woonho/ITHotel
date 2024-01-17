@@ -23,7 +23,6 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-        System.out.println("Login Success");
 
         PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
 
@@ -36,12 +35,11 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
 
         Collection<? extends GrantedAuthority> collection =  authentication.getAuthorities();
         collection.forEach( (role)->{
-            System.out.println("[CustomLoginSuccessHandler] onAuthenticationSuccess() role : " + role);
             String role_str =  role.getAuthority();
 
             try {
                 if (role_str.equals("ROLE_USER"))
-                    response.sendRedirect("/home/member_homepage");
+                    response.sendRedirect("/");
             }catch(Exception e){
                 e.printStackTrace();
             }
