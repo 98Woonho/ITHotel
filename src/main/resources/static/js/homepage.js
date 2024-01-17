@@ -13,13 +13,13 @@ function slideImage(direction) {
 }
 
 
-$('.checkin')
+$('[name="checkin"]')
     .datepicker({
         dateFormat: 'yyyy-mm-dd',
         language: 'ko',
     });
 
-$('.checkout')
+$('[name="checkout"]')
     .datepicker({
         language: 'ko'
     });
