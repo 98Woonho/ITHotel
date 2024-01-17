@@ -3,12 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+
+    <link rel="stylesheet" href="/css/common.css">
     <link rel="stylesheet" href="/css/board/list.css">
     <th:block th:insert="~{/fragments/fragments.html :: headCdns}"></th:block>
     <script defer src="/js/board/list.js"></script>
 </head>
 <body>
-<th:block th:replace="~{/fragments/header.html :: header_fragment}"></th:block>
+
+<header id="header" class="content-container-wrapper">
+    <th:block th:insert="~{fragments/header.html :: header_fragment}"></th:block>
+</header>
+
 <h2 style="margin: 20px">게시판</h2>
 <form class="row g-3 d-flex justify-content-end" method="get" th:action="@{/board/list}">
     <div class="col-auto">
