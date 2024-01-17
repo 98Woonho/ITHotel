@@ -30,7 +30,7 @@ public class BoardResponseDto {
         this.content = board.getContent();
         this.createdTime = board.getCreatedTime();
         this.updatedTime = board.getUpdatedTime();
-        this.username = board.getUser().getUser_id();
+        this.username = board.getUser().getId();
         this.email = board.getUser().getEmail();
         this.type = board.getType();
     }

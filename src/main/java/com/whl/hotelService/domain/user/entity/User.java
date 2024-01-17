@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @Table(name="user")
 public class User {
     @Id
-    private String user_id;
+    private String id;
     private String password;
     private String repassword;
     private String name;
@@ -33,8 +33,15 @@ public class User {
 
     public static UserDto entityToDto(User user){
         UserDto dto = UserDto.builder()
-                .user_id(user.getUser_id())
+                .id(user.getId())
                 .password(user.getPassword())
+                .repassword(user.getRepassword())
+                .name(user.getName())
+                .email(user.getEmail())
+                .phone(user.getPhone())
+                .zipcode(user.getZipcode())
+                .addr1(user.getAddr1())
+                .addr2(user.getAddr2())
                 .role(user.getRole())
                 .provider(user.getProvider())
                 .provider_id(user.getProvider_id())
