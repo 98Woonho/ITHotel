@@ -3,6 +3,7 @@ package com.whl.hotelService.config;
 import com.whl.hotelService.config.auth.exceptionHandler.CustomAccessDeniedHandler;
 import com.whl.hotelService.config.auth.exceptionHandler.CustomAuthenticationEntryPoint;
 import com.whl.hotelService.config.auth.jwt.JwtAuthorizationFilter;
+import com.whl.hotelService.config.auth.jwt.JwtProperties;
 import com.whl.hotelService.config.auth.jwt.JwtTokenProvider;
 import com.whl.hotelService.config.auth.loginHandler.CustomAuthenticationFailureHandler;
 import com.whl.hotelService.config.auth.loginHandler.CustomLoginSuccessHandler;
@@ -67,6 +68,9 @@ public class SecurityConfig {
                     logout.logoutUrl("/logout");
                     logout.addLogoutHandler(customLogoutHandler());
                     logout.logoutSuccessHandler(customLogoutSuccessHandler());
+                    // 로그아웃(JWT토큰, 세션 제거)
+                    logout.deleteCookies("JSESSIONID", JwtProperties.COOKIE_NAME);
+                    logout.invalidateHttpSession(true);
                 }
         );
 

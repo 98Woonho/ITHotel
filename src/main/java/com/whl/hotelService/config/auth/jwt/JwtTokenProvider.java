@@ -93,9 +93,6 @@ public class JwtTokenProvider {
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
 
-        System.out.println("[JwtTokenProvider] generateToken() accessToken : " + accessToken);
-        System.out.println("[JwtTokenProvider] generateToken() refreshToken : " + refreshToken);
-
         return TokenInfo.builder()
                 .grantType("Bearer")
                 .accessToken(accessToken)
@@ -125,9 +122,6 @@ public class JwtTokenProvider {
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
 
-//        .out.println("[JwtTokenProvider] generateToken() accessToken : " + accessToken);
-//        .out.println("[JwtTokenProvider] generateToken() refreshToken : " + refreshToken);
-
         return TokenInfo.builder()
                 .grantType("Bearer")
                 .accessToken(accessToken)
@@ -154,8 +148,6 @@ public class JwtTokenProvider {
         String username = claims.getSubject(); //username
 
         //JWT Added
-        System.out.println("[JWTTOKENPROVIDER] principalDetails  : " + claims.get("principal"));
-
         String provider =  (String)claims.get("provider");
         String password = (String)claims.get("password");
         String auth = (String)claims.get("auth");
@@ -169,7 +161,6 @@ public class JwtTokenProvider {
         PrincipalDetails principalDetails = new PrincipalDetails();
         principalDetails.setUserDto(userDto);
         principalDetails.setAccessToken(oauthAccessToken);   //Oauth AccessToken
-        System.out.println("[JWTTOKENPROVIDER] getAuthentication() principalDetails  : " + principalDetails);
 
 
         //JWT + NO REMEMBERME
@@ -194,7 +185,6 @@ public class JwtTokenProvider {
             return true;
         } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
             log.info("Invalid JWT Token", e);
-            return false;
         }
         catch (ExpiredJwtException e) {
             log.info("Expired JWT Token", e);
@@ -203,6 +193,9 @@ public class JwtTokenProvider {
             log.info("Unsupported JWT Token", e);
         } catch (IllegalArgumentException e) {
             log.info("JWT claims string is empty.", e);
+        } catch(Exception etc){
+            log.info("기타예외");
+            return false;
         }
         return false;
     }

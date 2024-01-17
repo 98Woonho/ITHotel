@@ -4,6 +4,7 @@ import com.whl.hotelService.config.auth.PrincipalDetails;
 import com.whl.hotelService.config.auth.jwt.JwtProperties;
 import com.whl.hotelService.config.auth.jwt.JwtTokenProvider;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
