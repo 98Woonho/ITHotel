@@ -1,136 +1,82 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <title>detail</title>
-    <!--  cdns  -->
-    <th:block th:insert="~{fragments/link.html :: link_fragment}"></th:block>
-
-    <link rel="stylesheet" href="/css/common.css">
+    <title>게시글</title>
     <link rel="stylesheet" href="/css/board/detail.css">
+    <th:block th:insert="~{/fragments/fragments.html :: headCdns}"></th:block>
     <script defer src="/js/board/detail.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
-<style>
-    .table {
-        width: 500px;
-        margin: 0 auto;
-    }
-
-    .button {
-        display: flex;
-        justify-content: center;
-        gap: 5px;
-    }
-
-    button {
-        width: 120px;
-    }
-</style>
 <body>
-<th:block th:replace="~{fragments.html :: header}"></th:block>
-<table class="table">
-    <tr>
-        <th>id</th>
-        <td th:text="${board.id}"></td>
-    </tr>
-    <tr>
-        <th>제목</th>
-        <td th:text="${board.boardTitle}"></td>
-    </tr>
-    <tr>
-        <th>작성자</th>
-        <td th:text="${board.boardWriter}"></td>
-    </tr>
-    <tr>
-        <th>날짜</th>
-        <td th:text="${board.boardCreatedTime}"></td>
-    </tr>
-    <tr>
-        <th>조회수</th>
-        <td th:text="${board.boardHits}"></td>
-    </tr>
-    <tr>
-        <th>내용</th>
-        <td th:text="${board.boardContents}"></td>
-    </tr>
-</table>
-<div class="button">
-    <button onclick="saveReq()">글작성</button>
-    <button onclick="listReq()">게시판 목록</button>
-    <button onclick="updatrReq()">수정</button>
-    <button onclick="deleteReq()">삭제</button>
-</div>
-<!--댓글 작성-->
-<div id="comment-write">
-    <input type="text" id="commentWriter" placeholder="작성자">
-    <input type="text" id="commentContents" placeholder="내용">
-    <button id="comment-write-btn" onclick="commentWrite()">댓글 작성</button>
-</div>
-<!--댓글 출력-->
-<div id="comment-list">
+<th:block th:replace="~{/fragments/header.html :: header_fragment}"></th:block>
 
+<h1>게시판</h1>
+<div class="card mb-4">
+    <div class="card-body">
+        <form>
+            <div>
+                <span>id</span>
+                <th:block th:text="${board.id}"></th:block>
+            </div>
+            <div class="mb-3">
+                <label for="title" class="form-label">제목</label>
+                <input type="text" class="form-control" id="title" name="title"
+                       th:value="${board.title}" disabled>
+            </div>
+            <div class="mb-3">
+                <label for="content" class="form-label">내용</label>
+                <textarea class="form-control" id="content" name="content" disabled
+                          th:text="${board.content}"></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="createdAt" class="form-label">작성일</label>
+                <input type="text" class="form-control" id="createdAt" name="createdAt"
+                       th:value="${#temporals.format(board.createdTime, 'yyyy-MM-dd HH:mm')}" disabled>
+            </div>
+            <div class="mb-3">
+                <label for="writer" class="form-label">작성자</label>
+                <input type="text" class="form-control" id="writer" name="writer"
+                       th:value="${board.username}" disabled>
+            </div>
+        </form>
+    </div>
 </div>
-
-<th:block th:insert="~{fragments/footer.html :: footer_fragment}"></th:block>
-
+<div class="card my-4" th:if="${comments.size()} != 0">
+    <h5 class="card-header">Comments:</h5>
+    <div class="card-body">
+        <div th:each="comment : ${comments}">
+            <div class="media mb-4">
+                <div class="media-body">
+                    <h5 class="mt-0" th:text="${comment.getUsername()}">작성자</h5>
+                    <p th:text="${comment.getContent()}" th:id="'comment-' + ${comment.getId()}">댓글 내용</p>
+                    <small class="text-muted" th:text="${#temporals.format(comment.getCreatedTime(), 'yyyy-MM-dd HH:mm')}">댓글 작성 시간</small>
+                    <div th:if="${comment.getUsername() == #authentication.getPrincipal()}">
+                        <button class="btn btn-sm btn-outline-warning" th:attr="data-id=${comment.getId()}" onclick="editComment(this)">수정</button>
+                        <a th:href="@{/board/{id}/comment/{commentId}/remove(id=${id}, commentId=${comment.getId()})}" class="btn btn-sm btn-outline-danger" onclick="return confirm('Delete this comment?')">삭제</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<button onclick="saveReq()">글작성</button>
+<button onclick="listReq()">게시판 목록</button>
+<th:block th:if="${board != null and #authentication.principal instanceof T(org.springframework.security.core.userdetails.UserDetails) and board.getUsername() == #authentication.principal.username}">
+    <a th:href="@{/board/{id}/update(id=${id})}" class="btn btn-outline-warning">수정</a>
+    <a th:href="@{/board/{id}/remove(id=${id})}" class="btn btn-outline-danger" onclick="return confirm('삭제하시겠습니까?')">삭제</a>
+</th:block>
+<th:block th:replace="~{/fragments/footer.html :: footer_fragment}"></th:block>
 </body>
-<script th:inline="javascript">
-    const commentWrite = () => {
-        const writer = document.getElementById("commentWriter").value;
-        const contents = document.getElementById("commentContents").value;
-        console.log("작성자: ", writer);
-        console.log("내용: ", contents);
-        const id = [[${board.id}]];
-        $.ajax({
-            // 요청방식: post, 요청주소: /comment/save, 요청데이터: 작성자, 작성내용, 게시글번호
-            type: "post",
-            url: "/comment/save",
-            data: {
-                "commentWriter": writer,
-                "commentContents": contents,
-                "boardId": id
-            },
-            success: function (res) {
-                console.log("요청성공", res);
-                let output = "<table>";
-                output += "<tr><th>댓글번호</th>";
-                output += "<th>작성자</th>";
-                output += "<th>내용</th>";
-                output += "<th>작성시간</th></tr>";
-                for (let i in res) {
-                    output += "<tr>";
-                    output += "<td>" + res[i].id + "</td>";
-                    output += "<td>" + res[i].commentWriter + "</td>";
-                    output += "<td>" + res[i].commentContents + "</td>";
-                    output += "<td>" + res[i].commentCreatedTime + "</td>";
-                    output += "</tr>";
-                }
-                output += "</table>";
-                document.getElementById('comment-list').innerHTML = output;
-                document.getElementById('commentWriter').value = '';
-                document.getElementById('commentContents').value = '';
-            },
-            error: function (err) {
-                console.log("요청실패", err);
-            }
-        });
 
-    }
+<script th:inline="javascript">
     const saveReq = () => {
-        location.href = "/board/save"
+        location.href = "/board/write"
     }
     const listReq = () => {
         location.href = "/board/list"
-    }
-    const updatrReq = () => {
-        const id = [[${board.id}]]; // 모델로 받아온 id를 자바스크립트에서 사용 하기 위해서는 <script th:inline="javascript"> 필요
-        location.href = "/board/update/" + id;
-    }
-    const deleteReq = () => {
-        const id = [[${board.id}]];
-        location.href = "/board/delete/" + id;
     }
 </script>
 

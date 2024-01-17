@@ -1,34 +1,42 @@
 package com.whl.hotelService.controller;
 
-import com.whl.hotelService.domain.common.dto.CommentDto;
+import com.whl.hotelService.domain.common.dto.CommentRequestDto;
 import com.whl.hotelService.domain.common.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-@RequestMapping("/comment")
 public class CommentController {
-
     @Autowired
     private CommentService commentService;
 
+    //    댓글 작성
+    @PostMapping("/board/{id}/comment")
+    public String writeComment(@PathVariable Long id, CommentRequestDto commentRequestDto, Authentication authentication) {
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        commentService.writeComment(commentRequestDto, id, userDetails.getUsername());
 
-    @PostMapping("/save")
-    public ResponseEntity save(CommentDto commentDto) throws Exception{
-        System.out.println("commentDto : " + commentDto);
-        Long saveResult = commentService.save(commentDto);
-        if (saveResult != null){
-            // 작성 성공 로직 댓글 목록을 가져와서 리턴
-            List<CommentDto> commentDtoList = commentService.findAll(commentDto.getBoardId());
-            return new ResponseEntity<>(commentDtoList, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>("해당 게시글이 존재하지 않습니다.", HttpStatus.NOT_FOUND);
-        }
+        return "redirect:/board/" + id;
+    }
+
+    //    댓글 수정
+    @ResponseBody
+    @PostMapping("/board/{id}/comment/{commentId}/update")
+    public String updateComment(@PathVariable Long id, @PathVariable Long commentId, CommentRequestDto commentRequestDto) {
+        commentService.updateComment(commentRequestDto, commentId);
+        return "/board/" + id;
+    }
+
+    //    댓글 삭제
+    @GetMapping("/board/{id}/comment/{commentId}/remove")
+    public String deleteComment(@PathVariable Long id, @PathVariable Long commentId) {
+        commentService.deleteComment(commentId);
+        return "redirect:/board/" + id;
     }
 }
