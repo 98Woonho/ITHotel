@@ -3,13 +3,17 @@ package com.whl.hotelService.controller;
 import com.whl.hotelService.domain.common.dto.BoardDto;
 import com.whl.hotelService.domain.common.dto.BoardResponseDto;
 import com.whl.hotelService.domain.common.dto.BoardWriteRequestDto;
+import com.whl.hotelService.domain.common.dto.CommentResponseDto;
+import com.whl.hotelService.domain.common.entity.Comment;
 import com.whl.hotelService.domain.common.service.BoardService;
 import com.whl.hotelService.domain.common.service.BoardServiceImpl;
+import com.whl.hotelService.domain.common.service.CommentServiceImpl;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,6 +22,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Controller
@@ -25,6 +30,8 @@ import java.util.List;
 public class BoardController {
     @Autowired
     private BoardServiceImpl boardService;
+    @Autowired
+    private CommentServiceImpl commentService;
 
     @GetMapping("/write")
     public String writeForm(){
@@ -43,21 +50,28 @@ public class BoardController {
     @GetMapping("/{id}") // 게시판 조회
     public String boardDetail(@PathVariable Long id, Model model) {
         BoardResponseDto board = boardService.boardDetail(id);
+        List<CommentResponseDto> commentResponseDtos = commentService.commentList(id);
+        model.addAttribute("comments", commentResponseDtos);
         model.addAttribute("board", board);
         model.addAttribute("id", id);
 
         return "board/detail";
     }
 
-    @GetMapping("/list") // 게시판 전체 조회
-    public String boardList(Model model){
-        List<BoardResponseDto> boardList = boardService.boardList();
-        model.addAttribute("boardList", boardList);
-
+    @GetMapping("/list") // 게시판 전체 조회 + paging 처리 + 검색처리
+    public String boardList(Model model, @PageableDefault(page = 0, size = 10, sort = "id",
+            direction = Sort.Direction.ASC)Pageable pageable, String keyword){
+        Page<BoardResponseDto> boardList = boardService.boardList(pageable);
+        Page<BoardResponseDto> boardSerchList = boardService.searchingBoardList(keyword, pageable);
+        if (keyword == null){
+            model.addAttribute("boardList", boardList);
+        } else {
+            model.addAttribute("boardList", boardSerchList);
+        }
         return "board/list";
     }
 
-    @GetMapping("/{id}/update") // 게시판 업데이트
+    @GetMapping("/{id}/update") // 게시판 업데이트화면 이동
     public String boardUpdateForm(@PathVariable Long id, Authentication authentication, Model model) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal(); //로그인된 회원을 조회해서
         BoardResponseDto board = boardService.boardDetail(id);
@@ -74,14 +88,14 @@ public class BoardController {
         }
     }
 
-    @PostMapping("/{id}/update")
+    @PostMapping("/{id}/update") // 게시판 업데이트
     public String boardUpdate(@PathVariable Long id, BoardWriteRequestDto boardWriteRequestDto) {
         boardService.boardUpdate(id, boardWriteRequestDto);
 
         return "redirect:/board/" + id;
     }
 
-    @GetMapping("/{id}/remove")
+    @GetMapping("/{id}/remove") // 게시판 삭제
     public String boardRemove(@PathVariable Long id, Authentication authentication) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         BoardResponseDto board = boardService.boardDetail(id);
