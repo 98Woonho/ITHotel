@@ -94,7 +94,7 @@ https://shields.io/
 |/user/login|GET|로그인 페이지|
 |/user/join|GET|회원가입 페이지|
 |/user/join|POST|회원가입|
-|/user/ConfirmId|GET|아이디 중복 확인|
+|/user/confirmId|GET|아이디 중복 확인|
 |/user/sendEmail/{email}|GET|이메일 인증 보내기|
 |/user/confirmEmail|GET|이메일 인증 확인|
 |/board/save|GET|게시글 작성 페이지|
