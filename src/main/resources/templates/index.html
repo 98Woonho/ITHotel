@@ -27,19 +27,21 @@
 </head>
 <body>
 
-    <header id="header" class="content-container-wrapper">
-        <th:block th:insert="~{fragments/header.html :: header_fragment}"></th:block>
-    </header>
+<header id="header" class="content-container-wrapper">
+    <th:block th:insert="~{fragments/header.html :: header_fragment}"></th:block>
+</header>
 
 
 <main id="main" class="content-container-wrapper">
     <div class="slide-container">
         <div class="slide">
             <button onclick="slideImage('prev')" class="prev" type="button">
-                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAAA30lEQVR4nO3YQWoCQRCF4Vq4MbpQ0RMKnkLwWDKCFFUNTbe2tsmFlJAQDKhb+w3vg9nM7ufNNMOIEBERgTm7L5LZUtAjsvtXdr9ms7XAR/jvhRZTVOfZ7PNfxM+1V9WBIAghTLNZeRDhqjoWBIERjeASLS2RzI7QL3ZVnTCiBZVLNKL2YYkY4yy7nx59O5VSPgRmCfcD9BK9CvnGGLRlkrv1KubSdSNBUhmDd5rtYoxDQVIZ0yguA7hMB3cAxCef/clsC/PL9NUyyX0jiOpdDGzE/WOWQlj93SAiIpL3ugFKeOV7KuCVQAAAAABJRU5ErkJggg==" alt="">
+                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAAA30lEQVR4nO3YQWoCQRCF4Vq4MbpQ0RMKnkLwWDKCFFUNTbe2tsmFlJAQDKhb+w3vg9nM7ufNNMOIEBERgTm7L5LZUtAjsvtXdr9ms7XAR/jvhRZTVOfZ7PNfxM+1V9WBIAghTLNZeRDhqjoWBIERjeASLS2RzI7QL3ZVnTCiBZVLNKL2YYkY4yy7nx59O5VSPgRmCfcD9BK9CvnGGLRlkrv1KubSdSNBUhmDd5rtYoxDQVIZ0yguA7hMB3cAxCef/clsC/PL9NUyyX0jiOpdDGzE/WOWQlj93SAiIpL3ugFKeOV7KuCVQAAAAABJRU5ErkJggg=="
+                     alt="">
             </button>
             <button onclick="slideImage('next')" class="next" type="button">
-                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAAA3UlEQVR4nO3WWwrCMBSE4bgXwdtmBMWNaRVXk55psYm4C8HLFvQhUlEftPVRcuJ8kAX8TGhjDBERUSQcMN5Z2zeaVSITJ3LxImdfFCOjOgII9yNyUhnjRdaviMdxwGFblj2jSQih40SW7zH1Mg4YGk0CY+JeJkvpmmWM0bRMlecDk0KMA44qYzywYExsklvGAauPDwCw31jbNQqXmTct4zW9mr9dMa8lpPVxqelqhZYlGPFrXCIWXCIWXCIWXCIWIYU/di2JiJrP85kHrqojGmL0Rjw5YKo+goiI/tINGwPylqRAtaEAAAAASUVORK5CYII=" alt="">
+                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAAA3UlEQVR4nO3WWwrCMBSE4bgXwdtmBMWNaRVXk55psYm4C8HLFvQhUlEftPVRcuJ8kAX8TGhjDBERUSQcMN5Z2zeaVSITJ3LxImdfFCOjOgII9yNyUhnjRdaviMdxwGFblj2jSQih40SW7zH1Mg4YGk0CY+JeJkvpmmWM0bRMlecDk0KMA44qYzywYExsklvGAauPDwCw31jbNQqXmTct4zW9mr9dMa8lpPVxqelqhZYlGPFrXCIWXCIWXCIWXCIWIYU/di2JiJrP85kHrqojGmL0Rjw5YKo+goiI/tINGwPylqRAtaEAAAAASUVORK5CYII="
+                     alt="">
             </button>
             <ul>
                 <!-- 이미지는 외부 정적 경로로 변경할 예정 -->
@@ -50,7 +52,7 @@
         </div>
     </div>
     <div class="content-container">
-        <thblock th:replace="~{fragments/search.html :: search-container}"></thblock>
+        <thblock th:replace="~{fragments/search.html :: search-form}"></thblock>
         주변 여행지나 아무 콘텐츠
     </div>
 </main>

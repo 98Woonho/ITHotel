@@ -3,17 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="/board/resources/stylesheets/list.css">
-    <th:block th:insert="~{fragments.html :: headCdns}"></th:block>
-    <script defer th:src="@{/board/resources/js/list.js}"></script>
+
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/board/list.css">
+    <th:block th:insert="~{/fragments/fragments.html :: headCdns}"></th:block>
+    <script defer src="/js/board/list.js"></script>
 </head>
 <body>
-<th:block th:replace="~{fragments.html :: header}"></th:block>
+
+<header id="header" class="content-container-wrapper">
+    <th:block th:insert="~{fragments/header.html :: header_fragment}"></th:block>
+</header>
+
 <h2 style="margin: 20px">게시판</h2>
 <form class="row g-3 d-flex justify-content-end" method="get" th:action="@{/board/list}">
     <div class="col-auto">
         <label for="searchText" class="visually-hidden">검색</label>
-        <input type="text" class="form-control" id="searchText" name="searchText" placeholder="검색">
+        <input type="text" class="form-control" id="searchText" name="keyword" placeholder="검색">
     </div>
     <div class="col-auto">
         <button type="submit" class="btn btn-light mb-3" style="margin-right: 50px">검색</button>
@@ -29,7 +35,6 @@
         <th class="ten wide">글제목</th>
         <th class="two wide">작성자</th>
         <th class="three wide">작성일</th>
-        <th class="three wide">조회수</th>
     </tr>
     </thead>
     <tbody>
@@ -40,44 +45,57 @@
         </td>
         <td>
             <a th:href="@{'/board/' + ${board.id}}">
-                <span th:text="${board.boardTitle}"></span>
+                <span th:text="${board.title}"></span>
             </a>
         </td>
         <td>
-            <span th:text="${board.boardWriter}"></span>
+            <span th:text="${board.username}"></span>
         </td>
         <td>
-            <span th:text="${#temporals.format(board.boardCreatedTime, 'yyyy-MM-dd HH:mm:ss')}"></span>
-        </td>
-        <td>
-            <span th:text="${board.boardHits}"></span>
+            <span th:text="${#temporals.format(board.createdTime, 'yyyy-MM-dd HH:mm:ss')}"></span>
         </td>
     </tr>
     </tbody>
 </table>
+<div th:if="${!boardList.isEmpty()}">
+    <ul class="pagination"
+        th:with="
+            pageNumber = ${boardList.pageable.pageNumber},
+            pageSize = ${boardList.pageable.pageSize},
+            totalPages = ${boardList.totalPages},
+            startPage = ${T(java.lang.Math).floor(pageNumber / pageSize) * pageSize + 1},
+            tempEndPage = ${startPage + pageSize - 1},
+            endPage = (${tempEndPage < totalPages ? tempEndPage : totalPages})">
 
-<nav aria-label="Page navigation example">
-    <ul class="pagination justify-content-center">
-        <li class="page-item" th:classappend="${1 == boardList.pageable.pageNumber + 1} ? 'disabled'">
-            <a class="page-link" href="#" th:href="@{/board/list(page=${boardList.pageable.pageNumber - 1})}"
-               tabindex="-1" aria-disabled="true">Previous</a>
+        <li th:classappend="${boardList.first} ? 'disabled'" class="page-item">
+            <a class="page-link" th:if="${param.keyword == null}" th:href="${boardList.first} ? '#' : @{/board/list(page=${pageNumber - 1})}" aria-label="Previous">
+                <span aria-hidden="true">&lt;</span>
+            </a>
+            <a class="page-link" th:if="${param.keyword != null}" th:href="${boardList.first} ? '#' : @{/board/list(page=${pageNumber - 1}, keyword=${param.keyword})}" aria-label="Previous">
+                <span aria-hidden="true">&lt;</span>
+            </a>
         </li>
-        <li class="page-item" th:classappend="${i == boardList.pageable.pageNumber + 1} ? 'disabled'"
-            th:each="i : ${#numbers.sequence(startPage, endPage)}">
-            <a class="page-link" href="#" th:href="@{/board/list(page=${i - 1})}" th:text="${i}">1</a>
+
+        <li th:each="page: ${#numbers.sequence(startPage, endPage)}" th:classappend="${page == pageNumber + 1} ? 'active'" class="page-item">
+            <a th:text="${page}" th:if="${param.keyword == null}" class="page-link" th:href="@{/board/list(page=${page - 1})}"></a>
+            <a th:text="${page}" th:if="${param.keyword != null}" class="page-link" th:href="@{/board/list(page=${page - 1}, keyword=${param.keyword})}"></a>
         </li>
-        <li class="page-item"
-            th:classappend="${boardList.totalPages == boardList.pageable.pageNumber + 1} ? 'disabled'">
-            <a class="page-link" href="#" th:href="@{/board/list(page=${boardList.pageable.pageNumber + 1})}">Next</a>
+
+        <li th:classappend="${boardList.last} ? 'disabled'" class="page-item">
+            <a class="page-link" th:if="${param.keyword == null}" th:href="${boardList.last} ? '#' : @{/board/list(page=${pageNumber + 1})}" aria-label="Next">
+                <span aria-hidden="true">&gt;</span>
+            </a>
+            <a class="page-link" th:if="${param.keyword != null}" th:href="${boardList.last} ? '#' : @{/board/list(page=${pageNumber + 1}, keyword=${param.keyword})}" aria-label="Next">
+                <span aria-hidden="true">&gt;</span>
+            </a>
         </li>
     </ul>
-
-</nav>
-<th:block th:replace="~{fragments.html :: footer}"></th:block>
+</div>
+<th:block th:replace="~{/fragments/footer.html :: footer_fragment}"></th:block>
 </body>
 <script>
     const saveReq = () => {
-        location.href = "/board/save";
+        location.href = "/board/write";
     }
 
 </script>
