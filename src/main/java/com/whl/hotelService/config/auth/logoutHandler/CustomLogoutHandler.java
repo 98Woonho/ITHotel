@@ -61,9 +61,6 @@ public class CustomLogoutHandler implements LogoutHandler {
             headers.add("Content-Type", "application/x-www-form-urlencoded");
             headers.add("Authorization", "Bearer " + accessToken);
 
-            //parameter(생략)
-            //MultiValueMap<String,String> params =new LinkedMultiValueMap<>();
-
             //Header + Parameter 단위 생성
             HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity(headers);
 
@@ -79,6 +76,7 @@ public class CustomLogoutHandler implements LogoutHandler {
             //Rest Request
             ResponseEntity<String> resp = restTemplate.exchange(url, HttpMethod.GET, null, String.class);
         }
+
 
         HttpSession session = request.getSession(false);
         if (session != null)
