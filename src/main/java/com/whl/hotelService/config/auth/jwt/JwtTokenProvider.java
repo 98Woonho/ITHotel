@@ -47,7 +47,6 @@ public class JwtTokenProvider {
 
             byte [] keyByte =  rs.getBytes("signature");                 //DB로 서명Key꺼내옴
             this.key = Keys.hmacShaKeyFor(keyByte);                                    //this.key에 저장
-            System.out.println("[JwtTokenProvider] Key : " + this.key );
         }
         else {
             byte[] keyBytes = KeyGenerator.getKeygen();     //난수키값 가져오기
@@ -56,7 +55,6 @@ public class JwtTokenProvider {
 
             pstmt.setBytes(1, keyBytes);
             pstmt.executeUpdate();
-            System.out.println("[JwtTokenProvider] Constructor Key init: " + key);
         }
 
     }
