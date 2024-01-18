@@ -17,8 +17,11 @@
         <span class="spring"></span>
         <div class="subMenu">
             <div class="userArea">
-                <a th:href="@{/user/login}" class="link">
+                <a th:if="${authentication == null}" th:href="@{/user/login}" class="link">
                     <span class="text">로그인</span>
+                </a>
+                <a th:if="${authentication != null}" th:href="@{/logout}" class="link">
+                    <span class="text">로그아웃</span>
                 </a>
                 <a th:href="@{/user/join}" class="link">
                     <span class="text">회원가입</span>

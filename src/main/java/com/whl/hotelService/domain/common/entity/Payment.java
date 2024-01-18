@@ -7,7 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -29,6 +29,7 @@ public class Payment {
     @JoinColumn(name="user_id", foreignKey = @ForeignKey(name="fk_Payment_user_id", foreignKeyDefinition = "FOREIGN KEY(user_id) REFERENCES user(user_id) ON DELETE CASCADE ON UPDATE CASCADE"), nullable = false)
     private User user_id; // 사용자 정보
 
+    // 결제 정보
     @Column(nullable = false)
     private String imp_uid;
     @Column(nullable = false)
@@ -39,6 +40,8 @@ public class Payment {
     private String paid_amount;
     @Column(nullable = false)
     private String status;
+
+    // 결제 날짜
     @Column(nullable = false ,columnDefinition = "DATETIME(6)")
-    private Date payDate;
+    private LocalDateTime payDate;
 }

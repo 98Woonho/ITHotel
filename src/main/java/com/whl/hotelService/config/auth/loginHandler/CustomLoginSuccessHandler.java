@@ -41,7 +41,9 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
 
             try {
                 if (role_str.equals("ROLE_USER"))
-                    response.sendRedirect("/home/member_homepage");
+                    response.sendRedirect("/");
+                else if (role_str.equals("ROLE_ADMIN"))
+                    response.sendRedirect("/");
             }catch(Exception e){
                 e.printStackTrace();
             }

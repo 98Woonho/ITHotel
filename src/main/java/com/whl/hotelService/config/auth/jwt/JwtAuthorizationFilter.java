@@ -52,12 +52,9 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
                 if(jwtTokenProvider.validateToken(token)) {
                     Authentication authentication = getUsernamePasswordAuthenticationToken(token);
                     SecurityContextHolder.getContext().setAuthentication(authentication);
-                    System.out.println("[JWTAUTHORIZATIONFILTER] : " + authentication);
                 }
             } catch (ExpiredJwtException e)     //토큰만료시 예외처리(쿠키 제거)
             {
-
-                System.out.println("[JWTAUTHORIZATIONFILTER] : ...ExpiredJwtException ...."+e.getMessage());
 
                 //토큰 만료시 처리(Refresh-token으로 갱신처리는 안함-쿠키에서 제거)
                 Cookie cookie = new Cookie(JwtProperties.COOKIE_NAME, null);
@@ -81,7 +78,6 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
         Authentication authentication = jwtTokenProvider.getAuthentication(token);
         Optional<User> user = memberRepository.findById(authentication.getName()); // 유저를 유저명으로 찾습니다.
-        System.out.println("JwtAuthorizationFilter.getUsernamePasswordAuthenticationToken...authenticationToken : " +authentication );
         if(user!=null)
         {
             return authentication;

@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @AllArgsConstructor
@@ -33,9 +34,9 @@ public class Reservation {
     private User user_id; // 사용자 정보
 
     @Column(nullable = false)
-    private Date checkin; // 체크인
+    private LocalDateTime checkin; // 체크인
     @Column(nullable = false)
-    private Date checkout; // 체크아웃
+    private LocalDateTime checkout; // 체크아웃
     @Column(nullable = false)
     private String status; // 예약 상태
 }
