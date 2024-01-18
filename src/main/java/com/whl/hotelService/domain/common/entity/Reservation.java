@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @AllArgsConstructor
@@ -17,6 +18,7 @@ import java.util.Date;
 @Table(name="reservation")
 public class Reservation {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
@@ -28,13 +30,13 @@ public class Reservation {
     private Room roomId; // 객실 정보
 
     @ManyToOne
-    @JoinColumn(name="userid", foreignKey = @ForeignKey(name="fk_reservation_userid", foreignKeyDefinition = "FOREIGN KEY(userid) REFERENCES user(userid) ON DELETE CASCADE ON UPDATE CASCADE"), nullable = false)
+    @JoinColumn(name="user_userid", foreignKey = @ForeignKey(name="fk_reservation_user_userid", foreignKeyDefinition = "FOREIGN KEY(user_userid) REFERENCES user(userid) ON DELETE CASCADE ON UPDATE CASCADE"), nullable = false)
     private User userid; // 사용자 정보
 
     @Column(nullable = false)
-    private Date checkin; // 체크인
+    private LocalDateTime checkin; // 체크인
     @Column(nullable = false)
-    private Date checkout; // 체크아웃
+    private LocalDateTime checkout; // 체크아웃
     @Column(nullable = false)
     private String status; // 예약 상태
 }
