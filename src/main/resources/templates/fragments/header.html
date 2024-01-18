@@ -17,14 +17,20 @@
         <span class="spring"></span>
         <div class="subMenu">
             <div class="userArea">
-                <a th:if="${authentication == null}" th:href="@{/user/login}" class="link">
+                <a href="/user/login" class="link">
                     <span class="text">로그인</span>
                 </a>
-                <a th:if="${authentication != null}" th:href="@{/logout}" class="link">
+                <a href="/logout" class="link">
                     <span class="text">로그아웃</span>
                 </a>
-                <a th:href="@{/user/join}" class="link">
+                <a href="/user/join" class="link">
                     <span class="text">회원가입</span>
+                </a>
+                <a href="/user/myinfo" class="link">
+                    <span class="text">마이페이지</span>
+                </a>
+                <a href="/admin/reservationStatus?region=seoul" class="link">
+                    <span class="text">관리자페이지</span>
                 </a>
             </div>
             <div class="hotelArea">
@@ -35,6 +41,30 @@
         </div>
     </div>
 </th:block>
+
+<script>
+    function checkCookie(cookieName) {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            if (cookie.indexOf(cookieName + '=') === 0) {
+                return true; // Cookie found
+            }
+        }
+        return false; // Cookie not found
+    }
+
+    window.onload = function() {
+        var cookieName = 'JWT-AUTHENTICATION';
+        var isCookiePresent = checkCookie(cookieName);
+
+        if (isCookiePresent) {
+            console.log(cookieName + ' is present.');
+        } else {
+            console.log(cookieName + ' is not present.');
+        }
+    };
+</script>
 
 </body>
 </html>
