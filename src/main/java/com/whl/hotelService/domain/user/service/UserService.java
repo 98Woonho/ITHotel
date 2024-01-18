@@ -35,7 +35,7 @@ public class UserService {
     }
 
     public boolean memberjoin(UserDto dto, Model model, HttpServletRequest request, HttpServletResponse response) {
-        if (!idValid(dto.getId())) {
+        if (!idValid(dto.getUserid())) {
             model.addAttribute("user_id", "동일한 아이디가 존재합니다.");
             System.out.println("동일 아이디 존재");
             return false;
@@ -76,7 +76,7 @@ public class UserService {
                 System.out.println("아이디 중복 확인필요");
                 return false;
             }
-            if (!id.equals(dto.getId())) {
+            if (!id.equals(dto.getUserid())) {
                 model.addAttribute("user_id", "아이디가 변동되었습니다.");
                 System.out.println("아이디 변동됨");
                 return false;
@@ -119,7 +119,7 @@ public class UserService {
         }
 
         User user = new User();
-        user.setId(dto.getId());
+        user.setUserid(dto.getUserid());
         user.setPassword(dto.getPassword());
         user.setRepassword(dto.getRepassword());
         user.setName(dto.getName());
@@ -133,21 +133,21 @@ public class UserService {
 
         userRepository.save(user);
 
-        return userRepository.existsById(user.getId());
+        return userRepository.existsById(user.getUserid());
     }
 
     public boolean isExists(String name, String email) {
         User user = userRepository.findByNameAndEmail(name, email);
-        return userRepository.existsById(user.getId());
+        return userRepository.existsById(user.getUserid());
     }
 
     public boolean isExists(String id, String name, String email) {
         User user = userRepository.findByNameAndEmail(name, email);
-        return Objects.equals(user.getId(), id);
+        return Objects.equals(user.getUserid(), id);
     }
 
     public String sendId(String email){
-        return userRepository.findByEmail(email).getId();
+        return userRepository.findByEmail(email).getUserid();
     }
 
     public void sendpw(String email, String pw){

@@ -24,12 +24,12 @@ public class Reservation {
     private Hotel hotelName; // 호텔 정보
 
     @ManyToOne
-    @JoinColumn(name="room_id", foreignKey = @ForeignKey(name="fk_reservation_hotel_name", foreignKeyDefinition = "FOREIGN KEY(room_id) REFERENCES room(id) ON DELETE CASCADE ON UPDATE CASCADE"), nullable = false)
+    @JoinColumn(name="room_id", foreignKey = @ForeignKey(name="fk_reservation_room_id", foreignKeyDefinition = "FOREIGN KEY(room_id) REFERENCES room(id) ON DELETE CASCADE ON UPDATE CASCADE"), nullable = false)
     private Room roomId; // 객실 정보
 
     @ManyToOne
-    @JoinColumn(name="user_id", foreignKey = @ForeignKey(name="fk_reservation_hotel_name", foreignKeyDefinition = "FOREIGN KEY(user_id) REFERENCES user(user_id) ON DELETE CASCADE ON UPDATE CASCADE"), nullable = false)
-    private User user_id; // 사용자 정보
+    @JoinColumn(name="userid", foreignKey = @ForeignKey(name="fk_reservation_userid", foreignKeyDefinition = "FOREIGN KEY(userid) REFERENCES user(userid) ON DELETE CASCADE ON UPDATE CASCADE"), nullable = false)
+    private User userid; // 사용자 정보
 
     @Column(nullable = false)
     private Date checkin; // 체크인

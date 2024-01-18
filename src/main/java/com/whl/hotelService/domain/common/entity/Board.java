@@ -24,7 +24,7 @@ public class Board extends BaseEntity {
     private String content; // 내용
     private String type; //검색타입
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "userid", foreignKey = @ForeignKey(name="fk_board_userid", foreignKeyDefinition = "FOREIGN KEY(userid) REFERENCES user(userid) ON DELETE CASCADE ON UPDATE CASCADE"), nullable = false)
     private User user;
 
     public void update(String title, String content){
