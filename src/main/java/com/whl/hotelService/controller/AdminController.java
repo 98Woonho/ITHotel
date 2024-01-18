@@ -16,4 +16,13 @@ public class AdminController {
                                      Model model) {
         model.addAttribute("region", region);
     }
+
+    @GetMapping("inquiry")
+    public void getInquiry() {}
+
+    @GetMapping("insertHotel")
+    public void getInsertHotel() {}
+
+    @GetMapping("deleteHotel")
+    public void getDeleteHotel() {}
 }

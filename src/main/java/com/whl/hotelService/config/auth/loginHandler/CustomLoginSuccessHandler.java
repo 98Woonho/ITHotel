@@ -27,11 +27,21 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
         PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
 
         TokenInfo tokenInfo = jwtTokenProvider.generateToken(authentication);
-        // 쿠키 생성
-        Cookie cookie = new Cookie(JwtProperties.COOKIE_NAME, tokenInfo.getAccessToken());
-        cookie.setMaxAge(JwtProperties.EXPIRATION_TIME); // 쿠키의 만료시간 설정
-        cookie.setPath("/");
-        response.addCookie(cookie);
+
+        // 테스트 코드 (2024-01-18)
+        if (principalDetails.getUserDto().getRole().equals("ROLE_ADMIN")) {
+            Cookie cookie = new Cookie("JWT-AUTHENTICATION-ADMIN", tokenInfo.getAccessToken());
+            cookie.setMaxAge(JwtProperties.EXPIRATION_TIME); // 쿠키의 만료시간 설정
+            cookie.setPath("/");
+            response.addCookie(cookie);
+
+        } else {
+            // 쿠키 생성
+            Cookie cookie = new Cookie(JwtProperties.COOKIE_NAME, tokenInfo.getAccessToken());
+            cookie.setMaxAge(JwtProperties.EXPIRATION_TIME); // 쿠키의 만료시간 설정
+            cookie.setPath("/");
+            response.addCookie(cookie);
+        }
 
         Collection<? extends GrantedAuthority> collection =  authentication.getAuthorities();
         collection.forEach( (role)->{

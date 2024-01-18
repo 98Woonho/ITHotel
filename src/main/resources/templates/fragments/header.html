@@ -6,7 +6,6 @@
 </head>
 <body>
 
-
 <th:block th:fragment="header_fragment">
     <div class="content-container menu">
         <h1 class="item logo">
@@ -17,19 +16,22 @@
         <span class="spring"></span>
         <div class="subMenu">
             <div class="userArea">
-                <a href="/user/login" class="link">
+                <div hidden class="welcome-message-container" id="message">
+                    <a href="/user/myinfo" class="link name">이운호</a>님 환영합니다!
+                </div>
+                <a hidden href="/user/login" class="link" id="login">
                     <span class="text">로그인</span>
                 </a>
-                <a href="/logout" class="link">
+                <a hidden href="/logout" class="link" id="logout">
                     <span class="text">로그아웃</span>
                 </a>
-                <a href="/user/join" class="link">
+                <a hidden href="/user/join" class="link" id="join">
                     <span class="text">회원가입</span>
                 </a>
-                <a href="/user/myinfo" class="link">
+                <a hidden href="/user/myinfo" class="link" id="myPage">
                     <span class="text">마이페이지</span>
                 </a>
-                <a href="/admin/reservationStatus?region=seoul" class="link">
+                <a hidden href="/admin/reservationStatus?region=seoul" class="link" id="adminPage">
                     <span class="text">관리자페이지</span>
                 </a>
             </div>
@@ -41,30 +43,6 @@
         </div>
     </div>
 </th:block>
-
-<script>
-    function checkCookie(cookieName) {
-        var cookies = document.cookie.split(';');
-        for (var i = 0; i < cookies.length; i++) {
-            var cookie = cookies[i].trim();
-            if (cookie.indexOf(cookieName + '=') === 0) {
-                return true; // Cookie found
-            }
-        }
-        return false; // Cookie not found
-    }
-
-    window.onload = function() {
-        var cookieName = 'JWT-AUTHENTICATION';
-        var isCookiePresent = checkCookie(cookieName);
-
-        if (isCookiePresent) {
-            console.log(cookieName + ' is present.');
-        } else {
-            console.log(cookieName + ' is not present.');
-        }
-    };
-</script>
 
 </body>
 </html>

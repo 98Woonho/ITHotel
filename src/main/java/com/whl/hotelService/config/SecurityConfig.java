@@ -70,6 +70,8 @@ public class SecurityConfig {
                     logout.logoutSuccessHandler(customLogoutSuccessHandler());
                     // 로그아웃(JWT토큰, 세션 제거)
                     logout.deleteCookies("JSESSIONID", JwtProperties.COOKIE_NAME);
+                    // 테스트 코드(2024-01-18)
+                    logout.deleteCookies("JSESSIONID", JwtProperties.ADMIN_COOKIE_NAME);
                     logout.invalidateHttpSession(true);
                 }
         );

@@ -89,6 +89,17 @@ button {
 
 }
 
+#header > .menu > .subMenu > .userArea > .welcome-message-container {
+    font-size: 0.9rem;
+    font-weight: 400;
+    margin-right: 1rem;
+}
+
+#header > .menu > .subMenu > .userArea > .welcome-message-container > .link.name {
+    color: black;
+    font-weight: 700;
+}
+
 #header > .menu > .subMenu > .userArea > .link > .text {
     padding: 0 0.75rem;
     color: #706958;
@@ -281,4 +292,9 @@ button {
 #searchForm > .label.person .icon {
     height: 1.125rem;
     margin-bottom: 0.25rem;
+}
+
+.admin-left a {
+    color: black;
+    font-weight: 500;
 }
