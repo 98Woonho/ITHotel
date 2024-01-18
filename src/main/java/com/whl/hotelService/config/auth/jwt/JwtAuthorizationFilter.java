@@ -35,7 +35,6 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             HttpServletResponse response,
             FilterChain chain
     ) throws ServletException, IOException {
-        System.out.println("[JWTAUTHORIZATIONFILTER] doFilterInternal...");
 
         String token = null;
         try {

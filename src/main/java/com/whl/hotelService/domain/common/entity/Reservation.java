@@ -17,6 +17,7 @@ import java.util.Date;
 @Table(name="reservation")
 public class Reservation {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
@@ -24,11 +25,11 @@ public class Reservation {
     private Hotel hotelName; // 호텔 정보
 
     @ManyToOne
-    @JoinColumn(name="room_id", foreignKey = @ForeignKey(name="fk_reservation_hotel_name", foreignKeyDefinition = "FOREIGN KEY(room_id) REFERENCES room(id) ON DELETE CASCADE ON UPDATE CASCADE"), nullable = false)
+    @JoinColumn(name="room_id", foreignKey = @ForeignKey(name="fk_reservation_room_id", foreignKeyDefinition = "FOREIGN KEY(room_id) REFERENCES room(id) ON DELETE CASCADE ON UPDATE CASCADE"), nullable = false)
     private Room roomId; // 객실 정보
 
     @ManyToOne
-    @JoinColumn(name="user_id", foreignKey = @ForeignKey(name="fk_reservation_hotel_name", foreignKeyDefinition = "FOREIGN KEY(user_id) REFERENCES user(user_id) ON DELETE CASCADE ON UPDATE CASCADE"), nullable = false)
+    @JoinColumn(name="user_id", foreignKey = @ForeignKey(name="fk_reservation_user_id", foreignKeyDefinition = "FOREIGN KEY(user_id) REFERENCES user(user_id) ON DELETE CASCADE ON UPDATE CASCADE"), nullable = false)
     private User user_id; // 사용자 정보
 
     @Column(nullable = false)

@@ -17,6 +17,7 @@ import java.util.Date;
 @Table(name="payment")
 public class Payment {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
