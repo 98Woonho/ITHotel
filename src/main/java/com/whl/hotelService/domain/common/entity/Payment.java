@@ -7,7 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,17 +17,19 @@ import java.util.Date;
 @Table(name="payment")
 public class Payment {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name="reservation_id", foreignKey = @ForeignKey(name="fk_Payment_reservation_id", foreignKeyDefinition = "FOREIGN KEY(reservation_id) REFERENCES reservation(id) ON DELETE CASCADE ON UPDATE CASCADE"), nullable = false)
+    @JoinColumn(name="reservation_id", foreignKey = @ForeignKey(name="fk_payment_reservation_id", foreignKeyDefinition = "FOREIGN KEY(reservation_id) REFERENCES reservation(id) ON DELETE CASCADE ON UPDATE CASCADE"), nullable = false)
 
     private Reservation reservation_id; // 예약 정보
 
     @ManyToOne
-    @JoinColumn(name="userid", foreignKey = @ForeignKey(name="fk_Payment_userid", foreignKeyDefinition = "FOREIGN KEY(userid) REFERENCES user(userid) ON DELETE CASCADE ON UPDATE CASCADE"), nullable = false)
+    @JoinColumn(name="user_userid", foreignKey = @ForeignKey(name="fk_payment_user_userid", foreignKeyDefinition = "FOREIGN KEY(user_userid) REFERENCES user(userid) ON DELETE CASCADE ON UPDATE CASCADE"), nullable = false)
     private User userid; // 사용자 정보
 
+    // 결제 정보
     @Column(nullable = false)
     private String imp_uid;
     @Column(nullable = false)
@@ -38,6 +40,8 @@ public class Payment {
     private String paid_amount;
     @Column(nullable = false)
     private String status;
+
+    // 결제 날짜
     @Column(nullable = false ,columnDefinition = "DATETIME(6)")
-    private Date payDate;
+    private LocalDateTime payDate;
 }
