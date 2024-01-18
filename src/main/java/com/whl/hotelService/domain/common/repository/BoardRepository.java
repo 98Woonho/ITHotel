@@ -16,7 +16,7 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
     @Query("SELECT b FROM Board b " +
             "WHERE (:type = 'T' AND b.title LIKE CONCAT('%', :keyword, '%')) " +
             "   OR (:type = 'C' AND b.content like concat('%', :keyword, '%'))" +
-            "   OR (:type = 'W' AND b.user.user_id LIKE CONCAT('%', :keyword, '%'))" +
+            "   OR (:type = 'W' AND b.user.userid LIKE CONCAT('%', :keyword, '%'))" +
             "ORDER BY b.createdTime asc")
     Page<Board> searchBoards(@Param("keyword") String keyword, @Param("type") String type, Pageable pageable);
 

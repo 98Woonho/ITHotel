@@ -66,7 +66,7 @@ public class BoardController {
 
         Map<String,Object> results =  boardService.boardList_re(pageable);
         Page<Board> boards =  (Page<Board>)results.get("boards");
-        Page<Comment>  comments=  (Page<Comment>)results.get("comments");
+        Page<Comment>  comments =  (Page<Comment>)results.get("comments");
         if (keyword == null){
             model.addAttribute("boardList", boardList);
             model.addAttribute("comments", comments);
