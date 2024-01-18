@@ -44,8 +44,22 @@
         </form>
     </div>
 </div>
-<div class="card my-4" th:if="${comments.size()} != 0">
-    <h5 class="card-header">Comments:</h5>
+<!-- 댓글 쓰기-->
+<div class="card my-4">
+    <h5 class="card-header">댓글 쓰기</h5>
+    <div class="card-body">
+        <form th:action="@{/board/{id}/comment(id=${id})}" th:method="post">
+            <div class="form-group" style="margin-bottom: 10px;">
+                <input type="hidden" name="idx" th:value="*{idx}" />
+                <textarea name="content" class="form-control" rows="3"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+</div>
+<!-- 댓글 화면-->
+<div class="card my-4">
+    <h5 class="card-header">댓글</h5>
     <div class="card-body">
         <div th:each="comment : ${comments}">
             <div class="media mb-4">
@@ -53,7 +67,8 @@
                     <h5 class="mt-0" th:text="${comment.getUsername()}">작성자</h5>
                     <p th:text="${comment.getContent()}" th:id="'comment-' + ${comment.getId()}">댓글 내용</p>
                     <small class="text-muted" th:text="${#temporals.format(comment.getCreatedTime(), 'yyyy-MM-dd HH:mm')}">댓글 작성 시간</small>
-                    <div th:if="${comment.getUsername() == #authentication.getPrincipal()}">
+<!--                    <div th:if="${comment.getUsername() == #authentication.principal instanceof T(org.springframework.security.core.userdetails.UserDetails)#authentication.principal.username}">-->
+                    <div>
                         <button class="btn btn-sm btn-outline-warning" th:attr="data-id=${comment.getId()}" onclick="editComment(this)">수정</button>
                         <a th:href="@{/board/{id}/comment/{commentId}/remove(id=${id}, commentId=${comment.getId()})}" class="btn btn-sm btn-outline-danger" onclick="return confirm('Delete this comment?')">삭제</a>
                     </div>

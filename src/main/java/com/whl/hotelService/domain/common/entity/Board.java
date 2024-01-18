@@ -17,13 +17,16 @@ import java.util.List;
 public class Board extends BaseEntity {
     @Id //PrimaryKey 지정
     @GeneratedValue(strategy = GenerationType.IDENTITY) // auto_increment
+    @Column(name = "board_id")
     private Long id;
     @Column(length = 20, nullable = false)
     private String title; //제목
     @Column(length = 500, nullable = false)
     private String content; // 내용
-    private String type; //검색타입
-    @ManyToOne
+    @OneToMany
+    @JoinColumn(name = "comment_id")
+    private List<Comment> comment;
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 

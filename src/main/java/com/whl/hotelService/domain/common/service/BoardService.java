@@ -2,6 +2,7 @@ package com.whl.hotelService.domain.common.service;
 
 import com.whl.hotelService.domain.common.dto.BoardResponseDto;
 import com.whl.hotelService.domain.common.dto.BoardWriteRequestDto;
+import com.whl.hotelService.domain.common.entity.Comment;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -14,5 +15,6 @@ public interface BoardService {
     public Long boardUpdate(Long id, BoardWriteRequestDto boardWriteRequestDto);
     public void boardRemove(Long id);
 
-    Page<BoardResponseDto> searchingBoardList(String keyword, Pageable pageable);
+    Page<BoardResponseDto> searchingBoardList(String keyword, String type, Pageable pageable);
+
 }

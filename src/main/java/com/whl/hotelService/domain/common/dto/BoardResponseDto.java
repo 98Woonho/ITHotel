@@ -1,11 +1,13 @@
 package com.whl.hotelService.domain.common.dto;
 
 import com.whl.hotelService.domain.common.entity.Board;
+import com.whl.hotelService.domain.common.entity.Comment;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -18,8 +20,6 @@ public class BoardResponseDto {
     private String username;
     private String email;
 
-    //검색 타입
-    private String type;
 
 
 
@@ -32,6 +32,5 @@ public class BoardResponseDto {
         this.updatedTime = board.getUpdatedTime();
         this.username = board.getUser().getUser_id();
         this.email = board.getUser().getEmail();
-        this.type = board.getType();
     }
 }
