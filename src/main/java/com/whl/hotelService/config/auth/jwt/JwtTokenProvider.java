@@ -47,7 +47,6 @@ public class JwtTokenProvider {
 
             byte [] keyByte =  rs.getBytes("signature");                 //DB로 서명Key꺼내옴
             this.key = Keys.hmacShaKeyFor(keyByte);                                    //this.key에 저장
-            System.out.println("[JwtTokenProvider] Key : " + this.key );
         }
         else {
             byte[] keyBytes = KeyGenerator.getKeygen();     //난수키값 가져오기
@@ -56,7 +55,6 @@ public class JwtTokenProvider {
 
             pstmt.setBytes(1, keyBytes);
             pstmt.executeUpdate();
-            System.out.println("[JwtTokenProvider] Constructor Key init: " + key);
         }
 
     }
@@ -73,7 +71,7 @@ public class JwtTokenProvider {
         UserDto userDto = principalDetails.getUserDto();
 
         // Access Token 생성
-        Date accessTokenExpiresIn = new Date(now + 60*5*1000);    // 60*5 초후 만료
+        Date accessTokenExpiresIn = new Date(now + 86400000);    // 60*5 초후 만료
         String accessToken = Jwts.builder()
                 .setSubject(authentication.getName())
                 .claim("username",authentication.getName())             //정보저장
@@ -93,9 +91,6 @@ public class JwtTokenProvider {
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
 
-        System.out.println("[JwtTokenProvider] generateToken() accessToken : " + accessToken);
-        System.out.println("[JwtTokenProvider] generateToken() refreshToken : " + refreshToken);
-
         return TokenInfo.builder()
                 .grantType("Bearer")
                 .accessToken(accessToken)
@@ -110,7 +105,7 @@ public class JwtTokenProvider {
         long now = (new Date()).getTime();
 
         // Access Token 생성
-        Date accessTokenExpiresIn = new Date(now + 60*5*1000);    // 60*5 초후 만료
+        Date accessTokenExpiresIn = new Date(now + 86400000);    // 60*5 초후 만료
         String accessToken = Jwts.builder()
                 .setSubject(Claimkey+"JWT TOKEN")
                 .claim(Claimkey,isAuth)             //정보저장
@@ -124,9 +119,6 @@ public class JwtTokenProvider {
                 .setExpiration(new Date(now + 86400000))    //1일: 24 * 60 * 60 * 1000 = 86400000
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
-
-//        .out.println("[JwtTokenProvider] generateToken() accessToken : " + accessToken);
-//        .out.println("[JwtTokenProvider] generateToken() refreshToken : " + refreshToken);
 
         return TokenInfo.builder()
                 .grantType("Bearer")
@@ -154,22 +146,19 @@ public class JwtTokenProvider {
         String username = claims.getSubject(); //username
 
         //JWT Added
-        System.out.println("[JWTTOKENPROVIDER] principalDetails  : " + claims.get("principal"));
-
         String provider =  (String)claims.get("provider");
         String password = (String)claims.get("password");
         String auth = (String)claims.get("auth");
         String oauthAccessToken = (String)claims.get("accessToken");
         UserDto userDto = new UserDto();
         userDto.setProvider(provider);
-        userDto.setUser_id(username);
+        userDto.setUserid(username);
         userDto.setPassword(password);
         userDto.setRole(auth);
 
         PrincipalDetails principalDetails = new PrincipalDetails();
         principalDetails.setUserDto(userDto);
         principalDetails.setAccessToken(oauthAccessToken);   //Oauth AccessToken
-        System.out.println("[JWTTOKENPROVIDER] getAuthentication() principalDetails  : " + principalDetails);
 
 
         //JWT + NO REMEMBERME
@@ -194,7 +183,6 @@ public class JwtTokenProvider {
             return true;
         } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
             log.info("Invalid JWT Token", e);
-            return false;
         }
         catch (ExpiredJwtException e) {
             log.info("Expired JWT Token", e);
@@ -203,6 +191,9 @@ public class JwtTokenProvider {
             log.info("Unsupported JWT Token", e);
         } catch (IllegalArgumentException e) {
             log.info("JWT claims string is empty.", e);
+        } catch(Exception etc){
+            log.info("기타예외");
+            return false;
         }
         return false;
     }

@@ -27,38 +27,23 @@ public class PrincipalDetailsOAuth2Service extends DefaultOAuth2UserService {
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
-        System.out.println("[PrincipalDetailsOAuth2Service] loadUser() userRequest : "+userRequest);
-        System.out.println("[PrincipalDetailsOAuth2Service] loadUser() userRequest.getClientRegistration() : "+userRequest.getClientRegistration());
-        System.out.println("[PrincipalDetailsOAuth2Service] loadUser() userRequest.getAccessToken() : "+userRequest.getAccessToken());
-        System.out.println("[PrincipalDetailsOAuth2Service] loadUser() userRequest.getAdditionalParameters() : "+userRequest.getAdditionalParameters());
-        System.out.println("[PrincipalDetailsOAuth2Service] loadUser() userRequest.getAccessToken().getTokenValue() : "+userRequest.getAccessToken().getTokenValue());
-        System.out.println("[PrincipalDetailsOAuth2Service] loadUser() userRequest.getAccessToken().getTokenType().getValue() : "+userRequest.getAccessToken().getTokenType().getValue());
-        System.out.println("[PrincipalDetailsOAuth2Service] loadUser() userRequest.getAccessToken().getAccessToken().getScopes() : "+userRequest.getAccessToken().getScopes());
-
         //Attribute확인
         OAuth2User oAuth2User = super.loadUser(userRequest);
-        System.out.println("[PrincipalDetailsOAuth2Service] loadUser() oAuth2User : " + oAuth2User);
-        System.out.println("[PrincipalDetailsOAuth2Service] loadUser() oAuth2User.getAttributes() : " + oAuth2User.getAttributes());
 
         //OAuth Server Provider 구별
         String provider = userRequest.getClientRegistration().getRegistrationId();
-        System.out.println("[PrincipalDetailsOAuth2Service] loadUser() provider : " + provider);
 
         OAuth2UserInfo oAuth2UserInfo = null;
 
         if(provider!=null&&provider.equals("kakao")){
             String id = oAuth2User.getAttributes().get("id").toString();
             KakaoUserInfo kakaoUserInfo = new KakaoUserInfo(id, oAuth2User.getAttributes());
-            System.out.println("[PrincipalDetailsOAuth2Service] loadUser() kakaoUserInfo : " + kakaoUserInfo );
             oAuth2UserInfo = kakaoUserInfo;
-        }else if(provider!=null&&provider.equals("google")){
-            String id = (String)oAuth2User.getAttributes().get("sub");
+        }else if(provider!=null&&provider.equals("google")) {
+            String id = (String) oAuth2User.getAttributes().get("sub");
             GoogleUserInfo googleUserInfo = new GoogleUserInfo(id, oAuth2User.getAttributes());
             oAuth2UserInfo = googleUserInfo;
         }
-
-        System.out.println("[PrincipalDetailsOAuth2Service] loadUser() oAuth2UserInfo : " + oAuth2UserInfo);
-
 
         //Db조회
         String username = oAuth2UserInfo.getProvider()+"_"+oAuth2UserInfo.getProvider_id();
@@ -68,7 +53,7 @@ public class PrincipalDetailsOAuth2Service extends DefaultOAuth2UserService {
         UserDto dto = null;
         if(optional.isEmpty()){
             User user = User.builder()
-                    .user_id(username)
+                    .userid(username)
                     .password(password)
                     .role("ROLE_USER")
                     .provider(oAuth2UserInfo.getProvider())
@@ -76,11 +61,9 @@ public class PrincipalDetailsOAuth2Service extends DefaultOAuth2UserService {
                     .build();
             userRepository.save(user);
             dto = User.entityToDto(user);
-            System.out.println("[PrincipalDetailsOAuth2Service] loadUser() "+oAuth2UserInfo.getProvider()+" 최초 로그인!");
         }else{
             User user = optional.get();
             dto = User.entityToDto(user);
-            System.out.println("[PrincipalDetailsOAuth2Service] loadUser() "+oAuth2UserInfo.getProvider()+" 기존계정 로그인!");
 
         }
 

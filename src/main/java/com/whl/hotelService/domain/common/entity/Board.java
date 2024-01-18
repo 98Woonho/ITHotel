@@ -23,8 +23,10 @@ public class Board extends BaseEntity {
     private String title; //제목
     @Column(length = 500, nullable = false)
     private String content; // 내용
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+
+    private String type; //검색타입
+    @ManyToOne
+    @JoinColumn(name = "user_userid", foreignKey = @ForeignKey(name="fk_board_user_userid", foreignKeyDefinition = "FOREIGN KEY(user_userid) REFERENCES user(userid) ON DELETE CASCADE ON UPDATE CASCADE"), nullable = false)
     private User user;
 
     public void update(String title, String content){

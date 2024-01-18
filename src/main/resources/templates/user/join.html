@@ -26,7 +26,7 @@
       <div class="join_wrapper">
         <div>
           <label>아이디</label><span th:text="${user_id}" id="id_msg" class="msg"></span> <br/>
-          <input name="user_id" id="user_id" placeholder="아이디"/> <button type="button" class="btn btn-secondary search_addr_btn" onclick="IdCheck()">중복확인</button> <br/>
+          <input name="userid" id="userid" placeholder="아이디"/> <button type="button" class="btn btn-secondary search_addr_btn" onclick="IdCheck()">중복확인</button> <br/>
         </div>
         <div>
           <label>비밀번호</label><span th:text="${password}" id="pw_msg" class="msg"></span> <br/>
@@ -45,13 +45,13 @@
           <label>이메일</label><span th:text="${email}" id="email_msg" class="msg"></span> <br/>
           <input name="email" type="email" placeholder="이메일" /> <button type="button" class="btn btn-secondary search_addr_btn" onclick="SendEmail()">인증</button> <br/>
         </div>
-        <div>
-          <label>전화번호</label><span th:text="${phone}" id="phone_msg" class="msg"></span> <br/>
-          <input name="phone" type="phone" placeholder="-제외한 전화번호" /><br/>
-        </div>
         <div class="code" style="display:none;">
           <label>인증코드</label><span id="code_msg" class="msg"></span> <br/>
           <input name="emailCode" placeholder="인증코드입력"> <button name="email_btn" class="btn btn-secondary search_addr_btn" type="button" onclick="ConfirmEmail()">확인</button> <br/>
+        </div>
+        <div>
+          <label>전화번호</label><span th:text="${phone}" id="phone_msg" class="msg"></span> <br/>
+          <input name="phone" type="phone" placeholder="-제외한 전화번호" /><br/>
         </div>
         <div>
           <label>우편번호</label><span th:text="${zipcode}" class="msg"></span> <br/>
@@ -81,11 +81,11 @@
 
 <script>
   const IdCheck = function(){
-    const user_id = document.joinform.user_id.value;
+    const user_id = document.joinform.userid.value;
     const id_msg = document.querySelector('#id_msg');
     let regexpId = new RegExp("^[A-Za-z0-9]{6,16}$");
     if(regexpId.test(user_id.trim())) {
-      axios.get('/user/ConfirmId?user_id=' + user_id)
+      axios.get('/user/ConfirmId?id=' + user_id)
               .then(res => {
                 console.log(res);
                 if (res.data.success) {

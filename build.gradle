@@ -67,6 +67,9 @@ dependencies {
 	//VALIDATOR
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 
+	//임시비밀번호
+	implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.12.0'
+
 	//TEST
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
