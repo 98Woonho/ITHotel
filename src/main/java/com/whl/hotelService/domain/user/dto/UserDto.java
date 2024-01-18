@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 public class UserDto {
 
     @NotEmpty(message = "아이디를 입력하세요")
-    private String user_id;
+    private String userid;
 
     @NotEmpty(message = "비밀번호를 입력하세요")
     private String password;

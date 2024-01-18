@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!--  cdns  -->
+    <th:block th:insert="~{fragments/link.html :: link_fragment}"></th:block>
+
+    <!--    common.css  -->
+    <link rel="stylesheet" href="/css/common.css">
+    <!--    login.css  -->
+    <link rel="stylesheet" href="/css/login.css">
+    <title>비밀번호 찾기</title>
+</head>
+<body>
+<div class="findPw_wrapper">
+    <div>
+        <label>아이디</label> <br/>
+        <input name="id" id="id" placeholder="아이디"> <br/>
+    </div>
+    <div>
+        <label>이름</label> <br/>
+        <input name="name" id="name" placeholder="이름"> <br/>
+    </div>
+    <div>
+        <label>이메일</label> <span id="email_msg"></span> <br/>
+        <input name="email" id="email" placeholder="회원가입시 등록한 이메일"> <button type="button" onclick="SendEmail()">인증</button><br/>
+    </div>
+    <div class="code" style="display:none;">
+        <label>인증코드</label> <span id="code_msg"></span> <br/>
+        <input name="emailCode" id="emailCode" placeholder="인증코드"> <br/>
+    </div>
+    <div>
+        <button type="button" onclick="isValid()">아이디 찾기</button>
+    </div>
+</div>
+
+<!-- axios -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js" integrity="sha512-uMtXmF28A2Ab/JJO2t/vYhlaa/3ahUOgj1Zf27M5rOo8/+fcTUVH0/E0ll68njmjrLqOBjXM3V9NiPFL5ywWPQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+<script>
+    const isValid = function(){
+        const id = document.querySelector('#id').value;
+        const name = document.querySelector('#name').value;
+        const email = document.querySelector('#email').value;
+        const code = document.querySelector('#emailCode').value;
+        if(id === ""){
+            alert('아이디를 입력하세요');
+            return ;
+        } else if(name === ""){
+            alert('이름을 입력하세요');
+            return ;
+        } else if(email === "") {
+            alert('이메일을 입력하세요');
+            return;
+        }
+        axios.get('/user/confirmEmail?email='+email+"&code="+code)
+            .then( res => {
+                console.log(res);
+                if(code === ""){
+                    alert('이메일 인증이 필요합니다.');
+                    return ;
+                }
+                axios.get('/user/sendPw?confirm=' + res.data.success + '&email=' + email)
+                    .then(res => {
+                        console.log(res);
+                        alert(res.data.message);
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    })
+            })
+            .catch( err => { console.log(err); })
+    }
+    const EmailCheck = () => {
+        const name = document.querySelector('#name').value;
+        const email = document.querySelector('#email').value;
+        let regexEmail = new RegExp("^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$");
+        const email_msg = document.querySelector('#email_msg');
+        axios.get('/user/existPw?name=' + name + '&email=' + email)
+            .then(res => {
+                console.log(res);
+                if(res.data.success){
+                    email_msg.style.color = 'green';
+                    email_msg.innerHTML = res.data.message;
+                    return true;
+                } else {
+                    email_msg.style.color = 'orange';
+                    email_msg.innerHTML = res.data.message;
+                    return false;
+                }
+            })
+            .catch( err => {console.log(err);})
+        if(!regexEmail.test(email.trim())){
+            email_msg.textContent = "이메일 형식으로 작성해야 합니다.";
+            email_msg.style.color = 'orange';
+            return false;
+        }
+    }
+
+    const SendEmail = function(){
+        const email = document.querySelector('#email').value;
+        const email_msg = document.querySelector('#email_msg');
+        if(EmailCheck){
+            email_msg.style.color = 'green';
+            axios.get('/user/sendEmail/' + email)
+                .then(res => {
+                    console.log(res);
+                    document.querySelector('.code').style.display = 'block';
+                })
+                .catch( err => {console.log(err);} )
+        }
+    }
+</script>
+</body>
+</html>

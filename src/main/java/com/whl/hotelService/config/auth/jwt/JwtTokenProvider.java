@@ -120,9 +120,6 @@ public class JwtTokenProvider {
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
 
-//        .out.println("[JwtTokenProvider] generateToken() accessToken : " + accessToken);
-//        .out.println("[JwtTokenProvider] generateToken() refreshToken : " + refreshToken);
-
         return TokenInfo.builder()
                 .grantType("Bearer")
                 .accessToken(accessToken)
@@ -149,14 +146,13 @@ public class JwtTokenProvider {
         String username = claims.getSubject(); //username
 
         //JWT Added
-
         String provider =  (String)claims.get("provider");
         String password = (String)claims.get("password");
         String auth = (String)claims.get("auth");
         String oauthAccessToken = (String)claims.get("accessToken");
         UserDto userDto = new UserDto();
         userDto.setProvider(provider);
-        userDto.setUser_id(username);
+        userDto.setUserid(username);
         userDto.setPassword(password);
         userDto.setRole(auth);
 
@@ -187,7 +183,6 @@ public class JwtTokenProvider {
             return true;
         } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
             log.info("Invalid JWT Token", e);
-            return false;
         }
         catch (ExpiredJwtException e) {
             log.info("Expired JWT Token", e);
@@ -196,6 +191,9 @@ public class JwtTokenProvider {
             log.info("Unsupported JWT Token", e);
         } catch (IllegalArgumentException e) {
             log.info("JWT claims string is empty.", e);
+        } catch(Exception etc){
+            log.info("기타예외");
+            return false;
         }
         return false;
     }

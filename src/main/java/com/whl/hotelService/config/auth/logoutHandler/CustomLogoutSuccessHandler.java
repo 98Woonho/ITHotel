@@ -4,6 +4,7 @@ import com.whl.hotelService.config.auth.PrincipalDetails;
 import com.whl.hotelService.config.auth.jwt.JwtProperties;
 import com.whl.hotelService.config.auth.jwt.JwtTokenProvider;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ public class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
     @Value("${spring.security.oauth2.client.registration.kakao.client-id}")
     private String kakaoClientId;
 
-    private final String REDIRECT_URI="http://localhost:8080/home/homepage";
+    private final String REDIRECT_URI="http://localhost:8080/";
 
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
@@ -49,6 +50,6 @@ public class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
             return ;
         }
 
-        response.sendRedirect("/home/homepage");
+        response.sendRedirect("/");
     }
 }

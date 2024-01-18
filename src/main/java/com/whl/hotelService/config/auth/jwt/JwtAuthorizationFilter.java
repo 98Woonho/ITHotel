@@ -61,8 +61,6 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
                 cookie.setMaxAge(0);
                 response.addCookie(cookie);
 
-
-
             }catch(Exception e2){
 
             }
