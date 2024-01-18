@@ -23,9 +23,6 @@ public class Board extends BaseEntity {
     private String title; //제목
     @Column(length = 500, nullable = false)
     private String content; // 내용
-    @OneToMany
-    @JoinColumn(name = "comment_id")
-    private List<Comment> comment;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;

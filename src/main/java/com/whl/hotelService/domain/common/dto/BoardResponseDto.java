@@ -19,6 +19,7 @@ public class BoardResponseDto {
     private LocalDateTime updatedTime;
     private String username;
     private String email;
+//    private boolean isComments;
 
 
 
@@ -32,5 +33,6 @@ public class BoardResponseDto {
         this.updatedTime = board.getUpdatedTime();
         this.username = board.getUser().getUser_id();
         this.email = board.getUser().getEmail();
+//        this.isComments = board.getComments();
     }
 }

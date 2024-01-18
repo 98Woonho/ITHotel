@@ -5,6 +5,7 @@ import com.whl.hotelService.domain.common.dto.BoardWriteRequestDto;
 import com.whl.hotelService.domain.common.entity.Board;
 import com.whl.hotelService.domain.common.entity.Comment;
 import com.whl.hotelService.domain.common.repository.BoardRepository;
+import com.whl.hotelService.domain.common.repository.CommentRepository;
 import com.whl.hotelService.domain.user.entity.User;
 import com.whl.hotelService.domain.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 // DTO -> Entity변환 작업은 (Entity class)컨트롤러가 서비스로 데이터를 넘겨줄 땐 DTO 객체를 반환해야함 반대로 서비스에서 컨트롤러에 데이터를 넘겨줄 땐 DTO 객체를 반환
 // Entity -> DTO변환 작업은 (DTO class)서비스가 레파지토리로 데이터를 넘겨줄 땐 Entity 객체를 반환해야함 반대로 레파지토리에서 서비스로 데이터를 넘겨줄때도 Enitiy 객체를 반환
@@ -26,6 +25,9 @@ public class BoardServiceImpl implements BoardService {
     private BoardRepository boardRepository;
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private CommentRepository commentRepository;
 
     @Override
     public Long saveBoard(BoardWriteRequestDto boardWriteRequestDto, String id) {
@@ -51,11 +53,21 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public Page<BoardResponseDto> boardList(Pageable pageable) {
+    public  Page<BoardResponseDto> boardList(Pageable pageable) {
         Page<Board> boards = boardRepository.findAll(pageable);
+        Page<Comment> comments  = commentRepository.findAll(pageable);
         return getBoardResponseDtos(pageable, boards);
     }
+    @Override
+    public Map<String,Object> boardList_re(Pageable pageable) {
+        Page<Board> boards = boardRepository.findAll(pageable);
+        Page<Comment> comments  = commentRepository.findAll(pageable);
+        Map<String,Object> result = new HashMap();
+        result.put("boards",boards);
+        result.put("comments",comments);
 
+        return result;
+    }
     @Override
     public Long boardUpdate(Long id, BoardWriteRequestDto boardWriteRequestDto) {
         Board board = boardRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시글입니다."));

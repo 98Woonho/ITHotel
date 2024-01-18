@@ -4,6 +4,7 @@ package com.whl.hotelService.controller;
 import com.whl.hotelService.domain.common.dto.BoardResponseDto;
 import com.whl.hotelService.domain.common.dto.BoardWriteRequestDto;
 import com.whl.hotelService.domain.common.dto.CommentResponseDto;
+import com.whl.hotelService.domain.common.entity.Board;
 import com.whl.hotelService.domain.common.entity.Comment;
 import com.whl.hotelService.domain.common.service.BoardServiceImpl;
 import com.whl.hotelService.domain.common.service.CommentServiceImpl;
@@ -20,6 +21,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Controller
@@ -58,10 +60,16 @@ public class BoardController {
     @GetMapping("/list") // 게시판 전체 조회 + paging 처리 + 검색처리
     public String boardList(Model model, @PageableDefault(page = 0, size = 10, sort = "id",
             direction = Sort.Direction.ASC)Pageable pageable, String keyword, String type){
+        System.out.println(pageable);
         Page<BoardResponseDto> boardList = boardService.boardList(pageable);
         Page<BoardResponseDto> boardSerchList = boardService.searchingBoardList(keyword, type, pageable);
+
+        Map<String,Object> results =  boardService.boardList_re(pageable);
+        Page<Board> boards =  (Page<Board>)results.get("boards");
+        Page<Comment>  comments=  (Page<Comment>)results.get("comments");
         if (keyword == null){
             model.addAttribute("boardList", boardList);
+            model.addAttribute("comments", comments);
         } else {
             model.addAttribute("boardList", boardSerchList);
         }

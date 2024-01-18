@@ -23,6 +23,8 @@ public class Comment extends BaseEntity {
     @Column(nullable = false)
     private String content;
 
+//    private boolean isComments;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id")
     private Board board;
