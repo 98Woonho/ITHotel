@@ -1,4 +1,6 @@
 const userArea = document.querySelector('.userArea');
+const hotelArea = document.querySelector('.hotelArea');
+
 
 // function checkCookie(cookieName) {
 //     var cookies = document.cookie.split(';');
@@ -11,7 +13,7 @@ const userArea = document.querySelector('.userArea');
 //     return false; // Cookie not found
 // }
 
-window.onload = function () {
+window.onload = function (qualifiedName, value) {
     // var cookieName = 'JWT-AUTHENTICATION-ADMIN';
     // var isCookiePresentJwtAdmin = checkCookie(cookieName);
 
@@ -22,6 +24,7 @@ window.onload = function () {
         if (cookie.indexOf('JWT-AUTHENTICATION-ADMIN=') === 0) {
             userArea.querySelector('#logout').removeAttribute('hidden');
             userArea.querySelector('#adminPage').removeAttribute('hidden');
+            hotelArea.querySelector('#customerInquiry').setAttribute('hidden', '');
         }
         else if (cookie.indexOf('JWT-AUTHENTICATION=') === 0) {
             userArea.querySelector('#logout').removeAttribute('hidden');
