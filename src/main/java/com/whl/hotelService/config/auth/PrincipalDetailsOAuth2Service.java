@@ -53,7 +53,7 @@ public class PrincipalDetailsOAuth2Service extends DefaultOAuth2UserService {
         UserDto dto = null;
         if(optional.isEmpty()){
             User user = User.builder()
-                    .id(username)
+                    .userid(username)
                     .password(password)
                     .role("ROLE_USER")
                     .provider(oAuth2UserInfo.getProvider())

@@ -73,7 +73,7 @@ public class JwtTokenProvider {
         UserDto userDto = principalDetails.getUserDto();
 
         // Access Token 생성
-        Date accessTokenExpiresIn = new Date(now + 60*5*1000);    // 60*5 초후 만료
+        Date accessTokenExpiresIn = new Date(now + 86400000);    // 60*5 초후 만료
         String accessToken = Jwts.builder()
                 .setSubject(authentication.getName())
                 .claim("username",authentication.getName())             //정보저장
@@ -107,7 +107,7 @@ public class JwtTokenProvider {
         long now = (new Date()).getTime();
 
         // Access Token 생성
-        Date accessTokenExpiresIn = new Date(now + 60*5*1000);    // 60*5 초후 만료
+        Date accessTokenExpiresIn = new Date(now + 86400000);    // 60*5 초후 만료
         String accessToken = Jwts.builder()
                 .setSubject(Claimkey+"JWT TOKEN")
                 .claim(Claimkey,isAuth)             //정보저장
@@ -154,7 +154,7 @@ public class JwtTokenProvider {
         String oauthAccessToken = (String)claims.get("accessToken");
         UserDto userDto = new UserDto();
         userDto.setProvider(provider);
-        userDto.setId(username);
+        userDto.setUserid(username);
         userDto.setPassword(password);
         userDto.setRole(auth);
 

@@ -25,8 +25,8 @@ public class Payment {
     private Reservation reservation_id; // 예약 정보
 
     @ManyToOne
-    @JoinColumn(name="user_id", foreignKey = @ForeignKey(name="fk_Payment_user_id", foreignKeyDefinition = "FOREIGN KEY(user_id) REFERENCES user(user_id) ON DELETE CASCADE ON UPDATE CASCADE"), nullable = false)
-    private User user_id; // 사용자 정보
+    @JoinColumn(name="userid", foreignKey = @ForeignKey(name="fk_Payment_userid", foreignKeyDefinition = "FOREIGN KEY(userid) REFERENCES user(userid) ON DELETE CASCADE ON UPDATE CASCADE"), nullable = false)
+    private User userid; // 사용자 정보
 
     @Column(nullable = false)
     private String imp_uid;
