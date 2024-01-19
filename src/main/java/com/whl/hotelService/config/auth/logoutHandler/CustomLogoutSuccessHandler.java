@@ -43,11 +43,15 @@ public class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
         if (provider != null && provider.equals("kakao")) {
             String url = "https://kauth.kakao.com/oauth/logout?client_id=" + kakaoClientId + "&logout_redirect_uri=" + REDIRECT_URI;
             response.sendRedirect(url);
+<<<<<<< HEAD
             return;
         } else if (provider != null && provider.equals("google")) {
             String url = "http://accounts.google.com/Logout";
             response.sendRedirect(url);
             return;
+=======
+            return ;
+>>>>>>> develop
         }
 
         response.sendRedirect("/");

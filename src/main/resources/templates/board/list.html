@@ -6,7 +6,7 @@
 
     <link rel="stylesheet" href="/css/common.css">
     <link rel="stylesheet" href="/css/board/list.css">
-    <th:block th:insert="~{/fragments/fragments.html :: headCdns}"></th:block>
+    <th:block th:insert="~{/fragments/link.html :: link_fragment}"></th:block>
     <script defer src="/js/board/list.js"></script>
 </head>
 <body>
@@ -15,9 +15,14 @@
     <th:block th:insert="~{fragments/header.html :: header_fragment}"></th:block>
 </header>
 
-<h2 style="margin: 20px">게시판</h2>
+<h2 style="margin: 20px">관리자 게시판</h2>
 <form class="row g-3 d-flex justify-content-end" method="get" th:action="@{/board/list}">
     <div class="col-auto">
+        <select name="type">
+            <option value='T'>제목별</option>
+            <option value='C'>내용</option>
+            <option value='W'>작성자별</option>
+        </select>
         <label for="searchText" class="visually-hidden">검색</label>
         <input type="text" class="form-control" id="searchText" name="keyword" placeholder="검색">
     </div>
@@ -32,13 +37,14 @@
     <thead>
     <tr>
         <th>번호</th>
-        <th class="ten wide">글제목</th>
-        <th class="two wide">작성자</th>
-        <th class="three wide">작성일</th>
+        <th>글제목</th>
+        <th>작성자</th>
+        <th>작성일</th>
+        <th>댓글작성여부</th>
     </tr>
     </thead>
     <tbody>
-    <!-- CONTENTS !-->
+    <!-- 댓글 !-->
     <tr th:each="board : ${boardList}">
         <td>
             <span th:text="${board.id}"></span>
@@ -54,9 +60,18 @@
         <td>
             <span th:text="${#temporals.format(board.createdTime, 'yyyy-MM-dd HH:mm:ss')}"></span>
         </td>
+        <td>
+            <th:block th:each="comment: ${commentList}">
+                <th:block th:if="${comment.board.id} == ${board.id}">
+                    <button>답변완료</button>
+                </th:block>
+            </th:block>
+        </td>
     </tr>
     </tbody>
 </table>
+
+<!--페이징 처리-->
 <div th:if="${!boardList.isEmpty()}">
     <ul class="pagination"
         th:with="

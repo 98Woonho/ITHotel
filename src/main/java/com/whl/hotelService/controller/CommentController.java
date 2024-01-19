@@ -2,6 +2,7 @@ package com.whl.hotelService.controller;
 
 import com.whl.hotelService.domain.common.dto.CommentRequestDto;
 import com.whl.hotelService.domain.common.service.CommentService;
+import com.whl.hotelService.domain.common.service.CommentServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class CommentController {
     @Autowired
-    private CommentService commentService;
+    private CommentServiceImpl commentService;
 
     //    댓글 작성
     @PostMapping("/board/{id}/comment")

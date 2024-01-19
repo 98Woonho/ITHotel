@@ -26,8 +26,9 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
 
         PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
 
-        TokenInfo tokenInfo = jwtTokenProvider.generateToken(authentication);
+        System.out.println(jwtTokenProvider.getAuthentication(((PrincipalDetails) authentication.getPrincipal()).getAccessToken()));
 
+        TokenInfo tokenInfo = jwtTokenProvider.generateToken(authentication);
 
         // 쿠키 생성
         Cookie cookie = new Cookie(JwtProperties.COOKIE_NAME, tokenInfo.getAccessToken());
