@@ -4,15 +4,12 @@ package com.whl.hotelService.controller;
 import com.whl.hotelService.domain.common.dto.BoardResponseDto;
 import com.whl.hotelService.domain.common.dto.BoardWriteRequestDto;
 import com.whl.hotelService.domain.common.dto.CommentResponseDto;
-import com.whl.hotelService.domain.common.entity.Board;
-import com.whl.hotelService.domain.common.entity.Comment;
 import com.whl.hotelService.domain.common.service.BoardServiceImpl;
 import com.whl.hotelService.domain.common.service.CommentServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,7 +18,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @Controller
@@ -32,18 +28,31 @@ public class BoardController {
     @Autowired
     private CommentServiceImpl commentService;
 
-    @GetMapping("/write")
-    public String writeForm(){
-        return "board/write";
+    @GetMapping("/userWrite")
+    public String writeForm()  {
+        return "board/userWrite";
+    }
+
+    @GetMapping("adminWrite")
+    public String noticeWriteForm(){
+        return "board/adminWrite";
     }
 
 
-    @PostMapping("/write") // 게시판 글쓰기 로그인된 유저만 글을 쓸수 있음
+    @PostMapping("/userWrite") // 게시판 글쓰기 로그인된 유저만 글을 쓸수 있음
     public String write(BoardWriteRequestDto boardWriteRequestDto, Authentication authentication) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         boardService.saveBoard(boardWriteRequestDto, userDetails.getUsername());
 
-        return "redirect:/board/list";
+        return "redirect:/board/adminList";
+    }
+
+    @PostMapping("/adminWrite") // 게시판 글쓰기 로그인된 유저만 글을 쓸수 있음
+    public String adminWrite(BoardWriteRequestDto boardWriteRequestDto, Authentication authentication) {
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        boardService.saveBoard(boardWriteRequestDto, userDetails.getUsername());
+
+        return "redirect:/board/userList";
     }
 
     @GetMapping("/{id}") // 게시판 조회
@@ -57,9 +66,9 @@ public class BoardController {
         return "board/detail";
     }
 
-    @GetMapping("/list") // 게시판 전체 조회 + paging 처리 + 검색처리 + 답변완료 처리
-    public String boardList(Model model, @PageableDefault(page = 0, size = 10, sort = "id")Pageable pageable, String keyword, String type){
-        System.out.println(pageable);
+    @GetMapping("/adminList") // 게시판 전체 조회 + paging 처리 + 검색처리 + 답변완료 처리
+    public String adminBoardList(Model model, @PageableDefault(page = 0, size = 10, sort = "id")Pageable pageable, String keyword, String type){
+
         Page<BoardResponseDto> boardList = boardService.boardList(pageable);
         Page<BoardResponseDto> boardSerchList = boardService.searchingBoardList(keyword, type, pageable);
         Page<CommentResponseDto> commentList = boardService.commentList(pageable);
@@ -70,7 +79,20 @@ public class BoardController {
             model.addAttribute("boardList", boardSerchList);
             model.addAttribute("commentList", commentList);
         }
-        return "board/list";
+        return "board/adminList";
+    }
+
+    @GetMapping("/userList") // 게시판 전체 조회 + paging 처리 + 검색처리
+    public String boardList(Model model, @PageableDefault(page = 0, size = 10, sort = "id")Pageable pageable, String keyword, String type){
+
+        Page<BoardResponseDto> boardList = boardService.boardList(pageable);
+        Page<BoardResponseDto> boardSerchList = boardService.searchingBoardList(keyword, type, pageable);
+        if (keyword == null){
+            model.addAttribute("boardList", boardList);
+        } else {
+            model.addAttribute("boardList", boardSerchList);
+        }
+        return "board/userList";
     }
 
     @GetMapping("/{id}/update") // 게시판 업데이트화면 이동
