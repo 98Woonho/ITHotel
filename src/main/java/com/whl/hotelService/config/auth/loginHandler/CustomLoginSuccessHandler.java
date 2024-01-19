@@ -36,16 +36,16 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
         cookie.setPath("/");
         response.addCookie(cookie);
 
-        Collection<? extends GrantedAuthority> collection =  authentication.getAuthorities();
-        collection.forEach( (role)->{
-            String role_str =  role.getAuthority();
+        Collection<? extends GrantedAuthority> collection = authentication.getAuthorities();
+        collection.forEach((role) -> {
+            String role_str = role.getAuthority();
 
             try {
                 if (role_str.equals("ROLE_USER"))
                     response.sendRedirect("/");
                 else if (role_str.equals("ROLE_ADMIN"))
                     response.sendRedirect("/");
-            }catch(Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         });
