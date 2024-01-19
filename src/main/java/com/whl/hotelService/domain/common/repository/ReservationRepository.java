@@ -9,6 +9,5 @@ import java.util.List;
 
 @Repository
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
-    @Query("SELECT r FROM Reservation r WHERE MONTH(r.checkin) = 11")
-    List<Reservation> findReservationsInNovember();
+
 }

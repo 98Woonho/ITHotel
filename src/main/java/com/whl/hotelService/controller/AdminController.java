@@ -35,8 +35,6 @@ public class AdminController {
     public void getDeleteHotel() {}
 
     @GetMapping("sales")
-    public void getSales(Model model) {
-        List<Reservation> list = reservationRepository.findReservationsInNovember();
-        model.addAttribute("list", list);
+    public void getSales() {
     }
 }

@@ -1,0 +1,5 @@
+.admin-container > .admin-right > .sales-container {
+    margin-top: 5rem;
+    height: 500px;
+    border: 0.0625rem solid black;
+}
