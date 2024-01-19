@@ -149,6 +149,7 @@ public class JwtTokenProvider {
         String provider =  (String)claims.get("provider");
         String password = (String)claims.get("password");
         String auth = (String)claims.get("auth");
+        String role = (String)claims.get("role");
         String oauthAccessToken = (String)claims.get("accessToken");
         UserDto userDto = new UserDto();
         userDto.setProvider(provider);

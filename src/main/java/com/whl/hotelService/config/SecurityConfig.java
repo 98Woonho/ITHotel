@@ -97,7 +97,7 @@ public class SecurityConfig {
         http.oauth2Login(
                 oauth2 ->{
                     oauth2.loginPage("/user/login");
-                    oauth2.successHandler(new CustomLoginSuccessHandler());
+                    oauth2.successHandler(customLoginSuccessHandler());
                 }
         );
 
@@ -144,7 +144,6 @@ public class SecurityConfig {
     public CustomLoginSuccessHandler customLoginSuccessHandler(){
         return new CustomLoginSuccessHandler();
     }
-
 
     @Bean
     public PasswordEncoder passwordEncoder() {
