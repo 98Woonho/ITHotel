@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -16,29 +16,29 @@
         <span class="spring"></span>
         <div class="subMenu">
             <div class="userArea">
-                <div hidden class="welcome-message-container" id="message">
-                    <a href="/user/myinfo" class="link name">이운호</a>님 환영합니다!
+                <div class="welcome-message-container" sec:authorize="hasRole('ROLE_USER')">
+                    <a href="/user/myinfo" class="link name" th:text="${#authentication.Principal.userDto.name}"></a>님 환영합니다!
                 </div>
-                <a hidden href="/user/login" class="link" id="login">
-                    <span class="text">로그인</span>
-                </a>
-                <a hidden href="/logout" class="link" id="logout">
-                    <span class="text">로그아웃</span>
-                </a>
-                <a hidden href="/user/join" class="link" id="join">
-                    <span class="text">회원가입</span>
-                </a>
-                <a hidden href="/user/myinfo" class="link" id="myPage">
+                <a href="/user/myinfo" class="link" sec:authorize="hasRole('ROLE_USER')">
                     <span class="text">마이페이지</span>
                 </a>
-                <a hidden href="/admin/reservationStatus?region=seoul" class="link" id="adminPage">
+                <a href="/admin/reservationStatus?region=seoul" class="link" sec:authorize="hasRole('ROLE_ADMIN')">
                     <span class="text">관리자페이지</span>
+                </a>
+                <a href="/user/login" class="link" sec:authorize="isAnonymous()">
+                    <span class="text">로그인</span>
+                </a>
+                <a href="/logout" class="link" sec:authorize="isAuthenticated()">
+                    <span class="text">로그아웃</span>
+                </a>
+                <a href="/user/join" class="link" sec:authorize="isAnonymous()">
+                    <span class="text">회원가입</span>
                 </a>
             </div>
             <div class="hotelArea">
-                <a th:href="@{/hotel/find}" class="link" id="hotelFind">호텔 찾기</a>
-                <a th:href="@{/hotel/info}" class="link" id="hotelIntroduction">호텔 소개</a>
-                <a href="#" class="link" id="customerInquiry">고객 문의</a>
+                <a th:href="@{/hotel/find}" class="link">호텔 찾기</a>
+                <a th:href="@{/hotel/info}" class="link">호텔 소개</a>
+                <a href="#" class="link" sec:authorize="hasRole('ROLE_USER') || isAnonymous()">고객 문의</a>
             </div>
         </div>
     </div>

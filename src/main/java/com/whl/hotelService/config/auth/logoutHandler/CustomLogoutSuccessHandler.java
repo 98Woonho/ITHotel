@@ -33,13 +33,7 @@ public class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
         String token = Arrays.stream(request.getCookies())
                 .filter(cookie -> cookie.getName().equals(JwtProperties.COOKIE_NAME)).findFirst()
                 .map(cookie -> cookie.getValue())
-                .orElse(
-                        // 테스트 코드 (2024-01-18)
-                        Arrays.stream(request.getCookies())
-                                .filter(cookie -> cookie.getName().equals(JwtProperties.ADMIN_COOKIE_NAME)).findFirst()
-                                .map(cookie -> cookie.getValue())
-                                .orElse(null)
-                );
+                .orElse(null);
         Authentication authentication = jwtTokenProvider.getAuthentication(token);
 
         PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();

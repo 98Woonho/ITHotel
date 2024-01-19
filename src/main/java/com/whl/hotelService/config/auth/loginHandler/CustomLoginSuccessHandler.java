@@ -28,31 +28,23 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
 
         TokenInfo tokenInfo = jwtTokenProvider.generateToken(authentication);
 
-        // 테스트 코드 (2024-01-18)
-        if (principalDetails.getUserDto().getRole().equals("ROLE_ADMIN")) {
-            Cookie cookie = new Cookie("JWT-AUTHENTICATION-ADMIN", tokenInfo.getAccessToken());
-            cookie.setMaxAge(JwtProperties.EXPIRATION_TIME); // 쿠키의 만료시간 설정
-            cookie.setPath("/");
-            response.addCookie(cookie);
 
-        } else {
-            // 쿠키 생성
-            Cookie cookie = new Cookie(JwtProperties.COOKIE_NAME, tokenInfo.getAccessToken());
-            cookie.setMaxAge(JwtProperties.EXPIRATION_TIME); // 쿠키의 만료시간 설정
-            cookie.setPath("/");
-            response.addCookie(cookie);
-        }
+        // 쿠키 생성
+        Cookie cookie = new Cookie(JwtProperties.COOKIE_NAME, tokenInfo.getAccessToken());
+        cookie.setMaxAge(JwtProperties.EXPIRATION_TIME); // 쿠키의 만료시간 설정
+        cookie.setPath("/");
+        response.addCookie(cookie);
 
-        Collection<? extends GrantedAuthority> collection =  authentication.getAuthorities();
-        collection.forEach( (role)->{
-            String role_str =  role.getAuthority();
+        Collection<? extends GrantedAuthority> collection = authentication.getAuthorities();
+        collection.forEach((role) -> {
+            String role_str = role.getAuthority();
 
             try {
                 if (role_str.equals("ROLE_USER"))
                     response.sendRedirect("/");
                 else if (role_str.equals("ROLE_ADMIN"))
                     response.sendRedirect("/");
-            } catch(Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         });
