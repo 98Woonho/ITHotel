@@ -45,9 +45,7 @@ public class CommentServiceImpl implements CommentService{
         List<Comment> comments = commentRepository.findByBoard(board);
 
         return comments.stream()
-                .map(comment -> CommentResponseDto.builder()
-                        .comment(comment)
-                        .build())
+                .map(comment -> CommentResponseDto.entityToDto(comment, comment.getBoard(), comment.getUser()))
                 .collect(Collectors.toList());
     }
 

@@ -4,6 +4,8 @@ package com.whl.hotelService.controller;
 import com.whl.hotelService.domain.common.dto.BoardResponseDto;
 import com.whl.hotelService.domain.common.dto.BoardWriteRequestDto;
 import com.whl.hotelService.domain.common.dto.CommentResponseDto;
+import com.whl.hotelService.domain.common.entity.Board;
+import com.whl.hotelService.domain.common.entity.Comment;
 import com.whl.hotelService.domain.common.service.BoardServiceImpl;
 import com.whl.hotelService.domain.common.service.CommentServiceImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +21,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Controller
@@ -40,7 +43,7 @@ public class BoardController {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         boardService.saveBoard(boardWriteRequestDto, userDetails.getUsername());
 
-        return "redirect:/";
+        return "redirect:/board/list";
     }
 
     @GetMapping("/{id}") // 게시판 조회
@@ -54,15 +57,18 @@ public class BoardController {
         return "board/detail";
     }
 
-    @GetMapping("/list") // 게시판 전체 조회 + paging 처리 + 검색처리
-    public String boardList(Model model, @PageableDefault(page = 0, size = 10, sort = "id",
-            direction = Sort.Direction.ASC)Pageable pageable, String keyword){
+    @GetMapping("/list") // 게시판 전체 조회 + paging 처리 + 검색처리 + 답변완료 처리
+    public String boardList(Model model, @PageableDefault(page = 0, size = 10, sort = "id")Pageable pageable, String keyword, String type){
+        System.out.println(pageable);
         Page<BoardResponseDto> boardList = boardService.boardList(pageable);
-        Page<BoardResponseDto> boardSerchList = boardService.searchingBoardList(keyword, pageable);
+        Page<BoardResponseDto> boardSerchList = boardService.searchingBoardList(keyword, type, pageable);
+        Page<CommentResponseDto> commentList = boardService.commentList(pageable);
         if (keyword == null){
             model.addAttribute("boardList", boardList);
+            model.addAttribute("commentList", commentList);
         } else {
             model.addAttribute("boardList", boardSerchList);
+            model.addAttribute("commentList", commentList);
         }
         return "board/list";
     }
