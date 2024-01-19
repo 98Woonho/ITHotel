@@ -17,8 +17,7 @@ import java.util.List;
 public class Board extends BaseEntity {
     @Id //PrimaryKey 지정
     @GeneratedValue(strategy = GenerationType.IDENTITY) // auto_increment
-    @Column(name = "board_id")
-    private Long id;
+    private Long boardid;
     @Column(length = 20, nullable = false)
     private String title; //제목
     @Column(length = 500, nullable = false)

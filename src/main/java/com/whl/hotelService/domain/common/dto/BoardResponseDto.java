@@ -25,7 +25,7 @@ public class BoardResponseDto {
 
     @Builder  //Entity를 Dto로 변환해서 리턴
     public BoardResponseDto(Board board) {
-        this.id = board.getId();
+        this.id = board.getBoardid();
         this.title = board.getTitle();
         this.content = board.getContent();
         this.createdTime = board.getCreatedTime();

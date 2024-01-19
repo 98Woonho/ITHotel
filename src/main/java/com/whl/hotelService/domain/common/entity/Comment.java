@@ -17,7 +17,7 @@ public class Comment extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "comment_id")
+    @Column(name = "commentid")
     private Long id;
 
     @Column(nullable = false)
@@ -26,7 +26,7 @@ public class Comment extends BaseEntity {
 //    private boolean isComments;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "board_id")
+    @JoinColumn(name = "board_boardid", foreignKey = @ForeignKey(name = "fk_comment_board_boardid", foreignKeyDefinition = "FOREIGN KEY(board_boardid) REFERENCES board(boardid) ON DELETE CASCADE ON UPDATE CASCADE"), nullable = false)
     private Board board;
 
     @ManyToOne(fetch = FetchType.LAZY)

@@ -72,6 +72,7 @@ public class BoardController {
             model.addAttribute("comments", comments);
         } else {
             model.addAttribute("boardList", boardSerchList);
+            model.addAttribute("comments", comments);
         }
         return "board/list";
     }

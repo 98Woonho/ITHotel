@@ -40,7 +40,7 @@ public class BoardServiceImpl implements BoardService {
                 .build();
         boardRepository.save(result);
 
-        return result.getId();
+        return result.getBoardid();
     }
     @Override
     public BoardResponseDto boardDetail(Long id) {
@@ -55,7 +55,6 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public  Page<BoardResponseDto> boardList(Pageable pageable) {
         Page<Board> boards = boardRepository.findAll(pageable);
-        Page<Comment> comments  = commentRepository.findAll(pageable);
         return getBoardResponseDtos(pageable, boards);
     }
     @Override
@@ -74,7 +73,7 @@ public class BoardServiceImpl implements BoardService {
         board.update(boardWriteRequestDto.getTitle(), boardWriteRequestDto.getContent());
         boardRepository.save(board);
 
-        return board.getId();
+        return board.getBoardid();
     }
     @Override
     public void boardRemove(Long id) {
