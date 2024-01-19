@@ -57,22 +57,18 @@ public class BoardController {
         return "board/detail";
     }
 
-    @GetMapping("/list") // 게시판 전체 조회 + paging 처리 + 검색처리
-    public String boardList(Model model, @PageableDefault(page = 0, size = 10, sort = "id",
-            direction = Sort.Direction.ASC)Pageable pageable, String keyword, String type){
+    @GetMapping("/list") // 게시판 전체 조회 + paging 처리 + 검색처리 + 답변완료 처리
+    public String boardList(Model model, @PageableDefault(page = 0, size = 10, sort = "id")Pageable pageable, String keyword, String type){
         System.out.println(pageable);
         Page<BoardResponseDto> boardList = boardService.boardList(pageable);
         Page<BoardResponseDto> boardSerchList = boardService.searchingBoardList(keyword, type, pageable);
-
-        Map<String,Object> results =  boardService.boardList_re(pageable);
-        Page<Board> boards =  (Page<Board>)results.get("boards");
-        Page<Comment>  comments =  (Page<Comment>)results.get("comments");
+        Page<CommentResponseDto> commentList = boardService.commentList(pageable);
         if (keyword == null){
             model.addAttribute("boardList", boardList);
-            model.addAttribute("comments", comments);
+            model.addAttribute("commentList", commentList);
         } else {
             model.addAttribute("boardList", boardSerchList);
-            model.addAttribute("comments", comments);
+            model.addAttribute("commentList", commentList);
         }
         return "board/list";
     }

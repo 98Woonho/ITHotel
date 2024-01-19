@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <title>게시글</title>
     <link rel="stylesheet" href="/css/board/detail.css">
-    <th:block th:insert="~{/fragments/fragments.html :: headCdns}"></th:block>
+    <th:block th:insert="~{/fragments/link.html :: link_fragment}"></th:block>
     <script defer src="/js/board/detail.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -64,13 +64,12 @@
         <div th:each="comment : ${comments}">
             <div class="media mb-4">
                 <div class="media-body">
-                    <h5 class="mt-0" th:text="${comment.getUsername()}">작성자</h5>
-                    <p th:text="${comment.getContent()}" th:id="'comment-' + ${comment.getId()}">댓글 내용</p>
-                    <small class="text-muted" th:text="${#temporals.format(comment.getCreatedTime(), 'yyyy-MM-dd HH:mm')}">댓글 작성 시간</small>
-<!--                    <div th:if="${comment.getUsername() == #authentication.principal instanceof T(org.springframework.security.core.userdetails.UserDetails)#authentication.principal.username}">-->
+                    <h5 class="mt-0" th:text="${comment.username}">작성자</h5>
+                    <p th:text="${comment.content}" th:id="'comment-' + ${comment.id}">댓글 내용</p>
+                    <small class="text-muted" th:text="${#temporals.format(comment.createdTime, 'yyyy-MM-dd HH:mm')}">댓글 작성 시간</small>
                     <div>
-                        <button class="btn btn-sm btn-outline-warning" th:attr="data-id=${comment.getId()}" onclick="editComment(this)">수정</button>
-                        <a th:href="@{/board/{id}/comment/{commentId}/remove(id=${id}, commentId=${comment.getId()})}" class="btn btn-sm btn-outline-danger" onclick="return confirm('Delete this comment?')">삭제</a>
+                        <button class="btn btn-sm btn-outline-warning" th:attr="data-id=${comment.id}" onclick="editComment(this)">수정</button>
+                        <a th:href="@{/board/{id}/comment/{commentId}/remove(id=${id}, commentId=${comment.id})}" class="btn btn-sm btn-outline-danger" onclick="return confirm('Delete this comment?')">삭제</a>
                     </div>
                 </div>
             </div>
