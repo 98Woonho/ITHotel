@@ -11,15 +11,3 @@ function slideImage(direction) {
     const translateValue = -currentIndex * 33.33333333333 + '%';
     slide.style.transform = 'translateX(' + translateValue + ')';
 }
-
-
-$('[name="checkin"]')
-    .datepicker({
-        dateFormat: 'yyyy-mm-dd',
-        language: 'ko',
-    });
-
-$('[name="checkout"]')
-    .datepicker({
-        language: 'ko'
-    });

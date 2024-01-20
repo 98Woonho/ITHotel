@@ -21,17 +21,17 @@
     <!-- js    -->
     <script defer src="/js/datepicker.js"></script>
     <script defer src="/js/datepicker.ko.js"></script>
-    <script defer src="/js/fragments/header.js"></script>
+    <script defer src="/js/common.js"></script>
     <script defer src="/js/index.js"></script>
-
 
 </head>
 <body>
 
+<th:block th:replace="~{fragments/hotelList.html :: hotelList}"></th:block>
+
 <header id="header" class="content-container-wrapper">
     <th:block th:insert="~{fragments/header.html :: header_fragment}"></th:block>
 </header>
-
 
 <main id="main" class="content-container-wrapper">
     <div class="slide-container">
