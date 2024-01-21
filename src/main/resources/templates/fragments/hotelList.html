@@ -9,22 +9,18 @@
 </head>
 <body>
 
+
 <th:block th:fragment="hotelList">
     <div id="hotelList">
         <div class="modal" rel="modal">
-            <span class="text area">서울</span>
-            <label class="label name">
-                <input type="button" class="hotelName" value="호텔 A">
-                <input type="button" class="hotelName" value="호텔 B">
-                <input type="button" class="hotelName" value="호텔 C">
-                <input type="button" class="hotelName" value="호텔 D">
-            </label>
-            <span class="text area">부산</span>
-            <label class="label name">
-            </label>
-            <span class="text area">울산</span>
-            <label class="label name">
-            </label>
+            <div class="hotel" th:each="region:${region}">
+                <span class="text area" th:text="${region}"></span>
+                <label class="label name">
+                    <th:block th:each="list:${hotelList}">
+                        <input type="button" class="hotelName" th:if="${region == list.region}" th:value="${list.hotelname}">
+                    </th:block>
+                </label>
+            </div>
         </div>
     </div>
 </th:block>

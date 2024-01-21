@@ -4,6 +4,7 @@ input:focus {
     outline : none;
 }
 
+
 #main {
     align-items: center;
     display: flex;
@@ -87,15 +88,25 @@ input:focus {
     align-items: flex-end;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: flex-start;
 }
 
-.room-container > .reservation-form > .price {
-    margin-left: 25rem;
+.room-container > .reservation-form > .price-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.room-container > .reservation-form > .price-container > .total-price,
+.room-container > .reservation-form > .price-container > .total-price span {
+    font-weight: 500;
+    font-size: 1.5rem;
 }
 
 
 .room-container > .reservation-form > .reservation-button {
+    margin-left: 1.5rem;
+
     width: 100px;
     height: 50px;
     background-color: #AD9E87;
@@ -109,4 +120,7 @@ input:focus {
 
 .room-container > .reservation-form > .room-info-container > .time-container {
     margin-bottom: 4rem;
+
+    display: flex;
+    flex-direction: column;
 }

@@ -22,8 +22,8 @@ public class Reservation {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name="hotel_name", foreignKey = @ForeignKey(name="fk_reservation_hotel_name", foreignKeyDefinition = "FOREIGN KEY(hotel_name) REFERENCES hotel(name) ON DELETE CASCADE ON UPDATE CASCADE"))
-    private Hotel hotelName; // 호텔 정보
+    @JoinColumn(name="hotelname", foreignKey = @ForeignKey(name="fk_reservation_hotelname", foreignKeyDefinition = "FOREIGN KEY(hotelname) REFERENCES hotel(hotelname) ON DELETE CASCADE ON UPDATE CASCADE"), nullable = false)
+    private Hotel hotel;
 
     @ManyToOne
     @JoinColumn(name="room_id", foreignKey = @ForeignKey(name="fk_reservation_room_id", foreignKeyDefinition = "FOREIGN KEY(room_id) REFERENCES room(id) ON DELETE CASCADE ON UPDATE CASCADE"))

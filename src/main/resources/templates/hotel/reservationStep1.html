@@ -15,15 +15,90 @@
     <link rel="stylesheet" href="/css/common.css">
     <!--    reservationStep1.css  -->
     <link rel="stylesheet" href="/css/hotel/reservationStep1.css">
-    <!--    datepicker.css  -->
-    <link href="/css/datepicker.min.css" rel="stylesheet" type="text/css" media="all">
 
+    <!--  datepicker jQuery -->
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.1/jquery.min.js"></script>
+    <link type="text/css" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 
     <!-- js    -->
-    <script defer src="/js/datepicker.js"></script>
-    <script defer src="/js/datepicker.ko.js"></script>
-    <script defer src="/js/hotel/reservationStep1.js"></script>
     <script defer src="/js/common.js"></script>
+    <script defer src="/js/hotel/reservationStep1.js"></script>
+
+    <style>
+        .ui-widget-header { border: 0px solid #dddddd; background: #fff; }
+
+        .ui-datepicker-calendar>thead>tr>th { font-size: 14px !important; }
+
+        .ui-datepicker .ui-datepicker-header { position: relative; padding: 10px 0; }
+
+        .ui-state-default,
+        .ui-widget-content .ui-state-default,
+        .ui-widget-header .ui-state-default,
+        .ui-button,
+        html .ui-button.ui-state-disabled:hover,
+        html .ui-button.ui-state-disabled:active { border: 0px solid #c5c5c5; background-color: transparent; font-weight: normal; color: #454545; text-align: center; }
+
+        .ui-datepicker .ui-datepicker-title { margin: 0 0em; line-height: 16px; text-align: center; font-size: 14px; padding: 0px; font-weight: bold; }
+
+        .ui-datepicker { display: none; background-color: #fff; border-radius: 4px; margin-top: 10px; margin-left: 0px; margin-right: 0px; padding: 20px; padding-bottom: 10px; width: 300px; box-shadow: 10px 10px 40px rgba(0, 0, 0, 0.1); }
+
+        .ui-widget.ui-widget-content { border: 1px solid #eee; }
+
+        #datepicker:focus>.ui-datepicker { display: block; }
+
+        .ui-datepicker-prev,
+        .ui-datepicker-next { cursor: pointer; }
+
+        .ui-datepicker-next { float: right; }
+
+        .ui-state-disabled { cursor: auto; color: hsla(0, 0%, 80%, 1); }
+
+        .ui-datepicker-title { text-align: center; padding: 10px; font-weight: 100; font-size: 20px; }
+
+        .ui-datepicker-calendar { width: 100%; }
+
+        .ui-datepicker-calendar>thead>tr>th { padding: 5px; font-size: 20px; font-weight: 400; }
+
+        .ui-datepicker-calendar>tbody>tr>td>a { color: #000; font-size: 12px !important; font-weight: bold !important; text-decoration: none;}
+
+        .ui-datepicker-calendar>tbody>tr>.ui-state-disabled:hover { cursor: auto; background-color: #fff; }
+
+        .ui-datepicker-calendar>tbody>tr>td { border-radius: 100%; width: 44px; height: 30px; cursor: pointer; padding: 5px; font-weight: 100; text-align: center; font-size: 12px; }
+
+        .ui-datepicker-calendar>tbody>tr>td:hover { background-color: transparent; opacity: 0.6; }
+
+        .ui-state-hover,
+        .ui-widget-content .ui-state-hover,
+        .ui-widget-header .ui-state-hover,
+        .ui-state-focus,
+        .ui-widget-content .ui-state-focus,
+        .ui-widget-header .ui-state-focus,
+        .ui-button:hover,
+        .ui-button:focus { border: 0px solid #cccccc; background-color: transparent; font-weight: normal; color: #2b2b2b; }
+
+        .ui-widget-header .ui-icon { background-image: url('/images/btns.png'); }
+
+        .ui-icon-circle-triangle-e { background-position: -20px 0px; background-size: 36px; }
+
+        .ui-icon-circle-triangle-w { background-position: -0px -0px; background-size: 36px; }
+
+        .ui-datepicker-calendar>tbody>tr>td:first-child a { color: red !important; }
+
+        .ui-datepicker-calendar>tbody>tr>td:last-child a { color: #0099ff !important; }
+
+        .ui-datepicker-calendar>thead>tr>th:first-child { color: red !important; }
+
+        .ui-datepicker-calendar>thead>tr>th:last-child { color: #0099ff !important; }
+
+        .ui-state-highlight,
+        .ui-widget-content .ui-state-highlight,
+        .ui-widget-header .ui-state-highlight { border: 0px; background: #f1f1f1; border-radius: 50%; padding-top: 10px; padding-bottom: 10px; }
+
+        .inp { padding: 10px 10px; background-color: #f1f1f1; border-radius: 4px; border: 0px; }
+
+        .inp:focus { outline: none; background-color: #eee; }
+    </style>
 </head>
 <body>
 
@@ -45,35 +120,77 @@
             <span class="step">2</span>
         </div>
 
-        <thblock th:replace="~{fragments/search.html :: search-form}"></thblock>
+        <form class="search-form" id="searchForm">
+            <label class="label hotel">
+                <div class="text">호텔</div>
+                <div class="hotelSearch">
+                    <input th:value="${hotel}" readonly type="text" name="hotel" th:placeholder="${hotelPH}">
+                    <img class="icon"
+                         src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAACJklEQVR4nO2WsWsUURDGXxCJ1irpJGKhBNuUtjaCon9AopBUEQIWkSBREiFFIODfELHw7FLs3nzfWxZUjghXKZImiKTVxgQsTMLK6Cy+QI7su92IYj645thv5jfvzc6sc8f6F1QUxQDJUQBPSL4g+ZqkJ7kCYDpN0+EjSw7gBoAPJItDfqve+5HGEud5fork8zIBgG+WZIbkGIAJkvMk10ju2TM7IjJVO3mn0zlN8k0ZFMAyyTO9nheRKwDSAHaxFgB/V/5VRK5F9MlccCXj/Sa/aQF2SV6P9QNYslPY9t4PRZmLohgoG06P3fWhVqt1guQ7K+JplJnkaNBwPe/8MInILYvzWYEqGwEslK+Uq6EkSQYBbGks7/3Vykb+GjJK/qAOgMXKLNZEZROAV3YCYw0APDOARzEmH03dQwBeWjGzMQArBrDQAMBbi3U3xjRt1Gt1kusbpBNUY2VZdqmyMU3TYQPY0/FaA+C+Vb/Rj3nVzKkOplh/nudnAXyxGPeiAbz3IwC+R3ewc67b7Z4EkNsprutSc/1IRKaCzbZUZZpZ5Xngu+3qCMBisNne63jVCXdQw+mdl8ceAHwSkQu1IEiO60oOgm7ZhNPXtWUfI7tB4nWtXJM3BpEkyTndarpYen2Oabdrw5V3rkkbhVBpH+hi0SkJ4DGAhyJyp91uX3YH6EggYkXyPMmPdlKbWZZddP8lhOy/juSPA5QQJAXA5M8/jvW36AeJmI3/H6vYawAAAABJRU5ErkJggg==">
+                </div>
+            </label>
+            <label class="label checkin">
+                <div class="text">체크인</div>
+                <input readonly type="text" class="datepicker" id="datepicker1" name="checkin" th:value="${checkin}">
+            </label>
+            <label class="label checkout">
+                <div class="text">체크아웃</div>
+                <input readonly type="text" class="datepicker" id="datepicker2" name="checkout" th:value="${checkout}">
+            </label>
+            <label class="label person">
+                <div class="adult-container">
+                    <div class="text-container">
+                        <div class="text">성인</div>
+                    </div>
+                    <div class="count-container">
+                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIUlEQVR4nGNgGAWjYBSMApLBfyrhgbNgFIyCUTAKGDABAOkcI91xODUvAAAAAElFTkSuQmCC"
+                             class="icon" onclick="adultMinus()">
+                        <input readonly th:value="${adultCount}" type="text" name="adultCount">
+                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAAANklEQVR4nGNgGGngPxSPWoAT/B8NIkLg/8gOov9UxvS3YOjHATHg/6gFhMD/0SAa8CBiGHQAAOITS7WQXzPpAAAAAElFTkSuQmCC"
+                             class="icon" onclick="adultPlus()">
+                    </div>
+                </div>
+                <div class="child-container">
+                    <div class="text-container">
+                        <div class="text">어린이</div>
+                    </div>
+                    <div class="count-container">
+                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIUlEQVR4nGNgGAWjYBSMApLBfyrhgbNgFIyCUTAKGDABAOkcI91xODUvAAAAAElFTkSuQmCC"
+                             class="icon" onclick="childMinus()">
+                        <input readonly th:value="${childCount}" type="text" name="childCount" placeholder="0">
+                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAAANklEQVR4nGNgGGngPxSPWoAT/B8NIkLg/8gOov9UxvS3YOjHATHg/6gFhMD/0SAa8CBiGHQAAOITS7WQXzPpAAAAAElFTkSuQmCC"
+                             class="icon" onclick="childPlus()">
+                    </div>
+                </div>
+            </label>
+            <input type="submit" value="검색" class="search-button">
+        </form>
 
-        <div class="room-container">
+        <div class="room-container" th:each="room : ${roomList}">
             <img th:src="@{/images/sample.png}" alt="">
-            <form action="/hotel/reservationStep2" method="get" class="reservation-form">
+            <form action="/hotel/reservationStep2" method="get" class="reservation-form" id="reservationForm">
                 <div class="room-info-container">
-                    <div class="room-name">프리미엄 디럭스</div>
+                    <div class="room-name" th:text="${room.kind}"></div>
                     <div class="time-container">
-                        <div class="in">입실 15:00</div>
-                        <div class="out">퇴실 11:00</div>
+                        <span class="text in">입실 <span th:text="${room.checkinTime}"></span></span>
+                        <span class="text out">퇴실 <span th:text="${room.checkoutTime}"></span></span>
                     </div>
-                    <div class="capacity">기준 2인, 최대 2인</div>
-                </div>
-                <span class="price">30,000원 / 1박</span>
-                <button class="reservation-button">예약</button>
-            </form>
-        </div>
-        <div class="room-container">
-            <img th:src="@{/images/sample.png}" alt="">
-            <form action="/hotel/reservationStep2" method="post" class="reservation-form">
-                <div class="room-info-container">
-                    <span class="room-name">프리미엄 디럭스</span>
-                    <div class="time-container">
-                        <div class="in">입실 15:00</div>
-                        <div class="out">퇴실 11:00</div>
+                    <div class="capacity">기준 <span th:text="${room.standardPeople}"></span>인, 최대 <span
+                            th:text="${room.maximumPeople}"></span>인
                     </div>
-                    <span class="capacity">기준 2인, 최대 2인</span>
                 </div>
-                <span class="price">30,000원 / 1박</span>
+                <div class="spring"></div>
+                <div class="price-container">
+                    <div class="total-price">
+                        <span th:text="${#numbers.formatInteger(room.fridayPrice * dayCountList[0] + room.saturdayPrice * dayCountList[1] + room.weekdayPrice * dayCountList[2], 0, 'COMMA')}">
+                        </span>원 /
+                        <span th:text="${dayLength}"></span>박
+                    </div>
+                    <div th:if="${dayLength > 1}" class="day-price">
+                        <span th:text="${#numbers.formatInteger((room.fridayPrice * dayCountList[0] + room.saturdayPrice * dayCountList[1] + room.weekdayPrice * dayCountList[2]) / (dayCountList[0] + dayCountList[1] + dayCountList[2]), 0, 'COMMA')}">
+                        </span>원 / 1박
+                    </div>
+                </div>
                 <button class="reservation-button">예약</button>
             </form>
         </div>

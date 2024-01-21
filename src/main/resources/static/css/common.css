@@ -79,8 +79,8 @@ button {
 
 #hotelList > .modal {
     padding: 2rem 3.5rem;
-    width: 600px;
-    height: 400px;
+    width: 1000px;
+    height: 800px;
     background-color: #ffffff;
     top: calc(50% + 1rem);
     left: 50%;
@@ -103,18 +103,24 @@ button {
     top: 50%;
 }
 
-#hotelList > .modal > .text.area {
+#hotelList > .modal > .hotel {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+#hotelList > .modal > .hotel > .text.area {
     padding-bottom: 0.5rem;
     font-size: 1.25rem;
     font-weight: 500;
     border-bottom: 0.1rem solid #4D473C;
 }
 
-#hotelList > .modal > .label.name {
+#hotelList > .modal > .hotel > .label.name {
     margin: 1rem 0;
 }
 
-#hotelList > .modal > .label.name > input {
+#hotelList > .modal > .hotel > .label.name > input {
     cursor: pointer;
 }
 
@@ -301,12 +307,6 @@ button {
     border: none;
 }
 
-#searchForm .count {
-    width: 20px;
-    text-align: center;
-    margin: 0 0.35rem;
-}
-
 #searchForm > .search-button {
     padding: 0.925rem 3rem;
     border-radius: 0.375rem;
@@ -334,12 +334,8 @@ button {
 #searchForm > .label.person input {
     pointer-events: none;
     width: 30px;
-}
-
-#searchForm > .label.person input::placeholder {
     text-align: center;
 }
-
 
 #searchForm > .label.person > .adult-container {
     margin-right: 2rem;
@@ -373,7 +369,6 @@ button {
     flex-direction: column;
     justify-content: flex-start;
 }
-
 
 .admin-left a {
     color: black;
