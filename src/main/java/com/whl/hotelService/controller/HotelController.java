@@ -1,14 +1,21 @@
 package com.whl.hotelService.controller;
 
+import com.whl.hotelService.domain.common.dto.ReservationDto;
 import com.whl.hotelService.domain.common.entity.Hotel;
+import com.whl.hotelService.domain.common.entity.Reservation;
 import com.whl.hotelService.domain.common.entity.Room;
 import com.whl.hotelService.domain.common.repository.RoomRepository;
 import com.whl.hotelService.domain.common.service.HotelService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -28,9 +35,6 @@ public class HotelController {
     @Autowired
     private HotelService hotelService;
 
-    @Autowired
-    private RoomRepository roomRepository;
-
     @GetMapping(value = "find")
     public void getFind() {
         log.info("getFind()");
@@ -47,7 +51,7 @@ public class HotelController {
     }
 
     @GetMapping(value = "reservationStep1")
-    public void getReservationStep1(@RequestParam(value = "hotel") String hotel,
+    public void getReservationStep1(@RequestParam(value = "hotelname") String hotelname,
                                     @RequestParam(value = "checkin")
                                     String checkin,
                                     @RequestParam(value = "checkout")
@@ -56,7 +60,7 @@ public class HotelController {
                                     @RequestParam(value = "childCount") int childCount,
                                     Model model) {
 
-        List<Room> roomList = roomRepository.findByHotelHotelname(hotel);
+        List<Room> roomList = this.hotelService.getRoom(hotelname);
         model.addAttribute("roomList", roomList);
 
         List<Hotel> hotelList = hotelService.getHotel();
@@ -65,7 +69,7 @@ public class HotelController {
         List<String> region = hotelService.getRegion();
         model.addAttribute("region", region);
 
-        model.addAttribute("hotel", hotel);
+        model.addAttribute("hotelname", hotelname);
         model.addAttribute("checkin", checkin);
         model.addAttribute("checkout", checkout);
         model.addAttribute("adultCount", adultCount);
@@ -99,9 +103,23 @@ public class HotelController {
         model.addAttribute("dayCountList", dayCountList);
     }
 
+    @PostMapping(value = "reservationStep1")
+    public ResponseEntity<String> postReservationStep1(ReservationDto reservationDto) {
+
+        boolean isInserted = hotelService.insertReservation(reservationDto);
+
+        if(isInserted) {
+            return new ResponseEntity<>("message", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("fail...", HttpStatus.BAD_GATEWAY);
+        }
+    }
+
     @GetMapping(value = "reservationStep2")
-    public void getReservationStep2() {
-        log.info("getReservationStep2()");
+    public void getReservationStep2(Model model) {
+        Reservation reservation = hotelService.getReservationList();
+
+        model.addAttribute("reservation", reservation);
     }
 }
 

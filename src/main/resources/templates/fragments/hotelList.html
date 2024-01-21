@@ -17,7 +17,7 @@
                 <span class="text area" th:text="${region}"></span>
                 <label class="label name">
                     <th:block th:each="list:${hotelList}">
-                        <input type="button" class="hotelName" th:if="${region == list.region}" th:value="${list.hotelname}">
+                        <input type="button" class="button" th:if="${region == list.region}" th:value="${list.hotelname}">
                     </th:block>
                 </label>
             </div>

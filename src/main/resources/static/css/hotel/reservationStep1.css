@@ -1,7 +1,7 @@
 @charset "UTF-8";
 
-input:focus {
-    outline : none;
+input {
+    border: none;
 }
 
 
@@ -96,13 +96,6 @@ input:focus {
     flex-direction: column;
     align-items: flex-end;
 }
-
-.room-container > .reservation-form > .price-container > .total-price,
-.room-container > .reservation-form > .price-container > .total-price span {
-    font-weight: 500;
-    font-size: 1.5rem;
-}
-
 
 .room-container > .reservation-form > .reservation-button {
     margin-left: 1.5rem;

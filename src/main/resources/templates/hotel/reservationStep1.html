@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -124,7 +124,7 @@
             <label class="label hotel">
                 <div class="text">호텔</div>
                 <div class="hotelSearch">
-                    <input th:value="${hotel}" readonly type="text" name="hotel" th:placeholder="${hotelPH}">
+                    <input th:value="${hotelname}" readonly type="text" name="hotelname">
                     <img class="icon"
                          src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAACJklEQVR4nO2WsWsUURDGXxCJ1irpJGKhBNuUtjaCon9AopBUEQIWkSBREiFFIODfELHw7FLs3nzfWxZUjghXKZImiKTVxgQsTMLK6Cy+QI7su92IYj645thv5jfvzc6sc8f6F1QUxQDJUQBPSL4g+ZqkJ7kCYDpN0+EjSw7gBoAPJItDfqve+5HGEud5fork8zIBgG+WZIbkGIAJkvMk10ju2TM7IjJVO3mn0zlN8k0ZFMAyyTO9nheRKwDSAHaxFgB/V/5VRK5F9MlccCXj/Sa/aQF2SV6P9QNYslPY9t4PRZmLohgoG06P3fWhVqt1guQ7K+JplJnkaNBwPe/8MInILYvzWYEqGwEslK+Uq6EkSQYBbGks7/3Vykb+GjJK/qAOgMXKLNZEZROAV3YCYw0APDOARzEmH03dQwBeWjGzMQArBrDQAMBbi3U3xjRt1Gt1kusbpBNUY2VZdqmyMU3TYQPY0/FaA+C+Vb/Rj3nVzKkOplh/nudnAXyxGPeiAbz3IwC+R3ewc67b7Z4EkNsprutSc/1IRKaCzbZUZZpZ5Xngu+3qCMBisNne63jVCXdQw+mdl8ceAHwSkQu1IEiO60oOgm7ZhNPXtWUfI7tB4nWtXJM3BpEkyTndarpYen2Oabdrw5V3rkkbhVBpH+hi0SkJ4DGAhyJyp91uX3YH6EggYkXyPMmPdlKbWZZddP8lhOy/juSPA5QQJAXA5M8/jvW36AeJmI3/H6vYawAAAABJRU5ErkJggg==">
                 </div>
@@ -168,7 +168,7 @@
 
         <div class="room-container" th:each="room : ${roomList}">
             <img th:src="@{/images/sample.png}" alt="">
-            <form action="/hotel/reservationStep2" method="get" class="reservation-form" id="reservationForm">
+            <form class="reservation-form" th:id="'reservationForm_' + ${room.id}">
                 <div class="room-info-container">
                     <div class="room-name" th:text="${room.kind}"></div>
                     <div class="time-container">
@@ -181,17 +181,21 @@
                 </div>
                 <div class="spring"></div>
                 <div class="price-container">
-                    <div class="total-price">
+                    <div style="font-size: 1.25rem; font-weight: 500">
                         <span th:text="${#numbers.formatInteger(room.fridayPrice * dayCountList[0] + room.saturdayPrice * dayCountList[1] + room.weekdayPrice * dayCountList[2], 0, 'COMMA')}">
                         </span>원 /
                         <span th:text="${dayLength}"></span>박
                     </div>
-                    <div th:if="${dayLength > 1}" class="day-price">
+                    <div th:if="${dayLength > 1}">
                         <span th:text="${#numbers.formatInteger((room.fridayPrice * dayCountList[0] + room.saturdayPrice * dayCountList[1] + room.weekdayPrice * dayCountList[2]) / (dayCountList[0] + dayCountList[1] + dayCountList[2]), 0, 'COMMA')}">
                         </span>원 / 1박
                     </div>
                 </div>
-                <button class="reservation-button">예약</button>
+                <input type="submit" value="예약" class="reservation-button">
+
+
+                <input hidden type="text" name="roomId" th:value="${room.id}">
+                <span hidden class="price" th:text="${room.fridayPrice * dayCountList[0] + room.saturdayPrice * dayCountList[1] + room.weekdayPrice * dayCountList[2]}"></span>
             </form>
         </div>
     </div>
