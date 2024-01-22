@@ -100,7 +100,7 @@
     justify-content: flex-start;
 }
 
-.confirmation-payment-container > .payment-container > .payment-left > .user-info-container {
+.confirmation-payment-container > .payment-container > .payment-left > .user-info {
     border: 0.0625rem solid #9c9c9c;
     margin-top: 1.25rem;
     margin-bottom: 3rem;
@@ -108,7 +108,8 @@
     height: 200px;
 }
 
-.confirmation-payment-container > .payment-container > .payment-left > .payment-method-container {
+.confirmation-payment-container > .payment-container > .payment-left > .terms-container {
+    padding: 1.25rem;
     border: 0.0625rem solid #9c9c9c;
     margin-top: 1.25rem;
     width: 800px;

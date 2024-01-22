@@ -6,6 +6,8 @@ import com.whl.hotelService.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.Date;
+
 @Data
 public class ReservationDto {
     private Long id;
@@ -14,4 +16,6 @@ public class ReservationDto {
     private String checkin; // 체크인
     private String checkout; // 체크아웃
     private String status; // 예약 상태
+    private String people; // 인원
+    private Date createdAt;
 }

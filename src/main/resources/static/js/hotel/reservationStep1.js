@@ -35,8 +35,9 @@ document.querySelectorAll('.reservation-form').forEach(function(form) {
         formData.append("checkin", searchForm['checkin'].value);
         formData.append("checkout", searchForm['checkout'].value);
         formData.append("roomId", form['roomId'].value);
+        formData.append("status", "예약 중");
+        formData.append("people", form['people'].value);
         formData.append("price", form.querySelector('.price').innerText);
-
         axios.post("/hotel/reservationStep1", formData)
             .then(res => {
                 console.log(res);

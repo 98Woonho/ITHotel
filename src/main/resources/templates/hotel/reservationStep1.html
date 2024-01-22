@@ -196,6 +196,7 @@
 
                 <input hidden type="text" name="roomId" th:value="${room.id}">
                 <span hidden class="price" th:text="${room.fridayPrice * dayCountList[0] + room.saturdayPrice * dayCountList[1] + room.weekdayPrice * dayCountList[2]}"></span>
+                <input hidden type="text" name="people" th:value="${adultCount + childCount}">
             </form>
         </div>
     </div>

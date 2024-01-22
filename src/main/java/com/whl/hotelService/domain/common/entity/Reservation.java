@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -30,4 +32,10 @@ public class Reservation {
     private String checkin; // 체크인
     @Column(nullable = false)
     private String checkout; // 체크아웃
+    @Column(nullable = false)
+    private String status; // 예약 상태
+    @Column(nullable = false)
+    private String people; // 인원
+    @Column(nullable = false)
+    private Date createdAt; // 생성 시간
 }

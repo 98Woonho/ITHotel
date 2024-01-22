@@ -25,14 +25,10 @@ $(function () {
             , dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'] //달력의 요일 텍스트
             , dayNames: ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'] //달력의 요일 Tooltip
             , minDate: "0D" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전)
-            , maxDate: "+30D" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후)
             , onSelect: function(selectedDate) {
                 const nextDayDate = new Date(selectedDate);
-                const nextMonthDate = new Date(selectedDate);
                 nextDayDate.setDate(nextDayDate.getDate() + 1);
-                nextMonthDate.setDate(nextMonthDate.getDate() + 30);
                 $("#datepicker2").datepicker("option", "minDate", nextDayDate);
-                $("#datepicker2").datepicker("option", "maxDate", nextMonthDate);
             }
         });
     if(window.location.pathname === "/") {
@@ -51,7 +47,6 @@ $(function () {
             , dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'] //달력의 요일 텍스트
             , dayNames: ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'] //달력의 요일 Tooltip
             , minDate: "+" + 1 + "D" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전)
-            , maxDate: "+31D" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후)
         });
 
     if(window.location.pathname === "/") {
@@ -101,20 +96,4 @@ searchForm.onsubmit = function (e) {
     const childCount = searchForm['childCount'].value;
 
     location.href = '/hotel/reservationStep1?hotelname=' + hotelname + '&checkin=' + checkin + '&checkout=' + checkout + '&adultCount=' + adultCount + '&childCount=' + childCount;
-}
-
-
-
-function navigateTo(path) {
-    // Check if it's the specific page where you want to execute navigateTo
-    if (window.location.pathname === "/hotel/reservationStep2") {
-        if (confirm("Do you want to cancel the reservation and go to the page?")) {
-            window.location.href = path;
-        } else {
-            window.location.href = 'javascript:void(0)';
-        }
-    } else {
-        // If not the specific page, simply navigate to the specified path
-        window.location.href = path;
-    }
 }

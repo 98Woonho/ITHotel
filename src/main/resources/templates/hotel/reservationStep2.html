@@ -44,33 +44,39 @@
                 <ul class="info">
                     <li>
                         <span class="text bold">호텔 및 객실</span>
-                        <span class="text">ITHOTEL서울, 프리미엄 디럭스</span>
+                        <span class="text"><span th:text="${reservation.room.hotel.hotelname}"></span>, <span th:text="${reservation.room.kind}"></span></span>
                     </li>
                     <li>
-                        <span class="text bold">투숙 날짜</span>
-                        <span class="text">2024년 00월 00일 ~ 2024년 00월 00일 (n박)</span>
+                        <span class="text bold">투숙 날짜 및 시간</span>
+                        <span class="text"><span th:text="${reservation.checkin}"></span> <span th:text="${reservation.room.checkinTime}"></span> ~ <span th:text="${reservation.checkout}"></span> <span th:text="${reservation.room.checkoutTime}"></span></span>
                     </li>
                     <li>
                         <span class="text bold">인원</span>
-                        <span class="text">성인 0, 어린이 0</span>
+                        <span class="text">성인 <span th:text="${reservation.people}"></span>, 어린이 0</span>
                     </li>
                 </ul>
             </div>
             <div class="payment-container">
                 <div class="payment-left">
                     <span class="text subtitle">예약자 정보</span>
-                    <div class="user-info-container">
-                        <span class="text">예약자 정보(이름, 연락처 등) <br> SecurityContextHolder로 정보 가져올 예정</span>
-                    </div>
-                    <span class="text subtitle">결제 수단</span>
-                    <div class="payment-method-container">
-                        <span class="text">결제 수단</span>
+                    <ul class="user-info">
+                        <li>
+                            <span class="text bold">이름</span>
+                            <span class="text" th:text="${reservation.user.name}"></span>
+                        </li>
+                        <li>
+                            <span class="text bold">연락처</span>
+                            <span class="text" th:text="${reservation.user.phone}"></span>
+                        </li>
+                    </ul>
+                    <span class="text subtitle">이용 약관</span>
+                    <div class="terms-container">
                     </div>
                 </div>
                 <div class="payment-right">
                     <span class="text subtitle">결제 금액</span>
                     <div class="price-container">
-                        <span class="text">결제 금액 및 약관동의 및 예약버튼</span>
+                        <span class="text">결제 금액 및 예약버튼</span>
                     </div>
                 </div>
             </div>
@@ -78,6 +84,7 @@
     </div>
     </div>
 </main>
+
 
 <th:block th:insert="~{fragments/footer.html :: footer_fragment}"></th:block>
 

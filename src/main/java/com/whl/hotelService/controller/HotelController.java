@@ -60,7 +60,8 @@ public class HotelController {
                                     @RequestParam(value = "childCount") int childCount,
                                     Model model) {
 
-        List<Room> roomList = this.hotelService.getRoom(hotelname);
+        int people = adultCount + childCount;
+        List<Room> roomList = this.hotelService.getRoom(hotelname, people);
         model.addAttribute("roomList", roomList);
 
         List<Hotel> hotelList = hotelService.getHotel();
