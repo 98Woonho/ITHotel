@@ -34,7 +34,6 @@ document.querySelectorAll('.reservation-form').forEach(function(form) {
         const formData = new FormData();
         formData.append("checkin", searchForm['checkin'].value);
         formData.append("checkout", searchForm['checkout'].value);
-        formData.append("status", "진행 중");
         formData.append("roomId", form['roomId'].value);
         formData.append("price", form.querySelector('.price').innerText);
 

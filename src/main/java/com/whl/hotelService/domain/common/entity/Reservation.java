@@ -26,10 +26,8 @@ public class Reservation {
     @JoinColumn(name="user_id", foreignKey = @ForeignKey(name="fk_reservation_user_userid", foreignKeyDefinition = "FOREIGN KEY(user_id) REFERENCES user(userid) ON DELETE CASCADE ON UPDATE CASCADE"))
     private User user; // 사용자 정보
 
-//    @Column(nullable = false)
+    @Column(nullable = false)
     private String checkin; // 체크인
-//    @Column(nullable = false)
+    @Column(nullable = false)
     private String checkout; // 체크아웃
-//    @Column(nullable = false)
-    private String status; // 예약 상태
 }

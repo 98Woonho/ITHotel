@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -42,6 +43,7 @@ public class HotelService {
         return roomRepository.findByHotelHotelname(hotelname);
     }
 
+    @Transactional
     public boolean insertReservation(ReservationDto reservationDto) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userid = authentication.getName();
@@ -55,20 +57,47 @@ public class HotelService {
         reservation.setUser(user);
         reservation.setCheckin(reservationDto.getCheckin());
         reservation.setCheckout(reservationDto.getCheckout());
-        reservation.setStatus(reservationDto.getStatus());
 
-        try {
-             reservationRepository.save(reservation);
-            return reservation != null;
-        } catch (Exception e) {
-            return false;
+        if (user != null && room != null) {
+            // Check if a reservation already exists for the user and room
+            Reservation existingReservation = reservationRepository.findByUserUseridAndRoomId(userid, room.getId());
+
+            if (existingReservation != null) {
+                // Update existing reservation
+                existingReservation.setCheckin(reservationDto.getCheckin());
+                existingReservation.setCheckout(reservationDto.getCheckout());
+
+                try {
+                    reservationRepository.save(existingReservation);
+                    return true;
+                } catch (Exception e) {
+                    e.printStackTrace(); // Handle the exception appropriately
+                    return false;
+                }
+            } else {
+                // Create a new reservation
+                Reservation newReservation = new Reservation();
+                newReservation.setRoom(room);
+                newReservation.setUser(user);
+                newReservation.setCheckin(reservationDto.getCheckin());
+                newReservation.setCheckout(reservationDto.getCheckout());
+
+                try {
+                    reservationRepository.save(newReservation);
+                    return true;
+                } catch (Exception e) {
+                    e.printStackTrace(); // Handle the exception appropriately
+                    return false;
+                }
+            }
         }
+
+        return false;
     }
 
     public Reservation getReservationList() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userid = authentication.getName();
-        String status = "진행 중";
-        return reservationRepository.findByUserUseridAndStatus(userid, status);
+        return reservationRepository.findByUserUserid(userid);
     }
 }

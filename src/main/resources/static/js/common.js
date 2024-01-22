@@ -13,10 +13,6 @@ buttons.forEach(
     }
 )
 
-
-// ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-// searchForm js
-// ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 const searchForm = document.getElementById('searchForm');
 
 $(function () {
@@ -39,9 +35,10 @@ $(function () {
                 $("#datepicker2").datepicker("option", "maxDate", nextMonthDate);
             }
         });
-
-    $("#datepicker1")
-        .datepicker("setDate", new Date());
+    if(window.location.pathname === "/") {
+        $("#datepicker1")
+            .datepicker("setDate", new Date());
+    }
 })
 
 $(function () {
@@ -57,13 +54,13 @@ $(function () {
             , maxDate: "+31D" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후)
         });
 
-    const currentDate = new Date(searchForm['checkin'].value);
-    currentDate.setDate(currentDate.getDate() + 1);
-    $("#datepicker2")
-        .datepicker("setDate", currentDate);
+    if(window.location.pathname === "/") {
+        const currentDate = new Date(searchForm['checkin'].value);
+        currentDate.setDate(currentDate.getDate() + 1);
+        $("#datepicker2")
+            .datepicker("setDate", currentDate);
+    }
 })
-
-
 
 
 searchForm.querySelector('.hotelSearch').onclick = function () {
@@ -104,4 +101,20 @@ searchForm.onsubmit = function (e) {
     const childCount = searchForm['childCount'].value;
 
     location.href = '/hotel/reservationStep1?hotelname=' + hotelname + '&checkin=' + checkin + '&checkout=' + checkout + '&adultCount=' + adultCount + '&childCount=' + childCount;
+}
+
+
+
+function navigateTo(path) {
+    // Check if it's the specific page where you want to execute navigateTo
+    if (window.location.pathname === "/hotel/reservationStep2") {
+        if (confirm("Do you want to cancel the reservation and go to the page?")) {
+            window.location.href = path;
+        } else {
+            window.location.href = 'javascript:void(0)';
+        }
+    } else {
+        // If not the specific page, simply navigate to the specified path
+        window.location.href = path;
+    }
 }
