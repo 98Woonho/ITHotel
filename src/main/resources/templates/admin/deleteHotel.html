@@ -12,10 +12,10 @@
 
     <!-- css -->
     <link rel="stylesheet" href="/css/common.css">
-    <link rel="stylesheet" href="/css/admin/reservationStatus.css">
+    <link rel="stylesheet" href="/css/admin/deleteHotel.css">
 
     <!-- js -->
-    <script defer src="/js/admin/reservationStatus.js"></script>
+    <script defer src="/js/admin/deleteHotel.js"></script>
 </head>
 <body>
 
@@ -29,16 +29,10 @@
             <th:block th:replace="~{fragments/adminLeft.html :: adminLeft_fragment}"></th:block>
             <div class="admin-right">
                 <div class="title-container">
-                    <h1 class="title">예약 현황 >
-                        <th:block th:switch="${region}">
-                            <span class="text" th:case='seoul'>서울</span>
-                            <span class="text" th:case='busan'>부산</span>
-                            <span class="text" th:case='ulsan'>울산</span>
-                        </th:block>
-                    </h1>
+                    <h1 class="title">호텔 관리 > 호텔 삭제</h1>
                 </div>
-                <div class="reservation-table-container">
-                    <span class="text">예약 테이블 공간(reservation table에서 데이터 가져와서 게시판 형식으로 나열. 취소 버튼을 만들어서 예약 및 결제 취소 되도록 할 예정)</span>
+                <div class="delete-hotel-container">
+                    <span class="text">호텔 삭제 테이블 공간(호텔 종류를 테이블에서 가져와서 게시판 형식으로 나열한 뒤 삭제 버튼으로 삭제할 예정)</span>
                 </div>
             </div>
         </div>

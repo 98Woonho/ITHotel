@@ -17,7 +17,6 @@ public class HomeController {
     @GetMapping("/")
     public String home(Authentication authentication,
                        Model model){
-        System.out.println(authentication);
         model.addAttribute("authentication", authentication);
         return "index";
     }

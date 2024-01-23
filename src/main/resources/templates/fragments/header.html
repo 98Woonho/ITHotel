@@ -1,11 +1,10 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-
 
 <th:block th:fragment="header_fragment">
     <div class="content-container menu">
@@ -17,24 +16,41 @@
         <span class="spring"></span>
         <div class="subMenu">
             <div class="userArea">
-                <a th:if="${authentication == null}" th:href="@{/user/login}" class="link">
+                <div class="welcome-message-container" sec:authorize="hasRole('ROLE_USER')">
+                    <a href="/user/myinfo" class="link name" th:text="${#authentication.Principal.userDto.name}"></a>님 환영합니다!
+                </div>
+                <a href="/user/myinfo" class="link" sec:authorize="hasRole('ROLE_USER')">
+                    <span class="text">마이페이지</span>
+                </a>
+                <a href="/admin/reservationStatus?region=seoul" class="link" sec:authorize="hasRole('ROLE_ADMIN')">
+                    <span class="text">관리자페이지</span>
+                </a>
+                <a href="/user/login" class="link" sec:authorize="isAnonymous()">
                     <span class="text">로그인</span>
                 </a>
-                <a th:if="${authentication != null}" th:href="@{/logout}" class="link">
+                <a href="/logout" class="link" sec:authorize="isAuthenticated()">
                     <span class="text">로그아웃</span>
                 </a>
-                <a th:href="@{/user/join}" class="link">
+                <a href="/user/join" class="link" sec:authorize="isAnonymous()">
                     <span class="text">회원가입</span>
                 </a>
             </div>
             <div class="hotelArea">
                 <a th:href="@{/hotel/find}" class="link">호텔 찾기</a>
                 <a th:href="@{/hotel/info}" class="link">호텔 소개</a>
-                <a href="#" class="link">고객 문의</a>
+                <a href="#" class="link" sec:authorize="hasRole('ROLE_USER') || isAnonymous()">고객 문의</a>
             </div>
         </div>
     </div>
 </th:block>
 
 </body>
+<script>
+    function signOut() {
+        var auth2 = gapi.auth2.getAuthInstance();
+        auth2.signOut().then(function () {
+            console.log('User signed out.');
+        });
+    }
+</script>
 </html>
