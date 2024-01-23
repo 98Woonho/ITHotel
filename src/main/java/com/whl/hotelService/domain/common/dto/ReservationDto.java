@@ -18,4 +18,5 @@ public class ReservationDto {
     private String status; // 예약 상태
     private String people; // 인원
     private Date createdAt;
+    private int price; // 결제 금액
 }

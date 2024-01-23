@@ -1,5 +1,6 @@
 package com.whl.hotelService.controller;
 
+import com.whl.hotelService.domain.common.dto.PaymentDto;
 import com.whl.hotelService.domain.common.dto.ReservationDto;
 import com.whl.hotelService.domain.common.entity.Hotel;
 import com.whl.hotelService.domain.common.entity.Reservation;
@@ -19,6 +20,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URL;
+import java.net.URLDecoder;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -121,6 +125,15 @@ public class HotelController {
         Reservation reservation = hotelService.getReservationList();
 
         model.addAttribute("reservation", reservation);
+    }
+
+
+    @GetMapping(value = "payment")
+    public void getPayment(PaymentDto paymentDto) throws UnsupportedEncodingException {
+        paymentDto.setAddress(URLDecoder.decode(paymentDto.getAddress(), "UTF-8"));
+        paymentDto.setName(URLDecoder.decode(paymentDto.getName(), "UTF-8"));
+
+        boolean isAdded = hotelService.addPayment(paymentDto);
     }
 }
 

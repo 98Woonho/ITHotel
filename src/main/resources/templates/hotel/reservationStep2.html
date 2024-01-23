@@ -44,10 +44,10 @@
                 <ul class="info">
                     <li>
                         <span class="text bold">호텔 및 객실</span>
-                        <span class="text"><span th:text="${reservation.room.hotel.hotelname}"></span>, <span th:text="${reservation.room.kind}"></span></span>
+                        <span class="hotelname text"><span th:text="${reservation.room.hotel.hotelname}"></span>, <span th:text="${reservation.room.kind}"></span></span>
                     </li>
                     <li>
-                        <span class="text bold">투숙 날짜 및 시간</span>
+                        <span class="text bold">투숙 날짜</span>
                         <span class="text"><span th:text="${reservation.checkin}"></span> <span th:text="${reservation.room.checkinTime}"></span> ~ <span th:text="${reservation.checkout}"></span> <span th:text="${reservation.room.checkoutTime}"></span></span>
                     </li>
                     <li>
@@ -62,31 +62,42 @@
                     <ul class="user-info">
                         <li>
                             <span class="text bold">이름</span>
-                            <span class="text" th:text="${reservation.user.name}"></span>
+                            <span class="username text" th:text="${reservation.user.name}"></span>
                         </li>
                         <li>
                             <span class="text bold">연락처</span>
-                            <span class="text" th:text="${reservation.user.phone}"></span>
+                            <span class="contact text" th:text="${reservation.user.phone}"></span>
                         </li>
                     </ul>
-                    <span class="text subtitle">이용 약관</span>
-                    <div class="terms-container">
+                    <span class="text subtitle">결제 수단</span>
+                    <div class="pay-method-container">
+                        <button class="pay-method-button card-button">신용/체크 카드</button>
+                        <button class="pay-method-button kakaopay-button">카카오페이</button>
+                        <button class="pay-method-button tosspay-button">토스페이</button>
+                        <button class="pay-method-button payco-button">페이코</button>
+                        <button class="pay-method-button phonepay-button">휴대폰 결제</button>
                     </div>
                 </div>
                 <div class="payment-right">
                     <span class="text subtitle">결제 금액</span>
                     <div class="price-container">
-                        <span class="text">결제 금액 및 예약버튼</span>
+                        <span class="text">결제 금액 및 약관동의 및 결제버튼</span>
+                        <span class="text price" th:text="${reservation.price}"></span>
+                        <button class="pay-button">결제</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    </div>
+
+    <input hidden type="text" class="address" th:value="${reservation.user.addr1} + ' ' + ${reservation.user.addr2}">
+    <input hidden type="text" class="reservation-id" th:value="${reservation.id}">
 </main>
 
-
 <th:block th:insert="~{fragments/footer.html :: footer_fragment}"></th:block>
+
+
+<script src="https://cdn.iamport.kr/v1/iamport.js"></script>
 
 </body>
 </html>

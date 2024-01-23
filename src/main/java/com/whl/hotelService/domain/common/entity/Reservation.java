@@ -38,4 +38,6 @@ public class Reservation {
     private String people; // 인원
     @Column(nullable = false)
     private Date createdAt; // 생성 시간
+    @Column(nullable = false)
+    private int price; // 결제 금액
 }

@@ -1,10 +1,13 @@
 package com.whl.hotelService.domain.common.service;
 
+import com.whl.hotelService.domain.common.dto.PaymentDto;
 import com.whl.hotelService.domain.common.dto.ReservationDto;
 import com.whl.hotelService.domain.common.entity.Hotel;
+import com.whl.hotelService.domain.common.entity.Payment;
 import com.whl.hotelService.domain.common.entity.Reservation;
 import com.whl.hotelService.domain.common.entity.Room;
 import com.whl.hotelService.domain.common.repository.HotelRepository;
+import com.whl.hotelService.domain.common.repository.PaymentRepository;
 import com.whl.hotelService.domain.common.repository.ReservationRepository;
 import com.whl.hotelService.domain.common.repository.RoomRepository;
 import com.whl.hotelService.domain.user.entity.User;
@@ -15,6 +18,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -31,6 +35,9 @@ public class HotelService {
 
     @Autowired
     private ReservationRepository reservationRepository;
+
+    @Autowired
+    private PaymentRepository paymentRepository;
 
     public List<Hotel> getHotel() {
         return hotelRepository.findAll();
@@ -66,6 +73,7 @@ public class HotelService {
                 existingReservation.setRoom(room);
                 existingReservation.setPeople(reservationDto.getPeople());
                 existingReservation.setCreatedAt(new Date());
+                existingReservation.setPrice(reservationDto.getPrice());
 
                 try {
                     reservationRepository.save(existingReservation);
@@ -84,6 +92,7 @@ public class HotelService {
                 reservation.setCheckout(reservationDto.getCheckout());
                 reservation.setPeople(reservationDto.getPeople());
                 reservation.setCreatedAt(new Date());
+                reservation.setPrice(reservationDto.getPrice());
 
 
                 try {
@@ -98,9 +107,35 @@ public class HotelService {
         return true;
     }
 
+    @Transactional
     public Reservation getReservationList() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userid = authentication.getName();
         return reservationRepository.findByUserUserid(userid);
+    }
+
+    @Transactional
+    public boolean addPayment(PaymentDto paymentDto) {
+        Reservation reservation = reservationRepository.findById(paymentDto.getReservationId()).get();
+
+        Payment payment = new Payment();
+        payment.setAddress(paymentDto.getAddress());
+        payment.setImpUid(paymentDto.getImpUid());
+        payment.setName(paymentDto.getName());
+        payment.setPaidAmount(paymentDto.getPaidAmount());
+        payment.setPayMethod(paymentDto.getPayMethod());
+        payment.setMerchantUid(paymentDto.getMerchantUid());
+        payment.setStatus(paymentDto.getStatus());
+        payment.setPayDate(LocalDateTime.now());
+        payment.setReservation(reservation);
+
+        Authentication authentication =  SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        User user =  userRepository.findById(username).get();
+        payment.setUser(user);
+
+        paymentRepository.save(payment);
+
+        return true;
     }
 }
