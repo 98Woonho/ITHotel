@@ -24,8 +24,8 @@ public class Comment extends BaseEntity {
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "board_boardid", foreignKey = @ForeignKey(name = "fk_comment_board_boardid", foreignKeyDefinition = "FOREIGN KEY(board_boardid) REFERENCES board(boardid) ON DELETE CASCADE ON UPDATE CASCADE"), nullable = false)
-    private Board board;
+    @JoinColumn(name = "admin_board_admin_board_id", foreignKey = @ForeignKey(name = "fk_comment_admin_board_admin_board_id", foreignKeyDefinition = "FOREIGN KEY(admin_board_admin_board_id) REFERENCES admin_board(admin_board_id) ON DELETE CASCADE ON UPDATE CASCADE"), nullable = false)
+    private AdminBoard adminBoard;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_userid", foreignKey = @ForeignKey(name="fk_comment_user_userid", foreignKeyDefinition = "FOREIGN KEY(user_userid) REFERENCES user(userid) ON DELETE CASCADE ON UPDATE CASCADE"), nullable = false)

@@ -2,8 +2,10 @@ package com.whl.hotelService.domain.common.service;
 
 import com.whl.hotelService.domain.common.dto.CommentRequestDto;
 import com.whl.hotelService.domain.common.dto.CommentResponseDto;
+import com.whl.hotelService.domain.common.entity.AdminBoard;
 import com.whl.hotelService.domain.common.entity.Board;
 import com.whl.hotelService.domain.common.entity.Comment;
+import com.whl.hotelService.domain.common.repository.AdminBoardRepository;
 import com.whl.hotelService.domain.common.repository.BoardRepository;
 import com.whl.hotelService.domain.common.repository.CommentRepository;
 import com.whl.hotelService.domain.user.entity.User;
@@ -21,17 +23,17 @@ public class CommentServiceImpl implements CommentService{
     @Autowired
     private UserRepository userRepository;
     @Autowired
-    private BoardRepository boardRepository;
+    private AdminBoardRepository boardRepository;
     @Autowired
     private CommentRepository commentRepository;
 
     @Override
     public Long writeComment(CommentRequestDto commentRequestDto, Long boardId, String id) {
         User user = userRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException("유저 아이디가 존재하지 않습니다."));
-        Board board = boardRepository.findById(boardId).orElseThrow(() -> new IllegalArgumentException("게시물을 찾을 수 없습니다."));
+        AdminBoard board = boardRepository.findById(boardId).orElseThrow(() -> new IllegalArgumentException("게시물을 찾을 수 없습니다."));
         Comment result = Comment.builder()
                 .content(commentRequestDto.getContent())
-                .board(board)
+                .adminBoard(board)
                 .user(user)
                 .build();
         commentRepository.save(result);
@@ -41,11 +43,11 @@ public class CommentServiceImpl implements CommentService{
 
     @Override
     public List<CommentResponseDto> commentList(Long id) {
-        Board board = boardRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("게시물을 찾을 수 없습니다."));
-        List<Comment> comments = commentRepository.findByBoard(board);
+        AdminBoard board = boardRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("게시물을 찾을 수 없습니다."));
+        List<Comment> comments = commentRepository.findByAdminBoard(board);
 
         return comments.stream()
-                .map(comment -> CommentResponseDto.entityToDto(comment, comment.getBoard(), comment.getUser()))
+                .map(comment -> CommentResponseDto.entityToDto(comment, comment.getAdminBoard(), comment.getUser()))
                 .collect(Collectors.toList());
     }
 

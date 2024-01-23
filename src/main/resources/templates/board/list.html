@@ -15,7 +15,7 @@
     <th:block th:insert="~{fragments/header.html :: header_fragment}"></th:block>
 </header>
 
-<h2 style="margin: 20px">관리자 게시판</h2>
+<h2 style="margin: 20px">공지 게시판</h2>
 <form class="row g-3 d-flex justify-content-end" method="get" th:action="@{/board/list}">
     <div class="col-auto">
         <select name="type">
@@ -40,11 +40,9 @@
         <th>글제목</th>
         <th>작성자</th>
         <th>작성일</th>
-        <th>댓글작성여부</th>
     </tr>
     </thead>
     <tbody>
-    <!-- 댓글 !-->
     <tr th:each="board : ${boardList}">
         <td>
             <span th:text="${board.id}"></span>
@@ -60,17 +58,9 @@
         <td>
             <span th:text="${#temporals.format(board.createdTime, 'yyyy-MM-dd HH:mm:ss')}"></span>
         </td>
-        <td>
-            <th:block th:each="comment: ${commentList}">
-                <th:block th:if="${comment.board.id} == ${board.id}">
-                    <button>답변완료</button>
-                </th:block>
-            </th:block>
-        </td>
     </tr>
     </tbody>
 </table>
-
 <!--페이징 처리-->
 <div th:if="${!boardList.isEmpty()}">
     <ul class="pagination"
@@ -110,7 +100,7 @@
 </body>
 <script>
     const saveReq = () => {
-        location.href = "/board/adminWrite";
+        location.href = "/board/write";
     }
 
 </script>
