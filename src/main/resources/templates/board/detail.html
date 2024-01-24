@@ -12,86 +12,18 @@
 </head>
 <body>
 <th:block th:replace="~{/fragments/header.html :: header_fragment}"></th:block>
-
-<h1>게시판</h1>
+<h1>공지 게시글</h1>
 <div class="card mb-4">
     <div class="card-body">
         <form>
-            <div>
-                <span>id</span>
-                <th:block th:text="${board.id}"></th:block>
-            </div>
-            <div class="mb-3">
-                <label for="title" class="form-label">제목</label>
-                <input type="text" class="form-control" id="title" name="title"
-                       th:value="${board.title}" disabled>
-            </div>
             <div class="mb-3">
                 <label for="content" class="form-label">내용</label>
                 <textarea class="form-control" id="content" name="content" disabled
                           th:text="${board.content}"></textarea>
             </div>
-            <div class="mb-3">
-                <label for="createdAt" class="form-label">작성일</label>
-                <input type="text" class="form-control" id="createdAt" name="createdAt"
-                       th:value="${#temporals.format(board.createdTime, 'yyyy-MM-dd HH:mm')}" disabled>
-            </div>
-            <div class="mb-3">
-                <label for="writer" class="form-label">작성자</label>
-                <input type="text" class="form-control" id="writer" name="writer"
-                       th:value="${board.username}" disabled>
-            </div>
         </form>
     </div>
 </div>
-<!-- 댓글 쓰기-->
-<div class="card my-4">
-    <h5 class="card-header">댓글 쓰기</h5>
-    <div class="card-body">
-        <form th:action="@{/board/{id}/comment(id=${id})}" th:method="post">
-            <div class="form-group" style="margin-bottom: 10px;">
-                <input type="hidden" name="idx" th:value="*{idx}" />
-                <textarea name="content" class="form-control" rows="3"></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
-    </div>
-</div>
-<!-- 댓글 화면-->
-<div class="card my-4">
-    <h5 class="card-header">댓글</h5>
-    <div class="card-body">
-        <div th:each="comment : ${comments}">
-            <div class="media mb-4">
-                <div class="media-body">
-                    <h5 class="mt-0" th:text="${comment.username}">작성자</h5>
-                    <p th:text="${comment.content}" th:id="'comment-' + ${comment.id}">댓글 내용</p>
-                    <small class="text-muted" th:text="${#temporals.format(comment.createdTime, 'yyyy-MM-dd HH:mm')}">댓글 작성 시간</small>
-                    <div>
-                        <button class="btn btn-sm btn-outline-warning" th:attr="data-id=${comment.id}" onclick="editComment(this)">수정</button>
-                        <a th:href="@{/board/{id}/comment/{commentId}/remove(id=${id}, commentId=${comment.id})}" class="btn btn-sm btn-outline-danger" onclick="return confirm('Delete this comment?')">삭제</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<button onclick="saveReq()">글작성</button>
-<button onclick="listReq()">게시판 목록</button>
-<th:block th:if="${board != null and #authentication.principal instanceof T(org.springframework.security.core.userdetails.UserDetails) and board.getUsername() == #authentication.principal.username}">
-    <a th:href="@{/board/{id}/update(id=${id})}" class="btn btn-outline-warning">수정</a>
-    <a th:href="@{/board/{id}/remove(id=${id})}" class="btn btn-outline-danger" onclick="return confirm('삭제하시겠습니까?')">삭제</a>
-</th:block>
 <th:block th:replace="~{/fragments/footer.html :: footer_fragment}"></th:block>
 </body>
-
-<script th:inline="javascript">
-    const saveReq = () => {
-        location.href = "/board/write"
-    }
-    const listReq = () => {
-        location.href = "/board/list"
-    }
-</script>
-
 </html>

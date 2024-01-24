@@ -1,5 +1,6 @@
 package com.whl.hotelService.domain.common.dto;
 
+import com.whl.hotelService.domain.common.entity.AdminBoard;
 import com.whl.hotelService.domain.common.entity.Board;
 import com.whl.hotelService.domain.user.entity.User;
 import lombok.*;
@@ -18,8 +19,6 @@ public class BoardResponseDto {
     private String email;
     private LocalDateTime createdTime;
     private LocalDateTime updatedTime;
-    //검색 타입
-    private String type;
 
     public static BoardResponseDto entityToDto(Board board, User user){
         BoardResponseDto dto = BoardResponseDto.builder()
@@ -30,7 +29,19 @@ public class BoardResponseDto {
                 .email(user.getEmail())
                 .createdTime(board.getCreatedTime())
                 .updatedTime(board.getUpdatedTime())
-                .type(board.getType())
+                .build();
+        return dto;
+    }
+
+    public static BoardResponseDto entityToDto(AdminBoard board, User user){
+        BoardResponseDto dto = BoardResponseDto.builder()
+                .id(board.getId())
+                .title(board.getTitle())
+                .content(board.getContent())
+                .username(user.getUserid())
+                .email(user.getEmail())
+                .createdTime(board.getCreatedTime())
+                .updatedTime(board.getUpdatedTime())
                 .build();
         return dto;
     }

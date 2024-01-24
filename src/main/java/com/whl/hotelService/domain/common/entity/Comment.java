@@ -17,18 +17,18 @@ public class Comment extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "commentid")
+    @Column(name = "comment_id")
     private Long id;
 
     @Column(nullable = false)
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "board_boardid", foreignKey = @ForeignKey(name = "fk_comment_board_boardid", foreignKeyDefinition = "FOREIGN KEY(board_boardid) REFERENCES board(boardid) ON DELETE CASCADE ON UPDATE CASCADE"), nullable = false)
-    private Board board;
+    @JoinColumn(name = "admin_board_admin_board_id", foreignKey = @ForeignKey(name = "fk_comment_admin_board_admin_board_id", foreignKeyDefinition = "FOREIGN KEY(admin_board_admin_board_id) REFERENCES admin_board(admin_board_id) ON DELETE CASCADE ON UPDATE CASCADE"), nullable = false)
+    private AdminBoard adminBoard;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_userid", foreignKey = @ForeignKey(name="fk_comment_user_userid", foreignKeyDefinition = "FOREIGN KEY(user_userid) REFERENCES user(userid) ON DELETE CASCADE ON UPDATE CASCADE"), nullable = false)
+    @JoinColumn(name = "user_user_id", foreignKey = @ForeignKey(name="fk_comment_user_user_id", foreignKeyDefinition = "FOREIGN KEY(user_user_id) REFERENCES user(user_id) ON DELETE CASCADE ON UPDATE CASCADE"), nullable = false)
     private User user;
 
     public void update(String content) {
