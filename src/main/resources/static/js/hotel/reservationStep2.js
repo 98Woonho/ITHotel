@@ -1,7 +1,7 @@
 const createdAt = document.querySelector('.created-at');
 
 const createdAtDate = new Date(createdAt.value);
-const expirationDate = new Date(createdAtDate.getTime() + (6 * 1000));
+const expirationDate = new Date(createdAtDate.getTime() + (10 * 60 * 1000));
 
 document.addEventListener('mousemove', function() {
     const currentTime = new Date();
@@ -104,22 +104,24 @@ payButton.addEventListener('click', function () {
             buyer_tel: contact, // 구매자 폰 번호
         },
         function (resp) {
-            const params = {
-                params: {
-                    impUid: resp.imp_uid,
-                    merchantUid: resp.merchant_uid,
-                    payMethod: resp.pay_method,
-                    name: encodeURIComponent(name),
-                    paidAmount: resp.paid_amount,
-                    status: resp.status,
-                    address: encodeURIComponent(address),
-                    reservationId: encodeURIComponent(reservationId)
-                }
-            }
-            axios.get("/hotel/payment", params)
+            const formData = new FormData();
+            formData.append("impUid", resp.imp_uid);
+            formData.append("merchantUid", resp.merchant_uid);
+            formData.append("payMethod", resp.pay_method);
+            formData.append("name", encodeURIComponent(name));
+            formData.append("paidAmount", resp.paid_amount);
+            formData.append("status", resp.status);
+            formData.append("address", encodeURIComponent(address));
+            formData.append("reservationId", encodeURIComponent(reservationId));
+            axios.post("/hotel/reservationStep2", formData)
                 .then(resp => {
-                    alert('예약이 완료 되었습니다. 예약 확인 페이지로 이동합니다.');
-                    location.href = "/payment/list"
+                    if(resp.data === "SUCCESS") {
+                        alert('예약이 완료 되었습니다. 예약 확인 페이지로 이동합니다.');
+                    } else if(resp.data === "FAILURE_NOVACANCY") {
+                        alert('해당 객실은 예약이 모두 완료 되었습니다. 잠시 후 다시 시도해 주세요.');
+                    } else {
+                        alert('알 수 없는 이유로 결제에 실패 하였습니다. 잠시 후 다시 시도해 주세요.')
+                    }
                 })
                 .catch(err => {
                     console.log(err);

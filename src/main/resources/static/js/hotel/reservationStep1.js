@@ -26,15 +26,11 @@ function childPlus() {
     searchForm['childCount'].value = childNum;
 }
 
-
 document.querySelectorAll('.reservation-form').forEach(function(form) {
     form.onsubmit = function(e) {
         e.preventDefault();
 
-        if(form['remainingRoomCount'].value === '0') {
-            alert('다른 이용자가 마지막 객실을 예약 진행중에 있습니다. 잠시 후 다시 시도해 주세요.');
-            return;
-        }
+        
 
         const formData = new FormData();
         formData.append("checkin", searchForm['checkin'].value);

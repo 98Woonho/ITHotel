@@ -42,5 +42,5 @@ public class Room {
     private int count; // 객실의 개수
 
     @Column(nullable = true)
-    private Integer remainingRoomCount; // 남은 방 개수
+    private Integer reservedRoomCount; // 남은 방 개수
 }

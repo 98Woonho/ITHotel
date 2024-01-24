@@ -8,6 +8,7 @@ import com.whl.hotelService.domain.common.entity.Room;
 import com.whl.hotelService.domain.common.repository.RoomRepository;
 import com.whl.hotelService.domain.common.service.HotelService;
 import lombok.extern.slf4j.Slf4j;
+import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,10 +16,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
@@ -64,10 +62,15 @@ public class HotelController {
                                     @RequestParam(value = "adultCount") int adultCount,
                                     @RequestParam(value = "childCount") int childCount,
                                     Model model) {
-
         int people = adultCount + childCount;
-        List<Room> roomList = this.hotelService.getHotelsRoom(hotelname, people);
+        List<Room> roomList = hotelService.getHotelsRoom(hotelname, people);
+
+        for(Room room : roomList) {
+            int reservedRoomCount = hotelService.getReservedRoomCount(checkin, room.getId());
+            hotelService.addReservedRoomCount(room.getId(), reservedRoomCount);
+        }
         model.addAttribute("roomList", roomList);
+
 
         List<Hotel> hotelList = hotelService.getAllHotel();
         model.addAttribute("hotelList", hotelList);
@@ -112,38 +115,10 @@ public class HotelController {
     public ResponseEntity<String> postReservationStep1(ReservationDto reservationDto) {
         boolean isInserted = hotelService.insertReservation(reservationDto);
 
-        String date1Str = reservationDto.getCheckin();
-        String date2Str = reservationDto.getCheckout();
-
-        // Parse the strings to LocalDate objects
-        LocalDate date1 = LocalDate.parse(date1Str);
-        LocalDate date2 = LocalDate.parse(date2Str);
-
-        // Calculate the number of days between the two dates
-        long daysDifference = ChronoUnit.DAYS.between(date1, date2);
-
-        // Create a list containing LocalDate objects for each day between the two dates
-        List<LocalDate> dateList = new ArrayList<>();
-        for (int i = 0; i <= daysDifference; i++) {
-            dateList.add(date1.plusDays(i));
-        }
-
-        // Print the year, month, and day for each date
-        for (LocalDate date : dateList) {
-            int year = date.getYear();
-            int month = date.getMonthValue();
-            int day = date.getDayOfMonth();
-            System.out.println(date);
-        }
-
-        Long roomId = reservationDto.getRoomId();
-        int reservedRoomCount = this.hotelService.getReservedRoomCount(roomId);
-        this.hotelService.updateRoomCount(reservedRoomCount, roomId);
-
         if (isInserted) {
-            return new ResponseEntity<>("message", HttpStatus.OK);
+            return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
         } else {
-            return new ResponseEntity<>("fail...", HttpStatus.BAD_GATEWAY);
+            return new ResponseEntity<>("FAILURE", HttpStatus.BAD_GATEWAY);
         }
     }
 
@@ -155,12 +130,23 @@ public class HotelController {
     }
 
 
-    @GetMapping(value = "payment")
-    public void getPayment(PaymentDto paymentDto) throws UnsupportedEncodingException {
+    @PostMapping(value = "reservationStep2")
+    public ResponseEntity<String> getPayment(PaymentDto paymentDto) throws UnsupportedEncodingException {
         paymentDto.setAddress(URLDecoder.decode(paymentDto.getAddress(), "UTF-8"));
         paymentDto.setName(URLDecoder.decode(paymentDto.getName(), "UTF-8"));
 
+        String addReservedRoomCount = hotelService.addReservedRoomCount(paymentDto.getReservationId());
+        if (addReservedRoomCount == "FAILURE_NOVACANCY") {
+            return new ResponseEntity<>("FAILURE_NOVACANCY", HttpStatus.CONFLICT);
+        }
+
         boolean isAdded = hotelService.addPayment(paymentDto);
+
+        if(isAdded && (addReservedRoomCount == "SUCCESS")) {
+            return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("FAILURE", HttpStatus.CONFLICT);
+        }
     }
 }
 
