@@ -180,7 +180,7 @@
                     </div>
                 </div>
                 <div class="spring"></div>
-                <div class="price-container">
+                <div style="display: flex; flex-direction: column; align-items: flex-end;">
                     <div style="font-size: 1.25rem; font-weight: 500">
                         <span th:text="${#numbers.formatInteger(room.fridayPrice * dayCountList[0] + room.saturdayPrice * dayCountList[1] + room.weekdayPrice * dayCountList[2], 0, 'COMMA')}">
                         </span>원 /
@@ -189,6 +189,9 @@
                     <div th:if="${dayLength > 1}">
                         <span th:text="${#numbers.formatInteger((room.fridayPrice * dayCountList[0] + room.saturdayPrice * dayCountList[1] + room.weekdayPrice * dayCountList[2]) / (dayCountList[0] + dayCountList[1] + dayCountList[2]), 0, 'COMMA')}">
                         </span>원 / 1박
+                    </div>
+                    <div th:if="${room.count > 0 && room.count < 3}">
+                        남은 객실 <span th:text="${room.count}"></span>개
                     </div>
                 </div>
                 <input type="submit" value="예약" class="reservation-button">

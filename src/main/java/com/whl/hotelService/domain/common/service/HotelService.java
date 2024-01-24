@@ -39,17 +39,19 @@ public class HotelService {
     @Autowired
     private PaymentRepository paymentRepository;
 
-    public List<Hotel> getHotel() {
+    public List<Hotel> getAllHotel() {
         return hotelRepository.findAll();
     }
 
-    public List<String> getRegion() {
+    public List<String> getDistinctRegion() {
         return hotelRepository.findDistinctRegion();
     }
 
-    public List<Room> getRoom(String hotelname, int people) {
+    public List<Room> getHotelsRoom(String hotelname, int people) {
         return roomRepository.findByHotelHotelnameAndStandardPeopleGreaterThanEqual(hotelname, people);
     }
+
+
 
     @Transactional
     public boolean insertReservation(ReservationDto reservationDto) {
@@ -104,6 +106,8 @@ public class HotelService {
                 }
             }
         }
+
+
         return true;
     }
 
@@ -111,12 +115,15 @@ public class HotelService {
     public Reservation getReservationList() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userid = authentication.getName();
-        return reservationRepository.findByUserUserid(userid);
+        return reservationRepository.findByUserUseridAndStatus(userid, "예약 중");
     }
 
     @Transactional
     public boolean addPayment(PaymentDto paymentDto) {
         Reservation reservation = reservationRepository.findById(paymentDto.getReservationId()).get();
+        reservation.setStatus("예약 완료");
+        System.out.println(reservation);
+        reservationRepository.save(reservation);
 
         Payment payment = new Payment();
         payment.setAddress(paymentDto.getAddress());
@@ -133,8 +140,9 @@ public class HotelService {
         String username = authentication.getName();
         User user =  userRepository.findById(username).get();
         payment.setUser(user);
-
         paymentRepository.save(payment);
+
+
 
         return true;
     }

@@ -65,13 +65,12 @@ public class HotelController {
                                     Model model) {
 
         int people = adultCount + childCount;
-        List<Room> roomList = this.hotelService.getRoom(hotelname, people);
+        List<Room> roomList = this.hotelService.getHotelsRoom(hotelname, people);
         model.addAttribute("roomList", roomList);
 
-        List<Hotel> hotelList = hotelService.getHotel();
+        List<Hotel> hotelList = hotelService.getAllHotel();
         model.addAttribute("hotelList", hotelList);
-
-        List<String> region = hotelService.getRegion();
+        List<String> region = hotelService.getDistinctRegion();
         model.addAttribute("region", region);
 
         model.addAttribute("hotelname", hotelname);

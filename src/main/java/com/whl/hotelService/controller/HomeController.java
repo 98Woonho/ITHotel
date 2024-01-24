@@ -21,10 +21,10 @@ public class HomeController {
 
     @GetMapping("/")
     public String home(Model model){
-        List<Hotel> hotelList = hotelService.getHotel();
+        List<Hotel> hotelList = hotelService.getAllHotel();
         model.addAttribute("hotelList", hotelList);
 
-        List<String> region = hotelService.getRegion();
+        List<String> region = hotelService.getDistinctRegion();
         model.addAttribute("region", region);
 
         return "index";

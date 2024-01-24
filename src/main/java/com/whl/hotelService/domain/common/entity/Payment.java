@@ -22,7 +22,6 @@ public class Payment {
 
     @ManyToOne
     @JoinColumn(name="reservation_id", foreignKey = @ForeignKey(name="fk_payment_reservation_id", foreignKeyDefinition = "FOREIGN KEY(reservation_id) REFERENCES reservation(id) ON DELETE CASCADE ON UPDATE CASCADE"), nullable = false)
-
     private Reservation reservation; // 예약 정보
 
     @ManyToOne
