@@ -166,7 +166,7 @@
             <input type="submit" value="검색" class="search-button">
         </form>
 
-        <div class="room-container" th:each="room : ${roomList}">
+        <div th:if="${room.remainingRoomCount != 0}" class="room-container" th:each="room : ${roomList}">
             <img th:src="@{/images/sample.png}" alt="">
             <form class="reservation-form" th:id="'reservationForm_' + ${room.id}">
                 <div class="room-info-container">
@@ -190,14 +190,15 @@
                         <span th:text="${#numbers.formatInteger((room.fridayPrice * dayCountList[0] + room.saturdayPrice * dayCountList[1] + room.weekdayPrice * dayCountList[2]) / (dayCountList[0] + dayCountList[1] + dayCountList[2]), 0, 'COMMA')}">
                         </span>원 / 1박
                     </div>
-                    <div th:if="${room.count > 0 && room.count < 3}">
-                        남은 객실 <span th:text="${room.count}"></span>개
+                    <div th:if="${room.remainingRoomCount == 1}">
+                        남은 객실 <span class="text remaining-room-Count" th:text="${room.remainingRoomCount}"></span>개
                     </div>
                 </div>
                 <input type="submit" value="예약" class="reservation-button">
 
 
                 <input hidden type="text" name="roomId" th:value="${room.id}">
+                <input hidden type="text" name="remainingRoomCount" th:value="${room.remainingRoomCount}">
                 <span hidden class="price" th:text="${room.fridayPrice * dayCountList[0] + room.saturdayPrice * dayCountList[1] + room.weekdayPrice * dayCountList[2]}"></span>
                 <input hidden type="text" name="people" th:value="${adultCount + childCount}">
             </form>

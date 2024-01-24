@@ -26,6 +26,7 @@ import java.net.URLDecoder;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -79,7 +80,6 @@ public class HotelController {
         model.addAttribute("adultCount", adultCount);
         model.addAttribute("childCount", childCount);
 
-
         // 주중, 주말 가격 계산을 위한 요일 카운트 리스트 생성 코드
         // [금, 토, 주중]
         LocalDate startDate = LocalDate.parse(checkin, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
@@ -105,14 +105,42 @@ public class HotelController {
 
         model.addAttribute("dayLength", daysOfWeekBetweenDates.length); // n박
         model.addAttribute("dayCountList", dayCountList);
+
     }
 
     @PostMapping(value = "reservationStep1")
     public ResponseEntity<String> postReservationStep1(ReservationDto reservationDto) {
-
         boolean isInserted = hotelService.insertReservation(reservationDto);
 
-        if(isInserted) {
+        String date1Str = reservationDto.getCheckin();
+        String date2Str = reservationDto.getCheckout();
+
+        // Parse the strings to LocalDate objects
+        LocalDate date1 = LocalDate.parse(date1Str);
+        LocalDate date2 = LocalDate.parse(date2Str);
+
+        // Calculate the number of days between the two dates
+        long daysDifference = ChronoUnit.DAYS.between(date1, date2);
+
+        // Create a list containing LocalDate objects for each day between the two dates
+        List<LocalDate> dateList = new ArrayList<>();
+        for (int i = 0; i <= daysDifference; i++) {
+            dateList.add(date1.plusDays(i));
+        }
+
+        // Print the year, month, and day for each date
+        for (LocalDate date : dateList) {
+            int year = date.getYear();
+            int month = date.getMonthValue();
+            int day = date.getDayOfMonth();
+            System.out.println(date);
+        }
+
+        Long roomId = reservationDto.getRoomId();
+        int reservedRoomCount = this.hotelService.getReservedRoomCount(roomId);
+        this.hotelService.updateRoomCount(reservedRoomCount, roomId);
+
+        if (isInserted) {
             return new ResponseEntity<>("message", HttpStatus.OK);
         } else {
             return new ResponseEntity<>("fail...", HttpStatus.BAD_GATEWAY);

@@ -1,3 +1,24 @@
+const createdAt = document.querySelector('.created-at');
+
+const createdAtDate = new Date(createdAt.value);
+const expirationDate = new Date(createdAtDate.getTime() + (6 * 1000));
+
+document.addEventListener('mousemove', function() {
+    const currentTime = new Date();
+    if(currentTime > expirationDate) {
+        alert("예약 확인 및 결제 시간이 초과 하였습니다. 이전 페이지로 이동합니다.");
+        window.history.back();
+    }
+});
+
+document.addEventListener('click', function() {
+    const currentTime = new Date();
+    if(currentTime > expirationDate) {
+        alert("예약 확인 및 결제 시간이 초과 하였습니다. 이전 페이지로 이동합니다.");
+        window.history.back();
+    }
+});
+
 const cardButton = document.querySelector('.card-button');
 const kakaopayButton = document.querySelector('.kakaopay-button');
 const tosspayButton = document.querySelector('.tosspay-button');

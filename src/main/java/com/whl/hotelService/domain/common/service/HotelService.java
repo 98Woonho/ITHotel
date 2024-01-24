@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class HotelService {
@@ -51,7 +52,17 @@ public class HotelService {
         return roomRepository.findByHotelHotelnameAndStandardPeopleGreaterThanEqual(hotelname, people);
     }
 
+    public int getReservedRoomCount(Long roomId) {
+        return reservationRepository.findReservedRoomCount(roomId);
+    }
 
+    public void updateRoomCount(int reservedRoomCount, Long roomId) {
+        Room room = roomRepository.findById(roomId).get();
+        room.setRemainingRoomCount(room.getCount());
+        room.setRemainingRoomCount(room.getRemainingRoomCount() - reservedRoomCount);
+
+        roomRepository.save(room);
+    }
 
     @Transactional
     public boolean insertReservation(ReservationDto reservationDto) {

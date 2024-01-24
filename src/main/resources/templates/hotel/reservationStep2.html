@@ -90,6 +90,7 @@
         </div>
     </div>
 
+    <input hidden type="text" class="created-at" th:value="${reservation.createdAt}">
     <input hidden type="text" class="address" th:value="${reservation.user.addr1} + ' ' + ${reservation.user.addr2}">
     <input hidden type="text" class="reservation-id" th:value="${reservation.id}">
 </main>

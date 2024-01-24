@@ -14,4 +14,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     Reservation findByUserUserid(String userid);
 
     Reservation findByUserUseridAndStatus(String userid, String status);
+
+    @Query("SELECT COUNT(e) FROM Reservation e WHERE e.room.id = :roomId")
+    int findReservedRoomCount(Long roomId);
 }

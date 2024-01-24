@@ -40,4 +40,7 @@ public class Room {
     private int weekdayPrice; // 주중 가격
     @Column(nullable = false)
     private int count; // 객실의 개수
+
+    @Column(nullable = true)
+    private Integer remainingRoomCount; // 남은 방 개수
 }

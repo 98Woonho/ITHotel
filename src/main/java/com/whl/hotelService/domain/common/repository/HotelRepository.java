@@ -13,6 +13,4 @@ public interface HotelRepository extends JpaRepository<Hotel, String> {
 
     @Query("SELECT DISTINCT p.region FROM Hotel p")
     List<String> findDistinctRegion();
-
-
 }
