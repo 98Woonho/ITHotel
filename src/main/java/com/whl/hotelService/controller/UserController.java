@@ -146,6 +146,8 @@ public class UserController {
         return obj;
     }
 
+    @GetMapping("Oauthjoin")
+    public void getOauthLogin(){ log.info("getOauthjoin()"); }
 
     @GetMapping(value = "join")
     public void getjoin() {
@@ -201,6 +203,29 @@ public class UserController {
         return obj;
     }
 
+    @GetMapping("ConfirmEmail")
+    public @ResponseBody JSONObject confirmEmail(String email, HttpServletResponse response){
+        log.info("getConfirmId id : " + email);
+        boolean EmailVaile = userService.EmailValid(email);
+        JSONObject obj = new JSONObject();
+        if (!Objects.equals(email, "") && EmailVaile) {
+            obj.put("success", true);
+            obj.put("message", "사용가능한 이메일입니다.");
+
+            return obj;
+
+        } else if (Objects.equals(email, "")) {
+            obj.put("success", false);
+            obj.put("message", "이메일을 입력하세요");
+
+            return obj;
+        }
+        obj.put("success", false);
+        obj.put("message", "동일한 이메일이 존재합니다.");
+
+        return obj;
+    }
+
     @GetMapping("sendEmail/{email}")
     public @ResponseBody ResponseEntity<JSONObject> SendEmail(@PathVariable("email") String email) throws NoSuchAlgorithmException {
         log.info("getSendEmail : " + email);
@@ -212,7 +237,6 @@ public class UserController {
             builder.append(random.nextInt(10));
         }
         Email_code = builder.toString();
-        System.out.println(Email_code);
 
         //메일 메시지 만들기
         SimpleMailMessage message = new SimpleMailMessage();
@@ -226,8 +250,8 @@ public class UserController {
         return new ResponseEntity(new JSONObject().put("success", true), HttpStatus.OK);
     }
 
-    @GetMapping("confirmEmail")
-    public @ResponseBody JSONObject ConfirmEmail(String email, String code, HttpServletResponse response) {
+    @GetMapping("confirmCode")
+    public @ResponseBody JSONObject ConfirmCode(String email, String code, HttpServletResponse response) {
         log.info("getConfirmEmail email : " + email + ", code : " + code);
         JSONObject obj = new JSONObject();
         if (Objects.equals(Email_code, code)) {

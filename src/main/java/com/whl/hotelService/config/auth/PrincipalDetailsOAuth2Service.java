@@ -6,6 +6,7 @@ import com.whl.hotelService.config.auth.provider.OAuth2UserInfo;
 import com.whl.hotelService.domain.user.dto.UserDto;
 import com.whl.hotelService.domain.user.entity.User;
 import com.whl.hotelService.domain.user.repository.UserRepository;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -47,14 +48,17 @@ public class PrincipalDetailsOAuth2Service extends DefaultOAuth2UserService {
 
         //Db조회
         String username = oAuth2UserInfo.getProvider()+"_"+oAuth2UserInfo.getProvider_id();
-        String password = passwordEncoder.encode("1234");
+        String password = RandomStringUtils.randomAlphanumeric(16);
 
         Optional<User> optional =  userRepository.findById(username);
         UserDto dto = null;
         if(optional.isEmpty()){
             User user = User.builder()
                     .userid(username)
-                    .password(password)
+                    .password(passwordEncoder.encode(password))
+                    .name(oAuth2UserInfo.getName())
+                    .email(oAuth2UserInfo.getEmail())
+                    .phone(oAuth2UserInfo.getPhone())
                     .role("ROLE_USER")
                     .provider(oAuth2UserInfo.getProvider())
                     .provider_id(oAuth2UserInfo.getProvider_id())

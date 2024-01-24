@@ -7,6 +7,7 @@ import com.whl.hotelService.config.auth.jwt.JwtProperties;
 import com.whl.hotelService.config.auth.jwt.JwtTokenProvider;
 import com.whl.hotelService.config.auth.loginHandler.CustomAuthenticationFailureHandler;
 import com.whl.hotelService.config.auth.loginHandler.CustomLoginSuccessHandler;
+import com.whl.hotelService.config.auth.loginHandler.OAuth2LoginSuccessHandler;
 import com.whl.hotelService.config.auth.logoutHandler.CustomLogoutHandler;
 import com.whl.hotelService.config.auth.logoutHandler.CustomLogoutSuccessHandler;
 import com.whl.hotelService.domain.user.repository.UserRepository;
@@ -97,7 +98,7 @@ public class SecurityConfig {
         http.oauth2Login(
                 oauth2 ->{
                     oauth2.loginPage("/user/login");
-                    oauth2.successHandler(customLoginSuccessHandler());
+                    oauth2.successHandler(oAuth2LoginSuccessHandler());
                 }
         );
 
@@ -144,6 +145,9 @@ public class SecurityConfig {
     public CustomLoginSuccessHandler customLoginSuccessHandler(){
         return new CustomLoginSuccessHandler();
     }
+
+    @Bean
+    public OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler() { return new OAuth2LoginSuccessHandler(); }
 
     @Bean
     public PasswordEncoder passwordEncoder() {

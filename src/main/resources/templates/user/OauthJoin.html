@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <!--  cdns  -->
+    <th:block th:insert="~{fragments/link.html :: link_fragment}"></th:block>
+
+    <!--    common.css  -->
+    <link rel="stylesheet" href="/css/common.css">
+
+
+</head>
+<body>
+
+<header id="header" class="content-container-wrapper">
+    <th:block th:insert="~{fragments/header.html :: header_fragment}"></th:block>
+</header>
+
+
+<main>
+    <section>
+        <h1>JOIN PAGE</h1>
+        <form name="joinform" action="/user/join" method="post">
+            <div class="join_wrapper">
+                // google 없음 kakao 있음
+                <div>
+                    <label>전화번호</label><span th:text="${phone}" id="phone_msg" class="msg"></span> <br/>
+                    <input name="phone" type="phone" placeholder="-제외한 전화번호" /><br/>
+                </div>
+                //
+                <div>
+                    <label>우편번호</label><span th:text="${zipcode}" class="msg"></span> <br/>
+                    <input name="zipcode" id="zipcode" placeholder="우편번호" /> <a href="javascript:AddressSearch()" class="btn btn-secondary search_addr_btn">우편번호 찾기</a> <br/>
+                </div>
+                <div>
+                    <label>주소</label><span th:text="${addr1}" class="msg"></span> <br/>
+                    <input name="addr1" id="addr1" placeholder="주소" /> <br/>
+                </div>
+                <div>
+                    <label>상세주소</label> <br/>
+                    <input name="addr2" id="addr2" placeholder="상세주소" /> <br/>
+                </div>
+                <div>
+                    <button class="btn btn-secondary search_addr_btn">가입요청</button>
+                </div>
+            </div>
+        </form>
+    </section>
+</main>
+
+<!-- axios -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js" integrity="sha512-uMtXmF28A2Ab/JJO2t/vYhlaa/3ahUOgj1Zf27M5rOo8/+fcTUVH0/E0ll68njmjrLqOBjXM3V9NiPFL5ywWPQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<!-- map -->
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
+<script>
+    const AddressSearch = () => {
+        new daum.Postcode({
+            oncomplete: function (data) {
+                let addr = '';
+                if (data.userSelectedType === 'R') {
+                    // 도로명 주소
+                    addr = data.roadAddress;
+                } else {
+                    // 지번 주소
+                    addr = data.jibunAddress;
+                }
+
+                // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                document.querySelector('#zipcode').value = data.zonecode;
+                document.querySelector('#addr1').value = addr;
+                // 커서를 상세주소 필드로 이동한다.
+                document.querySelector('#addr2').focus();
+            }
+        }).open();
+    }
+</script>
+
+</body>
+</html>

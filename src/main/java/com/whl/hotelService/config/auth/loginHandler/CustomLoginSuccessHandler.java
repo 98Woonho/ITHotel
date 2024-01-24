@@ -24,10 +24,6 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
 
-        PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
-
-        System.out.println(jwtTokenProvider.getAuthentication(((PrincipalDetails) authentication.getPrincipal()).getAccessToken()));
-
         TokenInfo tokenInfo = jwtTokenProvider.generateToken(authentication);
 
         // 쿠키 생성

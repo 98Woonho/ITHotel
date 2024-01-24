@@ -29,9 +29,11 @@ public class UserService {
     private PasswordEncoder passwordEncoder;
 
     public boolean idValid(String id) {
-        if (userRepository.existsById(id))
-            return false;
-        return true;
+        return !userRepository.existsById(id);
+    }
+
+    public boolean EmailValid(String email){
+        return !userRepository.existsById(userRepository.findByEmail(email).getUserid());
     }
 
     public boolean memberjoin(UserDto dto, Model model, HttpServletRequest request, HttpServletResponse response) {

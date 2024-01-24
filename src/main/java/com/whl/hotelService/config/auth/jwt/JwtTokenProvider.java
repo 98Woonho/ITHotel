@@ -19,6 +19,7 @@ import java.sql.ResultSet;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -69,6 +70,7 @@ public class JwtTokenProvider {
 
         PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
         UserDto userDto = principalDetails.getUserDto();
+        Map<String,Object> attributes = principalDetails.getAttributes();
 
         // Access Token 생성
         Date accessTokenExpiresIn = new Date(now + 86400000);    // 60*5 초후 만료
@@ -149,7 +151,6 @@ public class JwtTokenProvider {
         String provider =  (String)claims.get("provider");
         String password = (String)claims.get("password");
         String auth = (String)claims.get("auth");
-        String role = (String)claims.get("role");
         String oauthAccessToken = (String)claims.get("accessToken");
         UserDto userDto = new UserDto();
         userDto.setProvider(provider);
