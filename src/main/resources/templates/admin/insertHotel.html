@@ -12,10 +12,10 @@
 
     <!-- css -->
     <link rel="stylesheet" href="/css/common.css">
-    <link rel="stylesheet" href="/css/admin/reservationStatus.css">
+    <link rel="stylesheet" href="/css/admin/insertHotel.css">
 
     <!-- js -->
-    <script defer src="/js/admin/reservationStatus.js"></script>
+    <script defer src="/js/admin/insertHotel.js"></script>
 </head>
 <body>
 
@@ -29,16 +29,11 @@
             <th:block th:replace="~{fragments/adminLeft.html :: adminLeft_fragment}"></th:block>
             <div class="admin-right">
                 <div class="title-container">
-                    <h1 class="title">예약 현황 >
-                        <th:block th:switch="${region}">
-                            <span class="text" th:case='seoul'>서울</span>
-                            <span class="text" th:case='busan'>부산</span>
-                            <span class="text" th:case='ulsan'>울산</span>
-                        </th:block>
-                    </h1>
+                    <h1 class="title">호텔 관리 > 호텔 등록</h1>
                 </div>
-                <div class="reservation-table-container">
-                    <span class="text">예약 테이블 공간(reservation table에서 데이터 가져와서 게시판 형식으로 나열. 취소 버튼을 만들어서 예약 및 결제 취소 되도록 할 예정)</span>
+                <div class="insert-hotel-container">
+                    <span class="text">호텔 등록 공간(호텔 지역, 호텔 이름, 호텔 상세 주소, 호텔 연락처, 객실 종류 및 이미지(+ 아이콘 만들어서 여러 객실을 등록할 수 있도록 하는 js 만들 예정), 호텔 이미지, (호텔 소개에 적을 설명?)</span><br><br>
+                    <span class="text">이미지 테이블이 따로 필요할 거 같음.</span>
                 </div>
             </div>
         </div>

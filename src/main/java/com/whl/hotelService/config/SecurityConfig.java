@@ -145,7 +145,6 @@ public class SecurityConfig {
         return new CustomLoginSuccessHandler();
     }
 
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

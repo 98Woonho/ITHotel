@@ -76,6 +76,7 @@ public class JwtTokenProvider {
                 .setSubject(authentication.getName())
                 .claim("username",authentication.getName())             //정보저장
                 .claim("auth", authorities)                             //정보저장
+                .claim("name", userDto.getName())
                 .claim("principal", authentication.getPrincipal())      //정보저장
                 .claim("credentials", authentication.getCredentials())  //정보저장
                 .claim("details", authentication.getDetails())          //정보저장
@@ -149,12 +150,14 @@ public class JwtTokenProvider {
         String provider =  (String)claims.get("provider");
         String password = (String)claims.get("password");
         String auth = (String)claims.get("auth");
+        String name = (String)claims.get("name");
         String oauthAccessToken = (String)claims.get("accessToken");
         UserDto userDto = new UserDto();
         userDto.setProvider(provider);
         userDto.setUserid(username);
         userDto.setPassword(password);
         userDto.setRole(auth);
+        userDto.setName(name);
 
         PrincipalDetails principalDetails = new PrincipalDetails();
         principalDetails.setUserDto(userDto);
