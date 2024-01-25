@@ -5,15 +5,17 @@
     <meta charset="UTF-8">
     <title>게시글</title>
     <link rel="stylesheet" href="/css/board/detail.css">
+    <link rel="stylesheet" href="/css/common.css">
     <th:block th:insert="~{/fragments/link.html :: link_fragment}"></th:block>
     <script defer src="/js/board/admin/detail.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
-<th:block th:replace="~{/fragments/header.html :: header_fragment}"></th:block>
-
-<h1>게시판</h1>
+<header id="header" class="content-container-wrapper">
+    <th:block th:insert="~{fragments/header.html :: header_fragment}"></th:block>
+</header>
+<h1>회원 게시글</h1>
 <div class="card mb-4">
     <div class="card-body">
         <form>
@@ -76,19 +78,15 @@
         </div>
     </div>
 </div>
-<button onclick="saveReq()">글작성</button>
+
 <button onclick="listReq()">게시판 목록</button>
 <th:block th:if="${board != null and #authentication.principal instanceof T(org.springframework.security.core.userdetails.UserDetails) and board.getUsername() == #authentication.principal.username}">
-    <a th:href="@{/board/admin/{id}/update(id=${id})}" class="btn btn-outline-warning">수정</a>
-    <a th:href="@{/board/admin/{id}/remove(id=${id})}" class="btn btn-outline-danger" onclick="return confirm('삭제하시겠습니까?')">삭제</a>
+    <a th:href="@{/board/{id}/admin/adminRemove(id=${id})}" class="btn btn-outline-danger" onclick="return confirm('삭제하시겠습니까?')">회원 글 삭제</a>
 </th:block>
 <th:block th:replace="~{/fragments/footer.html :: footer_fragment}"></th:block>
 </body>
 
 <script th:inline="javascript">
-    const saveReq = () => {
-        location.href = "/board/admin/adminWrite"
-    }
     const listReq = () => {
         location.href = "/board/admin/adminList"
     }

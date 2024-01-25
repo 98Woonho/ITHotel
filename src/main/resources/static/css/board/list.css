@@ -1,0 +1,47 @@
+#main{
+    display: flex;
+    flex: 1;
+    ;
+}
+
+#main_wrapper {
+    border-top : #cdcbbe solid 1px;
+    width: 500px;
+}
+#main_wrapper > ul {
+    padding-left: 0;
+    margin-bottom: 0;
+}
+.tex {
+    color: inherit;
+    text-decoration: none;
+}
+
+.tex > div {
+    display: inline-block;
+    margin: 15px;
+}
+
+.first > .tex {
+    border-bottom: #ccc solid 1px;
+    display: block;
+    overflow: hidden;
+    zoom: 1;
+    cursor: pointer;
+    background: #faf9f4;
+    height: 100%;
+}
+ul > .content {
+
+    margin: 10px 20px;
+    display: none;
+}
+
+ul > .content.show {
+    display: block;
+}
+
+.pagination {
+    justify-content: center;
+    align-items: center;
+}
