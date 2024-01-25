@@ -19,6 +19,7 @@ import java.sql.ResultSet;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -69,6 +70,7 @@ public class JwtTokenProvider {
 
         PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
         UserDto userDto = principalDetails.getUserDto();
+        Map<String,Object> attributes = principalDetails.getAttributes();
 
         // Access Token 생성
         Date accessTokenExpiresIn = new Date(now + 86400000);    // 60*5 초후 만료
@@ -76,7 +78,7 @@ public class JwtTokenProvider {
                 .setSubject(authentication.getName())
                 .claim("username",authentication.getName())             //정보저장
                 .claim("auth", authorities)                             //정보저장
-                .claim("name", userDto.getName())
+                .claim("name", userDto.getName())                       //정보저장
                 .claim("principal", authentication.getPrincipal())      //정보저장
                 .claim("credentials", authentication.getCredentials())  //정보저장
                 .claim("details", authentication.getDetails())          //정보저장
@@ -85,7 +87,6 @@ public class JwtTokenProvider {
                 .setExpiration(accessTokenExpiresIn)
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
-
         // Refresh Token 생성
         String refreshToken = Jwts.builder()
                 .setExpiration(new Date(now + 86400000))    //1일: 24 * 60 * 60 * 1000 = 86400000

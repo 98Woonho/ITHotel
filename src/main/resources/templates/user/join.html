@@ -43,7 +43,7 @@
         </div>
         <div>
           <label>이메일</label><span th:text="${email}" id="email_msg" class="msg"></span> <br/>
-          <input name="email" type="email" placeholder="이메일" /> <button type="button" class="btn btn-secondary search_addr_btn" onclick="SendEmail()">인증</button> <br/>
+          <input name="email" type="email" placeholder="이메일"/> <button type="button" class="btn btn-secondary search_addr_btn" onclick="SendEmail()">인증</button> <br/>
         </div>
         <div class="code" style="display:none;">
           <label>인증코드</label><span id="code_msg" class="msg"></span> <br/>
@@ -144,12 +144,20 @@
     const email = document.joinform.email.value;
     let regexEmail = new RegExp("^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$");
     const email_msg = document.querySelector('#email_msg');
-    if(!regexEmail.test(email.trim())){
-      email_msg.textContent = "이메일 형식으로 작성해야 합니다.";
-      email_msg.style.color = 'orange';
-      return false;
-    }
-    return true;
+    axios.get('/user/ConfirmEmail/' + email)
+            .then(res => {
+              console.log(res);
+              if(!regexEmail.test(email.trim())){
+                email_msg.textContent = "이메일 형식으로 작성해야 합니다.";
+                email_msg.style.color = 'orange';
+                return false;
+              }else if(!res.data.success) {
+                email_msg.innerHTML = res.data.message;
+                email_msg.style.color = 'orange';
+              }
+              return res.data.success;
+            })
+            .catch(err =>{ console.log(err); });
   }
 
   const SendEmail = function(){
@@ -170,7 +178,7 @@
   const ConfirmEmail = function(){
     const email = document.joinform.email.value;
     const code = document.joinform.emailCode.value;
-    axios.get('/user/confirmEmail?email='+email+"&code="+code)
+    axios.get('/user/confirmCode?email='+email+"&code="+code)
             .then(res => {
               console.log(res);
               if(res.data.success){
