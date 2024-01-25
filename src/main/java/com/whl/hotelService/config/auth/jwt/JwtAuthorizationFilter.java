@@ -76,8 +76,10 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
         Authentication authentication = jwtTokenProvider.getAuthentication(token);
         Optional<User> user = memberRepository.findById(authentication.getName()); // 유저를 유저명으로 찾습니다.
+
         if(user!=null)
         {
+
             return authentication;
         }
         return null; // 유저가 없으면 NULL

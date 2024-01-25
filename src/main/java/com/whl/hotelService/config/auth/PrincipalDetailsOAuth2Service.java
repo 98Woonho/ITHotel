@@ -15,6 +15,7 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -28,6 +29,7 @@ public class PrincipalDetailsOAuth2Service extends DefaultOAuth2UserService {
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
+
         //Attribute확인
         OAuth2User oAuth2User = super.loadUser(userRequest);
 
@@ -38,11 +40,12 @@ public class PrincipalDetailsOAuth2Service extends DefaultOAuth2UserService {
 
         if(provider!=null&&provider.equals("kakao")){
             String id = oAuth2User.getAttributes().get("id").toString();
-            KakaoUserInfo kakaoUserInfo = new KakaoUserInfo(id, oAuth2User.getAttributes());
+            KakaoUserInfo kakaoUserInfo = new KakaoUserInfo(id, (Map<String, Object>) oAuth2User.getAttributes().get("kakao_account"));
             oAuth2UserInfo = kakaoUserInfo;
         }else if(provider!=null&&provider.equals("google")) {
             String id = (String) oAuth2User.getAttributes().get("sub");
             GoogleUserInfo googleUserInfo = new GoogleUserInfo(id, oAuth2User.getAttributes());
+            System.out.println(oAuth2User.getAttributes());
             oAuth2UserInfo = googleUserInfo;
         }
 

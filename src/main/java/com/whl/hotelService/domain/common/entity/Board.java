@@ -17,12 +17,14 @@ import java.util.List;
 public class Board extends BaseEntity {
     @Id //PrimaryKey 지정
     @GeneratedValue(strategy = GenerationType.IDENTITY) // auto_increment
+    @Column(name = "board_id")
     private Long id;
     @Column(length = 20, nullable = false)
     private String title; //제목
     @Column(length = 500, nullable = false)
     private String content; // 내용
-    private String type; //검색타입
+
+    private String boardType; //게시판 종류 공지, 어드민
     @ManyToOne
     @JoinColumn(name = "user_userid", foreignKey = @ForeignKey(name="fk_board_user_userid", foreignKeyDefinition = "FOREIGN KEY(user_userid) REFERENCES user(userid) ON DELETE CASCADE ON UPDATE CASCADE"), nullable = false)
     private User user;

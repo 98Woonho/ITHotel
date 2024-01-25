@@ -26,52 +26,15 @@
 <main id="main" class="content-container-wrapper">
     <div class="content-container">
         <div class="admin-container">
-            <div class="admin-left">
-                <div class="title-container">
-                    <h1 class="title">관리자 페이지</h1>
-                </div>
-                <div class="menu">
-                    <div class="subtitle-container">
-                        <h2 class="subtitle">예약현황</h2>
-                    </div>
-                    <div class="link-container">
-                        <a href="/admin/reservationStatus?region=seoul" class="link">서울</a>
-                        <a href="/admin/reservationStatus?region=busan" class="link">부산</a>
-                        <a href="/admin/reservationStatus?region=ulsan" class="link">울산</a>
-                    </div>
-                    <div class="subtitle-container">
-                        <h2 class="subtitle">문의내역</h2>
-                    </div>
-                    <div class="link-container">
-                        <a href="#" class="link">서울</a>
-                        <a href="#" class="link">부산</a>
-                        <a href="#" class="link">울산</a>
-                    </div>
-                    <div class="subtitle-container">
-                        <h2 class="subtitle">호텔 등록 및 삭제</h2>
-                    </div>
-                    <div class="link-container">
-                        <a href="#" class="link">호텔 등록</a>
-                        <a href="#" class="link">호텔 삭제</a>
-                    </div>
-                    <div class="subtitle-container">
-                        <h2 class="subtitle">매출 현황</h2>
-                    </div>
-                    <div class="link-container">
-                        <a href="#" class="link">일 매출</a>
-                        <a href="#" class="link">월 매출</a>
-                        <a href="#" class="link">년 매출</a>
-                    </div>
-                </div>
-            </div>
+            <th:block th:replace="~{fragments/adminLeft.html :: adminLeft_fragment}"></th:block>
             <div class="admin-right">
                 <div class="title-container">
-                    <h1 class="title">예약현황 >
-                        <span th:switch="${region}">
-                            <span th:case='seoul'>서울</span>
-                            <span th:case='busan'>부산</span>
-                            <span th:case='ulsan'>울산</span>
-                        </span>
+                    <h1 class="title">예약 현황 >
+                        <th:block th:switch="${region}">
+                            <span class="text" th:case='seoul'>서울</span>
+                            <span class="text" th:case='busan'>부산</span>
+                            <span class="text" th:case='ulsan'>울산</span>
+                        </th:block>
                     </h1>
                 </div>
                 <div class="reservation-table-container">

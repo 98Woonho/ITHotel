@@ -22,14 +22,15 @@
 <main>
     <section>
         <h1>JOIN PAGE</h1>
-        <form name="joinform" action="/user/join" method="post">
+        <form name="joinform" action="/user/Oauthjoin" method="post">
             <div class="join_wrapper">
-                // google 없음 kakao 있음
-                <div>
+                <th:block th:if="${provider} == 'google'">
                     <label>전화번호</label><span th:text="${phone}" id="phone_msg" class="msg"></span> <br/>
-                    <input name="phone" type="phone" placeholder="-제외한 전화번호" /><br/>
-                </div>
-                //
+                    <input name="phone" id="phone" placeholder="-제외한 전화번호"/>
+                </th:block>
+                <th:block th:if="${provider} == 'kakao'">
+                    <input name="phone" type="hidden" value="."/> <br/>
+                </th:block>
                 <div>
                     <label>우편번호</label><span th:text="${zipcode}" class="msg"></span> <br/>
                     <input name="zipcode" id="zipcode" placeholder="우편번호" /> <a href="javascript:AddressSearch()" class="btn btn-secondary search_addr_btn">우편번호 찾기</a> <br/>
@@ -45,6 +46,11 @@
                 <div>
                     <button class="btn btn-secondary search_addr_btn">가입요청</button>
                 </div>
+                <input name="userid" type="hidden" value=".">
+                <input name="password" type="hidden" value=".">
+                <input name="repassword" type="hidden" value=".">
+                <input name="email" type="hidden" value=".">
+                <input name="name" type="hidden" value=".">
             </div>
         </form>
     </section>

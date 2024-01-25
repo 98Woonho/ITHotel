@@ -37,15 +37,16 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
             response.addCookie(cookie);
             //--------------------------------------
 
+            PrincipalDetails principalDetails =(PrincipalDetails) authentication.getPrincipal();
             Collection<? extends GrantedAuthority> collection =  authentication.getAuthorities();
             collection.forEach( (role)->{
-                System.out.println("[CustomLoginSuccessHandler] onAuthenticationSuccess() role : " + role);
                 String role_str =  role.getAuthority();
 
                 try {
-                    if (role_str.equals("ROLE_USER")){
+                    if (role_str.equals("ROLE_USER") && principalDetails.getUserDto().getAddr1() == null)
                         response.sendRedirect("/user/Oauthjoin");
-                    }
+                    else
+                        response.sendRedirect("/");
                 }catch(Exception e){
                     e.printStackTrace();
                 }

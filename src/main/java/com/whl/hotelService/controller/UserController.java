@@ -1,6 +1,8 @@
 package com.whl.hotelService.controller;
 
+import com.whl.hotelService.config.auth.PrincipalDetails;
 import com.whl.hotelService.domain.user.dto.UserDto;
+import com.whl.hotelService.domain.user.entity.User;
 import com.whl.hotelService.domain.user.service.UserService;
 import com.whl.hotelService.config.auth.jwt.JwtProperties;
 import com.whl.hotelService.config.auth.jwt.JwtTokenProvider;
@@ -17,6 +19,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 
@@ -147,7 +150,31 @@ public class UserController {
     }
 
     @GetMapping("Oauthjoin")
-    public void getOauthLogin(){ log.info("getOauthjoin()"); }
+    public void getOauthLogin(Authentication authentication, Model model){
+        log.info("getOauthjoin()");
+        PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
+        String provider = principalDetails.getUserDto().getProvider();
+        model.addAttribute("provider", provider);
+    }
+
+    @PostMapping("Oauthjoin")
+    public String postOauthLogin(@Valid UserDto dto, BindingResult bindingResult, Model model, HttpServletRequest request){
+        log.info("postOauthjoin()");
+        if (bindingResult.hasFieldErrors()) {
+            for (FieldError error : bindingResult.getFieldErrors()) {
+                log.info(error.getField() + " : " + error.getDefaultMessage());
+                model.addAttribute(error.getField(), error.getDefaultMessage());
+            }
+            return "/user/Oauthjoin";
+        }
+
+        boolean isJoin = userService.OauthMemberJoin(dto, request, model);
+
+        if (isJoin) {
+            return "redirect:/user/login?msg=MemberJoin Success!";
+        } else
+            return "redirect:/user/join?msg=Join Failed";
+    }
 
     @GetMapping(value = "join")
     public void getjoin() {

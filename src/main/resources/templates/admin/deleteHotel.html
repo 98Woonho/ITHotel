@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <!--  cdns  -->
+    <th:block th:insert="~{fragments/link.html :: link_fragment}"></th:block>
+
+    <!-- css -->
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/admin/deleteHotel.css">
+
+    <!-- js -->
+    <script defer src="/js/admin/deleteHotel.js"></script>
+</head>
+<body>
+
+<header id="header" class="content-container-wrapper">
+    <th:block th:insert="~{fragments/header.html :: header_fragment}"></th:block>
+</header>
+
+<main id="main" class="content-container-wrapper">
+    <div class="content-container">
+        <div class="admin-container">
+            <th:block th:replace="~{fragments/adminLeft.html :: adminLeft_fragment}"></th:block>
+            <div class="admin-right">
+                <div class="title-container">
+                    <h1 class="title">호텔 관리 > 호텔 삭제</h1>
+                </div>
+                <div class="delete-hotel-container">
+                    <span class="text">호텔 삭제 테이블 공간(호텔 종류를 테이블에서 가져와서 게시판 형식으로 나열한 뒤 삭제 버튼으로 삭제할 예정)</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<th:block th:insert="~{fragments/footer.html :: footer_fragment}"></th:block>
+
+
+</body>
+</html>

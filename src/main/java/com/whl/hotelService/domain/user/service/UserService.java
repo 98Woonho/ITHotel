@@ -1,5 +1,6 @@
 package com.whl.hotelService.domain.user.service;
 
+import com.whl.hotelService.config.auth.jwt.JwtProperties;
 import com.whl.hotelService.config.auth.jwt.JwtTokenProvider;
 import com.whl.hotelService.domain.user.dto.UserDto;
 import com.whl.hotelService.domain.user.entity.User;
@@ -15,6 +16,7 @@ import org.springframework.ui.Model;
 
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -136,6 +138,42 @@ public class UserService {
         userRepository.save(user);
 
         return userRepository.existsById(user.getUserid());
+    }
+
+    public boolean OauthMemberJoin(UserDto dto, HttpServletRequest request, Model model){
+        Cookie[] JwtCookies = request.getCookies();
+        String JwtAccessToken = Arrays.stream(JwtCookies).filter(co -> co.getName().equals(JwtProperties.COOKIE_NAME)).findFirst()
+                .map(co -> co.getValue())
+                .orElse(null);
+        if(JwtAccessToken == null){
+            model.addAttribute("success", false);
+            model.addAttribute("message", "JWT토큰이 존재하지 않습니다");
+            return false;
+
+        } else if(!jwtTokenProvider.validateToken(JwtAccessToken)){
+            model.addAttribute("success", false);
+            model.addAttribute("message", "JWT토큰이 만료되었습니다");
+            return false;
+
+        } else {
+            Claims claims = jwtTokenProvider.parseClaims(JwtAccessToken);
+            String id = (String) claims.get("username");
+            User user = userRepository.getReferenceById(id);
+            if(Objects.equals(user.getProvider(), "kakao")) {
+                user.setZipcode(dto.getZipcode());
+                user.setAddr1(dto.getAddr1());
+                user.setAddr2(dto.getAddr2());
+                userRepository.save(user);
+
+            } else if(Objects.equals(user.getProvider(), "google")){
+                user.setPhone(dto.getPhone());
+                user.setZipcode(dto.getZipcode());
+                user.setAddr1(dto.getAddr1());
+                user.setAddr2(dto.getAddr2());
+                userRepository.save(user);
+            }
+            return true;
+        }
     }
 
     public boolean isExists(String name, String email) {
