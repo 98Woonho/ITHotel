@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @AllArgsConstructor
@@ -37,7 +38,7 @@ public class Reservation {
     @Column(nullable = false)
     private String people; // 인원
     @Column(nullable = false)
-    private Date createdAt; // 생성 시간
+    private LocalDateTime createdAt; // 생성 시간
     @Column(nullable = false)
     private int price; // 결제 금액
 }

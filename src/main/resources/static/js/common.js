@@ -95,5 +95,5 @@ searchForm.onsubmit = function (e) {
     const adultCount = searchForm['adultCount'].value;
     const childCount = searchForm['childCount'].value;
 
-    location.href = '/hotel/reservationStep1?hotelname=' + hotelname + '&checkin=' + checkin + '&checkout=' + checkout + '&adultCount=' + adultCount + '&childCount=' + childCount;
+    location.href = '/reservation/select?hotelname=' + hotelname + '&checkin=' + checkin + '&checkout=' + checkout + '&adultCount=' + adultCount + '&childCount=' + childCount;
 }
