@@ -11,42 +11,50 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
-<th:block th:replace="~{/fragments/header.html :: header_fragment}"></th:block>
-
-<h1>공지 게시글</h1>
-<div class="card mb-4">
-    <div class="card-body">
-        <form method="post">
-            <div>
-                <span>id</span>
-                <th:block th:text="${board.id}"></th:block>
+<header id="header" class="content-container-wrapper">
+    <th:block th:insert="~{fragments/header.html :: header_fragment}"></th:block>
+</header>
+<main id="main">
+    <div id="main_wrapper">
+        <h1>수정</h1>
+        <div class="card mb-4">
+            <div class="card-body">
+                <form method="post">
+                    <div>
+                        <span>id</span>
+                        <th:block th:text="${board.id}"></th:block>
+                    </div>
+                    <div class="mb-3">
+                        <label for="title" class="form-label">제목</label>
+                        <input type="text" class="form-control" id="title" name="title"
+                               th:value="${board.title}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="content" class="form-label">내용</label>
+                        <textarea class="form-control" id="content" name="content"
+                                  th:text="${board.content}"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createdAt" class="form-label">작성일</label>
+                        <input type="text" class="form-control" id="createdAt" name="createdAt"
+                               th:value="${#temporals.format(board.createdTime, 'yyyy-MM-dd HH:mm')}" disabled>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createdAt" class="form-label">수정일</label>
+                        <input type="text" class="form-control" id="updatedAt" name="updatedAt"
+                               th:value="${#temporals.format(board.updatedTime, 'yyyy-MM-dd HH:mm')}" disabled>
+                    </div>
+                    <div class="mb-3">
+                        <label for="writer" class="form-label">작성자</label>
+                        <input type="text" class="form-control" id="writer" name="writer"
+                               th:value="${board.username}" disabled>
+                    </div>
+                    <button type="submit" class="btn btn-primary">수정</button>
+                </form>
             </div>
-            <div class="mb-3">
-                <label for="title" class="form-label">제목</label>
-                <input type="text" class="form-control" id="title" name="title"
-                       th:value="${board.title}">
-            </div>
-            <div class="mb-3">
-                <label for="content" class="form-label">내용</label>
-                <textarea class="form-control" id="content" name="content"
-                          th:text="${board.content}"></textarea>
-            </div>
-            <div class="mb-3">
-                <label for="createdAt" class="form-label">작성일</label>
-                <input type="text" class="form-control" id="createdAt" name="createdAt"
-                       th:value="${#temporals.format(board.createdTime, 'yyyy-MM-dd HH:mm')}" disabled>
-            </div>
-            <div class="mb-3">
-                <label for="createdAt" class="form-label">수정일</label>
-                <input type="text" class="form-control" id="updatedAt" name="updatedAt"
-                       th:value="${#temporals.format(board.updatedTime, 'yyyy-MM-dd HH:mm')}" disabled>
-            </div>
-            <div class="mb-3">
-                <label for="writer" class="form-label">작성자</label>
-                <input type="text" class="form-control" id="writer" name="writer"
-                       th:value="${board.username}" disabled>
-            </div>
-            <button type="submit" class="btn btn-primary">수정</button>
-        </form>
+        </div>
     </div>
-</div>
+</main>
+<th:block th:replace="~{/fragments/footer.html :: footer_fragment}"></th:block>
+</body>
+</html>

@@ -1,11 +1,11 @@
-const a_click = document.querySelectorAll('.tex');
-const content = document.querySelectorAll('.content');
+const question = document.querySelectorAll('.question_li');
+const answer = document.querySelectorAll('.answer_li');
 
-a_click.forEach(function (a) {
+question.forEach(function (a) {
     a.addEventListener('click', function () {
 
-        const index = Array.from(a_click).indexOf(a);
-        const targetContent = content[index];
+        const index = Array.from(question).indexOf(a);
+        const targetContent = answer[index];
 
         if (!targetContent.classList.contains('show'))
             targetContent.classList.add('show');

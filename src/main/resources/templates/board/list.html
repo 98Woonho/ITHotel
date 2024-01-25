@@ -14,44 +14,42 @@
 <header id="header" class="content-container-wrapper">
     <th:block th:insert="~{fragments/header.html :: header_fragment}"></th:block>
 </header>
-<main id="main" class="content-container-wrapper">
-<h2 style="margin: 20px">공지 게시판</h2>
-<form method="get" th:action="@{/board/list}">
-    <div>
-        <select name="type">
-            <option value='T'>제목별</option>
-            <option value='C'>내용</option>
-            <option value='W'>작성자별</option>
-        </select>
-        <label for="searchText">검색</label>
-        <input type="text" id="searchText" name="keyword" placeholder="검색">
-    </div>
-    <div>
-        <button type="submit">검색</button>
-    </div>
-</form>
-<div id="main_wrapper" th:each="board : ${boardList}">
-    <ul>
-        <li>
-            <div>
-                <th:block
-                        th:unless="${board != null and #authentication.principal instanceof T(org.springframework.security.core.userdetails.UserDetails) and board.getUsername() == #authentication.principal.username}">
-                    <a th:text="|Q ${board.title}|"></a>
-                </th:block>
+<main id="main">
+    <div id="main_wrapper">
+        <h2>공지 게시판</h2>
+        <form method="get" th:action="@{/board/list}">
+            <div class="search">
+                <select name="type" class="form-select">
+                    <option value='T'>제목별</option>
+                    <option value='C'>내용</option>
+                    <option value='W'>작성자별</option>
+                </select>
+                <label for="searchText"></label>
+                <input type="text" id="searchText" class="form-control" name="keyword" placeholder="검색">
+                <button type="submit" class="btn btn-secondary">검색</button>
             </div>
-            <div>
-                <th:block
-                        th:if="${board != null and #authentication.principal instanceof T(org.springframework.security.core.userdetails.UserDetails) and board.getUsername() == #authentication.principal.username}">
-                    <a th:text="|Q ${board.title}|" th:href="@{'/board/' + ${board.id}}"></a>
-                </th:block>
-            </div>
-        </li>
-        <span th:text="|A ${board.content}|"></span>
-    </ul>
-</div>
-<div th:if="${!boardList.isEmpty()}">
-    <ul class="pagination"
-        th:with="
+        </form>
+        <div id="board_wrapper">
+        <div id="board">
+            <ul th:each="board : ${boardList}">
+                <li class="question_li">
+                    <th:block
+                            th:unless="${board != null and #authentication.principal instanceof T(org.springframework.security.core.userdetails.UserDetails) and board.getUsername() == #authentication.principal.username}">
+                        <a th:text="|Q ${board.title}|"></a>
+                    </th:block>
+                    <th:block
+                            th:if="${board != null and #authentication.principal instanceof T(org.springframework.security.core.userdetails.UserDetails) and board.getUsername() == #authentication.principal.username}">
+                        <a th:text="|Q ${board.title}|" th:href="@{'/board/' + ${board.id}}"></a>
+                    </th:block>
+                </li>
+                <li  class="answer_li" th:unless="${board != null and #authentication.principal instanceof T(org.springframework.security.core.userdetails.UserDetails) and board.getUsername() == #authentication.principal.username}"
+                    th:text="|A ${board.content}|"></li>
+            </ul>
+        </div>
+        </div>
+        <div th:if="${!boardList.isEmpty()}">
+            <ul class="pagination"
+                th:with="
             pageNumber = ${boardList.pageable.pageNumber},
             pageSize = ${boardList.pageable.pageSize},
             totalPages = ${boardList.totalPages},
@@ -59,39 +57,41 @@
             tempEndPage = ${startPage + pageSize - 1},
             endPage = (${tempEndPage < totalPages ? tempEndPage : totalPages})">
 
-        <li th:classappend="${boardList.first} ? 'disabled'" class="page-item">
-            <a class="page-link" th:if="${param.keyword == null}"
-               th:href="${boardList.first} ? '#' : @{/board/list(page=${pageNumber - 1})}" aria-label="Previous">
-                <span aria-hidden="true">&lt;</span>
-            </a>
-            <a class="page-link" th:if="${param.keyword != null}"
-               th:href="${boardList.first} ? '#' : @{/board/list(page=${pageNumber - 1}, type=${param.type}, keyword=${param.keyword})}"
-               aria-label="Previous">
-                <span aria-hidden="true">&lt;</span>
-            </a>
-        </li>
+                <li th:classappend="${boardList.first} ? 'disabled'" class="page-item">
+                    <a class="page-link" th:if="${param.keyword == null}"
+                       th:href="${boardList.first} ? '#' : @{/board/list(page=${pageNumber - 1})}"
+                       aria-label="Previous">
+                        <span aria-hidden="true">&lt;</span>
+                    </a>
+                    <a class="page-link" th:if="${param.keyword != null}"
+                       th:href="${boardList.first} ? '#' : @{/board/list(page=${pageNumber - 1}, type=${param.type}, keyword=${param.keyword})}"
+                       aria-label="Previous">
+                        <span aria-hidden="true">&lt;</span>
+                    </a>
+                </li>
 
-        <li th:each="page: ${#numbers.sequence(startPage, endPage)}"
-            th:classappend="${page == pageNumber + 1} ? 'active'" class="page-item">
-            <a th:text="${page}" th:if="${param.keyword == null}" class="page-link"
-               th:href="@{/board/list(page=${page - 1})}"></a>
-            <a th:text="${page}" th:if="${param.keyword != null}" class="page-link"
-               th:href="@{/board/list(page=${page - 1}, type=${param.type}, keyword=${param.keyword})}"></a>
-        </li>
+                <li th:each="page: ${#numbers.sequence(startPage, endPage)}"
+                    th:classappend="${page == pageNumber + 1} ? 'active'" class="page-item">
+                    <a th:text="${page}" th:if="${param.keyword == null}" class="page-link"
+                       th:href="@{/board/list(page=${page - 1})}"></a>
+                    <a th:text="${page}" th:if="${param.keyword != null}" class="page-link"
+                       th:href="@{/board/list(page=${page - 1}, type=${param.type}, keyword=${param.keyword})}"></a>
+                </li>
 
-        <li th:classappend="${boardList.last} ? 'disabled'" class="page-item">
-            <a class="page-link" th:if="${param.keyword == null}"
-               th:href="${boardList.last} ? '#' : @{/board/list(page=${pageNumber + 1})}" aria-label="Next">
-                <span aria-hidden="true">&gt;</span>
-            </a>
-            <a class="page-link" th:if="${param.keyword != null}"
-               th:href="${boardList.last} ? '#' : @{/board/list(page=${pageNumber + 1}, type=${param.type}, keyword=${param.keyword})}"
-               aria-label="Next">
-                <span aria-hidden="true">&gt;</span>
-            </a>
-        </li>
-    </ul>
-</div>
+                <li th:classappend="${boardList.last} ? 'disabled'" class="page-item">
+                    <a class="page-link" th:if="${param.keyword == null}"
+                       th:href="${boardList.last} ? '#' : @{/board/list(page=${pageNumber + 1})}" aria-label="Next">
+                        <span aria-hidden="true">&gt;</span>
+                    </a>
+                    <a class="page-link" th:if="${param.keyword != null}"
+                       th:href="${boardList.last} ? '#' : @{/board/list(page=${pageNumber + 1}, type=${param.type}, keyword=${param.keyword})}"
+                       aria-label="Next">
+                        <span aria-hidden="true">&gt;</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
 </main>
 <th:block th:replace="~{/fragments/footer.html :: footer_fragment}"></th:block>
 

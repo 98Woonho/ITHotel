@@ -14,67 +14,62 @@
 <header id="header" class="content-container-wrapper">
     <th:block th:insert="~{fragments/header.html :: header_fragment}"></th:block>
 </header>
-
-<h2 style="margin: 20px">관리자 게시판</h2>
-<form class="row g-3 d-flex justify-content-end" method="get" th:action="@{/board/admin/adminList}">
-    <div class="col-auto">
-        <select name="type">
-            <option value='T'>제목별</option>
-            <option value='C'>내용</option>
-            <option value='W'>작성자별</option>
-        </select>
-        <label for="searchText" class="visually-hidden">검색</label>
-        <input type="text" class="form-control" id="searchText" name="keyword" placeholder="검색">
-    </div>
-    <div class="col-auto">
+<main id="main">
+    <h2 style="margin: 20px">관리자 게시판</h2>
+    <form class="row g-3 d-flex justify-content-end" method="get" th:action="@{/board/admin/adminList}">
+        <div class="col-auto">
+            <select name="type">
+                <option value='T'>제목별</option>
+                <option value='C'>내용</option>
+                <option value='W'>작성자별</option>
+            </select>
+            <label for="searchText" class="visually-hidden">검색</label>
+            <input type="text" class="form-control" id="searchText" name="keyword" placeholder="검색">
+        </div>
         <button type="submit" class="btn btn-light mb-3" style="margin-right: 50px">검색</button>
-    </div>
-</form>
-<div style="display: flex; justify-content: flex-end; margin-right: 50px">
-    <button onclick="saveReq()" class="btn btn-secondary">글작성</button>
-</div>
-<table class="table table-striped table-hover">
-    <thead>
-    <tr>
-        <th>번호</th>
-        <th>글제목</th>
-        <th>작성자</th>
-        <th>작성일</th>
-        <th>댓글작성여부</th>
-    </tr>
-    </thead>
-    <tbody>
-    <!-- 댓글 !-->
-    <tr th:each="board : ${boardList}">
-        <td>
-            <span th:text="${board.id}"></span>
-        </td>
-        <td>
-            <a th:href="@{'/board/admin/' + ${board.id}}">
-                <span th:text="${board.title}"></span>
-            </a>
-        </td>
-        <td>
-            <span th:text="${board.username}"></span>
-        </td>
-        <td>
-            <span th:text="${#temporals.format(board.createdTime, 'yyyy-MM-dd HH:mm:ss')}"></span>
-        </td>
-        <td>
-            <th:block th:each="comment: ${commentList}">
-                <th:block th:if="${comment.board.id} == ${board.id}">
-                    <button>답변완료</button>
+    </form>
+    <table class="table table-striped table-hover">
+        <thead>
+        <tr>
+            <th>번호</th>
+            <th>글제목</th>
+            <th>작성자</th>
+            <th>작성일</th>
+            <th>댓글작성여부</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- 댓글 !-->
+        <tr th:each="board : ${boardList}">
+            <td>
+                <span th:text="${board.id}"></span>
+            </td>
+            <td>
+                <a th:href="@{'/board/admin/' + ${board.id}}">
+                    <span th:text="${board.title}"></span>
+                </a>
+            </td>
+            <td>
+                <span th:text="${board.username}"></span>
+            </td>
+            <td>
+                <span th:text="${#temporals.format(board.createdTime, 'yyyy-MM-dd HH:mm:ss')}"></span>
+            </td>
+            <td>
+                <th:block th:each="comment: ${commentList}">
+                    <th:block th:if="${comment.board.id} == ${board.id}">
+                        <button>답변완료</button>
+                    </th:block>
                 </th:block>
-            </th:block>
-        </td>
-    </tr>
-    </tbody>
-</table>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 
-<!--페이징 처리-->
-<div th:if="${!boardList.isEmpty()}">
-    <ul class="pagination"
-        th:with="
+    <!--페이징 처리-->
+    <div th:if="${!boardList.isEmpty()}">
+        <ul class="pagination"
+            th:with="
             pageNumber = ${boardList.pageable.pageNumber},
             pageSize = ${boardList.pageable.pageSize},
             totalPages = ${boardList.totalPages},
@@ -82,30 +77,42 @@
             tempEndPage = ${startPage + pageSize - 1},
             endPage = (${tempEndPage < totalPages ? tempEndPage : totalPages})">
 
-        <li th:classappend="${boardList.first} ? 'disabled'" class="page-item">
-            <a class="page-link" th:if="${param.keyword == null}" th:href="${boardList.first} ? '#' : @{/board/admin/adminList(page=${pageNumber - 1})}" aria-label="Previous">
-                <span aria-hidden="true">&lt;</span>
-            </a>
-            <a class="page-link" th:if="${param.keyword != null}" th:href="${boardList.first} ? '#' : @{/board/admin/adminList(page=${pageNumber - 1}, type=${param.type}, keyword=${param.keyword})}" aria-label="Previous">
-                <span aria-hidden="true">&lt;</span>
-            </a>
-        </li>
+            <li th:classappend="${boardList.first} ? 'disabled'" class="page-item">
+                <a class="page-link" th:if="${param.keyword == null}"
+                   th:href="${boardList.first} ? '#' : @{/board/admin/adminList(page=${pageNumber - 1})}"
+                   aria-label="Previous">
+                    <span aria-hidden="true">&lt;</span>
+                </a>
+                <a class="page-link" th:if="${param.keyword != null}"
+                   th:href="${boardList.first} ? '#' : @{/board/admin/adminList(page=${pageNumber - 1}, type=${param.type}, keyword=${param.keyword})}"
+                   aria-label="Previous">
+                    <span aria-hidden="true">&lt;</span>
+                </a>
+            </li>
 
-        <li th:each="page: ${#numbers.sequence(startPage, endPage)}" th:classappend="${page == pageNumber + 1} ? 'active'" class="page-item">
-            <a th:text="${page}" th:if="${param.keyword == null}" class="page-link" th:href="@{/board/admin/adminList(page=${page - 1})}"></a>
-            <a th:text="${page}" th:if="${param.keyword != null}" class="page-link" th:href="@{/board/admin/adminList(page=${page - 1}, type=${param.type}, keyword=${param.keyword})}"></a>
-        </li>
+            <li th:each="page: ${#numbers.sequence(startPage, endPage)}"
+                th:classappend="${page == pageNumber + 1} ? 'active'" class="page-item">
+                <a th:text="${page}" th:if="${param.keyword == null}" class="page-link"
+                   th:href="@{/board/admin/adminList(page=${page - 1})}"></a>
+                <a th:text="${page}" th:if="${param.keyword != null}" class="page-link"
+                   th:href="@{/board/admin/adminList(page=${page - 1}, type=${param.type}, keyword=${param.keyword})}"></a>
+            </li>
 
-        <li th:classappend="${boardList.last} ? 'disabled'" class="page-item">
-            <a class="page-link" th:if="${param.keyword == null}" th:href="${boardList.last} ? '#' : @{/board/admin/adminList(page=${pageNumber + 1})}" aria-label="Next">
-                <span aria-hidden="true">&gt;</span>
-            </a>
-            <a class="page-link" th:if="${param.keyword != null}" th:href="${boardList.last} ? '#' : @{/board/admin/adminList(page=${pageNumber + 1}, type=${param.type}, keyword=${param.keyword})}" aria-label="Next">
-                <span aria-hidden="true">&gt;</span>
-            </a>
-        </li>
-    </ul>
-</div>
+            <li th:classappend="${boardList.last} ? 'disabled'" class="page-item">
+                <a class="page-link" th:if="${param.keyword == null}"
+                   th:href="${boardList.last} ? '#' : @{/board/admin/adminList(page=${pageNumber + 1})}"
+                   aria-label="Next">
+                    <span aria-hidden="true">&gt;</span>
+                </a>
+                <a class="page-link" th:if="${param.keyword != null}"
+                   th:href="${boardList.last} ? '#' : @{/board/admin/adminList(page=${pageNumber + 1}, type=${param.type}, keyword=${param.keyword})}"
+                   aria-label="Next">
+                    <span aria-hidden="true">&gt;</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</main>
 <th:block th:replace="~{/fragments/footer.html :: footer_fragment}"></th:block>
 </body>
 </html>
