@@ -1,7 +1,7 @@
 const createdAt = document.querySelector('.created-at');
 
 const createdAtDate = new Date(createdAt.value);
-const expirationDate = new Date(createdAtDate.getTime() + (6000 * 1000));
+const expirationDate = new Date(createdAtDate.getTime() + (10 * 60 * 1000));
 
 let startX;
 let startY;

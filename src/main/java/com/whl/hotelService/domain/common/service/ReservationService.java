@@ -49,9 +49,17 @@ public class ReservationService {
     @Transactional(rollbackFor = Exception.class)
     @Scheduled(fixedDelay = 1000)
     public void deleteExpiredReservations() {
-//        List<Date> = reservationRepository.findCreatedAt("예약 중");
-//
-//        reservationRepository.deleteByCreatedAtBefore();
+        List<LocalDateTime> createdAtList = reservationRepository.findCreatedAtByStatus("예약 중");
+
+        LocalDateTime currentDate = LocalDateTime.now();
+
+        for(LocalDateTime createdAt : createdAtList) {
+            LocalDateTime expiredAt = createdAt.plusMinutes(10);
+
+            if (currentDate.isAfter(expiredAt)) {
+                reservationRepository.deleteByCreatedAt(createdAt);
+            }
+        }
     }
 
     @Transactional(rollbackFor = Exception.class) public int getReservedRoomCount(String date, Long roomId) {
@@ -100,7 +108,7 @@ public class ReservationService {
                 existingReservation.setCheckout(reservationDto.getCheckout());
                 existingReservation.setRoom(room);
                 existingReservation.setPeople(reservationDto.getPeople());
-                existingReservation.setCreatedAt(new Date());
+                existingReservation.setCreatedAt(LocalDateTime.now());
                 existingReservation.setPrice(reservationDto.getPrice());
 
                 reservationRepository.save(existingReservation);
@@ -114,15 +122,12 @@ public class ReservationService {
                 reservation.setCheckin(reservationDto.getCheckin());
                 reservation.setCheckout(reservationDto.getCheckout());
                 reservation.setPeople(reservationDto.getPeople());
-                reservation.setCreatedAt(new Date());
+                reservation.setCreatedAt(LocalDateTime.now());
                 reservation.setPrice(reservationDto.getPrice());
 
                 reservationRepository.save(reservation);
-
             }
         }
         return true;
     }
-
-
 }
