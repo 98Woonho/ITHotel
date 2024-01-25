@@ -1,6 +1,9 @@
 package com.whl.hotelService.controller;
 
+import com.whl.hotelService.domain.user.service.MyinfoService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,16 +12,24 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Slf4j
 @Controller
-@RequestMapping(value = "user")
+@RequestMapping(value = "myinfo")
 public class MyinfoController {
-    @GetMapping("myinfo")
-    public void Myinfo(@RequestParam(value="information", required = false) String information,
-                       @RequestParam(value="reservation", required = false) String reservation,
-                       @RequestParam(value="question", required = false) String question,
-                       Model model){
-        model.addAttribute("information", information);
-        model.addAttribute("reservation", reservation);
-        model.addAttribute("question", question);
-        log.info("get myinfo");
+
+    @Autowired
+    MyinfoService myinfoService;
+
+    @GetMapping("informationInfo")
+    public void InformationInfo(@RequestParam(value="function", required = false) String function){
+        log.info("get information");
+    }
+
+    @GetMapping("reservationInfo")
+    public void ReservationInfo(@RequestParam(value="function", required = false) String function){
+        log.info("get reservation");
+    }
+
+    @GetMapping("questionInfo")
+    public void questionInfo(@RequestParam(value="function", required = false) String function){
+        log.info("get question");
     }
 }

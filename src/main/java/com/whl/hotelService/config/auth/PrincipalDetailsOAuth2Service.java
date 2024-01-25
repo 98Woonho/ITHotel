@@ -45,7 +45,6 @@ public class PrincipalDetailsOAuth2Service extends DefaultOAuth2UserService {
         }else if(provider!=null&&provider.equals("google")) {
             String id = (String) oAuth2User.getAttributes().get("sub");
             GoogleUserInfo googleUserInfo = new GoogleUserInfo(id, oAuth2User.getAttributes());
-            System.out.println(oAuth2User.getAttributes());
             oAuth2UserInfo = googleUserInfo;
         }
 

@@ -139,7 +139,7 @@ public class HotelService {
         Authentication authentication =  SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         User user =  userRepository.findById(username).get();
-        payment.setUser(user);
+        payment.setUserid(user);
         paymentRepository.save(payment);
 
 

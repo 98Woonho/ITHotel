@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>마이페이지_예약정보</title>
+
+    <!--  cdns  -->
+    <th:block th:insert="~{fragments/link.html :: link_fragment}"></th:block>
+
+    <!--    common.css  -->
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/user/myinfo.css">
+
+</head>
+<body>
+
+<header id="header" class="content-container-wrapper">
+    <th:block th:insert="~{fragments/header.html :: header_fragment}"></th:block>
+</header>
+
+<main id="main" class="content-container-wrapper">
+    <div class="content-container">
+        <div class="admin-container">
+            <div class="admin-left">
+                <th:block th:replace="~{fragments/adminLeft.html :: adminLeft_fragment}"></th:block>
+                <div class="menu">
+                    <div class="subtitle-container">
+                        <h2 class="subtitle">예약정보</h2>
+                    </div>
+
+            </div>
+        </div>
+    </div>
+</main>
+
+<th:block th:insert="~{fragments/footer.html :: footer_fragment}"></th:block>
+
+
+</body>
+</html>
