@@ -13,8 +13,8 @@
 
     <!--    common.css  -->
     <link rel="stylesheet" href="/css/common.css">
-    <!--    reservationStep1.css  -->
-    <link rel="stylesheet" href="/css/hotel/reservationStep1.css">
+    <!--    select.css  -->
+    <link rel="stylesheet" href="/css/reservation/select.css">
 
     <!--  datepicker jQuery -->
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.1/jquery.min.js"></script>
@@ -23,7 +23,7 @@
 
     <!-- js    -->
     <script defer src="/js/common.js"></script>
-    <script defer src="/js/hotel/reservationStep1.js"></script>
+    <script defer src="/js/reservation/select.js"></script>
 
     <style>
         .ui-widget-header { border: 0px solid #dddddd; background: #fff; }
@@ -166,7 +166,7 @@
             <input type="submit" value="검색" class="search-button">
         </form>
 
-        <div class="room-container" th:each="room : ${roomList}">
+        <div th:if="${room.count - room.reservedRoomCount != 0}" class="room-container" th:each="room : ${roomList}">
             <img th:src="@{/images/sample.png}" alt="">
             <form class="reservation-form" th:id="'reservationForm_' + ${room.id}">
                 <div class="room-info-container">
@@ -190,8 +190,8 @@
                         <span th:text="${#numbers.formatInteger((room.fridayPrice * dayCountList[0] + room.saturdayPrice * dayCountList[1] + room.weekdayPrice * dayCountList[2]) / (dayCountList[0] + dayCountList[1] + dayCountList[2]), 0, 'COMMA')}">
                         </span>원 / 1박
                     </div>
-                    <div th:if="${room.count > 0 && room.count < 3}">
-                        남은 객실 <span th:text="${room.count}"></span>개
+                    <div th:if="${room.count - room.reservedRoomCount == 1}">
+                        <span>남은 객실 <span class="text remaining-room-count" th:text="${room.count - room.reservedRoomCount}"></span>개</span>
                     </div>
                 </div>
                 <input type="submit" value="예약" class="reservation-button">

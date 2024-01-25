@@ -12,12 +12,12 @@
 
     <!--    common.css  -->
     <link rel="stylesheet" href="/css/common.css">
-    <!--    reservationStep1.css  -->
-    <link rel="stylesheet" href="/css/hotel/reservationStep2.css">
+    <!--    select.css  -->
+    <link rel="stylesheet" href="/css/payment/read.css">
 
     <!-- js -->
     <script defer src="/js/common.js"></script>
-    <script defer src="/js/hotel/reservationStep2.js"></script>
+    <script defer src="/js/payment/read.js"></script>
 </head>
 <body>
 
@@ -90,6 +90,7 @@
         </div>
     </div>
 
+    <input hidden type="text" class="created-at" th:value="${reservation.createdAt}">
     <input hidden type="text" class="address" th:value="${reservation.user.addr1} + ' ' + ${reservation.user.addr2}">
     <input hidden type="text" class="reservation-id" th:value="${reservation.id}">
 </main>

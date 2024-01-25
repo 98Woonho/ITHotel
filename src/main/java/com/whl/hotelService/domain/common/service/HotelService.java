@@ -2,14 +2,8 @@ package com.whl.hotelService.domain.common.service;
 
 import com.whl.hotelService.domain.common.dto.PaymentDto;
 import com.whl.hotelService.domain.common.dto.ReservationDto;
-import com.whl.hotelService.domain.common.entity.Hotel;
-import com.whl.hotelService.domain.common.entity.Payment;
-import com.whl.hotelService.domain.common.entity.Reservation;
-import com.whl.hotelService.domain.common.entity.Room;
-import com.whl.hotelService.domain.common.repository.HotelRepository;
-import com.whl.hotelService.domain.common.repository.PaymentRepository;
-import com.whl.hotelService.domain.common.repository.ReservationRepository;
-import com.whl.hotelService.domain.common.repository.RoomRepository;
+import com.whl.hotelService.domain.common.entity.*;
+import com.whl.hotelService.domain.common.repository.*;
 import com.whl.hotelService.domain.user.entity.User;
 import com.whl.hotelService.domain.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +12,17 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class HotelService {
+
     @Autowired
     private HotelRepository hotelRepository;
 
@@ -39,10 +38,12 @@ public class HotelService {
     @Autowired
     private PaymentRepository paymentRepository;
 
+    @Transactional(rollbackFor = Exception.class)
     public List<Hotel> getAllHotel() {
         return hotelRepository.findAll();
     }
 
+    @Transactional(rollbackFor = Exception.class)
     public List<String> getDistinctRegion() {
         return hotelRepository.findDistinctRegion();
     }
@@ -139,7 +140,7 @@ public class HotelService {
         Authentication authentication =  SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         User user =  userRepository.findById(username).get();
-        payment.setUserid(user);
+        payment.setUser(user);
         paymentRepository.save(payment);
 
 

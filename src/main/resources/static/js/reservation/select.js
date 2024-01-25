@@ -26,10 +26,11 @@ function childPlus() {
     searchForm['childCount'].value = childNum;
 }
 
-
 document.querySelectorAll('.reservation-form').forEach(function(form) {
     form.onsubmit = function(e) {
         e.preventDefault();
+
+        
 
         const formData = new FormData();
         formData.append("checkin", searchForm['checkin'].value);
@@ -38,10 +39,10 @@ document.querySelectorAll('.reservation-form').forEach(function(form) {
         formData.append("status", "예약 중");
         formData.append("people", form['people'].value);
         formData.append("price", form.querySelector('.price').innerText);
-        axios.post("/hotel/reservationStep1", formData)
-            .then(res => {
+        axios.post("/reservation/select", formData)
+            .then(res => {  
                 console.log(res);
-                location.href = "/hotel/reservationStep2";
+                location.href = "/payment/read";
             })
             .catch(err => {
                 console.log(err);
