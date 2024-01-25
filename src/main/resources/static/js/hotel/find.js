@@ -1,4 +1,4 @@
-const main = document.getElementById('main');
+let main = document.getElementById('main');
 const hotelInfoButtons = document.getElementsByClassName('hotel-info-button');
 const hotelInfo = document.getElementsByClassName('hotel-info');
 

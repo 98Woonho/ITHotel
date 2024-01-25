@@ -16,7 +16,6 @@ import lombok.NoArgsConstructor;
 public class AdminBoard extends BaseEntity {
     @Id //PrimaryKey 지정
     @GeneratedValue(strategy = GenerationType.IDENTITY) // auto_increment
-    @Column(name = "admin_board_id")
     private Long id;
     @Column(length = 20, nullable = false)
     private String title; //제목

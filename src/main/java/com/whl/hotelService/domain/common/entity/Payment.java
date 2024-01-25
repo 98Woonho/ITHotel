@@ -22,8 +22,7 @@ public class Payment {
 
     @ManyToOne
     @JoinColumn(name="reservation_id", foreignKey = @ForeignKey(name="fk_payment_reservation_id", foreignKeyDefinition = "FOREIGN KEY(reservation_id) REFERENCES reservation(id) ON DELETE CASCADE ON UPDATE CASCADE"), nullable = false)
-
-    private Reservation reservation_id; // 예약 정보
+    private Reservation reservation; // 예약 정보
 
     @ManyToOne
     @JoinColumn(name="user_userid", foreignKey = @ForeignKey(name="fk_payment_user_userid", foreignKeyDefinition = "FOREIGN KEY(user_userid) REFERENCES user(userid) ON DELETE CASCADE ON UPDATE CASCADE"), nullable = false)
@@ -31,15 +30,19 @@ public class Payment {
 
     // 결제 정보
     @Column(nullable = false)
-    private String imp_uid;
+    private String impUid;
     @Column(nullable = false)
-    private String merchant_uid;
+    private String merchantUid;
     @Column(nullable = false)
-    private String pay_method;
+    private String payMethod;
     @Column(nullable = false)
-    private String paid_amount;
+    private String name;
+    @Column(nullable = false)
+    private Long paidAmount;
     @Column(nullable = false)
     private String status;
+    @Column(nullable = false)
+    private String address;
 
     // 결제 날짜
     @Column(nullable = false ,columnDefinition = "DATETIME(6)")
