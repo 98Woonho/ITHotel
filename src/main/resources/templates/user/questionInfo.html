@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>마이페이지_문의사항</title>
+
+    <!--  cdns  -->
+    <th:block th:insert="~{fragments/link.html :: link_fragment}"></th:block>
+
+    <!-- css -->
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/user/myinfo.css">
+
+    <!-- js -->
+</head>
+<body>
+
+<header id="header" class="content-container-wrapper">
+    <th:block th:insert="~{fragments/header.html :: header_fragment}"></th:block>
+</header>
+
+<main id="main" class="content-container-wrapper">
+    <div class="content-container">
+        <div class="user-container">
+            <th:block th:replace="~{fragments/userLeft.html :: userLeft_fragment}"></th:block>
+            <div class="user-right">
+                <div class="title-container" th:switch="${function}">
+                    <h1 class="title">문의사항 > </h1>
+                    <h1 class="tag" th:case='create'>문의하기</h1>
+                    <h1 class="tag" th:case='read'>문의현황</h1>
+                </div>
+                <div class="information-info-container">
+                    <th:block th:switch="${function}">
+                        <span class="text" th:case='create'>문의하기</span>
+                        <span class="text" th:case='read'>문의현황</span>
+                    </th:block>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<th:block th:insert="~{fragments/footer.html :: footer_fragment}"></th:block>
+
+
+</body>
+</html>

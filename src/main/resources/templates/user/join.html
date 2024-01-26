@@ -22,7 +22,7 @@
 <main>
   <section>
     <h1>JOIN PAGE</h1>
-    <form name="joinform" action="/user/join" method="post">
+    <form name="joinform" action="/user/join" method="post" onSubmit="return false;">
       <div class="join_wrapper">
         <div>
           <label>아이디</label><span th:text="${user_id}" id="id_msg" class="msg"></span> <br/>
@@ -66,7 +66,7 @@
           <input name="addr2" id="addr2" placeholder="상세주소" /> <br/>
         </div>
         <div>
-          <button class="btn btn-secondary search_addr_btn">가입요청</button>
+          <button class="btn btn-secondary search_addr_btn" onclick="isValid()">가입요청</button>
         </div>
       </div>
     </form>
@@ -80,6 +80,14 @@
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
 <script>
+  const isValid = function (){
+    const form = document.joinform;
+    const pwCheck = document.querySelector("#pwCheck").value;
+    if(pwCheck === "true")
+      console.log("성공")
+      form.submit();
+  }
+
   const IdCheck = function(){
     const user_id = document.joinform.userid.value;
     const id_msg = document.querySelector('#id_msg');
@@ -115,7 +123,6 @@
     }else{
       pw_msg.textContent = "사용가능한 비밀번호입니다.";
       pw_msg.style.color = 'green';
-      pw_msg.textContent = null;
       return true;
     }
   }
@@ -150,14 +157,13 @@
               if(!regexEmail.test(email.trim())){
                 email_msg.textContent = "이메일 형식으로 작성해야 합니다.";
                 email_msg.style.color = 'orange';
-                return false;
               }else if(!res.data.success) {
                 email_msg.innerHTML = res.data.message;
                 email_msg.style.color = 'orange';
               }
-              return res.data.success;
             })
             .catch(err =>{ console.log(err); });
+    return true;
   }
 
   const SendEmail = function(){

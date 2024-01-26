@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+<div class="user-left" th:fragment="userLeft_fragment">
+    <div class="title-container">
+        <h1 class="title">마이페이지</h1>
+    </div>
+    <div class="menu">
+        <div class="subtitle-container">
+            <h2 class="subtitle">회원정보</h2>
+        </div>
+        <div class="link-container">
+            <a href="/user/informationInfo?function=read" class="link">회원정보 확인</a>
+            <a href="/user/informationInfo?function=update" class="link">회원정보 수정</a>
+            <a href="/user/informationInfo?function=delete" class="link">회원탈퇴</a>
+        </div>
+        <div class="subtitle-container">
+            <h2 class="subtitle">예약정보</h2>
+        </div>
+        <div class="link-container">
+            <a href="/user/reservationInfo?function=read" class="link">예약목록</a>
+            <a href="/user/reservationInfo?function=update" class="link">예약변경</a>
+            <a href="/user/reservationInfo?function=delete" class="link">예약취소</a>
+        </div>
+        <div class="subtitle-container">
+            <h2 class="subtitle">문의사항</h2>
+        </div>
+        <div class="link-container">
+            <a href="/user/questionInfo?function=create" class="link">문의하기</a>
+            <a href="/user/questionInfo?function=read" class="link">문의현황</a>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
