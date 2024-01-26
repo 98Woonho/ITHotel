@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>예약 확인 및 결제</title>
+
+    <!--  cdns  -->
+    <th:block th:insert="~{fragments/link.html :: link_fragment}"></th:block>
+
+    <!--    common.css  -->
+    <link rel="stylesheet" href="/css/common.css">
+    <!--    select.css  -->
+    <link rel="stylesheet" href="/css/payment/read.css">
+
+    <!-- js -->
+    <script defer src="/js/common.js"></script>
+    <script defer src="/js/payment/read.js"></script>
+</head>
+<body>
+
+<header id="header" class="content-container-wrapper">
+    <th:block th:insert="~{fragments/header.html :: header_fragment}"></th:block>
+</header>
+
+<main id="main" class="content-container-wrapper">
+    <span th:text="${reservation}"></span>
+    <div class="content-container">
+        <div class="title-container">
+            <h1 class="title">예약 확인 및 결제</h1>
+        </div>
+        <div class="step-container">
+            <span class="step">1</span>
+            <span class="line"></span>
+            <span class="step">2</span>
+        </div>
+        <div class="confirmation-payment-container">
+            <div class="confirmation-container">
+                <div class="image-container">
+                    <img th:src="@{/images/sample.png}" alt="">
+                </div>
+                <ul class="info">
+                    <li>
+                        <span class="text bold">호텔 및 객실</span>
+                        <span class="hotelname text"><span th:text="${reservation.room.hotel.hotelname}"></span>, <span th:text="${reservation.room.kind}"></span></span>
+                    </li>
+                    <li>
+                        <span class="text bold">투숙 날짜</span>
+                        <span class="text"><span th:text="${reservation.checkin}"></span> <span th:text="${reservation.room.checkinTime}"></span> ~ <span th:text="${reservation.checkout}"></span> <span th:text="${reservation.room.checkoutTime}"></span></span>
+                    </li>
+                    <li>
+                        <span class="text bold">인원</span>
+                        <span class="text">성인 <span th:text="${reservation.people}"></span>, 어린이 0</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="payment-container">
+                <div class="payment-left">
+                    <span class="text subtitle">예약자 정보</span>
+                    <ul class="user-info">
+                        <li>
+                            <span class="text bold">이름</span>
+                            <span class="username text" th:text="${reservation.user.name}"></span>
+                        </li>
+                        <li>
+                            <span class="text bold">연락처</span>
+                            <span class="contact text" th:text="${reservation.user.phone}"></span>
+                        </li>
+                    </ul>
+                    <span class="text subtitle">결제 수단</span>
+                    <div class="pay-method-container">
+                        <button class="pay-method-button card-button">신용/체크 카드</button>
+                        <button class="pay-method-button kakaopay-button">카카오페이</button>
+                        <button class="pay-method-button tosspay-button">토스페이</button>
+                        <button class="pay-method-button payco-button">페이코</button>
+                        <button class="pay-method-button phonepay-button">휴대폰 결제</button>
+                    </div>
+                </div>
+                <div class="payment-right">
+                    <span class="text subtitle">결제 금액</span>
+                    <div class="price-container">
+                        <span class="text">결제 금액 및 약관동의 및 결제버튼</span>
+                        <span class="text price" th:text="${reservation.price}"></span>
+                        <button class="pay-button">결제</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <input hidden type="text" class="created-at" th:value="${reservation.createdAt}">
+    <input hidden type="text" class="address" th:value="${reservation.user.addr1} + ' ' + ${reservation.user.addr2}">
+    <input hidden type="text" class="reservation-id" th:value="${reservation.id}">
+</main>
+
+<th:block th:insert="~{fragments/footer.html :: footer_fragment}"></th:block>
+
+
+<script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+
+</body>
+</html>

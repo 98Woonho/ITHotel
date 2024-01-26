@@ -19,8 +19,8 @@ public class Room {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name="hotel_name", foreignKey = @ForeignKey(name="fk_room_hotel_name", foreignKeyDefinition = "FOREIGN KEY(hotel_name) REFERENCES hotel(name) ON DELETE CASCADE ON UPDATE CASCADE"), nullable = false)
-    private Hotel hotelName;
+    @JoinColumn(name="hotelname", foreignKey = @ForeignKey(name="fk_room_hotelname", foreignKeyDefinition = "FOREIGN KEY(hotelname) REFERENCES hotel(hotelname) ON DELETE CASCADE ON UPDATE CASCADE"), nullable = false)
+    private Hotel hotel;
 
     @Column(nullable = false)
     private String kind; // 객실 종류
@@ -33,9 +33,14 @@ public class Room {
     @Column(nullable = false)
     private int maximumPeople; // 최대 인원
     @Column(nullable = false)
-    private int weekendPrice; // 주말 가격
+    private int fridayPrice; // 금요일 숙박 가격
+    @Column(nullable = false)
+    private int saturdayPrice; // 토요일 숙박 가격
     @Column(nullable = false)
     private int weekdayPrice; // 주중 가격
     @Column(nullable = false)
     private int count; // 객실의 개수
+
+    @Column(nullable = true)
+    private Integer reservedRoomCount; // 남은 방 개수
 }

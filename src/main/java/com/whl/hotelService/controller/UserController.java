@@ -1,6 +1,8 @@
 package com.whl.hotelService.controller;
 
+import com.whl.hotelService.config.auth.PrincipalDetails;
 import com.whl.hotelService.domain.user.dto.UserDto;
+import com.whl.hotelService.domain.user.entity.User;
 import com.whl.hotelService.domain.user.service.UserService;
 import com.whl.hotelService.config.auth.jwt.JwtProperties;
 import com.whl.hotelService.config.auth.jwt.JwtTokenProvider;
@@ -17,6 +19,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 
@@ -146,6 +149,32 @@ public class UserController {
         return obj;
     }
 
+    @GetMapping("Oauthjoin")
+    public void getOauthLogin(Authentication authentication, Model model){
+        log.info("getOauthjoin()");
+        PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
+        String provider = principalDetails.getUserDto().getProvider();
+        model.addAttribute("provider", provider);
+    }
+
+    @PostMapping("Oauthjoin")
+    public String postOauthLogin(@Valid UserDto dto, BindingResult bindingResult, Model model, HttpServletRequest request){
+        log.info("postOauthjoin()");
+        if (bindingResult.hasFieldErrors()) {
+            for (FieldError error : bindingResult.getFieldErrors()) {
+                log.info(error.getField() + " : " + error.getDefaultMessage());
+                model.addAttribute(error.getField(), error.getDefaultMessage());
+            }
+            return "/user/Oauthjoin";
+        }
+
+        boolean isJoin = userService.OauthMemberJoin(dto, request, model);
+
+        if (isJoin) {
+            return "redirect:/user/login?msg=MemberJoin Success!";
+        } else
+            return "redirect:/user/join?msg=Join Failed";
+    }
 
     @GetMapping(value = "join")
     public void getjoin() {
@@ -201,6 +230,29 @@ public class UserController {
         return obj;
     }
 
+    @GetMapping("ConfirmEmail")
+    public @ResponseBody JSONObject confirmEmail(String email, HttpServletResponse response){
+        log.info("getConfirmId id : " + email);
+        boolean EmailVaile = userService.EmailValid(email);
+        JSONObject obj = new JSONObject();
+        if (!Objects.equals(email, "") && EmailVaile) {
+            obj.put("success", true);
+            obj.put("message", "사용가능한 이메일입니다.");
+
+            return obj;
+
+        } else if (Objects.equals(email, "")) {
+            obj.put("success", false);
+            obj.put("message", "이메일을 입력하세요");
+
+            return obj;
+        }
+        obj.put("success", false);
+        obj.put("message", "동일한 이메일이 존재합니다.");
+
+        return obj;
+    }
+
     @GetMapping("sendEmail/{email}")
     public @ResponseBody ResponseEntity<JSONObject> SendEmail(@PathVariable("email") String email) throws NoSuchAlgorithmException {
         log.info("getSendEmail : " + email);
@@ -212,7 +264,6 @@ public class UserController {
             builder.append(random.nextInt(10));
         }
         Email_code = builder.toString();
-        System.out.println(Email_code);
 
         //메일 메시지 만들기
         SimpleMailMessage message = new SimpleMailMessage();
@@ -226,8 +277,8 @@ public class UserController {
         return new ResponseEntity(new JSONObject().put("success", true), HttpStatus.OK);
     }
 
-    @GetMapping("confirmEmail")
-    public @ResponseBody JSONObject ConfirmEmail(String email, String code, HttpServletResponse response) {
+    @GetMapping("confirmCode")
+    public @ResponseBody JSONObject ConfirmCode(String email, String code, HttpServletResponse response) {
         log.info("getConfirmEmail email : " + email + ", code : " + code);
         JSONObject obj = new JSONObject();
         if (Objects.equals(Email_code, code)) {

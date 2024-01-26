@@ -1,36 +1,31 @@
 package com.whl.hotelService.controller;
 
+import com.whl.hotelService.domain.common.service.HotelService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @Controller
-@RequestMapping(value="hotel")
+@RequestMapping(value = "hotel")
 public class HotelController {
-    @GetMapping(value="find")
+    @Autowired
+    private HotelService hotelService;
+
+    @GetMapping(value = "find")
     public void getFind() {
         log.info("getFind()");
     }
 
-    @GetMapping(value="findMap")
+    @GetMapping(value = "findMap")
     public void getFindMap() {
         log.info("getFindMap()");
     }
 
-    @GetMapping(value="info")
+    @GetMapping(value = "info")
     public void getInfo() {
         log.info("getInfo()");
     }
 
-    @GetMapping(value="reservationStep1")
-    public void getReservationStep1() {
-        log.info("getReservationStep1()");
-    }
-
-    @GetMapping(value="reservationStep2")
-    public void getReservationStep2() {
-        log.info("getReservationStep2()");
-    }
 }

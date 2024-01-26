@@ -13,13 +13,33 @@ function slideImage(direction) {
 }
 
 
-$('[name="checkin"]')
-    .datepicker({
-        dateFormat: 'yyyy-mm-dd',
-        language: 'ko',
-    });
+/* 성인, 어린이 + - 버튼 js */
+let adultNum = 1;
+let childNum = 0;
 
-$('[name="checkout"]')
-    .datepicker({
-        language: 'ko'
-    });
+searchForm['adultCount'].value = adultNum;
+searchForm['childCount'].value = childNum;
+
+function adultMinus() {
+    if (adultNum > 1) {
+        adultNum -= 1;
+    }
+    searchForm['adultCount'].value = adultNum;
+}
+
+function adultPlus() {
+    adultNum += 1;
+    searchForm['adultCount'].value = adultNum;
+}
+
+function childMinus() {
+    if (childNum > 0) {
+        childNum -= 1;
+    }
+    searchForm['childCount'].value = childNum;
+}
+
+function childPlus() {
+    childNum += 1;
+    searchForm['childCount'].value = childNum;
+}
