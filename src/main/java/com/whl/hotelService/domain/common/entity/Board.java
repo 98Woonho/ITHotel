@@ -18,7 +18,7 @@ public class Board extends BaseEntity {
     @Id //PrimaryKey 지정
     @GeneratedValue(strategy = GenerationType.IDENTITY) // auto_increment
     private Long id;
-    @Column(length = 20, nullable = false)
+    @Column(length = 250, nullable = false)
     private String title; //제목
     @Column(length = 500, nullable = false)
     private String content; // 내용
