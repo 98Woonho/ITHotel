@@ -21,7 +21,6 @@ public class UserDto {
     @NotEmpty(message = "비밀번호확인을 입력하세요")
     private String repassword;
 
-
     @NotEmpty(message = "이름을 입력하세요")
     private String name;
 

@@ -22,14 +22,20 @@
 <main>
     <section>
         <h1>JOIN PAGE</h1>
-        <form name="joinform" action="/user/Oauthjoin" method="post">
+        <form name="joinform" action="/user/Oauthjoin" method="post" onsubmit="return false;">
             <div class="join_wrapper">
+                <div>
+                    <label>수정 비밀번호</label><span th:text="${password}" id="pw_msg" class="msg"></span> <br/>
+                    <span style="color: gray">정보수정 및 탈퇴시 사용되니 신중히 작성해주세요</span> <br/>
+                    <input name="password" id="password" type="password" placeholder="비밀번호" oninput="PwCheck()"/>
+                    <input id="pwCheck" type="hidden" value="false">
+                </div>
                 <th:block th:if="${provider} == 'google'">
-                    <label>전화번호</label><span th:text="${phone}" id="phone_msg" class="msg"></span> <br/>
+                    <label>전화번호</label><span th:text="${phone}" class="msg"></span> <br/>
                     <input name="phone" id="phone" placeholder="-제외한 전화번호"/>
                 </th:block>
                 <th:block th:if="${provider} == 'kakao'">
-                    <input name="phone" type="hidden" value="."/> <br/>
+                    <input name="phone" type="hidden" value="."/>
                 </th:block>
                 <div>
                     <label>우편번호</label><span th:text="${zipcode}" class="msg"></span> <br/>
@@ -44,10 +50,9 @@
                     <input name="addr2" id="addr2" placeholder="상세주소" /> <br/>
                 </div>
                 <div>
-                    <button class="btn btn-secondary search_addr_btn">가입요청</button>
+                    <button class="btn btn-secondary search_addr_btn" onclick="isValid()">가입요청</button>
                 </div>
                 <input name="userid" type="hidden" value=".">
-                <input name="password" type="hidden" value=".">
                 <input name="repassword" type="hidden" value=".">
                 <input name="email" type="hidden" value=".">
                 <input name="name" type="hidden" value=".">
@@ -63,6 +68,29 @@
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
 <script>
+    const isValid = function (){
+        const form = document.joinform;
+        const pwCheck = document.querySelector("#pwCheck").value;
+        if(pwCheck === "true")
+            form.submit();
+    }
+    const PwCheck = function (){
+        const pw = document.joinform.password.value;
+        const pw_msg = document.querySelector('#pw_msg');
+        const pwCheck = document.querySelector('#pwCheck');
+        let regexpPw = new RegExp("^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$");
+
+        if(!regexpPw.test(pw.trim())) {
+            pw_msg.textContent = "비밀번호는 영문,숫자,특수문자가 1개 이상 포함된 8~15자여야 합니다.";
+            pw_msg.style.color = 'orange';
+            pwCheck.value = "false";
+        }else{
+            pw_msg.textContent = "사용가능한 비밀번호입니다.";
+            pw_msg.style.color = 'green';
+            pwCheck.value = "true";
+        }
+    }
+
     const AddressSearch = () => {
         new daum.Postcode({
             oncomplete: function (data) {
