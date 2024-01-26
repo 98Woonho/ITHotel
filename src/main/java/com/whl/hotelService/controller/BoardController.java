@@ -122,35 +122,11 @@ public class BoardController {
         }
     }
 
-    @GetMapping("/{id}/admin/adminUpdate") // 관리자 게시판 업데이트화면 이동
-    public String adminBoardUpdateForm(@PathVariable Long id, Authentication authentication, Model model) {
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal(); //로그인된 회원을 조회해서
-        BoardResponseDto board = adminBoardService.boardDetail(id);
-        if (!(board.getUsername().equals(userDetails.getUsername()))) { //확인해서 같으면 수정페이지 이동
-            System.out.println("userDetails.getUsername : " + userDetails.getUsername());
-            System.out.println("getUsername() : " + board.getUsername());
-            return "redirect:/";
-        }
-        else {
-            model.addAttribute("board", board);
-            model.addAttribute("id", id);
-
-            return "board/admin/adminUpdate";
-        }
-    }
-
     @PostMapping("/{id}/update") // 게시글 업데이트
     public String boardUpdate(@PathVariable Long id, BoardWriteRequestDto boardWriteRequestDto) {
         boardService.boardUpdate(id, boardWriteRequestDto);
 
-        return "redirect:/board/" + id;
-    }
-
-    @PostMapping("/{id}/admin/adminUpdate") // 관리자 게시글 업데이트
-    public String adminBoardUpdate(@PathVariable Long id, BoardWriteRequestDto boardWriteRequestDto) {
-        adminBoardService.boardUpdate(id, boardWriteRequestDto);
-
-        return "redirect:/board/admin/" + id;
+        return "redirect:/board/list";
     }
 
     @GetMapping("/{id}/remove") // 게시판 삭제
@@ -178,7 +154,7 @@ public class BoardController {
         }
         else {
             adminBoardService.boardRemove(id);
-            return "redirect:/board/adminList";
+            return "redirect:/board/admin/adminList";
         }
     }
 }
