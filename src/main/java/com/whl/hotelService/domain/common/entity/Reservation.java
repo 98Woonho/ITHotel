@@ -27,8 +27,8 @@ public class Reservation {
 
     @ManyToOne
     @JoinColumn(name="user_id", foreignKey = @ForeignKey(name="fk_reservation_user_id", foreignKeyDefinition = "FOREIGN KEY(user_id) REFERENCES user(userid) ON DELETE CASCADE ON UPDATE CASCADE"))
-    private User user; // 사용자 정보
 
+    private User user; // 사용자 정보
     @Column(nullable = false)
     private String checkin; // 체크인
     @Column(nullable = false)
