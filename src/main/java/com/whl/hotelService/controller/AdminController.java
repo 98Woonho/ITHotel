@@ -1,7 +1,6 @@
 package com.whl.hotelService.controller;
 
-import com.whl.hotelService.domain.common.entity.Reservation;
-import com.whl.hotelService.domain.common.repository.ReservationRepository;
+import com.whl.hotelService.domain.common.service.AdminService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,7 +16,7 @@ import java.util.List;
 @RequestMapping(value ="admin")
 public class AdminController {
     @Autowired
-    private ReservationRepository reservationRepository;
+    private AdminService adminService;
 
     @GetMapping("reservationStatus")
     public void getReservationStatus(@RequestParam(value="region") String region,
@@ -29,7 +28,11 @@ public class AdminController {
     public void getInquiry() {}
 
     @GetMapping("insertHotel")
-    public void getInsertHotel() {}
+    public void getInsertHotel(Model model) {
+        List<String> regionList = adminService.getRegionList();
+
+        model.addAttribute("regionList", regionList);
+    }
 
     @GetMapping("deleteHotel")
     public void getDeleteHotel() {}

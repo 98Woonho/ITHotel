@@ -139,6 +139,7 @@ payButton.addEventListener('click', function () {
             formData.append("reservationId", encodeURIComponent(reservationId));
             axios.post("/payment/read", formData)
                 .then(resp => {
+                    console.log(resp.data);
                     if (resp.data === "SUCCESS") {
                         alert('예약이 완료 되었습니다. 예약 확인 페이지로 이동합니다.');
                     }

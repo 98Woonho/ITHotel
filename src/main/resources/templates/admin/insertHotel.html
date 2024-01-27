@@ -32,8 +32,68 @@
                     <h1 class="title">호텔 관리 > 호텔 등록</h1>
                 </div>
                 <div class="insert-hotel-container">
-                    <span class="text">호텔 등록 공간(호텔 지역, 호텔 이름, 호텔 상세 주소, 호텔 연락처, 객실 종류 및 이미지(+ 아이콘 만들어서 여러 객실을 등록할 수 있도록 하는 js 만들 예정), 호텔 이미지, (호텔 소개에 적을 설명?)</span><br><br>
-                    <span class="text">이미지 테이블이 따로 필요할 거 같음.</span>
+                    <section class="product_img_block">
+                        <div class="product_img">
+                            <div class="upload-box">
+                                <div class="plus">+</div>
+                            </div>
+                        </div>
+
+                        <div class="preview_img_block">
+                            <label>PREVIEW</label>
+                            <div id="preview"></div>
+                        </div>
+                    </section>
+
+                    <section class="product_info_block">
+                        <form class="image-form" id="imageForm" >
+                            <div>
+                                <label>호텔 이름</label>
+                                <input name="hotelname" class="form-control" placeholder="호텔 이름" required>
+                            </div>
+                            <div>
+                                <label>지역</label>
+                                <div class="row-container">
+                                    <input disabled name="region" class="form-control" placeholder="지역" type="text">
+                                    <select class="form-select" id="regionList">
+                                        <option value="" selected>-</option>
+                                        <th:block th:each="region : ${regionList}">
+                                            <option th:value="${region}" th:text="${region}"></option>
+                                        </th:block>
+                                        <option value="input">직접 입력</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div>
+                                <div>
+                                    <label>우편번호</label>
+                                    <div class="row-container">
+                                        <input class="form-control" name="zipcode" id="zipcode" placeholder="우편번호" />
+                                        <a onclick="AddressSearch()" class="btn btn-secondary search-addr-btn">우편번호 찾기</a>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label>주소</label>
+                                    <input class="form-control" name="addr1" id="addr1" placeholder="주소" />
+                                </div>
+                                <div>
+                                    <label>상세주소</label>
+                                    <input class="form-control" name="addr2" id="addr2" placeholder="상세주소">
+                                </div>
+                            </div>
+                            <div>
+                                <label>연락처</label>
+                                <input name="contactInfo" class="form-control" placeholder="연락처 (- 포함 입력)" required>
+                            </div>
+                            <div>
+                                <label>호텔 소개</label>
+                                <input name="hotelDetails" class="form-control" placeholder="호텔 소개" required>
+                            </div>
+                            <div>
+                                <button class="btn btn-primary add_hotel_btn w-100">등록</button>
+                            </div>
+                        </form>
+                    </section>
                 </div>
             </div>
         </div>
@@ -42,6 +102,8 @@
 
 <th:block th:insert="~{fragments/footer.html :: footer_fragment}"></th:block>
 
+<!-- map -->
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
 </body>
 </html>

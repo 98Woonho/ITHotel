@@ -1,5 +1,104 @@
-.admin-container > .admin-right > .insert-hotel-container {
+.row-container {
+    display: flex;
+    flex-direction: row;
+}
+
+#regionList {
+    margin-left: 0.5rem;
+    width: 120px;
+}
+
+.search-addr-btn {
+    margin-left: 0.5rem;
+    width: 200px;
+}
+
+.insert-hotel-container {
     margin-top: 5rem;
-    height: 500px;
-    border: 0.0625rem solid black;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.product_img{
+    width : 400px;
+    height: 250px;
+    position: relative;
+}
+.upload-box {
+    width: 100%;
+    height : 100%;
+    margin: 10px auto;
+    border: 3px dashed lightgray;
+    padding: 10px;
+    position: relative;
+
+}
+.upload-box::before{
+    content : "이미지를 드래그하세요";
+    display:block;
+    position:absolute;
+    left:0px;
+    top:40px;
+    width : 100%;
+    height : 450px;
+    text-align:center;
+    color:lightgray;
+    margin-top:10px;
+}
+
+.plus {
+    height:100%;
+    display:flex;
+    justify-content:center;
+    align-items: center;
+
+    font-size: 7em;
+    color: lightgray;
+    position:relative;
+    top:-5%;
+}
+
+.preview_img_block{
+    position:relative;
+    top : 10px;
+}
+
+#preview {
+    width : 100%;
+    height : 100px;
+    margin: 10px auto;
+    border : 1px dashed lightgray;
+
+    padding: 10px;
+    position: relative;
+    left:0px;
+    top:00px;
+
+    display: flex;
+    justify-content: center;
+    align-items : center;
+    flex-wrap: wrap;
+    overflow: auto;
+}
+
+.insert-hotel-container img {
+    width: 50px;
+    height: 50px;
+    border: 1px solid gray;
+    margin : 2px;
+}
+
+.product_info_block{
+    width: 400px;
+    position: relative;
+}
+
+.product_info_block>form>*{
+    margin-bottom:20px;
+}
+
+.product_info_block label{
+    margin:5px 0;
 }

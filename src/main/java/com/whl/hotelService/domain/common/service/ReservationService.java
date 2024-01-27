@@ -50,7 +50,6 @@ public class ReservationService {
     @Scheduled(fixedDelay = 1000)
     public void deleteExpiredReservations() {
         List<LocalDateTime> createdAtList = reservationRepository.findCreatedAtByStatus("예약 중");
-
         LocalDateTime currentDate = LocalDateTime.now();
 
         for(LocalDateTime createdAt : createdAtList) {
