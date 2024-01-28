@@ -11,6 +11,9 @@ import java.util.List;
 public interface HotelRepository extends JpaRepository<Hotel, String> {
     List<Hotel> findAll();
 
-    @Query("SELECT DISTINCT p.region FROM Hotel p")
+    @Query("SELECT DISTINCT h.region FROM Hotel h")
     List<String> findDistinctRegion();
+
+    @Query("SELECT h.hotelname FROM Hotel h")
+    List<String> findAllHotelname();
 }

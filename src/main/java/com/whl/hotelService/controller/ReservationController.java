@@ -3,6 +3,7 @@ package com.whl.hotelService.controller;
 import com.whl.hotelService.domain.common.dto.ReservationDto;
 import com.whl.hotelService.domain.common.entity.Hotel;
 import com.whl.hotelService.domain.common.entity.Room;
+import com.whl.hotelService.domain.common.entity.RoomFileInfo;
 import com.whl.hotelService.domain.common.service.ReservationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +22,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import static com.whl.hotelService.controller.days.getDaysOfWeekBetweenDates;
 
 @Slf4j
 @Controller
@@ -66,7 +65,16 @@ public class ReservationController {
         LocalDate startDate = LocalDate.parse(checkin, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         LocalDate endDate = LocalDate.parse(checkout, DateTimeFormatter.ofPattern("yyyy-MM-dd")).minusDays(1);
 
-        DayOfWeek[] daysOfWeekBetweenDates = getDaysOfWeekBetweenDates(startDate, endDate);
+        List<DayOfWeek> daysOfWeekList = new ArrayList<>();
+
+        // Iterate through the dates and add the day of the week to the list
+        LocalDate currentDate = startDate;
+        while (!currentDate.isAfter(endDate)) {
+            daysOfWeekList.add(currentDate.getDayOfWeek());
+            currentDate = currentDate.plusDays(1);
+        }
+
+        DayOfWeek[] daysOfWeekBetweenDates = daysOfWeekList.toArray(new DayOfWeek[0]);
 
         long fridayCount = Arrays.stream(daysOfWeekBetweenDates)
                 .filter(dayOfWeek -> dayOfWeek == DayOfWeek.FRIDAY)
@@ -87,6 +95,9 @@ public class ReservationController {
         model.addAttribute("dayLength", daysOfWeekBetweenDates.length); // n박
         model.addAttribute("dayCountList", dayCountList);
 
+        List<RoomFileInfo> mainFileList = reservationService.getAllMainFiles(hotelname);
+
+        model.addAttribute("mainFileList", mainFileList);
     }
 
     @PostMapping(value = "select")
@@ -99,20 +110,5 @@ public class ReservationController {
             return new ResponseEntity<>("FAILURE", HttpStatus.BAD_GATEWAY);
         }
     }
-}
 
-class days {
-    // 주중, 주말 가격 계산을 위한 리스트 생성 메서드
-    public static DayOfWeek[] getDaysOfWeekBetweenDates(LocalDate startDate, LocalDate endDate) {
-        List<DayOfWeek> daysOfWeekList = new ArrayList<>();
-
-        // Iterate through the dates and add the day of the week to the list
-        LocalDate currentDate = startDate;
-        while (!currentDate.isAfter(endDate)) {
-            daysOfWeekList.add(currentDate.getDayOfWeek());
-            currentDate = currentDate.plusDays(1);
-        }
-
-        return daysOfWeekList.toArray(new DayOfWeek[0]);
-    }
 }

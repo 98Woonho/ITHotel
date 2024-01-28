@@ -17,6 +17,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/font/**").addResourceLocations("classpath:/static/font/");//.setCachePeriod(60*60*24*365);
         // http://localhost:8080/imageboard/[이미지경로] 입력하면 이미지가 나옴. 이게 없으면 이미지 접근 불가능
         registry.addResourceHandler("/hotelimage/**").addResourceLocations("file:/hotelimage/");//.setCachePeriod(60*60*24*365);
+        registry.addResourceHandler("/roomimage/**").addResourceLocations("file:/roomimage/");//.setCachePeriod(60*60*24*365);
     }
 
 

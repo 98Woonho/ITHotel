@@ -1,14 +1,8 @@
 package com.whl.hotelService.domain.common.service;
 
 import com.whl.hotelService.domain.common.dto.PaymentDto;
-import com.whl.hotelService.domain.common.entity.Payment;
-import com.whl.hotelService.domain.common.entity.Reservation;
-import com.whl.hotelService.domain.common.entity.ReservedRoomCount;
-import com.whl.hotelService.domain.common.entity.Room;
-import com.whl.hotelService.domain.common.repository.PaymentRepository;
-import com.whl.hotelService.domain.common.repository.ReservationRepository;
-import com.whl.hotelService.domain.common.repository.ReservedRoomCountRepository;
-import com.whl.hotelService.domain.common.repository.RoomRepository;
+import com.whl.hotelService.domain.common.entity.*;
+import com.whl.hotelService.domain.common.repository.*;
 import com.whl.hotelService.domain.user.entity.User;
 import com.whl.hotelService.domain.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +26,7 @@ public class PaymentService {
     private ReservedRoomCountRepository reservedRoomCountRepository;
 
     @Autowired
-    private RoomRepository roomRepository;
+    private RoomFileInfoRepository roomFileInfoRepository;
 
     @Autowired
     private UserRepository userRepository;
@@ -130,5 +124,9 @@ public class PaymentService {
         reservationRepository.deleteById(Long.valueOf(reservationId));
 
         return true;
+    }
+
+    public RoomFileInfo getRoomsMainFileInfo(Long id) {
+        return roomFileInfoRepository.findRoomsMainFile(id);
     }
 }

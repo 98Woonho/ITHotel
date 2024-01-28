@@ -48,7 +48,7 @@ public class SecurityConfig {
         //요청 URL별 접근 제한
         http.authorizeHttpRequests(
                 authorize->{
-                    authorize.requestMatchers("/js/**","/css/**","/images/**","/templates", "/hotelimage/**").permitAll();
+                    authorize.requestMatchers("/js/**","/css/**","/images/**","/templates", "/hotelimage/**", "/roomimage/**").permitAll();
                     authorize.requestMatchers("/**").permitAll();
                     authorize.anyRequest().authenticated();
                 }

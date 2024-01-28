@@ -22,10 +22,8 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.Date;
+import java.util.*;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class HotelService {
@@ -59,42 +57,82 @@ public class HotelService {
 
         hotelRepository.save(hotel);
 
-        List<String> files = new ArrayList<>();
-
         //저장 폴더 지정()
-        String uploadPath = "c:\\" + File.separator + "hotelimage" + File.separator+ hotelDto.getHotelname();
+        String uploadPath = "c:\\" + File.separator + "hotelimage" + File.separator + hotelDto.getHotelname();
         File dir = new File(uploadPath);
-        if(!dir.exists())
+        if (!dir.exists())
             dir.mkdirs();
 
-        for(MultipartFile file : hotelDto.getFiles()){
+        for (String fileName : hotelDto.getFileNames()) {
+            for (MultipartFile file : hotelDto.getFiles()) {
+                if (Objects.equals(fileName, file.getOriginalFilename())) {
+                    System.out.println("filename(origin) : " + file.getOriginalFilename());
 
-            System.out.println("-----------------------------");
-            System.out.println("filename : " + file.getName());
-            System.out.println("filename(origin) : " + file.getOriginalFilename());
-            System.out.println("filesize : " + file.getSize());
-            System.out.println("-----------------------------");
+                    File fileobj = new File(dir, file.getOriginalFilename());    //파일객체생성
 
-            File fileobj = new File(dir,file.getOriginalFilename());    //파일객체생성
+                    file.transferTo(fileobj);   //저장
 
-            file.transferTo(fileobj);   //저장
-
-            // 썸네일 생성
-            File thumbnailFile = new File(dir, "s_"+file.getOriginalFilename());
-            BufferedImage bo_image = ImageIO.read(fileobj);
-            BufferedImage bt_image = new BufferedImage(250, 250, BufferedImage.TYPE_3BYTE_BGR);
-            Graphics2D graphic = bt_image.createGraphics();
-            graphic.drawImage(bo_image, 0, 0, 250, 250, null);
-            ImageIO.write(bt_image, "png", thumbnailFile);
-
-            // DB에 파일경로 저장
-            HotelFileInfo hotelFileInfo = new HotelFileInfo();
-            hotelFileInfo.setHotel(hotel);
-            String dirPath = File.separator + "hotelimage" + File.separator+ hotelDto.getHotelname() + File.separator;
-            hotelFileInfo.setDir(dirPath);
-            hotelFileInfo.setFilename(file.getOriginalFilename());
-            hotelFileInfoRepository.save(hotelFileInfo);
+                    // DB에 파일경로 저장
+                    HotelFileInfo hotelFileInfo = new HotelFileInfo();
+                    hotelFileInfo.setHotel(hotel);
+                    String dirPath = File.separator + "hotelimage" + File.separator + hotelDto.getHotelname() + File.separator;
+                    hotelFileInfo.setDir(dirPath);
+                    hotelFileInfo.setFilename(file.getOriginalFilename());
+                    hotelFileInfoRepository.save(hotelFileInfo);
+                }
+            }
         }
+        return true;
+
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public boolean reviseHotel(HotelDto hotelDto) throws IOException {
+        Hotel hotel = Hotel.builder()
+                .hotelname(hotelDto.getHotelname())
+                .region(hotelDto.getRegion())
+                .addr1(hotelDto.getAddr1())
+                .addr2(hotelDto.getAddr2())
+                .zipcode(hotelDto.getZipcode())
+                .contactInfo(hotelDto.getContactInfo())
+                .hotelDetails(hotelDto.getHotelDetails())
+                .build();
+
+        hotelRepository.save(hotel);
+
+        String uploadPath = "c:\\" + File.separator + "hotelimage" + File.separator + hotelDto.getHotelname();
+        File dir = new File(uploadPath);
+
+        // 기존 파일 삭제
+        File[] files = dir.listFiles();
+
+        for (File file : files) {
+            hotelFileInfoRepository.deleteByFilenameAndHotelHotelname(file.getName(), hotelDto.getHotelname());
+            file.delete();
+        }
+
+        for (String fileName : hotelDto.getFileNames()) {
+            for (MultipartFile file : hotelDto.getFiles()) {
+                if (Objects.equals(fileName, file.getOriginalFilename())) {
+                    System.out.println("filename(origin) : " + file.getOriginalFilename());
+
+                    File fileobj = new File(dir, file.getOriginalFilename());    //파일객체생성
+
+                    file.transferTo(fileobj);   //저장
+
+                    // DB에 파일경로 저장
+                    HotelFileInfo hotelFileInfo = new HotelFileInfo();
+                    hotelFileInfo.setHotel(hotel);
+                    String dirPath = File.separator + "hotelimage" + File.separator + hotelDto.getHotelname() + File.separator;
+                    hotelFileInfo.setDir(dirPath);
+                    hotelFileInfo.setFilename(file.getOriginalFilename());
+                    hotelFileInfoRepository.save(hotelFileInfo);
+                }
+            }
+        }
+
+
+
         return true;
     }
 }

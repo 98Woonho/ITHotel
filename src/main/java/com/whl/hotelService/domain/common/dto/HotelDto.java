@@ -13,4 +13,5 @@ public class HotelDto {
     private String contactInfo; // 호텔 연락처
     private String hotelDetails;
     private MultipartFile[] files;
+    private String[] fileNames;
 }

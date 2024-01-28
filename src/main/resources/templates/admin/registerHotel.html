@@ -12,10 +12,10 @@
 
     <!-- css -->
     <link rel="stylesheet" href="/css/common.css">
-    <link rel="stylesheet" href="/css/admin/insertHotel.css">
+    <link rel="stylesheet" href="/css/admin/registerHotel.css">
 
     <!-- js -->
-    <script defer src="/js/admin/insertHotel.js"></script>
+    <script defer src="/js/admin/registerHotel.js"></script>
 </head>
 <body>
 
@@ -31,25 +31,24 @@
                 <div class="title-container">
                     <h1 class="title">호텔 관리 > 호텔 등록</h1>
                 </div>
-                <div class="insert-hotel-container">
-                    <section class="product_img_block">
-                        <div class="product_img">
+                <div class="register-hotel-container">
+                    <section class="hotel_img_block">
+                        <div class="hotel_img">
                             <div class="upload-box">
                                 <div class="plus">+</div>
                             </div>
                         </div>
-
                         <div class="preview_img_block">
                             <label>PREVIEW</label>
                             <div id="preview"></div>
                         </div>
                     </section>
 
-                    <section class="product_info_block">
-                        <form class="image-form" id="imageForm" >
+                    <section class="hotel_info_block">
+                        <form class="hotel-form" id="hotelForm" >
                             <div>
                                 <label>호텔 이름</label>
-                                <input name="hotelname" class="form-control" placeholder="호텔 이름" required>
+                                <input name="hotelname" class="form-control" placeholder="호텔 이름(특수문자 불가능)" required>
                             </div>
                             <div>
                                 <label>지역</label>
@@ -68,7 +67,7 @@
                                 <div>
                                     <label>우편번호</label>
                                     <div class="row-container">
-                                        <input class="form-control" name="zipcode" id="zipcode" placeholder="우편번호" />
+                                        <input disabled class="form-control" name="zipcode" id="zipcode" placeholder="우편번호" />
                                         <a onclick="AddressSearch()" class="btn btn-secondary search-addr-btn">우편번호 찾기</a>
                                     </div>
                                 </div>
@@ -83,7 +82,7 @@
                             </div>
                             <div>
                                 <label>연락처</label>
-                                <input name="contactInfo" class="form-control" placeholder="연락처 (- 포함 입력)" required>
+                                <input name="contactInfo" class="form-control" placeholder="000-0000-0000 또는 000-000-0000" required>
                             </div>
                             <div>
                                 <label>호텔 소개</label>

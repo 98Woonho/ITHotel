@@ -13,7 +13,7 @@
     width: 200px;
 }
 
-.insert-hotel-container {
+.modify-hotel-container {
     margin-top: 5rem;
 
     display: flex;
@@ -21,8 +21,12 @@
     justify-content: space-between;
 }
 
-.product_img{
-    width : 400px;
+.hotel_img_block {
+    width: 400px;
+}
+
+.hotel_img{
+    width : 100%;
     height: 250px;
     position: relative;
 }
@@ -39,7 +43,7 @@
     content : "이미지를 드래그하세요";
     display:block;
     position:absolute;
-    left:0px;
+    left:0;
     top:40px;
     width : 100%;
     height : 450px;
@@ -67,38 +71,51 @@
 
 #preview {
     width : 100%;
-    height : 100px;
+    height : 200px;
     margin: 10px auto;
     border : 1px dashed lightgray;
 
-    padding: 10px;
     position: relative;
-    left:0px;
-    top:00px;
 
     display: flex;
-    justify-content: center;
-    align-items : center;
-    flex-wrap: wrap;
-    overflow: auto;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    flex: 1 1 0;
+    overflow: auto hidden;
 }
 
-.insert-hotel-container img {
-    width: 50px;
-    height: 50px;
-    border: 1px solid gray;
-    margin : 2px;
+.preview_img_block .item {
+    border: 0.0625rem solid #4a4a4a;
+    margin: 0 0.5rem;
+    padding: 0.5rem;
+    position: relative;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
 }
 
-.product_info_block{
+.preview_img_block .delete-btn {
+    margin-left: 0.5rem;
+    white-space: nowrap;
+}
+
+.modify-hotel-container img {
+    width: 150px;
+    height: 150px;
+}
+
+.hotel_info_block{
     width: 400px;
     position: relative;
 }
 
-.product_info_block>form>*{
+.hotel_info_block>form>*{
     margin-bottom:20px;
 }
 
-.product_info_block label{
+.hotel_info_block label{
     margin:5px 0;
 }

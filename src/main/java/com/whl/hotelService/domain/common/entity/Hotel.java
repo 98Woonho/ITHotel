@@ -19,10 +19,11 @@ public class Hotel {
     @Id
     private String hotelname; // 호텔 이름
 
+    @Column(nullable = false)
     private String region;
     @Column(nullable = false)
     private String addr1;
-    @Column(nullable = false)
+
     private String addr2;
     @Column(nullable = false)
     private String zipcode;

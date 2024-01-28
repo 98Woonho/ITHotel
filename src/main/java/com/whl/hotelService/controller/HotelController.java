@@ -37,7 +37,18 @@ public class HotelController {
     public ResponseEntity<String> postAdd(HotelDto hotelDto) throws IOException {
         boolean isAdd = hotelService.addHotel(hotelDto);
 
-        if(isAdd) {
+        if (isAdd) {
+            return new ResponseEntity("SUCCESS", HttpStatus.OK);
+        } else {
+            return new ResponseEntity("FAILURE", HttpStatus.BAD_GATEWAY);
+        }
+    }
+
+    @PutMapping("revise")
+    public ResponseEntity<String> putRevise(HotelDto hotelDto) throws IOException {
+        boolean isRevise = hotelService.reviseHotel(hotelDto);
+
+        if (isRevise) {
             return new ResponseEntity("SUCCESS", HttpStatus.OK);
         } else {
             return new ResponseEntity("FAILURE", HttpStatus.BAD_GATEWAY);
