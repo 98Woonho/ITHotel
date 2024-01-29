@@ -16,6 +16,4 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     Reservation findByUserUseridAndStatus(String userid, String status);
 
     void deleteByCreatedAt(LocalDateTime createdAt);
-
-
 }

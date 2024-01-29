@@ -166,7 +166,7 @@
             <input type="submit" value="검색" class="search-button">
         </form>
 
-        <div th:if="${mainFile.room.count - mainFile.room.reservedRoomCount != 0}" class="room-container" th:each="mainFile : ${mainFileList}">
+        <div th:if="${(mainFile.room.count - mainFile.room.reservedRoomCount != 0) and (adultCount + childCount <= mainFile.room.maximumPeople)}" class="room-container" th:each="mainFile : ${mainFileList}">
             <img th:src="@{${mainFile.dir} + ${mainFile.filename}}" alt="">
             <form class="reservation-form" th:id="'reservationForm_' + ${mainFile.room.id}">
                 <div class="room-info-container">

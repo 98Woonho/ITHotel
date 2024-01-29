@@ -1,9 +1,6 @@
 package com.whl.hotelService.domain.common.dto;
 
-import com.whl.hotelService.domain.common.entity.Hotel;
-import jakarta.persistence.*;
 import lombok.Data;
-import org.apache.ibatis.binding.MapperProxyFactory;
 import org.springframework.web.multipart.MultipartFile;
 
 @Data

@@ -26,17 +26,17 @@ import java.util.Objects;
 public class RoomService {
     @Autowired
     private HotelRepository hotelRepository;
-    
+
     @Autowired
     private RoomRepository roomRepository;
-    
+
     @Autowired
     private RoomFileInfoRepository roomFileInfoRepository;
 
     @Transactional(rollbackFor = Exception.class)
     public boolean addRoom(RoomDto roomDto) throws IOException {
         Hotel hotel = hotelRepository.findById(roomDto.getHotelname()).get();
-        
+
         Room room = Room.builder()
                 .checkinTime(roomDto.getCheckinTime())
                 .checkoutTime(roomDto.getCheckoutTime())
@@ -53,9 +53,9 @@ public class RoomService {
         roomRepository.save(room);
 
         //저장 폴더 지정()
-        String uploadPath = "c:\\" + File.separator + "roomimage" + File.separator+ roomDto.getHotelname() + File.separator + roomDto.getKind();
+        String uploadPath = "c:\\" + File.separator + "roomimage" + File.separator + roomDto.getHotelname() + File.separator + roomDto.getKind();
         File dir = new File(uploadPath);
-        if(!dir.exists())
+        if (!dir.exists())
             dir.mkdirs();
 
 
@@ -63,42 +63,43 @@ public class RoomService {
         for (String fileName : roomDto.getFileNames()) {
             for (MultipartFile file : roomDto.getFiles()) {
                 if (Objects.equals(fileName, file.getOriginalFilename())) {
-                    System.out.println("filename(origin) : " + file.getOriginalFilename());
 
                     File fileobj = new File(dir, file.getOriginalFilename());    //파일객체생성
 
-                    file.transferTo(fileobj);   //저장
+                    if(!fileobj.exists()) {
+                        // DB에 파일경로 저장
+                        RoomFileInfo roomFileInfo = new RoomFileInfo();
+                        roomFileInfo.setRoom(room);
+                        String dirPath = File.separator + "roomimage" + File.separator + roomDto.getHotelname() + File.separator + roomDto.getKind() + File.separator;
+                        roomFileInfo.setDir(dirPath);
+                        roomFileInfo.setFilename(file.getOriginalFilename());
+                        roomFileInfoRepository.save(roomFileInfo);
+                    }
 
-                    // DB에 파일경로 저장
-                    RoomFileInfo roomFileInfo = new RoomFileInfo();
-                    roomFileInfo.setRoom(room);
-                    String dirPath = File.separator + "roomimage" + File.separator + roomDto.getHotelname() + File.separator + roomDto.getKind() + File.separator;
-                    roomFileInfo.setDir(dirPath);
-                    roomFileInfo.setFilename(file.getOriginalFilename());
-                    roomFileInfoRepository.save(roomFileInfo);
+                    file.transferTo(fileobj);   //저장
                 }
             }
         }
 
         // 대표 이미지
-        for(MultipartFile file : roomDto.getMainFiles()) {
-            if(Objects.equals(roomDto.getMainFileName(), file.getOriginalFilename())) {
+        for (MultipartFile file : roomDto.getMainFiles()) {
+            if (Objects.equals(roomDto.getMainFileName(), file.getOriginalFilename())) {
 
                 File fileobj = new File(dir, file.getOriginalFilename()); //파일객체생성
 
-                file.transferTo(fileobj);   //저장
+                if(!fileobj.exists()) {
+                    RoomFileInfo mainFileInfo = new RoomFileInfo();
+                    mainFileInfo.setRoom(room);
+                    String mainDirPath = File.separator + "roomimage" + File.separator + roomDto.getHotelname() + File.separator + roomDto.getKind() + File.separator;
+                    mainFileInfo.setDir(mainDirPath);
+                    mainFileInfo.setFilename(file.getOriginalFilename());
+                    mainFileInfo.setMainImage(true);
+                    roomFileInfoRepository.save(mainFileInfo);
+                }
 
-                RoomFileInfo mainFileInfo = new RoomFileInfo();
-                mainFileInfo.setRoom(room);
-                String mainDirPath = File.separator + "roomimage" + File.separator+ roomDto.getHotelname() + File.separator + roomDto.getKind() + File.separator;
-                mainFileInfo.setDir(mainDirPath);
-                mainFileInfo.setFilename(file.getOriginalFilename());
-                mainFileInfo.setMainImage(true);
-                roomFileInfoRepository.save(mainFileInfo);
+                file.transferTo(fileobj); // 저장
             }
         }
-
-
         return true;
     }
 }

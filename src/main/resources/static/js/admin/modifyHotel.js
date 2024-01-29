@@ -115,7 +115,11 @@ items.forEach(item => {
 })
 
 
-
+let existingFileNameArray = [];
+const existingFileNames = modifyHotel.querySelectorAll('.filename');
+existingFileNames.forEach(filename => {
+    existingFileNameArray.push(filename.value)
+})
 
 const modifyHotelBtn = hotelForm.querySelector('.modify_hotel_btn');
 
@@ -159,6 +163,7 @@ modifyHotelBtn.addEventListener('click', function(e) {
         alert("호텔 소개를 입력해 주세요.");
         return;
     }
+    formData.append("existingFileNames", existingFileNameArray);
     formData.append("hotelname", hotelForm['hotelname'].value);
     formData.append("fileNames", fileNameArray);
     formData.append("region", hotelForm['region'].value);
