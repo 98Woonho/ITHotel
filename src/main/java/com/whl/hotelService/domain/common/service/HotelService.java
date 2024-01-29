@@ -25,6 +25,8 @@ import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.List;
 
+import static java.awt.geom.Path2D.contains;
+
 @Service
 public class HotelService {
     @Autowired
@@ -88,7 +90,7 @@ public class HotelService {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public boolean reviseHotel(HotelDto hotelDto) throws IOException {
+    public boolean modifyHotel(HotelDto hotelDto) throws IOException {
         Hotel hotel = Hotel.builder()
                 .hotelname(hotelDto.getHotelname())
                 .region(hotelDto.getRegion())
@@ -103,12 +105,18 @@ public class HotelService {
 
         String uploadPath = "c:\\" + File.separator + "hotelimage" + File.separator + hotelDto.getHotelname();
         File dir = new File(uploadPath);
+        if (!dir.exists())
+            dir.mkdirs();
 
         // 기존 파일 삭제
         File[] files = dir.listFiles();
 
+        String[] existingFilenameArray = hotelDto.getExistingFileNames();
+
+        System.out.println(Arrays.toString(existingFilenameArray));
+
         for (File file : files) {
-            for (String existingFileName : hotelDto.getExistingFileNames()) {
+            if (!Arrays.asList(existingFilenameArray).contains(file.getName())) {
                 hotelFileInfoRepository.deleteByFilenameAndHotelHotelname(file.getName(), hotelDto.getHotelname());
                 file.delete();
             }
@@ -117,7 +125,6 @@ public class HotelService {
         for (String fileName : hotelDto.getFileNames()) {
             for (MultipartFile file : hotelDto.getFiles()) {
                 if (Objects.equals(fileName, file.getOriginalFilename())) {
-                    System.out.println("filename(origin) : " + file.getOriginalFilename());
 
                     File fileobj = new File(dir, file.getOriginalFilename());    //파일객체생성
 
@@ -130,13 +137,11 @@ public class HotelService {
                         hotelFileInfo.setFilename(file.getOriginalFilename());
                         hotelFileInfoRepository.save(hotelFileInfo);
                     }
-
                     file.transferTo(fileobj);   //저장
                 }
             }
         }
-
-
         return true;
     }
+
 }

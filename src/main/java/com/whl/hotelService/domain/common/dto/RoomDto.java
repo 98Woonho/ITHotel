@@ -21,4 +21,5 @@ public class RoomDto {
     private String[] fileNames;
     private MultipartFile[] mainFiles;
     private String mainFileName;
+    private String[] existingFileNames;
 }

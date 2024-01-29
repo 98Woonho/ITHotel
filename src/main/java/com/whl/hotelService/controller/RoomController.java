@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.io.IOException;
@@ -24,6 +25,17 @@ public class RoomController {
         boolean isAdd = roomService.addRoom(roomDto);
 
         if(isAdd) {
+            return new ResponseEntity("SUCCESS", HttpStatus.OK);
+        } else {
+            return new ResponseEntity("FAILURE", HttpStatus.BAD_GATEWAY);
+        }
+    }
+
+    @PutMapping("modify")
+    public ResponseEntity<String> putModify(RoomDto roomDto) throws IOException {
+        boolean isModify = roomService.modifyRoom(roomDto);
+
+        if (isModify) {
             return new ResponseEntity("SUCCESS", HttpStatus.OK);
         } else {
             return new ResponseEntity("FAILURE", HttpStatus.BAD_GATEWAY);

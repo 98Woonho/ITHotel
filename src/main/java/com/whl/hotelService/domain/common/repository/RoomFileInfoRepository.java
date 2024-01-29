@@ -14,4 +14,10 @@ public interface RoomFileInfoRepository extends JpaRepository<RoomFileInfo, Long
 
     @Query("SELECT r FROM RoomFileInfo r WHERE r.room.id = :id AND r.isMainImage = true")
     RoomFileInfo findRoomsMainFile(Long id);
+
+    RoomFileInfo findByRoomKindAndRoomHotelHotelnameAndIsMainImage(String roomKind, String hotelname, boolean mainImageFlag);
+
+    List<RoomFileInfo> findAllByRoomKindAndRoomHotelHotelnameAndIsMainImage(String roomKind, String hotelname, boolean mainImageFlag);
+
+    void deleteByFilenameAndRoomHotelHotelname(String filename, String hotelname);
 }

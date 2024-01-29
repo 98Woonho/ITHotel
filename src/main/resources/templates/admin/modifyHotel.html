@@ -56,13 +56,13 @@
                             </div>
                             <div class="preview_img_block">
                                 <label>PREVIEW</label>
-                                <div id="preview">
+                                <ul id="preview">
                                     <li class="item" th:each="file : ${fileList}">
                                         <input hidden type="text" class="filename" name="filename" th:value="${file.filename}">
                                         <img class="img" th:src="@{${file.dir} + ${file.filename}}" alt="">
                                         <a class="btn btn-secondary delete-btn">삭제</a>
                                     </li>
-                                </div>
+                                </ul>
                             </div>
                         </section>
 

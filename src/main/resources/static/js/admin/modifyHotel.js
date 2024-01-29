@@ -1,6 +1,7 @@
 const hotelList = document.querySelector('.hotelList');
 const hotelForm = document.querySelector('.hotel-form');
 const regionList = hotelForm.querySelector('#regionList');
+
 function selectedHotel() {
     location.href = "/admin/modifyHotel?hotelname=" + hotelList.value;
 }
@@ -115,16 +116,16 @@ items.forEach(item => {
 })
 
 
-let existingFileNameArray = [];
-const existingFileNames = modifyHotel.querySelectorAll('.filename');
-existingFileNames.forEach(filename => {
-    existingFileNameArray.push(filename.value)
-})
-
 const modifyHotelBtn = hotelForm.querySelector('.modify_hotel_btn');
 
 modifyHotelBtn.addEventListener('click', function(e) {
     e.preventDefault();
+
+    let existingFileNameArray = [];
+    const existingFileNames = modifyHotel.querySelectorAll('.filename');
+    existingFileNames.forEach(filename => {
+        existingFileNameArray.push(filename.value)
+    })
 
     const regionRegex = new RegExp("^[\uAC00-\uD7A3]+$");
     const contactRegex = new RegExp("^\\d{3}-\\d{3,4}-\\d{4}$");
@@ -173,7 +174,7 @@ modifyHotelBtn.addEventListener('click', function(e) {
     formData.append("contactInfo", hotelForm['contactInfo'].value);
     formData.append("hotelDetails", hotelForm['hotelDetails'].value);
 
-    axios.put("/hotel/revise", formData, {header : {'Content-Type': 'multipart/form-data'}})
+    axios.put("/hotel/modify", formData, {header : {'Content-Type': 'multipart/form-data'}})
         .then(res => {
             alert("호텔 수정이 완료 되었습니다.");
         })

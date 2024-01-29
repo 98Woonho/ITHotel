@@ -44,11 +44,11 @@ public class HotelController {
         }
     }
 
-    @PutMapping("revise")
-    public ResponseEntity<String> putRevise(HotelDto hotelDto) throws IOException {
-        boolean isRevise = hotelService.reviseHotel(hotelDto);
+    @PutMapping("modify")
+    public ResponseEntity<String> putModify(HotelDto hotelDto) throws IOException {
+        boolean isModify = hotelService.modifyHotel(hotelDto);
 
-        if (isRevise) {
+        if (isModify) {
             return new ResponseEntity("SUCCESS", HttpStatus.OK);
         } else {
             return new ResponseEntity("FAILURE", HttpStatus.BAD_GATEWAY);
