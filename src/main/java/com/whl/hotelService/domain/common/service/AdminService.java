@@ -32,6 +32,6 @@ public class AdminService {
     }
 
     public List<HotelFileInfo> getHotelFileInfo(String hotelname) {
-        return hotelFileInfoRepository.findByHotelName(hotelname);
+        return hotelFileInfoRepository.findByHotelHotelname(hotelname);
     }
 }

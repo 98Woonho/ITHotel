@@ -9,8 +9,7 @@ import java.util.List;
 
 @Repository
 public interface HotelFileInfoRepository extends JpaRepository<HotelFileInfo, Long> {
-    @Query("SELECT h FROM HotelFileInfo h WHERE h.hotel.hotelname = :hotelname")
-    List<HotelFileInfo> findByHotelName(String hotelname);
+    List<HotelFileInfo> findByHotelHotelname(String hotelname);
 
     void deleteByFilenameAndHotelHotelname(String filename, String hotelname);
 }
