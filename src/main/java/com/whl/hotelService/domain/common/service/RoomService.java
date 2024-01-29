@@ -109,6 +109,7 @@ public class RoomService {
         Hotel hotel = hotelRepository.findById(roomDto.getHotelname()).get();
 
         Room room = Room.builder()
+                .id(roomDto.getId())
                 .checkinTime(roomDto.getCheckinTime())
                 .checkoutTime(roomDto.getCheckoutTime())
                 .count(roomDto.getCount())

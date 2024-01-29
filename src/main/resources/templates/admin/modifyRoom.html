@@ -60,9 +60,6 @@
                 </div>
 
                 <div th:if="${hotelname != null && roomKind != null}">
-                    <span class="text" th:text="${hotelname}"></span><br>
-                    <span class="text" th:text="${roomKind}"></span><br><br>
-
                     <div class="modify-room-container">
                         <section class="room_img_block">
                             <div class="main-image-container">
@@ -165,6 +162,7 @@
     </div>
 
     <input hidden class="hotelname" type="text" th:value="${hotelname}">
+    <input hidden class="room-id" type="text" th:value="${roomMainFile.room.id}">
 </main>
 
 <th:block th:insert="~{fragments/footer.html :: footer_fragment}"></th:block>

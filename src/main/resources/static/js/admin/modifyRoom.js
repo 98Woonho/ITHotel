@@ -177,6 +177,7 @@ modifyRoomBtn.addEventListener('click', function(e) {
     formData.append("existingFileNames", existingFileNameArray);
     formData.append("mainFileName", mainFileName);
     formData.append("fileNames", fileNameArray);
+    formData.append("id", document.querySelector('.room-id').value);
     formData.append("hotelname", document.querySelector('.hotelname').value);
     formData.append("kind", roomForm['kind'].value);
     formData.append("checkinTime", roomForm['checkinHour'].value + ":" + roomForm['checkinMinute'].value);
@@ -190,7 +191,7 @@ modifyRoomBtn.addEventListener('click', function(e) {
 
     axios.put("/room/modify", formData, {header : {'Content-Type': 'multipart/form-data'}})
         .then(res => {
-            alert("객실 등록이 완료 되었습니다.");
+            alert("객실 수정이 완료 되었습니다.");
         })
         .catch(err => {
             console.log(err);
