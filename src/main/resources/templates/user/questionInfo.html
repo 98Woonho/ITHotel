@@ -34,8 +34,130 @@
                 </div>
                 <div class="information-info-container">
                     <th:block th:switch="${function}">
-                        <span class="text" th:case='create'>문의하기</span>
-                        <span class="text" th:case='read'>문의현황</span>
+                        <span class="text" th:case='create'>
+    <div id="main_wrapper">
+        <form id="mainForm" action="/board/admin/adminWrite" method="post">
+            <div>호텔위치</div>
+            <select name="hotelname" th:value="hotelname">
+                <option th:each="hotelname : ${hotelnames}" th:text="${hotelname}"></option>
+            </select>
+            <div>관련 문의</div>
+            <select name="relation">
+                <option value="호텔문의">호텔문의</option>
+                <option value="객실문의">객실문의</option>
+                <option value="예약문의">예약문의</option>
+            </select>
+            <div>
+                <label class="form-label fw-bold fs-5">문의 제목</label>
+                <input class="form-control" type="text" name="title" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label fw-bold fs-5">문의 내용</label>
+                <textarea class="form-control" name="content" cols="30" rows="10" required></textarea>
+            </div>
+            <span class="mb-3">
+        <input class="form-control write" type="submit" value="글작성">
+    </span>
+        </form>
+    </div>
+                        </span>
+                        <span class="text" th:case='read'>
+        <div class="table_wrapper">
+            <h1>회원 게시글</h1>
+                <table class="main_table">
+                    <tbody>
+                    <tr>
+                        <th>
+                            <span>*</span>
+                            호텔이름
+                        </th>
+                        <td>
+                            <div th:text="${board.hotelname}"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <span>*</span>
+                            질문유형
+                        </th>
+                        <td>
+                            <div th:text="${board.relation}"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <span>*</span>
+                            제목
+                        </th>
+                        <td>
+                            <div th:text="${board.title}"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <span>*</span>
+                            작성일
+                        </th>
+                        <td>
+                            <div th:text="${board.createdTime}"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <span>*</span>
+                            작성자
+                        </th>
+                        <td>
+                            <div th:text="${board.username}"></div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+        </div>
+        <div class="card my-4">
+            <h4 class="card-header">질문보기</h4>
+            <div class="card-body" th:text="${board.content}">
+
+            </div>
+        </div>
+        <div class="card my-4">
+            <h5 class="card-header">답글 쓰기</h5>
+            <div class="card-body">
+                <form th:action="@{/board/{id}/comment(id=${id})}" th:method="post">
+                    <div class="form-group" style="margin-bottom: 10px;">
+                        <input type="hidden" name="idx" th:value="*{idx}"/>
+                        <textarea name="content" class="form-control" rows="3"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+                                <!-- 댓글 화면-->
+        <div class="card my-4">
+            <h5 class="card-header">답글</h5>
+            <div class="card-body">
+                <div th:each="comment : ${comments}">
+                    <div class="media mb-4">
+                        <div class="media-body">
+                            <h5 class="mt-0" th:text="${comment.username}">작성자</h5>
+                            <p th:text="${comment.content}" th:id="'comment-' + ${comment.id}">댓글 내용</p>
+                            <small class="text-muted"
+                                   th:text="${#temporals.format(comment.createdTime, 'yyyy-MM-dd HH:mm')}">댓글 작성
+                                시간</small>
+                            <div>
+                                <button class="btn btn-sm btn-outline-warning" th:attr="data-id=${comment.id}"
+                                        onclick="editComment(this)">수정
+                                </button>
+                                <a th:href="@{/board/{id}/comment/{commentId}/remove(id=${id}, commentId=${comment.id})}"
+                                   class="btn btn-sm btn-outline-danger"
+                                   onclick="return confirm('Delete this comment?')">삭제</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+                        </span>
                     </th:block>
                 </div>
             </div>

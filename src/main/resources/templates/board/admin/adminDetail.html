@@ -17,41 +17,66 @@
 </header>
 <main id="main">
     <div id="main_wrapper">
-        <h1>회원 게시글</h1>
-        <div class="card mb-4">
-            <div class="card-body">
-                <form>
-                    <div class="mb-3">
-                        <label for="title" class="form-label">제목</label>
-                        <input type="text" class="form-control" id="title" name="title"
-                               th:value="${board.title}" disabled>
-                    </div>
-                    <div class="mb-3">
-                        <label for="content" class="form-label">내용</label>
-                        <textarea class="form-control" id="content" name="content" disabled
-                                  th:text="${board.content}"></textarea>
-                    </div>
-                    <div class="mb-3">
-                        <label for="createdAt" class="form-label">작성일</label>
-                        <input type="text" class="form-control" id="createdAt" name="createdAt"
-                               th:value="${#temporals.format(board.createdTime, 'yyyy-MM-dd HH:mm')}" disabled>
-                    </div>
-                    <div class="mb-3">
-                        <label for="createdAt" class="form-label">수정일</label>
-                        <input type="text" class="form-control" id="updatedAt" name="updatedAt"
-                               th:value="${#temporals.format(board.updatedTime, 'yyyy-MM-dd HH:mm')}" disabled>
-                    </div>
-                    <div class="mb-3">
-                        <label for="writer" class="form-label">작성자</label>
-                        <input type="text" class="form-control" id="writer" name="writer"
-                               th:value="${board.username}" disabled>
-                    </div>
-                </form>
+        <div class="table_wrapper">
+            <h1>회원 게시글</h1>
+                <table class="main_table">
+                    <tbody>
+                    <tr>
+                        <th>
+                            <span>*</span>
+                            호텔이름
+                        </th>
+                        <td>
+                            <div th:text="${board.hotelname}"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <span>*</span>
+                            질문유형
+                        </th>
+                        <td>
+                            <div th:text="${board.relation}"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <span>*</span>
+                            제목
+                        </th>
+                        <td>
+                            <div th:text="${board.title}"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <span>*</span>
+                            작성일
+                        </th>
+                        <td>
+                            <div th:text="${board.createdTime}"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <span>*</span>
+                            작성자
+                        </th>
+                        <td>
+                            <div th:text="${board.username}"></div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+        </div>
+        <div class="card my-4">
+            <h4 class="card-header">질문보기</h4>
+            <div class="card-body" th:text="${board.content}">
+
             </div>
         </div>
-        <!-- 댓글 쓰기-->
         <div class="card my-4">
-            <h5 class="card-header">댓글 쓰기</h5>
+            <h5 class="card-header">답글 쓰기</h5>
             <div class="card-body">
                 <form th:action="@{/board/{id}/comment(id=${id})}" th:method="post">
                     <div class="form-group" style="margin-bottom: 10px;">
@@ -64,7 +89,7 @@
         </div>
         <!-- 댓글 화면-->
         <div class="card my-4">
-            <h5 class="card-header">댓글</h5>
+            <h5 class="card-header">답글</h5>
             <div class="card-body">
                 <div th:each="comment : ${comments}">
                     <div class="media mb-4">
@@ -104,5 +129,40 @@
         location.href = "/board/admin/adminList"
     }
 </script>
-
+<!--                    <div class="mb-3">-->
+<!--                        <label for="title" class="form-label">호텔이름</label>-->
+<!--                        <input type="text" class="form-control" id="hotelname"-->
+<!--                        th:value="${board.hotelname}" disabled>-->
+<!--                    </div>-->
+<!--                    <div class="mb-3">-->
+<!--                        <label for="title" class="form-label">관련문의</label>-->
+<!--                        <input type="text" class="form-control" id="relation"-->
+<!--                               th:value="${board.relation}" disabled>-->
+<!--                    </div>-->
+<!--                    <div class="mb-3">-->
+<!--                        <label for="title" class="form-label">제목</label>-->
+<!--                        <input type="text" class="form-control" id="title"-->
+<!--                               th:value="${board.title}" disabled>-->
+<!--                    </div>-->
+<!--                    <div class="mb-3">-->
+<!--                        <label for="content" class="form-label">내용</label>-->
+<!--                        <textarea class="form-control" id="content" disabled-->
+<!--                                  th:text="${board.content}"></textarea>-->
+<!--                    </div>-->
+<!--                    <div class="mb-3">-->
+<!--                        <label for="createdAt" class="form-label">작성일</label>-->
+<!--                        <input type="text" class="form-control" id="createdAt"-->
+<!--                               th:value="${#temporals.format(board.createdTime, 'yyyy-MM-dd HH:mm')}" disabled>-->
+<!--                    </div>-->
+<!--                    <div class="mb-3">-->
+<!--                        <label for="createdAt" class="form-label">수정일</label>-->
+<!--                        <input type="text" class="form-control" id="updatedAt"-->
+<!--                               th:value="${#temporals.format(board.updatedTime, 'yyyy-MM-dd HH:mm')}" disabled>-->
+<!--                    </div>-->
+<!--                    <div class="mb-3">-->
+<!--                        <label for="writer" class="form-label">작성자</label>-->
+<!--                        <input type="text" class="form-control" id="writer"-->
+<!--                               th:value="${board.username}" disabled>-->
+<!--                    </div>-->
+<!-- 댓글 쓰기-->
 </html>

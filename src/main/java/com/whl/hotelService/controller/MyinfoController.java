@@ -4,6 +4,11 @@ import com.whl.hotelService.config.auth.PrincipalDetails;
 import com.whl.hotelService.config.auth.jwt.JwtProperties;
 import com.whl.hotelService.config.auth.jwt.JwtTokenProvider;
 import com.whl.hotelService.config.auth.jwt.TokenInfo;
+import com.whl.hotelService.domain.common.dto.BoardResponseDto;
+import com.whl.hotelService.domain.common.dto.CommentResponseDto;
+import com.whl.hotelService.domain.common.service.AdminBoardService;
+import com.whl.hotelService.domain.common.service.BoardService;
+import com.whl.hotelService.domain.common.service.CommentService;
 import com.whl.hotelService.domain.user.dto.UserDto;
 import com.whl.hotelService.domain.user.service.MyinfoService;
 import jakarta.servlet.http.Cookie;
@@ -20,6 +25,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Objects;
 
 @Slf4j
@@ -29,9 +35,14 @@ public class MyinfoController {
 
     @Autowired
     MyinfoService myinfoService;
-
+    @Autowired
+    BoardService boardService;
+    @Autowired
+    AdminBoardService adminBoardService;
     @Autowired
     JwtTokenProvider jwtTokenProvider;
+    @Autowired
+    CommentService commentService;
 
     @GetMapping("informationInfo")
     public void InformationInfo(@RequestParam(value="function", required = false) String function, Model model, Authentication authentication){
@@ -97,7 +108,12 @@ public class MyinfoController {
 
     @GetMapping("questionInfo")
     public void questionInfo(@RequestParam(value="function", required = false) String function, Model model){
-        log.info("get question");
+        List<String> hotelnames = boardService.searchHotelname();
+//        BoardResponseDto board = adminBoardService.boardDetail(id);
+//        List<CommentResponseDto> commentResponseDtos = commentService.commentList(id);
+//        model.addAttribute("comments", commentResponseDtos);
+//        model.addAttribute("board", board);
+        model.addAttribute("hotelnames", hotelnames);
         model.addAttribute("function", function);
     }
 }

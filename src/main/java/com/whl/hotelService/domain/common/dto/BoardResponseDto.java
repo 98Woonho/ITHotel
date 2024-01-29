@@ -19,6 +19,8 @@ public class BoardResponseDto {
     private String email;
     private LocalDateTime createdTime;
     private LocalDateTime updatedTime;
+    private String hotelname;
+    private String relation;
 
     public static BoardResponseDto entityToDto(Board board, User user){
         BoardResponseDto dto = BoardResponseDto.builder()
@@ -29,6 +31,7 @@ public class BoardResponseDto {
                 .email(user.getEmail())
                 .createdTime(board.getCreatedTime())
                 .updatedTime(board.getUpdatedTime())
+                .hotelname(board.getHotelname())
                 .build();
         return dto;
     }
@@ -42,6 +45,8 @@ public class BoardResponseDto {
                 .email(user.getEmail())
                 .createdTime(board.getCreatedTime())
                 .updatedTime(board.getUpdatedTime())
+                .hotelname(board.getHotelname())
+                .relation(board.getRelation())
                 .build();
         return dto;
     }

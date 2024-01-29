@@ -4,9 +4,9 @@ package com.whl.hotelService.controller;
 import com.whl.hotelService.domain.common.dto.BoardResponseDto;
 import com.whl.hotelService.domain.common.dto.BoardWriteRequestDto;
 import com.whl.hotelService.domain.common.dto.CommentResponseDto;
-import com.whl.hotelService.domain.common.service.AdminBoardServiceImpl;
-import com.whl.hotelService.domain.common.service.BoardServiceImpl;
-import com.whl.hotelService.domain.common.service.CommentServiceImpl;
+import com.whl.hotelService.domain.common.service.AdminBoardService;
+import com.whl.hotelService.domain.common.service.BoardService;
+import com.whl.hotelService.domain.common.service.CommentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -26,16 +26,18 @@ import java.util.List;
 @RequestMapping(value = "board")
 public class BoardController {
     @Autowired
-    private BoardServiceImpl boardService;
+    private BoardService boardService;
     @Autowired
-    private AdminBoardServiceImpl adminBoardService;
+    private AdminBoardService adminBoardService;
     @Autowired
-    private CommentServiceImpl commentService;
+    private CommentService commentService;
 
-    @GetMapping("/write")
-    public String writeForm() {
-        return "board/write";
-    }
+//    @GetMapping("/write")
+//    public String writeForm(Model model) {
+//        List<String> hotelnames = boardService.searchHotelname();
+//        model.addAttribute("hotelnames", hotelnames);
+//        return "board/write";
+//    }
 
     //    관리자 글쓰기
     @GetMapping("/admin/adminWrite")
@@ -43,14 +45,16 @@ public class BoardController {
         return "board/admin/adminWrite";
     }
     @PostMapping("/admin/adminWrite") // 게시판 글쓰기 로그인된 유저만 글을 쓸수 있음
-    public String adminWrite(BoardWriteRequestDto boardWriteRequestDto, Authentication authentication) {
+    public String adminWrite(@RequestParam String hotelname,
+                             @RequestParam String relation,
+                             BoardWriteRequestDto boardWriteRequestDto, Authentication authentication) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        adminBoardService.saveBoard(boardWriteRequestDto, userDetails.getUsername());
-
+        adminBoardService.saveBoard(hotelname, relation, boardWriteRequestDto, userDetails.getUsername());
+        System.out.println("relation" + relation);
         return "redirect:/";
     }
     @PostMapping("/write") // 게시판 글쓰기 로그인된 유저만 글을 쓸수 있음
-    public String write(BoardWriteRequestDto boardWriteRequestDto, Authentication authentication, RedirectAttributes redirectAttributes) {
+    public String write(BoardWriteRequestDto boardWriteRequestDto, Authentication authentication) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         boardService.saveBoard(boardWriteRequestDto, userDetails.getUsername());
         return "redirect:/board/list";
