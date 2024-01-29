@@ -1,9 +1,9 @@
-const hotelList = document.querySelector('.hotelList');
+const hotelList = document.querySelector('.hotel-list');
 const hotelForm = document.querySelector('.hotel-form');
 const regionList = hotelForm.querySelector('#regionList');
 
 function selectedHotel() {
-    location.href = "/admin/modifyHotel?hotelname=" + hotelList.value;
+    location.href = "/admin/modifyHotel?hotelName=" + hotelList.value;
 }
 
 regionList.addEventListener('change', function(e) {
@@ -122,7 +122,7 @@ modifyHotelBtn.addEventListener('click', function(e) {
     e.preventDefault();
 
     let existingFileNameArray = [];
-    const existingFileNames = modifyHotel.querySelectorAll('.filename');
+    const existingFileNames = modifyHotel.querySelectorAll('.file-name');
     existingFileNames.forEach(filename => {
         existingFileNameArray.push(filename.value)
     })
@@ -165,7 +165,7 @@ modifyHotelBtn.addEventListener('click', function(e) {
         return;
     }
     formData.append("existingFileNames", existingFileNameArray);
-    formData.append("hotelname", hotelForm['hotelname'].value);
+    formData.append("hotelName", hotelForm['hotelName'].value);
     formData.append("fileNames", fileNameArray);
     formData.append("region", hotelForm['region'].value);
     formData.append("addr1", hotelForm['addr1'].value);

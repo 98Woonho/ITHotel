@@ -16,7 +16,6 @@
     <link rel="stylesheet" href="/css/payment/read.css">
 
     <!-- js -->
-    <script defer src="/js/common.js"></script>
     <script defer src="/js/payment/read.js"></script>
 </head>
 <body>
@@ -38,12 +37,12 @@
         <div class="confirmation-payment-container">
             <div class="confirmation-container">
                 <div class="image-container">
-                    <img th:src="@{${mainFile.dir} + ${mainFile.filename}}" alt="">
+                    <img th:src="@{${mainFile.dir} + ${mainFile.fileName}}" alt="">
                 </div>
                 <ul class="info">
                     <li>
                         <span class="text bold">호텔 및 객실</span>
-                        <span class="hotelname text"><span th:text="${reservation.room.hotel.hotelname}"></span>, <span th:text="${reservation.room.kind}"></span></span>
+                        <span class="hotelName text"><span th:text="${reservation.room.hotel.hotelName}"></span>, <span th:text="${reservation.room.kind}"></span></span>
                     </li>
                     <li>
                         <span class="text bold">투숙 날짜</span>
@@ -61,7 +60,7 @@
                     <ul class="user-info">
                         <li>
                             <span class="text bold">이름</span>
-                            <span class="username text" th:text="${reservation.user.name}"></span>
+                            <span class="name text" th:text="${reservation.user.name}"></span>
                         </li>
                         <li>
                             <span class="text bold">연락처</span>

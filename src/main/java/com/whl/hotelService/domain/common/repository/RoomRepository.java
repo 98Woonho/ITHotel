@@ -10,11 +10,11 @@ import java.util.List;
 
 @Repository
 public interface RoomRepository extends JpaRepository<Room, Long> {
-    List<Room> findByHotelHotelnameAndStandardPeopleGreaterThanEqual(String hotelName, int people);
+    List<Room> findByHotelHotelNameAndStandardPeopleGreaterThanEqual(String hotelName, int people);
 
-    @Query("SELECT r.id FROM Room r WHERE r.hotel.hotelname = :hotelname")
-    Long[] findHotelsRoomId(String hotelname);
+    @Query("SELECT r.id FROM Room r WHERE r.hotel.hotelName = :hotelName")
+    Long[] findHotelsRoomId(String hotelName);
 
-    @Query("SELECT r.kind FROM Room r WHERE r.hotel.hotelname = :hotelname")
-    List<String> findHotelsRoomKind(String hotelname);
+    @Query("SELECT r.kind FROM Room r WHERE r.hotel.hotelName = :hotelName")
+    List<String> findHotelsRoomKind(String hotelName);
 }

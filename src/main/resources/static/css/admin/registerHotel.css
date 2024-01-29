@@ -13,6 +13,11 @@
     width: 200px;
 }
 
+.confirm-duplication-btn {
+    margin-left: 0.5rem;
+    width: 200px;
+}
+
 .register-hotel-container {
     margin-top: 5rem;
 

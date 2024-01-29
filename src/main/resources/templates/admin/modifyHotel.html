@@ -29,12 +29,12 @@
             <th:block th:replace="~{fragments/adminLeft.html :: adminLeft_fragment}"></th:block>
             <div class="admin-right">
                 <div class="title-container">
-                    <h1 class="title">호텔 관리 > 호텔 등록</h1>
+                    <h1 class="title">호텔 관리 > 호텔 수정 및 삭제</h1>
                 </div>
-                <div th:if="${hotelname == null}">
+                <div th:if="${hotelName == null}">
                     <label>
                         <span class="text">호텔을 선택해 주세요</span>
-                        <select class="form-select hotelList">
+                        <select class="form-select hotel-list">
                             <th:block th:each="hotel : ${hotelList}">
                                 <option th:value="${hotel}" th:text="${hotel}"></option>
                             </th:block>
@@ -45,8 +45,7 @@
                     </div>
                 </div>
 
-                <div th:if="${hotelname != null}">
-                    <span class="text hotelname" th:text="${hotelname}"></span>
+                <div th:if="${hotelName != null}">
                     <div class="modify-hotel-container">
                         <section class="hotel_img_block">
                             <div class="hotel_img">
@@ -58,8 +57,8 @@
                                 <label>PREVIEW</label>
                                 <ul id="preview">
                                     <li class="item" th:each="file : ${fileList}">
-                                        <input hidden type="text" class="filename" name="filename" th:value="${file.filename}">
-                                        <img class="img" th:src="@{${file.dir} + ${file.filename}}" alt="">
+                                        <input hidden type="text" class="file-name" name="fileName" th:value="${file.fileName}">
+                                        <img class="img" th:src="@{${file.dir} + ${file.fileName}}" alt="">
                                         <a class="btn btn-secondary delete-btn">삭제</a>
                                     </li>
                                 </ul>
@@ -70,7 +69,7 @@
                             <form class="hotel-form" id="hotelForm">
                                 <div>
                                     <label>호텔 이름</label>
-                                    <input disabled name="hotelname" class="form-control" th:value="${hotel.hotelname}" required>
+                                    <input disabled name="hotelName" class="form-control" th:value="${hotel.hotelName}" required>
                                 </div>
                                 <div>
                                     <label>지역</label>

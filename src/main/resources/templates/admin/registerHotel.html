@@ -40,40 +40,33 @@
                         </div>
                         <div class="preview_img_block">
                             <label>PREVIEW</label>
-                            <div id="preview"></div>
+                            <ul id="preview"></ul>
                         </div>
                     </section>
 
                     <section class="hotel_info_block">
-                        <form class="hotel-form" id="hotelForm" >
-                            <div>
-                                <label>호텔 이름</label>
-                                <input name="hotelname" class="form-control" placeholder="호텔 이름(특수문자 불가능)" required>
+                        <form class="hotel-form" id="hotelForm">
+                            <label>호텔 이름</label>
+                            <div class="row-container">
+                                <input name="hotelName" class="hotel-name form-control" placeholder="호텔 이름(특수문자 불가능)" required>
+                                 <a onclick="confirmDuplication()" class="btn btn-secondary confirm-duplication-btn">중복 확인</a>
                             </div>
                             <div>
-                                <label>지역</label>
-                                <div class="row-container">
-                                    <input disabled name="region" class="form-control" placeholder="지역" type="text">
-                                    <select class="form-select" id="regionList">
-                                        <option value="" selected>-</option>
-                                        <th:block th:each="region : ${regionList}">
-                                            <option th:value="${region}" th:text="${region}"></option>
-                                        </th:block>
-                                        <option value="input">직접 입력</option>
-                                    </select>
-                                </div>
+                                <input hidden name="region" id="region" class="form-control" placeholder="지역" type="text">
                             </div>
                             <div>
                                 <div>
                                     <label>우편번호</label>
                                     <div class="row-container">
-                                        <input disabled class="form-control" name="zipcode" id="zipcode" placeholder="우편번호" />
-                                        <a onclick="AddressSearch()" class="btn btn-secondary search-addr-btn">우편번호 찾기</a>
+                                        <input disabled class="form-control" name="zipcode" id="zipcode"
+                                               placeholder="우편번호"/>
+                                        <a onclick="AddressSearch()" class="btn btn-secondary search-addr-btn">우편번호
+                                            찾기</a>
                                     </div>
                                 </div>
                                 <div>
                                     <label>주소</label>
-                                    <input class="form-control" name="addr1" id="addr1" placeholder="주소" />
+                                    <input class="form-control" name="addr1" id="addr1" placeholder="주소"/>
                                 </div>
                                 <div>
                                     <label>상세주소</label>
@@ -82,7 +75,8 @@
                             </div>
                             <div>
                                 <label>연락처</label>
-                                <input name="contactInfo" class="form-control" placeholder="000-0000-0000 또는 000-000-0000" required>
+                                <input name="contactInfo" class="form-control"
+                                       placeholder="000-0000-0000 또는 000-000-0000" required>
                             </div>
                             <div>
                                 <label>호텔 소개</label>

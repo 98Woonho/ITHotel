@@ -32,26 +32,26 @@ public class AdminService {
     }
 
     public List<String> getHotelList() {
-        return hotelRepository.findAllHotelname();
+        return hotelRepository.findAllHotelName();
     }
 
-    public Hotel getHotel(String hotelname) {
-        return hotelRepository.findById(hotelname).get();
+    public Hotel getHotel(String hotelName) {
+        return hotelRepository.findById(hotelName).get();
     }
 
-    public List<HotelFileInfo> getHotelFileInfo(String hotelname) {
-        return hotelFileInfoRepository.findByHotelHotelname(hotelname);
+    public List<HotelFileInfo> getHotelFileInfo(String hotelName) {
+        return hotelFileInfoRepository.findByHotelHotelName(hotelName);
     }
 
-    public List<String> getRoomList(String hotelname) {
-        return roomRepository.findHotelsRoomKind(hotelname);
+    public List<String> getRoomList(String hotelName) {
+        return roomRepository.findHotelsRoomKind(hotelName);
     }
 
-    public RoomFileInfo getRoomMainFile(String hotelname, String roomKind, boolean mainImageFlag) {
-        return roomFileInfoRepository.findByRoomKindAndRoomHotelHotelnameAndIsMainImage(roomKind, hotelname, mainImageFlag);
+    public RoomFileInfo getRoomMainFile(String hotelName, String roomKind, boolean isMainImage) {
+        return roomFileInfoRepository.findByRoomKindAndRoomHotelHotelNameAndIsMainImage(roomKind, hotelName, isMainImage);
     }
 
-    public List<RoomFileInfo> getRoomFileList(String hotelname, String roomKind, boolean mainImageFlag) {
-        return roomFileInfoRepository.findAllByRoomKindAndRoomHotelHotelnameAndIsMainImage(roomKind, hotelname, mainImageFlag);
+    public List<RoomFileInfo> getRoomFileList(String hotelName, String roomKind, boolean isMainImage) {
+        return roomFileInfoRepository.findAllByRoomKindAndRoomHotelHotelNameAndIsMainImage(roomKind, hotelName, isMainImage);
     }
 }

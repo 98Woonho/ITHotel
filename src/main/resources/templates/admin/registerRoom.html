@@ -31,10 +31,10 @@
                 <div class="title-container">
                     <h1 class="title">호텔 관리 > 객실 등록</h1>
                 </div>
-                <div th:if="${hotelname == null}">
+                <div th:if="${hotelName == null}">
                     <label>
                         <span class="text">호텔을 선택해 주세요</span>
-                        <select class="form-select hotelList">
+                        <select class="form-select hotel-list">
                             <th:block th:each="hotel : ${hotelList}">
                                 <option th:value="${hotel}" th:text="${hotel}"></option>
                             </th:block>
@@ -45,8 +45,8 @@
                     </div>
                 </div>
 
-                <div th:if="${hotelname != null}">
-                    <span class="text" th:text="${hotelname}"></span>
+                <div th:if="${hotelName != null}">
+                    <span class="text" th:text="${hotelName}"></span>
                     <div class="register-room-container">
                         <section class="room_img_block">
                             <div class="main-image-container">
@@ -78,7 +78,7 @@
 
                         <section class="room_info_block">
                             <form class="room-form" id="roomForm">
-                                <input hidden name="hotelname" type="text" th:value="${hotelname}">
+                                <input hidden name="hotelName" type="text" th:value="${hotelName}">
                                 <div>
                                     <label>객실 종류</label>
                                     <input name="kind" class="form-control" placeholder="객실 종류" required>

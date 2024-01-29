@@ -32,30 +32,27 @@ public class AdminController {
     }
 
     @GetMapping("registerHotel")
-    public void getRegisterHotel(Model model) {
-        List<String> regionList = adminService.getRegionList();
-
-        model.addAttribute("regionList", regionList);
+    public void getRegisterHotel() {
     }
 
     @GetMapping("modifyHotel")
-    public void getModifyHotel(@RequestParam(value = "hotelname", required = false) String hotelname, Model model) {
+    public void getModifyHotel(@RequestParam(value = "hotelName", required = false) String hotelName, Model model) {
         Hotel hotel = new Hotel();
 
-        if(hotelname != null) {
-            hotel = adminService.getHotel(hotelname);
+        if(hotelName != null) {
+            hotel = adminService.getHotel(hotelName);
         }
 
         List<String> hotelList = adminService.getHotelList();
 
         List<String> regionList = adminService.getRegionList();
 
-        List<HotelFileInfo> hotelFileList = adminService.getHotelFileInfo(hotelname);
+        List<HotelFileInfo> hotelFileList = adminService.getHotelFileInfo(hotelName);
 
         model.addAttribute("fileList", hotelFileList);
         model.addAttribute("hotel", hotel);
         model.addAttribute("regionList", regionList);
-        model.addAttribute("hotelname", hotelname);
+        model.addAttribute("hotelName", hotelName);
         model.addAttribute("hotelList", hotelList);
     }
 
@@ -64,30 +61,30 @@ public class AdminController {
     }
 
     @GetMapping("registerRoom")
-    public void getRegisterRoom(@RequestParam(value = "hotelname", required = false) String hotelname, Model model) {
+    public void getRegisterRoom(@RequestParam(value = "hotelName", required = false) String hotelName, Model model) {
         List<String> hotelList = adminService.getHotelList();
 
-        model.addAttribute("hotelname", hotelname);
+        model.addAttribute("hotelName", hotelName);
         model.addAttribute("hotelList", hotelList);
     }
 
     @GetMapping("modifyRoom")
-    public void getModifyRoom(@RequestParam(value = "hotelname", required = false) String hotelname, @RequestParam(value = "roomKind", required = false) String roomKind, Model model) {
+    public void getModifyRoom(@RequestParam(value = "hotelName", required = false) String hotelName, @RequestParam(value = "roomKind", required = false) String roomKind, Model model) {
         Hotel hotel = new Hotel();
 
-        if(hotelname != null) {
-            hotel = adminService.getHotel(hotelname);
+        if(hotelName != null) {
+            hotel = adminService.getHotel(hotelName);
         }
 
-        List<String> roomList = adminService.getRoomList(hotelname);
+        List<String> roomList = adminService.getRoomList(hotelName);
 
         List<String> hotelList = adminService.getHotelList();
 
         List<String> regionList = adminService.getRegionList();
 
-        RoomFileInfo roomMainFile = adminService.getRoomMainFile(hotelname, roomKind, true);
+        RoomFileInfo roomMainFile = adminService.getRoomMainFile(hotelName, roomKind, true);
 
-        List<RoomFileInfo> roomFileList = adminService.getRoomFileList(hotelname,roomKind, false);
+        List<RoomFileInfo> roomFileList = adminService.getRoomFileList(hotelName, roomKind, false);
 
         model.addAttribute("roomFileList", roomFileList);
         model.addAttribute("roomMainFile", roomMainFile);
@@ -95,7 +92,7 @@ public class AdminController {
         model.addAttribute("roomList", roomList);
         model.addAttribute("hotel", hotel);
         model.addAttribute("regionList", regionList);
-        model.addAttribute("hotelname", hotelname);
+        model.addAttribute("hotelName", hotelName);
         model.addAttribute("hotelList", hotelList);
     }
 }

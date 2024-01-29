@@ -45,10 +45,22 @@ public class HotelService {
         return hotelRepository.findDistinctRegion();
     }
 
+    public String confirmHotelName(String hotelName) {
+        List<String> hotelNameList = hotelRepository.findAllHotelName();
+
+        for (String existingHotelName : hotelNameList) {
+            if (Objects.equals(existingHotelName, hotelName)) {
+                return "FAILURE_DUPLICATED_HOTEL_NAME";
+            }
+        }
+
+        return "SUCCESS";
+    }
+
     @Transactional(rollbackFor = Exception.class)
     public boolean addHotel(HotelDto hotelDto) throws IOException {
         Hotel hotel = Hotel.builder()
-                .hotelname(hotelDto.getHotelname())
+                .hotelName(hotelDto.getHotelName())
                 .region(hotelDto.getRegion())
                 .addr1(hotelDto.getAddr1())
                 .addr2(hotelDto.getAddr2())
@@ -60,7 +72,7 @@ public class HotelService {
         hotelRepository.save(hotel);
 
         //저장 폴더 지정()
-        String uploadPath = "c:\\" + File.separator + "hotelimage" + File.separator + hotelDto.getHotelname();
+        String uploadPath = "c:\\" + File.separator + "hotelimage" + File.separator + hotelDto.getHotelName();
         File dir = new File(uploadPath);
         if (!dir.exists())
             dir.mkdirs();
@@ -75,9 +87,9 @@ public class HotelService {
                         // DB에 파일경로 저장
                         HotelFileInfo hotelFileInfo = new HotelFileInfo();
                         hotelFileInfo.setHotel(hotel);
-                        String dirPath = File.separator + "hotelimage" + File.separator + hotelDto.getHotelname() + File.separator;
+                        String dirPath = File.separator + "hotelimage" + File.separator + hotelDto.getHotelName() + File.separator;
                         hotelFileInfo.setDir(dirPath);
-                        hotelFileInfo.setFilename(file.getOriginalFilename());
+                        hotelFileInfo.setFileName(file.getOriginalFilename());
                         hotelFileInfoRepository.save(hotelFileInfo);
                     }
 
@@ -86,13 +98,12 @@ public class HotelService {
             }
         }
         return true;
-
     }
 
     @Transactional(rollbackFor = Exception.class)
     public boolean modifyHotel(HotelDto hotelDto) throws IOException {
         Hotel hotel = Hotel.builder()
-                .hotelname(hotelDto.getHotelname())
+                .hotelName(hotelDto.getHotelName())
                 .region(hotelDto.getRegion())
                 .addr1(hotelDto.getAddr1())
                 .addr2(hotelDto.getAddr2())
@@ -103,7 +114,7 @@ public class HotelService {
 
         hotelRepository.save(hotel);
 
-        String uploadPath = "c:\\" + File.separator + "hotelimage" + File.separator + hotelDto.getHotelname();
+        String uploadPath = "c:\\" + File.separator + "hotelimage" + File.separator + hotelDto.getHotelName();
         File dir = new File(uploadPath);
         if (!dir.exists())
             dir.mkdirs();
@@ -117,7 +128,7 @@ public class HotelService {
 
         for (File file : files) {
             if (!Arrays.asList(existingFilenameArray).contains(file.getName())) {
-                hotelFileInfoRepository.deleteByFilenameAndHotelHotelname(file.getName(), hotelDto.getHotelname());
+                hotelFileInfoRepository.deleteByFileNameAndHotelHotelName(file.getName(), hotelDto.getHotelName());
                 file.delete();
             }
         }
@@ -132,9 +143,9 @@ public class HotelService {
                         // DB에 파일경로 저장
                         HotelFileInfo hotelFileInfo = new HotelFileInfo();
                         hotelFileInfo.setHotel(hotel);
-                        String dirPath = File.separator + "hotelimage" + File.separator + hotelDto.getHotelname() + File.separator;
+                        String dirPath = File.separator + "hotelimage" + File.separator + hotelDto.getHotelName() + File.separator;
                         hotelFileInfo.setDir(dirPath);
-                        hotelFileInfo.setFilename(file.getOriginalFilename());
+                        hotelFileInfo.setFileName(file.getOriginalFilename());
                         hotelFileInfoRepository.save(hotelFileInfo);
                     }
                     file.transferTo(fileobj);   //저장

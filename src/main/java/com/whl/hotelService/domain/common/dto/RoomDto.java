@@ -6,7 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Data
 public class RoomDto {
     private Long id;
-    private String hotelname;
+    private String hotelName;
     private String kind; // 객실 종류
     private String checkinTime; // 입실 시간
     private String checkoutTime; // 퇴실 시간

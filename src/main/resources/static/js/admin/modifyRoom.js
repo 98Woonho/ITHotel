@@ -1,16 +1,16 @@
-const hotelList = document.querySelector('.hotelList');
-const roomList = document.querySelector('.roomList');
+const hotelList = document.querySelector('.hotel-list');
+const roomList = document.querySelector('.room-list');
 const mainImg = document.querySelector('.main-img');
 const roomImg = document.querySelector('.room-img');
 
 function selectedHotel() {
-    location.href = "/admin/modifyRoom?hotelname=" + hotelList.value;
+    location.href = "/admin/modifyRoom?hotelName=" + hotelList.value;
 }
 
 function selectedRoom() {
-    const hotelName = document.querySelector('.hotelname');
+    const hotelName = document.querySelector('.hotel-name');
 
-    location.href = "/admin/modifyRoom?hotelname=" + hotelName.value + "&roomKind=" + roomList.value;
+    location.href = "/admin/modifyRoom?hotelName=" + hotelName.value + "&roomKind=" + roomList.value;
 }
 
 // 객실 이미지
@@ -169,16 +169,16 @@ modifyRoomBtn.addEventListener('click', function(e) {
     e.preventDefault();
 
     let existingFileNameArray = [];
-    const existingFileNames = modifyRoom.querySelectorAll('.filename');
-    existingFileNames.forEach(filename => {
-        existingFileNameArray.push(filename.value)
+    const existingFileNames = modifyRoom.querySelectorAll('.existing-file-name');
+    existingFileNames.forEach(fileName => {
+        existingFileNameArray.push(fileName.value)
     })
 
     formData.append("existingFileNames", existingFileNameArray);
     formData.append("mainFileName", mainFileName);
     formData.append("fileNames", fileNameArray);
     formData.append("id", document.querySelector('.room-id').value);
-    formData.append("hotelname", document.querySelector('.hotelname').value);
+    formData.append("hotelName", document.querySelector('.hotel-name').value);
     formData.append("kind", roomForm['kind'].value);
     formData.append("checkinTime", roomForm['checkinHour'].value + ":" + roomForm['checkinMinute'].value);
     formData.append("checkoutTime", roomForm['checkoutHour'].value + ":" + roomForm['checkoutMinute'].value);

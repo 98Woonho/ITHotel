@@ -9,7 +9,7 @@ import java.util.List;
 
 @Repository
 public interface HotelFileInfoRepository extends JpaRepository<HotelFileInfo, Long> {
-    List<HotelFileInfo> findByHotelHotelname(String hotelname);
+    List<HotelFileInfo> findByHotelHotelName(String hotelName);
 
-    void deleteByFilenameAndHotelHotelname(String filename, String hotelname);
+    void deleteByFileNameAndHotelHotelName(String fileName, String hotelName);
 }

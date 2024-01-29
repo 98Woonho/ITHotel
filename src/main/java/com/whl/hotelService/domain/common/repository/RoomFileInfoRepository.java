@@ -9,15 +9,15 @@ import java.util.List;
 
 @Repository
 public interface RoomFileInfoRepository extends JpaRepository<RoomFileInfo, Long> {
-    @Query("SELECT r FROM RoomFileInfo r WHERE r.room.hotel.hotelname = :hotelname AND r.isMainImage = true")
-    List<RoomFileInfo> findAllMainFiles(String hotelname);
+    @Query("SELECT r FROM RoomFileInfo r WHERE r.room.hotel.hotelName = :hotelName AND r.isMainImage = true")
+    List<RoomFileInfo> findAllMainFiles(String hotelName);
 
     @Query("SELECT r FROM RoomFileInfo r WHERE r.room.id = :id AND r.isMainImage = true")
     RoomFileInfo findRoomsMainFile(Long id);
 
-    RoomFileInfo findByRoomKindAndRoomHotelHotelnameAndIsMainImage(String roomKind, String hotelname, boolean mainImageFlag);
+    RoomFileInfo findByRoomKindAndRoomHotelHotelNameAndIsMainImage(String roomKind, String hotelName, boolean isMainImage);
 
-    List<RoomFileInfo> findAllByRoomKindAndRoomHotelHotelnameAndIsMainImage(String roomKind, String hotelname, boolean mainImageFlag);
+    List<RoomFileInfo> findAllByRoomKindAndRoomHotelHotelNameAndIsMainImage(String roomKind, String hotelName, boolean isMainImage);
 
-    void deleteByFilenameAndRoomHotelHotelname(String filename, String hotelname);
+    void deleteByFileNameAndRoomHotelHotelName(String fileName, String hotelName);
 }

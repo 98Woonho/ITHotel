@@ -5,7 +5,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Data
 public class HotelDto {
-    private String hotelname; // 호텔 이름
+    private String hotelName; // 호텔 이름
     private String region;
     private String addr1;
     private String addr2;

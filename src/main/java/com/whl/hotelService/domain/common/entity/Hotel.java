@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @Table(name="hotel")
 public class Hotel {
     @Id
-    private String hotelname; // 호텔 이름
+    private String hotelName; // 호텔 이름
 
     @Column(nullable = false)
     private String region;

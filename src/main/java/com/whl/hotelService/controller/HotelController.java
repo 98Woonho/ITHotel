@@ -33,6 +33,12 @@ public class HotelController {
         log.info("getInfo()");
     }
 
+    @GetMapping(value = "confirmHotelName")
+    @ResponseBody
+    public String getConfirmHotelName(@RequestParam(value="hotelName") String hotelName) {
+        return hotelService.confirmHotelName(hotelName);
+    }
+
     @PostMapping(value = "add")
     public ResponseEntity<String> postAdd(HotelDto hotelDto) throws IOException {
         boolean isAdd = hotelService.addHotel(hotelDto);

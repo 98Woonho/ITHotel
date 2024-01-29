@@ -124,7 +124,7 @@
             <label class="label hotel">
                 <div class="text">호텔</div>
                 <div class="hotelSearch">
-                    <input th:value="${hotelname}" readonly type="text" name="hotelname">
+                    <input th:value="${hotelName}" readonly type="text" name="hotelName">
                     <img class="icon"
                          src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAACJklEQVR4nO2WsWsUURDGXxCJ1irpJGKhBNuUtjaCon9AopBUEQIWkSBREiFFIODfELHw7FLs3nzfWxZUjghXKZImiKTVxgQsTMLK6Cy+QI7su92IYj645thv5jfvzc6sc8f6F1QUxQDJUQBPSL4g+ZqkJ7kCYDpN0+EjSw7gBoAPJItDfqve+5HGEud5fork8zIBgG+WZIbkGIAJkvMk10ju2TM7IjJVO3mn0zlN8k0ZFMAyyTO9nheRKwDSAHaxFgB/V/5VRK5F9MlccCXj/Sa/aQF2SV6P9QNYslPY9t4PRZmLohgoG06P3fWhVqt1guQ7K+JplJnkaNBwPe/8MInILYvzWYEqGwEslK+Uq6EkSQYBbGks7/3Vykb+GjJK/qAOgMXKLNZEZROAV3YCYw0APDOARzEmH03dQwBeWjGzMQArBrDQAMBbi3U3xjRt1Gt1kusbpBNUY2VZdqmyMU3TYQPY0/FaA+C+Vb/Rj3nVzKkOplh/nudnAXyxGPeiAbz3IwC+R3ewc67b7Z4EkNsprutSc/1IRKaCzbZUZZpZ5Xngu+3qCMBisNne63jVCXdQw+mdl8ceAHwSkQu1IEiO60oOgm7ZhNPXtWUfI7tB4nWtXJM3BpEkyTndarpYen2Oabdrw5V3rkkbhVBpH+hi0SkJ4DGAhyJyp91uX3YH6EggYkXyPMmPdlKbWZZddP8lhOy/juSPA5QQJAXA5M8/jvW36AeJmI3/H6vYawAAAABJRU5ErkJggg==">
                 </div>
@@ -167,7 +167,7 @@
         </form>
 
         <div th:if="${(mainFile.room.count - mainFile.room.reservedRoomCount != 0) and (adultCount + childCount <= mainFile.room.maximumPeople)}" class="room-container" th:each="mainFile : ${mainFileList}">
-            <img th:src="@{${mainFile.dir} + ${mainFile.filename}}" alt="">
+            <img th:src="@{${mainFile.dir} + ${mainFile.fileName}}" alt="">
             <form class="reservation-form" th:id="'reservationForm_' + ${mainFile.room.id}">
                 <div class="room-info-container">
                     <div class="room-name" th:text="${mainFile.room.kind}"></div>

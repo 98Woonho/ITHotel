@@ -36,7 +36,7 @@ public class RoomService {
 
     @Transactional(rollbackFor = Exception.class)
     public boolean addRoom(RoomDto roomDto) throws IOException {
-        Hotel hotel = hotelRepository.findById(roomDto.getHotelname()).get();
+        Hotel hotel = hotelRepository.findById(roomDto.getHotelName()).get();
 
         Room room = Room.builder()
                 .checkinTime(roomDto.getCheckinTime())
@@ -54,7 +54,7 @@ public class RoomService {
         roomRepository.save(room);
 
         //저장 폴더 지정()
-        String uploadPath = "c:\\" + File.separator + "roomimage" + File.separator + roomDto.getHotelname() + File.separator + roomDto.getKind();
+        String uploadPath = "c:\\" + File.separator + "roomimage" + File.separator + roomDto.getHotelName() + File.separator + roomDto.getKind();
         File dir = new File(uploadPath);
         if (!dir.exists())
             dir.mkdirs();
@@ -71,9 +71,9 @@ public class RoomService {
                         // DB에 파일경로 저장
                         RoomFileInfo roomFileInfo = new RoomFileInfo();
                         roomFileInfo.setRoom(room);
-                        String dirPath = File.separator + "roomimage" + File.separator + roomDto.getHotelname() + File.separator + roomDto.getKind() + File.separator;
+                        String dirPath = File.separator + "roomimage" + File.separator + roomDto.getHotelName() + File.separator + roomDto.getKind() + File.separator;
                         roomFileInfo.setDir(dirPath);
-                        roomFileInfo.setFilename(file.getOriginalFilename());
+                        roomFileInfo.setFileName(file.getOriginalFilename());
                         roomFileInfoRepository.save(roomFileInfo);
                     }
 
@@ -91,9 +91,9 @@ public class RoomService {
                 if(!fileobj.exists()) {
                     RoomFileInfo mainFileInfo = new RoomFileInfo();
                     mainFileInfo.setRoom(room);
-                    String mainDirPath = File.separator + "roomimage" + File.separator + roomDto.getHotelname() + File.separator + roomDto.getKind() + File.separator;
+                    String mainDirPath = File.separator + "roomimage" + File.separator + roomDto.getHotelName() + File.separator + roomDto.getKind() + File.separator;
                     mainFileInfo.setDir(mainDirPath);
-                    mainFileInfo.setFilename(file.getOriginalFilename());
+                    mainFileInfo.setFileName(file.getOriginalFilename());
                     mainFileInfo.setMainImage(true);
                     roomFileInfoRepository.save(mainFileInfo);
                 }
@@ -106,7 +106,7 @@ public class RoomService {
 
     @Transactional(rollbackFor = Exception.class)
     public boolean modifyRoom(RoomDto roomDto) throws IOException {
-        Hotel hotel = hotelRepository.findById(roomDto.getHotelname()).get();
+        Hotel hotel = hotelRepository.findById(roomDto.getHotelName()).get();
 
         Room room = Room.builder()
                 .id(roomDto.getId())
@@ -124,7 +124,7 @@ public class RoomService {
 
         roomRepository.save(room);
 
-        String uploadPath = "c:\\" + File.separator + "roomimage" + File.separator + roomDto.getHotelname() + File.separator + roomDto.getKind();
+        String uploadPath = "c:\\" + File.separator + "roomimage" + File.separator + roomDto.getHotelName() + File.separator + roomDto.getKind();
         File dir = new File(uploadPath);
         if (!dir.exists())
             dir.mkdirs();
@@ -138,7 +138,7 @@ public class RoomService {
 
         for (File file : files) {
             if (!Arrays.asList(existingFilenameArray).contains(file.getName())) {
-                roomFileInfoRepository.deleteByFilenameAndRoomHotelHotelname(file.getName(), roomDto.getHotelname());
+                roomFileInfoRepository.deleteByFileNameAndRoomHotelHotelName(file.getName(), roomDto.getHotelName());
                 file.delete();
             }
         }
@@ -154,9 +154,9 @@ public class RoomService {
                         // DB에 파일경로 저장
                         RoomFileInfo roomFileInfo = new RoomFileInfo();
                         roomFileInfo.setRoom(room);
-                        String dirPath = File.separator + "roomimage" + File.separator + roomDto.getHotelname() + File.separator + roomDto.getKind() + File.separator;
+                        String dirPath = File.separator + "roomimage" + File.separator + roomDto.getHotelName() + File.separator + roomDto.getKind() + File.separator;
                         roomFileInfo.setDir(dirPath);
-                        roomFileInfo.setFilename(file.getOriginalFilename());
+                        roomFileInfo.setFileName(file.getOriginalFilename());
                         roomFileInfoRepository.save(roomFileInfo);
                     }
 
@@ -174,9 +174,9 @@ public class RoomService {
                 if(!fileobj.exists()) {
                     RoomFileInfo mainFileInfo = new RoomFileInfo();
                     mainFileInfo.setRoom(room);
-                    String mainDirPath = File.separator + "roomimage" + File.separator + roomDto.getHotelname() + File.separator + roomDto.getKind() + File.separator;
+                    String mainDirPath = File.separator + "roomimage" + File.separator + roomDto.getHotelName() + File.separator + roomDto.getKind() + File.separator;
                     mainFileInfo.setDir(mainDirPath);
-                    mainFileInfo.setFilename(file.getOriginalFilename());
+                    mainFileInfo.setFileName(file.getOriginalFilename());
                     mainFileInfo.setMainImage(true);
                     roomFileInfoRepository.save(mainFileInfo);
                 }

@@ -40,7 +40,7 @@ public class ReservationService {
 
     @Transactional(rollbackFor = Exception.class)
     public List<Room> getHotelsRoom(String hotelname, int people) {
-        return roomRepository.findByHotelHotelnameAndStandardPeopleGreaterThanEqual(hotelname, people);
+        return roomRepository.findByHotelHotelNameAndStandardPeopleGreaterThanEqual(hotelname, people);
     }
 
     @Transactional(rollbackFor = Exception.class)

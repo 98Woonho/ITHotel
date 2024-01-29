@@ -1,10 +1,10 @@
-const hotelList = document.querySelector('.hotelList');
+const hotelList = document.querySelector('.hotel-list');
 const roomForm = document.querySelector('.room-form');
 const mainImg = document.querySelector('.main-img');
 const roomImg = document.querySelector('.room-img');
 
 function selectedHotel() {
-    location.href = "/admin/registerRoom?hotelname=" + hotelList.value;
+    location.href = "/admin/registerRoom?hotelName=" + hotelList.value;
 }
 
 // 추가 이미지
@@ -153,7 +153,7 @@ addRoomBtn.addEventListener('click', function(e) {
     e.preventDefault();
     formData.append("mainFileName", mainFileName);
     formData.append("fileNames", fileNameArray);
-    formData.append("hotelname", roomForm['hotelname'].value);
+    formData.append("hotelName", roomForm['hotelName'].value);
     formData.append("kind", roomForm['kind'].value);
     formData.append("checkinTime", roomForm['checkinHour'].value + ":" + roomForm['checkinMinute'].value);
     formData.append("checkoutTime", roomForm['checkoutHour'].value + ":" + roomForm['checkoutMinute'].value);

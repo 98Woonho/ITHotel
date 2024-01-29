@@ -31,7 +31,7 @@ public class ReservationController {
     private ReservationService reservationService;
 
     @GetMapping(value = "select")
-    public void getReservationStep1(@RequestParam(value = "hotelname") String hotelname,
+    public void getReservationStep1(@RequestParam(value = "hotelName") String hotelName,
                                     @RequestParam(value = "checkin")
                                     String checkin,
                                     @RequestParam(value = "checkout")
@@ -40,7 +40,7 @@ public class ReservationController {
                                     @RequestParam(value = "childCount") int childCount,
                                     Model model) {
         int people = adultCount + childCount;
-        List<Room> roomList = reservationService.getHotelsRoom(hotelname, people);
+        List<Room> roomList = reservationService.getHotelsRoom(hotelName, people);
 
         for(Room room : roomList) {
             int reservedRoomCount = reservationService.getReservedRoomCount(checkin, room.getId());
@@ -54,7 +54,7 @@ public class ReservationController {
         List<String> region = reservationService.getDistinctRegion();
         model.addAttribute("region", region);
 
-        model.addAttribute("hotelname", hotelname);
+        model.addAttribute("hotelName", hotelName);
         model.addAttribute("checkin", checkin);
         model.addAttribute("checkout", checkout);
         model.addAttribute("adultCount", adultCount);
@@ -95,7 +95,7 @@ public class ReservationController {
         model.addAttribute("dayLength", daysOfWeekBetweenDates.length); // n박
         model.addAttribute("dayCountList", dayCountList);
 
-        List<RoomFileInfo> mainFileList = reservationService.getAllMainFiles(hotelname);
+        List<RoomFileInfo> mainFileList = reservationService.getAllMainFiles(hotelName);
 
         model.addAttribute("mainFileList", mainFileList);
     }

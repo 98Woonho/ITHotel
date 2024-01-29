@@ -17,8 +17,8 @@ public class HotelFileInfo {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name="hotelname", foreignKey = @ForeignKey(name="fk_hotelFileInfo_hotelname", foreignKeyDefinition = "FOREIGN KEY(hotelname) REFERENCES hotel(hotelname) ON DELETE CASCADE ON UPDATE CASCADE"), nullable = false)
+    @JoinColumn(name="hotelName", foreignKey = @ForeignKey(name="fk_hotelFileInfo_hotelName", foreignKeyDefinition = "FOREIGN KEY(hotelName) REFERENCES hotel(hotel_name) ON DELETE CASCADE ON UPDATE CASCADE"), nullable = false)
     private Hotel hotel;
     private String dir;
-    private String filename;
+    private String fileName;
 }

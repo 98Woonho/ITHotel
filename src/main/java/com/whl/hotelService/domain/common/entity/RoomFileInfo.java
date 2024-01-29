@@ -21,7 +21,7 @@ public class RoomFileInfo {
     private Room room; // 객실 정보
 
     private String dir;
-    private String filename;
+    private String fileName;
 
     @Column(name="main_image_flag")
     private boolean isMainImage;
