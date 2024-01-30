@@ -124,7 +124,7 @@
             <label class="label hotel">
                 <div class="text">호텔</div>
                 <div class="hotelSearch">
-                    <input th:value="${hotelname}" readonly type="text" name="hotelname">
+                    <input th:value="${hotelName}" readonly type="text" name="hotelName">
                     <img class="icon"
                          src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAACJklEQVR4nO2WsWsUURDGXxCJ1irpJGKhBNuUtjaCon9AopBUEQIWkSBREiFFIODfELHw7FLs3nzfWxZUjghXKZImiKTVxgQsTMLK6Cy+QI7su92IYj645thv5jfvzc6sc8f6F1QUxQDJUQBPSL4g+ZqkJ7kCYDpN0+EjSw7gBoAPJItDfqve+5HGEud5fork8zIBgG+WZIbkGIAJkvMk10ju2TM7IjJVO3mn0zlN8k0ZFMAyyTO9nheRKwDSAHaxFgB/V/5VRK5F9MlccCXj/Sa/aQF2SV6P9QNYslPY9t4PRZmLohgoG06P3fWhVqt1guQ7K+JplJnkaNBwPe/8MInILYvzWYEqGwEslK+Uq6EkSQYBbGks7/3Vykb+GjJK/qAOgMXKLNZEZROAV3YCYw0APDOARzEmH03dQwBeWjGzMQArBrDQAMBbi3U3xjRt1Gt1kusbpBNUY2VZdqmyMU3TYQPY0/FaA+C+Vb/Rj3nVzKkOplh/nudnAXyxGPeiAbz3IwC+R3ewc67b7Z4EkNsprutSc/1IRKaCzbZUZZpZ5Xngu+3qCMBisNne63jVCXdQw+mdl8ceAHwSkQu1IEiO60oOgm7ZhNPXtWUfI7tB4nWtXJM3BpEkyTndarpYen2Oabdrw5V3rkkbhVBpH+hi0SkJ4DGAhyJyp91uX3YH6EggYkXyPMmPdlKbWZZddP8lhOy/juSPA5QQJAXA5M8/jvW36AeJmI3/H6vYawAAAABJRU5ErkJggg==">
                 </div>
@@ -166,39 +166,39 @@
             <input type="submit" value="검색" class="search-button">
         </form>
 
-        <div th:if="${room.count - room.reservedRoomCount != 0}" class="room-container" th:each="room : ${roomList}">
-            <img th:src="@{/images/sample.png}" alt="">
-            <form class="reservation-form" th:id="'reservationForm_' + ${room.id}">
+        <div th:if="${(mainFile.room.count - mainFile.room.reservedRoomCount != 0) and (adultCount + childCount <= mainFile.room.maximumPeople)}" class="room-container" th:each="mainFile : ${mainFileList}">
+            <img th:src="@{${mainFile.dir} + ${mainFile.fileName}}" alt="">
+            <form class="reservation-form" th:id="'reservationForm_' + ${mainFile.room.id}">
                 <div class="room-info-container">
-                    <div class="room-name" th:text="${room.kind}"></div>
+                    <div class="room-name" th:text="${mainFile.room.kind}"></div>
                     <div class="time-container">
-                        <span class="text in">입실 <span th:text="${room.checkinTime}"></span></span>
-                        <span class="text out">퇴실 <span th:text="${room.checkoutTime}"></span></span>
+                        <span class="text in">입실 <span th:text="${mainFile.room.checkinTime}"></span></span>
+                        <span class="text out">퇴실 <span th:text="${mainFile.room.checkoutTime}"></span></span>
                     </div>
-                    <div class="capacity">기준 <span th:text="${room.standardPeople}"></span>인, 최대 <span
-                            th:text="${room.maximumPeople}"></span>인
+                    <div class="capacity">기준 <span th:text="${mainFile.room.standardPeople}"></span>인, 최대 <span
+                            th:text="${mainFile.room.maximumPeople}"></span>인
                     </div>
                 </div>
                 <div class="spring"></div>
                 <div style="display: flex; flex-direction: column; align-items: flex-end;">
                     <div style="font-size: 1.25rem; font-weight: 500">
-                        <span th:text="${#numbers.formatInteger(room.fridayPrice * dayCountList[0] + room.saturdayPrice * dayCountList[1] + room.weekdayPrice * dayCountList[2], 0, 'COMMA')}">
+                        <span th:text="${#numbers.formatInteger(mainFile.room.fridayPrice * dayCountList[0] + mainFile.room.saturdayPrice * dayCountList[1] + mainFile.room.weekdayPrice * dayCountList[2], 0, 'COMMA')}">
                         </span>원 /
                         <span th:text="${dayLength}"></span>박
                     </div>
                     <div th:if="${dayLength > 1}">
-                        <span th:text="${#numbers.formatInteger((room.fridayPrice * dayCountList[0] + room.saturdayPrice * dayCountList[1] + room.weekdayPrice * dayCountList[2]) / (dayCountList[0] + dayCountList[1] + dayCountList[2]), 0, 'COMMA')}">
+                        <span th:text="${#numbers.formatInteger((mainFile.room.fridayPrice * dayCountList[0] + mainFile.room.saturdayPrice * dayCountList[1] + mainFile.room.weekdayPrice * dayCountList[2]) / (dayCountList[0] + dayCountList[1] + dayCountList[2]), 0, 'COMMA')}">
                         </span>원 / 1박
                     </div>
-                    <div th:if="${room.count - room.reservedRoomCount == 1}">
-                        <span>남은 객실 <span class="text remaining-room-count" th:text="${room.count - room.reservedRoomCount}"></span>개</span>
+                    <div th:if="${mainFile.room.count - mainFile.room.reservedRoomCount == 1}">
+                        <span>남은 객실 <span class="text remaining-room-count" th:text="${mainFile.room.count - mainFile.room.reservedRoomCount}"></span>개</span>
                     </div>
                 </div>
                 <input type="submit" value="예약" class="reservation-button">
 
 
-                <input hidden type="text" name="roomId" th:value="${room.id}">
-                <span hidden class="price" th:text="${room.fridayPrice * dayCountList[0] + room.saturdayPrice * dayCountList[1] + room.weekdayPrice * dayCountList[2]}"></span>
+                <input hidden type="text" name="roomId" th:value="${mainFile.room.id}">
+                <span hidden class="price" th:text="${mainFile.room.fridayPrice * dayCountList[0] + mainFile.room.saturdayPrice * dayCountList[1] + mainFile.room.weekdayPrice * dayCountList[2]}"></span>
                 <input hidden type="text" name="people" th:value="${adultCount + childCount}">
             </form>
         </div>

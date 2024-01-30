@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <!--  cdns  -->
+    <th:block th:insert="~{fragments/link.html :: link_fragment}"></th:block>
+
+    <!-- css -->
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/admin/modifyHotel.css">
+
+    <!-- js -->
+    <script defer src="/js/admin/modifyHotel.js"></script>
+</head>
+<body>
+
+<header id="header" class="content-container-wrapper">
+    <th:block th:insert="~{fragments/header.html :: header_fragment}"></th:block>
+</header>
+
+<main id="main" class="content-container-wrapper">
+    <div class="content-container">
+        <div class="admin-container">
+            <th:block th:replace="~{fragments/adminLeft.html :: adminLeft_fragment}"></th:block>
+            <div class="admin-right">
+                <div class="title-container">
+                    <h1 class="title">호텔 관리 > 호텔 수정 및 삭제</h1>
+                </div>
+                <div th:if="${hotelName == null}">
+                    <label>
+                        <span class="text">호텔을 선택해 주세요</span>
+                        <select class="form-select hotel-list">
+                            <th:block th:each="hotel : ${hotelList}">
+                                <option th:value="${hotel}" th:text="${hotel}"></option>
+                            </th:block>
+                        </select>
+                    </label>
+                    <div>
+                        <button class="btn btn-primary select-hotel-btn w-100" onclick=selectedHotel()>확인</button>
+                    </div>
+                </div>
+
+                <div th:if="${hotelName != null}">
+                    <div class="modify-hotel-container">
+                        <section class="hotel_img_block">
+                            <div class="hotel_img">
+                                <div class="upload-box">
+                                    <div class="plus">+</div>
+                                </div>
+                            </div>
+                            <div class="preview_img_block">
+                                <label>PREVIEW</label>
+                                <ul id="preview">
+                                    <li class="item" th:each="file : ${fileList}">
+                                        <input hidden type="text" class="file-name" name="fileName" th:value="${file.fileName}">
+                                        <img class="img" th:src="@{${file.dir} + ${file.fileName}}" alt="">
+                                        <a class="btn btn-secondary delete-btn">삭제</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section class="hotel_info_block">
+                            <form class="hotel-form" id="hotelForm">
+                                <div>
+                                    <label>호텔 이름</label>
+                                    <input disabled name="hotelName" class="form-control" th:value="${hotel.hotelName}" required>
+                                </div>
+                                <div>
+                                    <input hidden name="region" id="region" class="form-control" th:value="${hotel.region}" type="text">
+                                </div>
+                                <div>
+                                    <div>
+                                        <label>우편번호</label>
+                                        <div class="row-container">
+                                            <input disabled class="form-control" name="zipcode" id="zipcode"
+                                                  th:value="${hotel.zipcode}"/>
+                                            <a onclick="AddressSearch()" class="btn btn-secondary search-addr-btn">우편번호
+                                                찾기</a>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label>주소</label>
+                                        <input class="form-control" name="addr1" id="addr1" th:value="${hotel.addr1}"/>
+                                    </div>
+                                    <div>
+                                        <label>상세주소</label>
+                                        <input class="form-control" name="addr2" id="addr2" placeholder="상세 주소" th:value="${hotel.addr2}">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label>연락처</label>
+                                    <input name="contactInfo" class="form-control"
+                                           th:value="${hotel.contactInfo}" required>
+                                </div>
+                                <div>
+                                    <label>호텔 소개</label>
+                                    <input name="hotelDetails" class="form-control" th:value="${hotel.hotelDetails}">
+                                </div>
+                                <div>
+                                    <button class="btn btn-primary modify_hotel_btn w-100">수정</button>
+                                    <button class="btn btn-primary delete_hotel_btn w-100">삭제</button>
+                                </div>
+                            </form>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<th:block th:insert="~{fragments/footer.html :: footer_fragment}"></th:block>
+
+<!-- map -->
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
+</body>
+</html>

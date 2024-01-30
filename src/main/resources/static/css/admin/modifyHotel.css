@@ -1,0 +1,121 @@
+.row-container {
+    display: flex;
+    flex-direction: row;
+}
+
+#regionList {
+    margin-left: 0.5rem;
+    width: 120px;
+}
+
+.search-addr-btn {
+    margin-left: 0.5rem;
+    width: 200px;
+}
+
+.modify-hotel-container {
+    margin-top: 5rem;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.hotel_img_block {
+    width: 400px;
+}
+
+.hotel_img{
+    width : 100%;
+    height: 250px;
+    position: relative;
+}
+.upload-box {
+    width: 100%;
+    height : 100%;
+    margin: 10px auto;
+    border: 3px dashed lightgray;
+    padding: 10px;
+    position: relative;
+
+}
+.upload-box::before{
+    content : "이미지를 드래그하세요";
+    display:block;
+    position:absolute;
+    left:0;
+    top:40px;
+    width : 100%;
+    height : 450px;
+    text-align:center;
+    color:lightgray;
+    margin-top:10px;
+}
+
+.plus {
+    height:100%;
+    display:flex;
+    justify-content:center;
+    align-items: center;
+
+    font-size: 7em;
+    color: lightgray;
+    position:relative;
+    top:-5%;
+}
+
+.preview_img_block{
+    position:relative;
+    top : 10px;
+}
+
+#preview {
+    width : 100%;
+    height : 200px;
+    margin: 10px auto;
+    border : 1px dashed lightgray;
+
+    position: relative;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    flex: 1 1 0;
+    overflow: auto hidden;
+}
+
+.preview_img_block .item {
+    border: 0.0625rem solid #4a4a4a;
+    margin: 0 0.5rem;
+    padding: 0.5rem;
+    position: relative;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.preview_img_block .delete-btn {
+    margin-left: 0.5rem;
+    white-space: nowrap;
+}
+
+.modify-hotel-container img {
+    width: 150px;
+    height: 150px;
+}
+
+.hotel_info_block{
+    width: 400px;
+    position: relative;
+}
+
+.hotel_info_block>form>*{
+    margin-bottom:20px;
+}
+
+.hotel_info_block label{
+    margin:5px 0;
+}

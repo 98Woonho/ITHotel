@@ -1,14 +1,8 @@
 package com.whl.hotelService.domain.common.service;
 
 import com.whl.hotelService.domain.common.dto.ReservationDto;
-import com.whl.hotelService.domain.common.entity.Hotel;
-import com.whl.hotelService.domain.common.entity.Reservation;
-import com.whl.hotelService.domain.common.entity.ReservedRoomCount;
-import com.whl.hotelService.domain.common.entity.Room;
-import com.whl.hotelService.domain.common.repository.HotelRepository;
-import com.whl.hotelService.domain.common.repository.ReservationRepository;
-import com.whl.hotelService.domain.common.repository.ReservedRoomCountRepository;
-import com.whl.hotelService.domain.common.repository.RoomRepository;
+import com.whl.hotelService.domain.common.entity.*;
+import com.whl.hotelService.domain.common.repository.*;
 import com.whl.hotelService.domain.user.entity.User;
 import com.whl.hotelService.domain.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,17 +33,19 @@ public class ReservationService {
     @Autowired
     private ReservedRoomCountRepository reservedRoomCountRepository;
 
+    @Autowired
+    private RoomFileInfoRepository roomFileInfoRepository;
+
 
 
     @Transactional(rollbackFor = Exception.class)
     public List<Room> getHotelsRoom(String hotelname, int people) {
-        return roomRepository.findByHotelHotelnameAndStandardPeopleGreaterThanEqual(hotelname, people);
+        return roomRepository.findByHotelHotelNameAndStandardPeopleGreaterThanEqual(hotelname, people);
     }
 
     @Transactional(rollbackFor = Exception.class)
     public void deleteExpiredReservations() {
         List<LocalDateTime> createdAtList = reservationRepository.findCreatedAtByStatus("예약 중");
-
         LocalDateTime currentDate = LocalDateTime.now();
 
         for(LocalDateTime createdAt : createdAtList) {
@@ -128,5 +124,9 @@ public class ReservationService {
             }
         }
         return true;
+    }
+
+    public List<RoomFileInfo> getAllMainFiles(String hotelname) {
+        return roomFileInfoRepository.findAllMainFiles(hotelname);
     }
 }

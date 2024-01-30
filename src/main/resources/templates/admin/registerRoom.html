@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <!--  cdns  -->
+    <th:block th:insert="~{fragments/link.html :: link_fragment}"></th:block>
+
+    <!-- css -->
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/admin/registerRoom.css">
+
+    <!-- js -->
+    <script defer src="/js/admin/registerRoom.js"></script>
+</head>
+<body>
+
+<header id="header" class="content-container-wrapper">
+    <th:block th:insert="~{fragments/header.html :: header_fragment}"></th:block>
+</header>
+
+<main id="main" class="content-container-wrapper">
+    <div class="content-container">
+        <div class="admin-container">
+            <th:block th:replace="~{fragments/adminLeft.html :: adminLeft_fragment}"></th:block>
+            <div class="admin-right">
+                <div class="title-container">
+                    <h1 class="title">호텔 관리 > 객실 등록</h1>
+                </div>
+                <div th:if="${hotelName == null}">
+                    <label>
+                        <span class="text">호텔을 선택해 주세요</span>
+                        <select class="form-select hotel-list">
+                            <th:block th:each="hotel : ${hotelList}">
+                                <option th:value="${hotel}" th:text="${hotel}"></option>
+                            </th:block>
+                        </select>
+                    </label>
+                    <div>
+                        <button class="btn btn-primary select-hotel-btn w-100" onclick = selectedHotel()>확인</button>
+                    </div>
+                </div>
+
+                <div th:if="${hotelName != null}">
+                    <span class="text" th:text="${hotelName}"></span>
+                    <div class="register-room-container">
+                        <section class="room_img_block">
+                            <div class="main-image-container">
+                                <span class="text">대표 이미지</span>
+                                <div class="main-img">
+                                    <div class="upload-box main-upload-box" >
+                                        <div class="plus">+</div>
+                                    </div>
+                                </div>
+                                <div class="preview_img_block">
+                                    <label>PREVIEW</label>
+                                    <ul class="preview" id="mainPreview"></ul>
+                                </div>
+                            </div>
+
+                            <div class="room-image-container">
+                                <span class="text room-image">객실 이미지</span>
+                                <div class="room-img">
+                                    <div class="upload-box room-upload-box">
+                                        <div class="plus">+</div>
+                                    </div>
+                                </div>
+                                <div class="preview_img_block">
+                                    <label>PREVIEW</label>
+                                    <ul class="preview" id="roomPreview"></ul>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section class="room_info_block">
+                            <form class="room-form" id="roomForm">
+                                <input hidden name="hotelName" type="text" th:value="${hotelName}">
+                                <label>객실 종류</label>
+                                <div class="row-container">
+                                    <input name="kind" class="form-control" placeholder="객실 종류" required>
+                                    <a onclick="confirmDuplication()" class="btn btn-secondary confirm-duplication-btn">중복 확인</a>
+                                </div>
+                                <div>
+                                    <label>체크인</label>
+                                    <div class="row-container">
+                                        <input name="checkinHour" class="form-control" placeholder="0~23" type="text"
+                                               required> :
+                                        <input name="checkinMinute" class="form-control" placeholder="0~59" type="text"
+                                               required>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label>체크아웃</label>
+                                    <div class="row-container">
+                                        <input name="checkoutHour" class="form-control" placeholder="0~23" type="text"
+                                               required> :
+                                        <input name="checkoutMinute" class="form-control" placeholder="0~59" type="text"
+                                               required>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label>금요일 가격</label>
+                                    <input name="fridayPrice" class="form-control" placeholder="금요일 가격" required>
+                                </div>
+                                <div>
+                                    <label>토요일 가격</label>
+                                    <input name="saturdayPrice" class="form-control" placeholder="토요일 가격" required>
+                                </div>
+                                <div>
+                                    <label>주중 가격</label>
+                                    <input name="weekdayPrice" class="form-control" placeholder="주중 가격" required>
+                                </div>
+                                <div>
+                                    <label>기준 인원</label>
+                                    <input name="standardPeople" class="form-control" placeholder="기준 인원" required>
+                                </div>
+                                <div>
+                                    <label>최대 인원</label>
+                                    <input name="maximumPeople" class="form-control" placeholder="최대 인원" required>
+                                </div>
+                                <div>
+                                    <label>객실 개수</label>
+                                    <input name="count" class="form-control" placeholder="객실 개수" required>
+                                </div>
+                                <div>
+                                    <button class="btn btn-primary add_room_btn w-100">등록</button>
+                                </div>
+                            </form>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<th:block th:insert="~{fragments/footer.html :: footer_fragment}"></th:block>
+
+</body>
+</html>
