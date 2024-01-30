@@ -19,6 +19,8 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.*;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -31,6 +33,9 @@ import static java.awt.geom.Path2D.contains;
 public class HotelService {
     @Autowired
     private HotelRepository hotelRepository;
+
+    @Autowired
+    private RoomRepository roomRepository;
 
     @Autowired
     private HotelFileInfoRepository hotelFileInfoRepository;
@@ -153,4 +158,44 @@ public class HotelService {
         return true;
     }
 
+    @Transactional(rollbackFor = Exception.class)
+    public void deleteHotel(String hotelName) {
+        hotelRepository.deleteById(hotelName);
+        roomRepository.deleteByHotelHotelName(hotelName);
+
+        String hotelUploadPath = "c:\\" + File.separator + "hotelimage" + File.separator + hotelName;
+        File hotelDir = new File(hotelUploadPath);
+        if (!hotelDir.exists())
+            hotelDir.mkdirs();
+
+        File[] hotelFiles = hotelDir.listFiles();
+
+        for(File file : hotelFiles) {
+            file.delete();
+        }
+
+        hotelDir.delete();
+
+        String roomUploadPath = "c:\\" + File.separator + "roomimage" + File.separator + hotelName;
+
+        Path path = Paths.get(roomUploadPath);
+
+        try {
+            Files.walkFileTree(path, EnumSet.noneOf(FileVisitOption.class), Integer.MAX_VALUE, new SimpleFileVisitor<Path>() {
+                @Override
+                public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+                    Files.delete(file);
+                    return FileVisitResult.CONTINUE;
+                }
+
+                @Override
+                public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
+                    Files.delete(dir);
+                    return FileVisitResult.CONTINUE;
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

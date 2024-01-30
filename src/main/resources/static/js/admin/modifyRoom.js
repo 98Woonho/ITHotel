@@ -354,3 +354,25 @@ modifyRoomBtn.addEventListener('click', function(e) {
             console.log(err);
         })
 })
+
+
+const deleteRoomBtn = document.querySelector('.delete_room_btn');
+
+deleteRoomBtn.addEventListener('click', function(e) {
+    e.preventDefault();
+
+    if(confirm("정말로 객실을 삭제 하시겠습니까?")) {
+        axios.delete("/room/delete?hotelName=" + document.getElementById('hotelName').value + "&kind=" + roomForm['kind'].value)
+            .then(res => {
+                console.log(res.data);
+                if(res.data === "SUCCESS") {
+                    alert("객실이 성공적으로 삭제 되었습니다.");
+                    location.href = "/admin/reservationStatus?region=seoul";
+                }
+            })
+            .catch(err => {
+                alert("알 수 없는 이유로 호텔을 삭제하지 못하였습니다. 잠시 후 다시 시도해 주세요.");
+            })
+    }
+
+})

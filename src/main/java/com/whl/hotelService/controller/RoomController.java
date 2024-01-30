@@ -46,4 +46,13 @@ public class RoomController {
             return new ResponseEntity("FAILURE", HttpStatus.BAD_GATEWAY);
         }
     }
+
+    @DeleteMapping("delete")
+    @ResponseBody
+    public String deleteRoom(@RequestParam(value = "hotelName") String hotelName,
+                             @RequestParam(value = "kind") String kind) {
+        roomService.deleteRoom(hotelName, kind);
+
+        return "SUCCESS";
+    }
 }

@@ -246,4 +246,23 @@ public class RoomService {
         }
         return true;
     }
+
+    @Transactional(rollbackFor = Exception.class)
+    public void deleteRoom(String hotelName, String kind) {
+        roomRepository.deleteByHotelHotelNameAndKind(hotelName, kind);
+
+        String uploadPath = "c:\\" + File.separator + "roomimage" + File.separator + hotelName + File.separator + kind;
+
+        File dir = new File(uploadPath);
+        if (!dir.exists())
+            dir.mkdirs();
+
+        File[] files = dir.listFiles();
+
+        for(File file : files) {
+            file.delete();
+        }
+
+        dir.delete();
+    }
 }

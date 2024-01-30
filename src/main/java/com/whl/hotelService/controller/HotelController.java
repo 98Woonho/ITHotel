@@ -60,4 +60,12 @@ public class HotelController {
             return new ResponseEntity("FAILURE", HttpStatus.BAD_GATEWAY);
         }
     }
+
+    @DeleteMapping("delete")
+    @ResponseBody
+    public String deleteHotel(@RequestParam(value = "hotelName") String hotelName) {
+        hotelService.deleteHotel(hotelName);
+
+        return "SUCCESS";
+    }
 }

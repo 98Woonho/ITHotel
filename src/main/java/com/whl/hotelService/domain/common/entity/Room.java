@@ -19,7 +19,7 @@ public class Room {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name="hotelName", foreignKey = @ForeignKey(name="fk_room_hotelName", foreignKeyDefinition = "FOREIGN KEY(hotelName) REFERENCES hotel(hotel_name) ON DELETE CASCADE ON UPDATE CASCADE"), nullable = false)
+    @JoinColumn(name="hotel_name", foreignKey = @ForeignKey(name="fk_room_hotel_name", foreignKeyDefinition = "FOREIGN KEY(hotel_name) REFERENCES hotel(hotel_name) ON DELETE CASCADE ON UPDATE CASCADE"))
     private Hotel hotel;
 
     @Column(nullable = false)
