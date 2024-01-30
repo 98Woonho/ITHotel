@@ -12,11 +12,11 @@
 
     <!-- css -->
     <link rel="stylesheet" href="/css/common.css">
-    <link rel="stylesheet" href="/css/admin/sales.css">
+    <link rel="stylesheet" href="/css/admin/regionSales.css">
 
     <!-- js -->
     <script defer src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script defer src="/js/admin/sales.js"></script>
+    <script defer src="/js/admin/regionSales.js"></script>
 </head>
 <body>
 
@@ -30,7 +30,7 @@
             <th:block th:replace="~{fragments/adminLeft.html :: adminLeft_fragment}"></th:block>
             <div class="admin-right">
                 <div class="title-container">
-                    <h1 class="title">매출 현황 > 매출</h1>
+                    <h1 class="title">매출 현황 > 지역별 매출</h1>
                 </div>
                 <div class="sales-container">
                     <canvas id="salesGraph"></canvas>

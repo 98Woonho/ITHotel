@@ -1,0 +1,20 @@
+.sales-container {
+    margin-top: 5rem;
+    max-height: 100%;
+    border: 0.0625rem solid black;
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.option {
+    max-width: 100%;
+    position: absolute;
+    right: 0;
+    border: none;
+}
+
+#salesGraph {
+    margin: 3rem;
+}

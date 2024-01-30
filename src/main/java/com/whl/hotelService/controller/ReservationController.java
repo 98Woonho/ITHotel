@@ -65,6 +65,8 @@ public class ReservationController {
         LocalDate startDate = LocalDate.parse(checkin, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         LocalDate endDate = LocalDate.parse(checkout, DateTimeFormatter.ofPattern("yyyy-MM-dd")).minusDays(1);
 
+//        System.out.println(startDate.getMonthValue()); 월 가져오기
+
         List<DayOfWeek> daysOfWeekList = new ArrayList<>();
 
         // Iterate through the dates and add the day of the week to the list

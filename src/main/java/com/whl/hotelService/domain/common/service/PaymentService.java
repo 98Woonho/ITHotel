@@ -109,11 +109,6 @@ public class PaymentService {
         payment.setPayDate(LocalDateTime.now());
         payment.setReservation(reservation);
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        User user = userRepository.findById(username).get();
-        payment.setUser(user);
-
         paymentRepository.save(payment);
 
         return true;

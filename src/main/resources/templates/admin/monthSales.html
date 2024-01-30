@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <!--  cdns  -->
+    <th:block th:insert="~{fragments/link.html :: link_fragment}"></th:block>
+
+    <!-- css -->
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/admin/monthSales.css">
+
+    <!-- js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script defer src="/js/admin/monthSales.js"></script>
+</head>
+<body>
+
+<header id="header" class="content-container-wrapper">
+    <th:block th:insert="~{fragments/header.html :: header_fragment}"></th:block>
+</header>
+
+<main id="main" class="content-container-wrapper">
+    <div class="content-container">
+        <div class="admin-container">
+            <th:block th:replace="~{fragments/adminLeft.html :: adminLeft_fragment}"></th:block>
+            <div class="admin-right">
+                <div class="title-container">
+                    <h1 class="title">매출 현황 > 월별 매출</h1>
+                </div>
+                <div class="sales-container">
+                    <label>
+                        <select class="option" name="option" id="option">
+                            <th:block th:each="hotelName : ${hotelNameList}">
+                                <option class="total">전체</option>
+                                <option th:text="${hotelName}"></option>
+                            </th:block>
+                        </select>
+                    </label>
+                    <canvas id="salesGraph"></canvas>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <span hidden class="january-sales" th:text="${januarySales}"></span>
+    <span hidden class="february-sales" th:text="${februarySales}"></span>
+    <span hidden class="march-sales" th:text="${marchSales}"></span>
+    <span hidden class="april-sales" th:text="${aprilSales}"></span>
+    <span hidden class="may-sales" th:text="${maySales}"></span>
+    <span hidden class="jun-sales" th:text="${junSales}"></span>
+    <span hidden class="july-sales" th:text="${julySales}"></span>
+    <span hidden class="august-sales" th:text="${augustSales}"></span>
+    <span hidden class="september-sales" th:text="${septemberSales}"></span>
+    <span hidden class="october-sales" th:text="${octoberSales}"></span>
+    <span hidden class="november-sales" th:text="${novemberSales}"></span>
+    <span hidden class="december-sales" th:text="${decemberSales}"></span>
+
+    <span hidden class="value" th:text="${value}"></span>
+</main>
+
+<th:block th:insert="~{fragments/footer.html :: footer_fragment}"></th:block>
+
+
+</body>
+</html>
