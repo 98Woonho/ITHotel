@@ -10,6 +10,7 @@ import java.util.List;
 
 @Repository
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
+
     @Query("SELECT r.createdAt FROM Reservation r WHERE r.status = :status")
     List<LocalDateTime> findCreatedAtByStatus(String status);
 

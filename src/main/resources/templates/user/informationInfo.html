@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>마이페이지_회원정보</title>
+
+    <!--  cdns  -->
+    <th:block th:insert="~{fragments/link.html :: link_fragment}"></th:block>
+
+    <!-- css -->
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/user/myinfo.css">
+
+    <!-- js -->
+</head>
+<body>
+
+<header id="header" class="content-container-wrapper">
+    <th:block th:insert="~{fragments/header.html :: header_fragment}"></th:block>
+</header>
+
+<main id="main" class="content-container-wrapper">
+    <div class="content-container">
+        <div class="user-container">
+            <th:block th:replace="~{fragments/userLeft.html :: userLeft_fragment}"></th:block>
+            <div class="user-right">
+                <div class="title-container" th:switch="${function}">
+                    <h1 class="title">회원정보 > </h1>
+                    <h1 class="tag" th:case='read'>회원정보 확인</h1>
+                    <h1 class="tag" th:case='update'>회원정보 수정</h1>
+                    <h1 class="tag" th:case='delete'>회원탈퇴</h1>
+                </div>
+                <div class="information-info-container" th:switch="${function}">
+                    <th:block th:case='read'>
+                        <div class="sub-title-container">
+                            <h2 class="sub-title">회원정보 확인</h2>
+                        </div>
+                        <div class="info-content-container">
+                            <label>아이디</label> <br/>
+                            <span th:text="${userid}"></span> <br/>
+                        </div>
+                        <div class="info-content-container">
+                            <label>이름</label> <br/>
+                            <span th:text="${name}"></span> <br/>
+                        </div>
+                        <div class="info-content-container">
+                            <label>이메일</label> <br/>
+                            <span th:text="${email}"></span> <br/>
+                        </div>
+                        <div class="info-content-container">
+                            <label>전화번호</label> <br/>
+                            <span th:text="${phone}"></span> <br/>
+                        </div>
+                        <div class="info-content-container">
+                            <label>우편번호</label> <br/>
+                            <span th:text="${zipcode}"></span> <br/>
+                        </div>
+                        <div class="info-content-container">
+                            <label>주소</label> <br/>
+                            <span th:text="${addr1}"></span> <br/>
+                            <span th:text="${addr2}"></span>
+                        </div>
+                    </th:block>
+                    <div class="info-auth-container" th:case="update">
+                        <div class="auth-title-container">
+                            <h2 class="sub-title">회원정보 수정</h2>
+                        </div>
+                        <span class="auth_msg" th:text="${auth_msg}"></span> <br/>
+                        <input name="password" type="password" class="password" placeholder="비밀번호 입력">
+                        <button onclick="userAuth()">확인</button> <br/>
+                        <span th:text="${msg}"></span>
+                    </div>
+                    <form name="updateinfo" action="/user/updateinfo" method="post">
+                        <div class="information-info-container" style="display: none;">
+                            <div class="sub-title-container">
+                                <h2 class="sub-title">회원정보 수정</h2>
+                            </div>
+                            <div class="info-content-container">
+                                <label>아이디</label> <span id="id_msg" th:text="${userid_msg}"></span> <br/>
+                                <input name="userid" class="info" th:value="${userid}">
+                                <button type="button" onclick="IdCheck()">중복확인</button> <br/>
+                            </div>
+                            <div class="info-content-container">
+                                <label>이름</label> <span id="name_msg" th:text="${name_msg}"></span> <br/>
+                                <input name="name" class="info" th:value="${name}"> <br/>
+                            </div>
+                            <div class="info-content-container">
+                                <label>이메일</label> <span id="email_msg" th:text="${email_msg}"></span> <br/>
+                                <input name="email" class="info" th:value="${email}"> <button type="button" onclick="SendEmail()">인증</button> <br/>
+                            </div>
+                            <div class="info-content-container" style="display: none;">
+                                <label>인증코드</label> <span id="code_msg"></span> <br/>
+                                <input id="code" class="info"> <button type="button" onclick="ConfirmEmail()">확인</button> <br/>
+                            </div>
+                            <div class="info-content-container">
+                                <label>전화번호</label> <span id="phone_msg" th:text="${phone_msg}"></span> <br/>
+                                <input name="phone" class="info" th:value="${phone}"> <br/>
+                            </div>
+                            <div class="info-content-container">
+                                <label>우편번호</label> <span id="zipcode_msg" th:text="${zipcode_msg}"></span> <br/>
+                                <input name="zipcode" id="zipcode" class="info" th:value="${zipcode}"> <button onclick="AddressSearch()" type="button">우편번호 찾기</button> <br/>
+                            </div>
+                            <div class="info-content-container">
+                                <label>주소</label> <span id="addr1_msg" th:text="${addr1_msg}"></span> <br/>
+                                <input name="addr1" id="addr1" class="info" th:value="${addr1}"> <br/>
+                                <input name="addr2" id="addr2" class="info" th:value="${addr2}">
+                            </div>
+                            <button>수정</button>
+                            <input name="password" type="hidden" value=".">
+                            <input name="repassword" type="hidden" value=".">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<th:block th:insert="~{fragments/footer.html :: footer_fragment}"></th:block>
+
+<!-- axios -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js" integrity="sha512-uMtXmF28A2Ab/JJO2t/vYhlaa/3ahUOgj1Zf27M5rOo8/+fcTUVH0/E0ll68njmjrLqOBjXM3V9NiPFL5ywWPQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<!-- map -->
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
+<script>
+    const userAuth = function (){
+        const info = document.updateinfo.querySelector(".information-info-container");
+        const auth = document.querySelector(".info-auth-container");
+        const pw = document.querySelector(".password").value;
+        const pw_msg = document.querySelector(".auth_msg");
+        if(pw === ""){
+            pw_msg.innerHTML = "비밀번호를 입력하세요";
+            pw_msg.style.color = 'orange';
+            return ;
+        }
+        axios.post("/user/infoAuth/" + pw)
+            .then( res => {
+                console.log(res);
+                if(!res.data.success){
+                    pw_msg.innerHTML = res.data.massage;
+                    pw_msg.style.color = 'orange';
+                }
+                else{
+                    info.style.display = "block";
+                    auth.style.display = "none";
+                }
+            })
+            .catch( err => { console.log(err); });
+    }
+
+    const IdCheck = function(){
+        const user_id = document.updateinfo.userid.value;
+        const id_msg = document.querySelector('#id_msg');
+        let regexpId = new RegExp("^[A-Za-z0-9]{6,16}$");
+        if(regexpId.test(user_id.trim())) {
+            axios.get('/user/ConfirmId?id=' + user_id)
+                .then(res => {
+                    console.log(res);
+                    if (res.data.success) {
+                        id_msg.style.color = 'green';
+                        id_msg.innerHTML = res.data.message;
+                    } else {
+                        id_msg.style.color = 'orange';
+                        id_msg.innerHTML = res.data.message;
+                    }
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+        } else
+            id_msg.textContent = "아이디는 소문자와 숫자로만 이루어진 6~16자여야 합니다.";
+    }
+
+    const EmailCheck = () => {
+        const email = document.joinform.email.value;
+        let regexEmail = new RegExp("^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$");
+        const email_msg = document.querySelector('#email_msg');
+        axios.get('/user/ConfirmEmail/' + email)
+            .then(res => {
+                console.log(res);
+                if(!regexEmail.test(email.trim())){
+                    email_msg.textContent = "이메일 형식으로 작성해야 합니다.";
+                    email_msg.style.color = 'orange';
+                }else if(!res.data.success) {
+                    email_msg.innerHTML = res.data.message;
+                    email_msg.style.color = 'orange';
+                }
+            })
+            .catch(err =>{ console.log(err); });
+        return true;
+    }
+
+    const SendEmail = function(){
+        const email = document.joinform.email.value;
+        const email_msg = document.querySelector('#email_msg');
+        if(EmailCheck()){
+            email_msg.textContent = "이메일로 인증코드가 전송되었습니다.";
+            email_msg.style.color = 'green';
+            axios.get('/user/sendEmail/' + email)
+                .then(res => {
+                    console.log(res);
+                    document.querySelector('#code').style.display = 'block';
+                })
+                .catch( err => {console.log(err);} )
+        }
+    }
+
+    const ConfirmEmail = function(){
+        const email = document.joinform.email.value;
+        const code = document.joinform.emailCode.value;
+        axios.get('/user/confirmCode?email='+email+"&code="+code)
+            .then(res => {
+                console.log(res);
+                if(res.data.success){
+                    document.querySelector('#code_msg').style.color = 'green';
+                    document.querySelector('#code_msg').innerHTML = res.data.message;
+                } else {
+                    document.querySelector('#code_msg').style.color = 'orange';
+                    document.querySelector('#code_msg').innerHTML = res.data.message;
+                }
+            })
+            .catch( err => {console.log(err);} )
+    }
+
+    const AddressSearch = () => {
+        new daum.Postcode({
+            oncomplete: function (data) {
+                let addr = '';
+                if (data.userSelectedType === 'R') {
+                    // 도로명 주소
+                    addr = data.roadAddress;
+                } else {
+                    // 지번 주소
+                    addr = data.jibunAddress;
+                }
+
+                // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                document.querySelector('#zipcode').value = data.zonecode;
+                document.querySelector('#addr1').value = addr;
+                // 커서를 상세주소 필드로 이동한다.
+                document.querySelector('#addr2').focus();
+            }
+        }).open();
+    }
+</script>
+
+</body>
+</html>

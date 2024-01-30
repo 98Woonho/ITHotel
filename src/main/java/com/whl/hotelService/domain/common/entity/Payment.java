@@ -28,6 +28,7 @@ public class Payment {
     @JoinColumn(name="user_id", foreignKey = @ForeignKey(name="fk_payment_user_id", foreignKeyDefinition = "FOREIGN KEY(user_id) REFERENCES user(userid) ON DELETE CASCADE ON UPDATE CASCADE"), nullable = false)
     private User user; // 사용자 정보
 
+
     // 결제 정보
     @Column(nullable = false)
     private String impUid;

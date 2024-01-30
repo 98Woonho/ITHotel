@@ -171,7 +171,7 @@ public class UserController {
         boolean isJoin = userService.OauthMemberJoin(dto, request, model);
 
         if (isJoin) {
-            return "redirect:/user/login?msg=MemberJoin Success!";
+            return "redirect:/";
         } else
             return "redirect:/user/join?msg=Join Failed";
     }
@@ -230,26 +230,17 @@ public class UserController {
         return obj;
     }
 
-    @GetMapping("ConfirmEmail")
-    public @ResponseBody JSONObject confirmEmail(String email, HttpServletResponse response){
-        log.info("getConfirmId id : " + email);
-        boolean EmailVaile = userService.EmailValid(email);
+    @GetMapping("ConfirmEmail/{email}")
+    public @ResponseBody JSONObject confirmEmail(@PathVariable String email){
+        log.info("getConfirmEmail email : " + email);
         JSONObject obj = new JSONObject();
-        if (!Objects.equals(email, "") && EmailVaile) {
+        if (!Objects.equals(email, "")) {
             obj.put("success", true);
             obj.put("message", "사용가능한 이메일입니다.");
-
-            return obj;
-
-        } else if (Objects.equals(email, "")) {
+        } else {
             obj.put("success", false);
             obj.put("message", "이메일을 입력하세요");
-
-            return obj;
         }
-        obj.put("success", false);
-        obj.put("message", "동일한 이메일이 존재합니다.");
-
         return obj;
     }
 

@@ -34,10 +34,6 @@ public class UserService {
         return !userRepository.existsById(id);
     }
 
-    public boolean EmailValid(String email){
-        return !userRepository.existsById(userRepository.findByEmail(email).getUserid());
-    }
-
     public boolean memberjoin(UserDto dto, Model model, HttpServletRequest request, HttpServletResponse response) {
         if (!idValid(dto.getUserid())) {
             model.addAttribute("user_id", "동일한 아이디가 존재합니다.");
@@ -160,12 +156,14 @@ public class UserService {
             String id = (String) claims.get("username");
             User user = userRepository.getReferenceById(id);
             if(Objects.equals(user.getProvider(), "kakao")) {
+                user.setPassword(passwordEncoder.encode(dto.getPassword()));
                 user.setZipcode(dto.getZipcode());
                 user.setAddr1(dto.getAddr1());
                 user.setAddr2(dto.getAddr2());
                 userRepository.save(user);
 
             } else if(Objects.equals(user.getProvider(), "google")){
+                user.setPassword(passwordEncoder.encode(dto.getPassword()));
                 user.setPhone(dto.getPhone());
                 user.setZipcode(dto.getZipcode());
                 user.setAddr1(dto.getAddr1());

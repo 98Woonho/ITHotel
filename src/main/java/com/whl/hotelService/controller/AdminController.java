@@ -1,5 +1,6 @@
 package com.whl.hotelService.controller;
 
+
 import com.whl.hotelService.domain.common.entity.Hotel;
 import com.whl.hotelService.domain.common.entity.HotelFileInfo;
 import com.whl.hotelService.domain.common.entity.RoomFileInfo;
@@ -12,13 +13,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Slf4j
 @Controller
 @RequestMapping(value = "admin")
 public class AdminController {
+
     @Autowired
     private AdminService adminService;
 
