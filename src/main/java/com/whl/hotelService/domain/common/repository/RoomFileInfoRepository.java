@@ -19,5 +19,7 @@ public interface RoomFileInfoRepository extends JpaRepository<RoomFileInfo, Long
 
     List<RoomFileInfo> findAllByRoomKindAndRoomHotelHotelNameAndIsMainImage(String roomKind, String hotelName, boolean isMainImage);
 
-    void deleteByFileNameAndRoomHotelHotelName(String fileName, String hotelName);
+    void deleteByFileNameAndRoomId(String fileName, Long Id);
+
+    RoomFileInfo findByFileNameAndRoomId(String fileName, Long Id);
 }

@@ -1,19 +1,9 @@
 const hotelList = document.querySelector('.hotel-list');
 const hotelForm = document.querySelector('.hotel-form');
-const regionList = hotelForm.querySelector('#regionList');
 
 function selectedHotel() {
     location.href = "/admin/modifyHotel?hotelName=" + hotelList.value;
 }
-
-regionList.addEventListener('change', function(e) {
-    if(e.target.value !== 'input') {
-        hotelForm['region'].value = e.target.value;
-    } else {
-        hotelForm['region'].removeAttribute("disabled");
-        hotelForm['region'].value = "";
-    }
-})
 
 
 const AddressSearch = () => {
@@ -33,6 +23,7 @@ const AddressSearch = () => {
             document.querySelector('#addr1').value = addr;
             // 커서를 상세주소 필드로 이동한다.
             document.querySelector('#addr2').focus();
+            document.getElementById('region').value = addr.split(" ")[0];
         }
     }).open();
 }
@@ -123,22 +114,11 @@ modifyHotelBtn.addEventListener('click', function(e) {
 
     let existingFileNameArray = [];
     const existingFileNames = modifyHotel.querySelectorAll('.file-name');
-    existingFileNames.forEach(filename => {
-        existingFileNameArray.push(filename.value)
+    existingFileNames.forEach(fileName => {
+        existingFileNameArray.push(fileName.value)
     })
 
-    const regionRegex = new RegExp("^[\uAC00-\uD7A3]+$");
     const contactRegex = new RegExp("^\\d{3}-\\d{3,4}-\\d{4}$");
-
-    if(hotelForm['region'].value === "") {
-        alert("지역을 등록해 주세요.");
-        return;
-    }
-
-    if(!regionRegex.test(hotelForm['region'].value)) {
-        alert("올바른 지역을 입력해 주세요.");
-        return;
-    }
 
     if(hotelForm['zipcode'].value === "") {
         alert("주소 찾기를 통해 주소를 입력해 주세요.");
@@ -177,6 +157,7 @@ modifyHotelBtn.addEventListener('click', function(e) {
     axios.put("/hotel/modify", formData, {header : {'Content-Type': 'multipart/form-data'}})
         .then(res => {
             alert("호텔 수정이 완료 되었습니다.");
+            location.href = "/admin/reservationStatus?region=seoul";
         })
         .catch(err => {
             console.log(err);

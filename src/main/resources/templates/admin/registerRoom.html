@@ -58,7 +58,7 @@
                                 </div>
                                 <div class="preview_img_block">
                                     <label>PREVIEW</label>
-                                    <ul class="preview" id="previewMain"></ul>
+                                    <ul class="preview" id="mainPreview"></ul>
                                 </div>
                             </div>
 
@@ -71,7 +71,7 @@
                                 </div>
                                 <div class="preview_img_block">
                                     <label>PREVIEW</label>
-                                    <ul class="preview" id="previewRoom"></ul>
+                                    <ul class="preview" id="roomPreview"></ul>
                                 </div>
                             </div>
                         </section>
@@ -79,25 +79,26 @@
                         <section class="room_info_block">
                             <form class="room-form" id="roomForm">
                                 <input hidden name="hotelName" type="text" th:value="${hotelName}">
-                                <div>
-                                    <label>객실 종류</label>
+                                <label>객실 종류</label>
+                                <div class="row-container">
                                     <input name="kind" class="form-control" placeholder="객실 종류" required>
+                                    <a onclick="confirmDuplication()" class="btn btn-secondary confirm-duplication-btn">중복 확인</a>
                                 </div>
                                 <div>
                                     <label>체크인</label>
                                     <div class="row-container">
-                                        <input name="checkinHour" class="form-control" placeholder="0~24" type="text"
+                                        <input name="checkinHour" class="form-control" placeholder="0~23" type="text"
                                                required> :
-                                        <input name="checkinMinute" class="form-control" placeholder="0~60" type="text"
+                                        <input name="checkinMinute" class="form-control" placeholder="0~59" type="text"
                                                required>
                                     </div>
                                 </div>
                                 <div>
                                     <label>체크아웃</label>
                                     <div class="row-container">
-                                        <input name="checkoutHour" class="form-control" placeholder="0~24" type="text"
+                                        <input name="checkoutHour" class="form-control" placeholder="0~23" type="text"
                                                required> :
-                                        <input name="checkoutMinute" class="form-control" placeholder="0~60" type="text"
+                                        <input name="checkoutMinute" class="form-control" placeholder="0~59" type="text"
                                                required>
                                     </div>
                                 </div>

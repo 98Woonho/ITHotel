@@ -72,17 +72,7 @@
                                     <input disabled name="hotelName" class="form-control" th:value="${hotel.hotelName}" required>
                                 </div>
                                 <div>
-                                    <label>지역</label>
-                                    <div class="row-container">
-                                        <input disabled name="region" class="form-control" type="text" th:value="${hotel.region}">
-                                        <select class="form-select" id="regionList">
-                                            <option value="" selected>-</option>
-                                            <th:block th:each="region : ${regionList}">
-                                                <option th:value="${region}" th:text="${region}"></option>
-                                            </th:block>
-                                            <option value="input">직접 입력</option>
-                                        </select>
-                                    </div>
+                                    <input hidden name="region" id="region" class="form-control" th:value="${hotel.region}" type="text">
                                 </div>
                                 <div>
                                     <div>

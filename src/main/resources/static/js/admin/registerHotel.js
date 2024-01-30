@@ -1,14 +1,20 @@
 const uploadBox = document.querySelector('.upload-box');
 const formData = new FormData();
 
+const hotelForm = document.getElementById('hotelForm');
+
 function confirmDuplication() {
-    const hotelName = document.querySelector('.hotel-name').value;
+    const hotelName = hotelForm['hotelName'].value;
+
+    if(hotelName === "") {
+        alert("호텔 이름을 입력해 주세요.");
+        return;
+    }
 
     axios.get("/hotel/confirmHotelName?hotelName=" + hotelName)
         .then(res => {
             if (res.data === "FAILURE_DUPLICATED_HOTEL_NAME") {
                 alert("이미 존재하는 호텔 이름입니다. 다른 호텔 이름을 입력해 주세요.");
-                return;
             } else {
                 alert("사용 가능한 호텔 이름입니다.");
             }
@@ -56,7 +62,7 @@ uploadBox.addEventListener('drop', function (e) {
     for (const file of imgFiles) {
         for (const fileName of fileNameArray) {
             if (fileName === file.name) {
-                alert("중복되는 이미지는 등록할 수 없습니다. 다른 이미지를 등록해 주세요.");
+                alert("동일한 이미지는 등록할 수 없습니다. 다른 이미지를 등록해 주세요.");
                 return;
             }
         }
@@ -171,6 +177,7 @@ addHotelBtn.addEventListener('click', function (e) {
     axios.post("/hotel/add", formData, {header: {'Content-Type': 'multipart/form-data'}})
         .then(res => {
             alert("호텔 등록이 완료 되었습니다.");
+            location.href = "/admin/reservationStatus?region=seoul";
         })
         .catch(err => {
             console.log(err);

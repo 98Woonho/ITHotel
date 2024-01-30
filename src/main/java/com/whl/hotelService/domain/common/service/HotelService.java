@@ -122,12 +122,10 @@ public class HotelService {
         // 기존 파일 삭제
         File[] files = dir.listFiles();
 
-        String[] existingFilenameArray = hotelDto.getExistingFileNames();
-
-        System.out.println(Arrays.toString(existingFilenameArray));
+        String[] existingFileNameArray = hotelDto.getExistingFileNames();
 
         for (File file : files) {
-            if (!Arrays.asList(existingFilenameArray).contains(file.getName())) {
+            if (!Arrays.asList(existingFileNameArray).contains(file.getName())) {
                 hotelFileInfoRepository.deleteByFileNameAndHotelHotelName(file.getName(), hotelDto.getHotelName());
                 file.delete();
             }

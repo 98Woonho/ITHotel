@@ -72,7 +72,7 @@
                                 </div>
                                 <div class="preview_img_block">
                                     <label>PREVIEW</label>
-                                    <ul class="preview" id="previewMain">
+                                    <ul class="preview" id="mainPreview">
                                         <li class="item">
                                             <input hidden type="text" class="existing-file-name" name="existingFileName" th:value="${roomMainFile.fileName}">
                                             <img class="img" th:src="@{${roomMainFile.dir} + ${roomMainFile.fileName}}" alt="">
@@ -91,7 +91,7 @@
                                 </div>
                                 <div class="preview_img_block">
                                     <label>PREVIEW</label>
-                                    <ul class="preview" id="previewRoom">
+                                    <ul class="preview" id="roomPreview">
                                         <li class="item" th:each="file : ${roomFileList}">
                                             <input hidden type="text" class="existing-file-name" name="existingFileName" th:value="${file.fileName}">
                                             <img class="img" th:src="@{${file.dir} + ${file.fileName}}" alt="">
@@ -104,25 +104,27 @@
 
                         <section class="room_info_block">
                             <form class="room-form" id="roomForm">
-                                <div>
-                                    <label>객실 종류</label>
+                                <input hidden name="existingKind" class="form-control" th:value="${roomMainFile.room.kind}" required>
+                                <label>객실 종류</label>
+                                <div class="row-container">
                                     <input name="kind" class="form-control" th:value="${roomMainFile.room.kind}" required>
+                                    <a onclick="confirmDuplication()" class="btn btn-secondary confirm-duplication-btn">중복 확인</a>
                                 </div>
                                 <div>
                                     <label>체크인</label>
                                     <div class="row-container">
-                                        <input name="checkinHour" class="form-control" placeholder="0~24" type="text"
+                                        <input name="checkinHour" class="form-control" th:value="${checkinHour}" type="text"
                                                required> :
-                                        <input name="checkinMinute" class="form-control" placeholder="0~60" type="text"
+                                        <input name="checkinMinute" class="form-control" th:value="${checkinMinute}" type="text"
                                                required>
                                     </div>
                                 </div>
                                 <div>
                                     <label>체크아웃</label>
                                     <div class="row-container">
-                                        <input name="checkoutHour" class="form-control" placeholder="0~24" type="text"
+                                        <input name="checkoutHour" class="form-control" th:value="${checkoutHour}" type="text"
                                                required> :
-                                        <input name="checkoutMinute" class="form-control" placeholder="0~60" type="text"
+                                        <input name="checkoutMinute" class="form-control" th:value="${checkoutMinute}" type="text"
                                                required>
                                     </div>
                                 </div>
@@ -162,7 +164,7 @@
         </div>
     </div>
 
-    <input hidden class="hotel-name" type="text" th:value="${hotelName}">
+    <input hidden id="hotelName" type="text" th:value="${hotelName}">
 </main>
 
 <th:block th:insert="~{fragments/footer.html :: footer_fragment}"></th:block>

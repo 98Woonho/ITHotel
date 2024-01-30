@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Slf4j
@@ -70,19 +71,26 @@ public class AdminController {
 
     @GetMapping("modifyRoom")
     public void getModifyRoom(@RequestParam(value = "hotelName", required = false) String hotelName, @RequestParam(value = "roomKind", required = false) String roomKind, Model model) {
-        Hotel hotel = new Hotel();
-
-        if(hotelName != null) {
-            hotel = adminService.getHotel(hotelName);
-        }
-
         List<String> roomList = adminService.getRoomList(hotelName);
 
         List<String> hotelList = adminService.getHotelList();
 
-        List<String> regionList = adminService.getRegionList();
-
         RoomFileInfo roomMainFile = adminService.getRoomMainFile(hotelName, roomKind, true);
+
+        if (roomMainFile != null) {
+            String[] checkinTime = roomMainFile.getRoom().getCheckinTime().split(":");
+            String[] checkoutTime = roomMainFile.getRoom().getCheckoutTime().split(":");
+            String checkinHour = checkinTime[0];
+            String checkinMinute = checkinTime[1];
+            String checkoutHour = checkoutTime[0];
+            String checkoutMinute = checkoutTime[1];
+
+            model.addAttribute("checkinHour", checkinHour);
+            model.addAttribute("checkinMinute", checkinMinute);
+            model.addAttribute("checkoutHour", checkoutHour);
+            model.addAttribute("checkoutMinute", checkoutMinute);
+        }
+
 
         List<RoomFileInfo> roomFileList = adminService.getRoomFileList(hotelName, roomKind, false);
 
@@ -90,8 +98,6 @@ public class AdminController {
         model.addAttribute("roomMainFile", roomMainFile);
         model.addAttribute("roomKind", roomKind);
         model.addAttribute("roomList", roomList);
-        model.addAttribute("hotel", hotel);
-        model.addAttribute("regionList", regionList);
         model.addAttribute("hotelName", hotelName);
         model.addAttribute("hotelList", hotelList);
     }
