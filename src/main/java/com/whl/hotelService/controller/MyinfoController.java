@@ -6,10 +6,12 @@ import com.whl.hotelService.config.auth.jwt.JwtTokenProvider;
 import com.whl.hotelService.config.auth.jwt.TokenInfo;
 import com.whl.hotelService.domain.common.dto.BoardResponseDto;
 import com.whl.hotelService.domain.common.dto.CommentResponseDto;
+import com.whl.hotelService.domain.common.entity.AdminBoard;
 import com.whl.hotelService.domain.common.service.AdminBoardService;
 import com.whl.hotelService.domain.common.service.BoardService;
 import com.whl.hotelService.domain.common.service.CommentService;
 import com.whl.hotelService.domain.user.dto.UserDto;
+import com.whl.hotelService.domain.user.entity.User;
 import com.whl.hotelService.domain.user.service.MyinfoService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,6 +20,9 @@ import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -107,12 +112,10 @@ public class MyinfoController {
     }
 
     @GetMapping("questionInfo")
-    public void questionInfo(@RequestParam(value="function", required = false) String function, Model model){
+    public void questionInfo(@RequestParam(value="function", required = false) String function, User user, Authentication authentication, Model model){
         List<String> hotelnames = boardService.searchHotelname();
-//        BoardResponseDto board = adminBoardService.boardDetail(id);
-//        List<CommentResponseDto> commentResponseDtos = commentService.commentList(id);
-//        model.addAttribute("comments", commentResponseDtos);
-//        model.addAttribute("board", board);
+        List<BoardResponseDto> boardList = adminBoardService.userBoardList(user, authentication);
+        model.addAttribute("boardList", boardList);
         model.addAttribute("hotelnames", hotelnames);
         model.addAttribute("function", function);
     }

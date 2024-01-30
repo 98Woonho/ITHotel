@@ -8,12 +8,14 @@ import com.whl.hotelService.domain.common.entity.Board;
 import com.whl.hotelService.domain.common.entity.Comment;
 import com.whl.hotelService.domain.common.repository.AdminBoardRepository;
 import com.whl.hotelService.domain.common.repository.CommentRepository;
+import com.whl.hotelService.domain.user.dto.UserDto;
 import com.whl.hotelService.domain.user.entity.User;
 import com.whl.hotelService.domain.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -109,5 +111,18 @@ public class AdminBoardService {
         }
 
         return new PageImpl<>(boardDtos, pageable, boards.getTotalElements());
+    }
+
+    public List<BoardResponseDto> userBoardList(User user,Authentication authentication){
+        List<AdminBoard> adminBoards = adminBoardRepository.findByUser(user);
+        List<BoardResponseDto> boardDtos = new ArrayList<>();
+            for (AdminBoard board: adminBoards){
+               user = board.getUser();
+                System.out.println("User : " + user.getUserid());
+                System.out.println("Authentication" + authentication.getName());
+                BoardResponseDto result = BoardResponseDto.entityToDto(board, user);
+                boardDtos.add(result);
+            }
+            return boardDtos;
     }
 }

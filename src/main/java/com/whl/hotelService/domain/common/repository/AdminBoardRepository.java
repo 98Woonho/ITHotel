@@ -2,6 +2,7 @@ package com.whl.hotelService.domain.common.repository;
 
 import com.whl.hotelService.domain.common.entity.AdminBoard;
 import com.whl.hotelService.domain.common.entity.Board;
+import com.whl.hotelService.domain.user.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -17,6 +18,5 @@ public interface AdminBoardRepository extends JpaRepository<AdminBoard, Long> {
             "   OR (:type = 'W' AND b.user.userid LIKE CONCAT('%', :keyword, '%'))" +
             "ORDER BY b.createdTime asc")
     Page<AdminBoard> searchBoards(@Param("keyword") String keyword, @Param("type") String type, Pageable pageable);
-
-    List<Board> findByBoardType(String boardType);
+    List<AdminBoard> findByUser(User user);
 }

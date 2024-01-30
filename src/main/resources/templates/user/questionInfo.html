@@ -62,101 +62,42 @@
     </div>
                         </span>
                         <span class="text" th:case='read'>
-        <div class="table_wrapper">
-            <h1>회원 게시글</h1>
-                <table class="main_table">
-                    <tbody>
-                    <tr>
-                        <th>
-                            <span>*</span>
-                            호텔이름
-                        </th>
-                        <td>
-                            <div th:text="${board.hotelname}"></div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            <span>*</span>
-                            질문유형
-                        </th>
-                        <td>
-                            <div th:text="${board.relation}"></div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            <span>*</span>
-                            제목
-                        </th>
-                        <td>
-                            <div th:text="${board.title}"></div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            <span>*</span>
-                            작성일
-                        </th>
-                        <td>
-                            <div th:text="${board.createdTime}"></div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            <span>*</span>
-                            작성자
-                        </th>
-                        <td>
-                            <div th:text="${board.username}"></div>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-        </div>
-        <div class="card my-4">
-            <h4 class="card-header">질문보기</h4>
-            <div class="card-body" th:text="${board.content}">
-
-            </div>
-        </div>
-        <div class="card my-4">
-            <h5 class="card-header">답글 쓰기</h5>
-            <div class="card-body">
-                <form th:action="@{/board/{id}/comment(id=${id})}" th:method="post">
-                    <div class="form-group" style="margin-bottom: 10px;">
-                        <input type="hidden" name="idx" th:value="*{idx}"/>
-                        <textarea name="content" class="form-control" rows="3"></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </form>
-            </div>
-        </div>
-                                <!-- 댓글 화면-->
-        <div class="card my-4">
-            <h5 class="card-header">답글</h5>
-            <div class="card-body">
-                <div th:each="comment : ${comments}">
-                    <div class="media mb-4">
-                        <div class="media-body">
-                            <h5 class="mt-0" th:text="${comment.username}">작성자</h5>
-                            <p th:text="${comment.content}" th:id="'comment-' + ${comment.id}">댓글 내용</p>
-                            <small class="text-muted"
-                                   th:text="${#temporals.format(comment.createdTime, 'yyyy-MM-dd HH:mm')}">댓글 작성
-                                시간</small>
-                            <div>
-                                <button class="btn btn-sm btn-outline-warning" th:attr="data-id=${comment.id}"
-                                        onclick="editComment(this)">수정
-                                </button>
-                                <a th:href="@{/board/{id}/comment/{commentId}/remove(id=${id}, commentId=${comment.id})}"
-                                   class="btn btn-sm btn-outline-danger"
-                                   onclick="return confirm('Delete this comment?')">삭제</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+                             <table class="table table-striped table-hover">
+            <thead>
+            <tr>
+                <th>번호</th>
+                <th>글제목</th>
+                <th>작성자</th>
+                <th>작성일</th>
+                <th>답글작성여부</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="board : ${boardList}">
+                <td>
+                    <span th:text="${board.id}"></span>
+                </td>
+                <td>
+                    <a th:href="@{'/board/admin/' + ${board.id}}">
+                        <span th:text="${board.title}"></span>
+                    </a>
+                </td>
+                <td>
+                    <span th:text="${board.username}"></span>
+                </td>
+                <td>
+                    <span th:text="${#temporals.format(board.createdTime, 'yyyy-MM-dd HH:mm:ss')}"></span>
+                </td>
+                <td>
+                    <th:block th:each="comment: ${commentList}">
+                        <th:block th:if="${comment.board.id} == ${board.id}">
+                            <button>답변완료</button>
+                        </th:block>
+                    </th:block>
+                </td>
+            </tr>
+            </tbody>
+        </table>
                         </span>
                     </th:block>
                 </div>
