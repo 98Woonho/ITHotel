@@ -18,5 +18,5 @@ public interface AdminBoardRepository extends JpaRepository<AdminBoard, Long> {
             "   OR (:type = 'W' AND b.user.userid LIKE CONCAT('%', :keyword, '%'))" +
             "ORDER BY b.createdTime asc")
     Page<AdminBoard> searchBoards(@Param("keyword") String keyword, @Param("type") String type, Pageable pageable);
-    List<AdminBoard> findByUser(User user);
+    Page<AdminBoard> findByUserUserid(Pageable pageable, String userid);
 }

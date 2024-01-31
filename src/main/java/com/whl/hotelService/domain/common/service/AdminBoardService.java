@@ -113,16 +113,15 @@ public class AdminBoardService {
         return new PageImpl<>(boardDtos, pageable, boards.getTotalElements());
     }
 
-    public List<BoardResponseDto> userBoardList(User user,Authentication authentication){
-        List<AdminBoard> adminBoards = adminBoardRepository.findByUser(user);
+    public Page<BoardResponseDto> userBoardList(Pageable pageable, Authentication authentication){
+        Page<AdminBoard> adminBoards = adminBoardRepository.findByUserUserid(pageable, authentication.getName());
         List<BoardResponseDto> boardDtos = new ArrayList<>();
             for (AdminBoard board: adminBoards){
-               user = board.getUser();
-                System.out.println("User : " + user.getUserid());
+               User user = board.getUser();
                 System.out.println("Authentication" + authentication.getName());
                 BoardResponseDto result = BoardResponseDto.entityToDto(board, user);
                 boardDtos.add(result);
             }
-            return boardDtos;
+            return new PageImpl<>(boardDtos, pageable, adminBoards.getTotalElements());
     }
 }

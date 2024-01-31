@@ -112,9 +112,13 @@ public class MyinfoController {
     }
 
     @GetMapping("questionInfo")
-    public void questionInfo(@RequestParam(value="function", required = false) String function, User user, Authentication authentication, Model model){
+    public void questionInfo(@RequestParam(value="function", required = false) String function,
+                             @PageableDefault(page = 0, size = 10)Pageable pageable,
+                             Authentication authentication, Model model){
         List<String> hotelnames = boardService.searchHotelname();
-        List<BoardResponseDto> boardList = adminBoardService.userBoardList(user, authentication);
+        Page<BoardResponseDto> boardList = adminBoardService.userBoardList(pageable, authentication);
+        Page<CommentResponseDto> commentList = adminBoardService.commentList(pageable);
+        model.addAttribute("commentList", commentList);
         model.addAttribute("boardList", boardList);
         model.addAttribute("hotelnames", hotelnames);
         model.addAttribute("function", function);

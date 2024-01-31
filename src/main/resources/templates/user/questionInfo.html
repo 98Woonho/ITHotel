@@ -65,22 +65,26 @@
                              <table class="table table-striped table-hover">
             <thead>
             <tr>
-                <th>번호</th>
                 <th>글제목</th>
+                <th>호텔이름</th>
+                <th>질문유형</th>
                 <th>작성자</th>
                 <th>작성일</th>
-                <th>답글작성여부</th>
+                <th>답변작성여부</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="board : ${boardList}">
                 <td>
-                    <span th:text="${board.id}"></span>
-                </td>
-                <td>
                     <a th:href="@{'/board/admin/' + ${board.id}}">
                         <span th:text="${board.title}"></span>
                     </a>
+                </td>
+                <td>
+                    <span th:text="${board.hotelname}"></span>
+                </td>
+                <td>
+                    <span th:text="${board.relation}"></span>
                 </td>
                 <td>
                     <span th:text="${board.username}"></span>
@@ -98,6 +102,37 @@
             </tr>
             </tbody>
         </table>
+                            <div th:if="${!boardList.isEmpty()}">
+            <ul class="pagination"
+                th:with="
+            pageNumber = ${boardList.pageable.pageNumber},
+            pageSize = ${boardList.pageable.pageSize},
+            totalPages = ${boardList.totalPages},
+            startPage = ${T(java.lang.Math).floor(pageNumber / pageSize) * pageSize + 1},
+            tempEndPage = ${startPage + pageSize - 1},
+            endPage = (${tempEndPage < totalPages ? tempEndPage : totalPages})">
+
+                <li th:classappend="${boardList.first} ? 'disabled'" class="page-item">
+                    <a class="page-link"
+                       th:href="${boardList.first} ? '#' : @{/user/questionInfo?function=read(page=${pageNumber - 1})}"
+                       aria-label="Previous">
+                        <span aria-hidden="true">&lt;</span>
+                    </a>
+                </li>
+                <li th:each="page: ${#numbers.sequence(startPage, endPage)}"
+                    th:classappend="${page == pageNumber + 1} ? 'active'" class="page-item">
+                    <a th:text="${page}" class="page-link"
+                       th:href="@{/user/questionInfo?function=read(page=${page - 1})}"></a>
+                </li>
+                <li th:classappend="${boardList.last} ? 'disabled'" class="page-item">
+                    <a class="page-link"
+                       th:href="${boardList.last} ? '#' : @{/user/questionInfo?function=read(page=${pageNumber + 1})}"
+                       aria-label="Next">
+                        <span aria-hidden="true">&gt;</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
                         </span>
                     </th:block>
                 </div>
@@ -110,4 +145,13 @@
 
 
 </body>
+<script>
+    const listReq = () => {
+        if (history.length > 1) {
+            history.back();
+        } else {
+            window.close();
+        }
+    }
+</script>
 </html>

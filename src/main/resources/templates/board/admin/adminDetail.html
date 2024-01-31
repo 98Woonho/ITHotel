@@ -115,7 +115,7 @@
 
         <button onclick="listReq()">게시판 목록</button>
         <th:block
-                th:if="${board != null and #authentication.principal instanceof T(org.springframework.security.core.userdetails.UserDetails) and board.getUsername() == #authentication.principal.username}">
+                th:if="${board != null and #authentication.principal instanceof T(org.springframework.security.core.userdetails.UserDetails) and board.getUserid() == #authentication.principal.username}">
             <a th:href="@{/board/{id}/admin/adminRemove(id=${id})}" class="btn btn-outline-danger"
                onclick="return confirm('삭제하시겠습니까?')">회원 글 삭제</a>
         </th:block>

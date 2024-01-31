@@ -1,6 +1,7 @@
 package com.whl.hotelService.controller;
 
 
+import com.whl.hotelService.config.auth.PrincipalDetails;
 import com.whl.hotelService.domain.common.dto.BoardResponseDto;
 import com.whl.hotelService.domain.common.dto.BoardWriteRequestDto;
 import com.whl.hotelService.domain.common.dto.CommentResponseDto;
@@ -80,7 +81,10 @@ public class BoardController {
         return "board/admin/adminDetail";
     }
     @GetMapping("/admin/adminList") // 게시판 전체 조회 + paging 처리 + 검색처리 + 답변완료 처리
-    public String adminBoardList(Model model, @PageableDefault(page = 0, size = 10, sort = "id")Pageable pageable, String keyword, String type){
+    public String adminBoardList(Model model,
+                                 @PageableDefault(page = 0, size = 10, sort = "id")Pageable pageable,
+                                 @RequestParam(name = "keyword", required = false) String keyword,
+                                 @RequestParam(name = "type", required = false) String type){
 
         Page<BoardResponseDto> boardList = adminBoardService.boardList(pageable);
         Page<BoardResponseDto> boardSerchList = adminBoardService.searchingBoardList(keyword, type, pageable);

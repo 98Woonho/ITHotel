@@ -16,6 +16,7 @@ public class BoardResponseDto {
     private String title;
     private String content;
     private String username;
+    private String userid;
     private String email;
     private LocalDateTime createdTime;
     private LocalDateTime updatedTime;
@@ -27,8 +28,9 @@ public class BoardResponseDto {
                 .id(board.getId())
                 .title(board.getTitle())
                 .content(board.getContent())
-                .username(user.getUserid())
+                .username(user.getName())
                 .email(user.getEmail())
+                .userid(user.getUserid())
                 .createdTime(board.getCreatedTime())
                 .updatedTime(board.getUpdatedTime())
                 .hotelname(board.getHotelname())
@@ -41,8 +43,9 @@ public class BoardResponseDto {
                 .id(board.getId())
                 .title(board.getTitle())
                 .content(board.getContent())
-                .username(user.getUserid())
+                .username(user.getName())
                 .email(user.getEmail())
+                .userid(user.getUserid())
                 .createdTime(board.getCreatedTime())
                 .updatedTime(board.getUpdatedTime())
                 .hotelname(board.getHotelname())
