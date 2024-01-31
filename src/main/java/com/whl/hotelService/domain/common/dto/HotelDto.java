@@ -1,24 +1,36 @@
 package com.whl.hotelService.domain.common.dto;
 
+
 import com.whl.hotelService.domain.common.entity.Hotel;
 import lombok.Builder;
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 
-@Builder
 @Data
+@Builder
 public class HotelDto {
-    private String hotelname; // 호텔 이름
+    private String hotelName; // 호텔 이름
     private String region;
-    private String address; // 호텔 주소
+    private String addr1;
+    private String addr2;
+    private String zipcode;
     private String contactInfo; // 호텔 연락처
+    private String hotelDetails;
+    private MultipartFile[] files;
+    private String[] fileNames;
+    private String[] existingFileNames;
 
     public static HotelDto entityToDto(Hotel hotel){
         HotelDto dto = HotelDto.builder()
-                .hotelname(hotel.getHotelname())
+                .hotelName(hotel.getHotelName())
                 .region(hotel.getRegion())
-                .address(hotel.getAddress())
+                .addr1(hotel.getAddr1())
+                .addr2(hotel.getAddr2())
                 .contactInfo(hotel.getContactInfo())
                 .build();
         return dto;
     }
 }
+
+
+

@@ -2,6 +2,8 @@ package com.whl.hotelService.controller;
 
 import com.whl.hotelService.domain.common.dto.PaymentDto;
 import com.whl.hotelService.domain.common.entity.Reservation;
+import com.whl.hotelService.domain.common.entity.Room;
+import com.whl.hotelService.domain.common.entity.RoomFileInfo;
 import com.whl.hotelService.domain.common.service.PaymentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,12 @@ public class PaymentController {
     public void getReservationStep2(Model model) {
         Reservation reservation = paymentService.getReservationList();
 
+        Room room = reservation.getRoom();
+        Long id = room.getId();
+
+        RoomFileInfo roomFileInfo = paymentService.getRoomsMainFileInfo(id);
+
+        model.addAttribute("mainFile", roomFileInfo);
         model.addAttribute("reservation", reservation);
     }
 
@@ -50,7 +58,7 @@ public class PaymentController {
     }
 
     @DeleteMapping(value="delete/{reservationId}")
-    public ResponseEntity<String> getDelete(@PathVariable("reservationId") String reservationId) {
+    public ResponseEntity<String> deletePayment(@PathVariable("reservationId") String reservationId) {
         boolean isDeleted = paymentService.isDeleteReservation(reservationId);
 
         if(isDeleted) {

@@ -8,7 +8,6 @@ import java.time.LocalDateTime;
 public class PaymentDto {
     private Long id;
     private Long reservationId;
-    private String userid;
     private String impUid;
     private String merchantUid;
     private String payMethod;

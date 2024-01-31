@@ -98,12 +98,12 @@ public class BoardService {
 
     public List<String> searchHotelname(){
         List<Hotel> hotels = hotelRepository.findAll();
-        List<String> hotelnames = new ArrayList<>();
+        List<String> hotelNames = new ArrayList<>();
         for(Hotel hotel : hotels){
             HotelDto hotelDto = HotelDto.entityToDto(hotel);
-            hotelnames.add(hotelDto.getHotelname());
+            hotelNames.add(hotelDto.getHotelName());
         }
-        return hotelnames;
+        return hotelNames;
     }
 
 }
