@@ -31,10 +31,10 @@
                 <div class="title-container">
                     <h1 class="title">호텔 관리 > 객실 수정 및 삭제</h1>
                 </div>
-                <div th:if="${hotelname == null}">
+                <div th:if="${hotelName == null}">
                     <label>
                         <span class="text">호텔을 선택해 주세요</span>
-                        <select class="form-select hotelList">
+                        <select class="form-select hotel-list">
                             <th:block th:each="hotel : ${hotelList}">
                                 <option th:value="${hotel}" th:text="${hotel}"></option>
                             </th:block>
@@ -45,10 +45,10 @@
                     </div>
                 </div>
 
-                <div th:if="${hotelname != null and roomKind == null}">
+                <div th:if="${hotelName != null and roomKind == null}">
                     <label>
                         <span class="text">객실을 선택해 주세요</span>
-                        <select class="form-select roomList">
+                        <select class="form-select room-list">
                             <th:block th:each="room : ${roomList}">
                                 <option th:value="${room}" th:text="${room}"></option>
                             </th:block>
@@ -59,7 +59,7 @@
                     </div>
                 </div>
 
-                <div th:if="${hotelname != null && roomKind != null}">
+                <div th:if="${hotelName != null && roomKind != null}">
                     <input hidden class="room-id" type="text" th:value="${roomMainFile.room.id}">
                     <div class="modify-room-container">
                         <section class="room_img_block">
@@ -72,9 +72,9 @@
                                 </div>
                                 <div class="preview_img_block">
                                     <label>PREVIEW</label>
-                                    <ul class="preview" id="previewMain">
+                                    <ul class="preview" id="mainPreview">
                                         <li class="item">
-                                            <input hidden type="text" class="filename" name="filename" th:value="${roomMainFile.fileName}">
+                                            <input hidden type="text" class="existing-file-name" name="existingFileName" th:value="${roomMainFile.fileName}">
                                             <img class="img" th:src="@{${roomMainFile.dir} + ${roomMainFile.fileName}}" alt="">
                                             <a class="btn btn-secondary delete-btn">삭제</a>
                                         </li>
@@ -91,9 +91,9 @@
                                 </div>
                                 <div class="preview_img_block">
                                     <label>PREVIEW</label>
-                                    <ul class="preview" id="previewRoom">
+                                    <ul class="preview" id="roomPreview">
                                         <li class="item" th:each="file : ${roomFileList}">
-                                            <input hidden type="text" class="filename" name="filename" th:value="${file.fileName}">
+                                            <input hidden type="text" class="existing-file-name" name="existingFileName" th:value="${file.fileName}">
                                             <img class="img" th:src="@{${file.dir} + ${file.fileName}}" alt="">
                                             <a class="btn btn-secondary delete-btn">삭제</a>
                                         </li>
@@ -104,51 +104,53 @@
 
                         <section class="room_info_block">
                             <form class="room-form" id="roomForm">
-                                <div>
-                                    <label>객실 종류</label>
-                                    <input name="kind" class="form-control" placeholder="객실 종류" required>
+                                <input hidden name="existingKind" class="form-control" th:value="${roomMainFile.room.kind}" required>
+                                <label>객실 종류</label>
+                                <div class="row-container">
+                                    <input name="kind" class="form-control" th:value="${roomMainFile.room.kind}" required>
+                                    <a onclick="confirmDuplication()" class="btn btn-secondary confirm-duplication-btn">중복 확인</a>
                                 </div>
                                 <div>
                                     <label>체크인</label>
                                     <div class="row-container">
-                                        <input name="checkinHour" class="form-control" placeholder="0~24" type="text"
+                                        <input name="checkinHour" class="form-control" th:value="${checkinHour}" type="text"
                                                required> :
-                                        <input name="checkinMinute" class="form-control" placeholder="0~60" type="text"
+                                        <input name="checkinMinute" class="form-control" th:value="${checkinMinute}" type="text"
                                                required>
                                     </div>
                                 </div>
                                 <div>
                                     <label>체크아웃</label>
                                     <div class="row-container">
-                                        <input name="checkoutHour" class="form-control" placeholder="0~24" type="text"
+                                        <input name="checkoutHour" class="form-control" th:value="${checkoutHour}" type="text"
                                                required> :
-                                        <input name="checkoutMinute" class="form-control" placeholder="0~60" type="text"
+                                        <input name="checkoutMinute" class="form-control" th:value="${checkoutMinute}" type="text"
                                                required>
                                     </div>
                                 </div>
                                 <div>
                                     <label>금요일 가격</label>
-                                    <input name="fridayPrice" class="form-control" placeholder="금요일 가격" required>
+                                    <input name="fridayPrice" class="form-control" th:value="${roomMainFile.room.fridayPrice}" required>
                                 </div>
                                 <div>
                                     <label>토요일 가격</label>
-                                    <input name="saturdayPrice" class="form-control" placeholder="토요일 가격" required>
+                                    <input name="saturdayPrice" class="form-control" th:value="${roomMainFile.room.saturdayPrice}" required>
                                 </div>
                                 <div>
                                     <label>주중 가격</label>
-                                    <input name="weekdayPrice" class="form-control" placeholder="주중 가격" required>
+                                    <input name="weekdayPrice" class="form-control" th:value="${roomMainFile.room.weekdayPrice}" required>
                                 </div>
                                 <div>
                                     <label>기준 인원</label>
-                                    <input name="standardPeople" class="form-control" placeholder="기준 인원" required>
+                                    <input name="standardPeople" class="form-control" th:value="${roomMainFile.room.standardPeople}" required>
                                 </div>
                                 <div>
                                     <label>최대 인원</label>
-                                    <input name="maximumPeople" class="form-control" placeholder="최대 인원" required>
+                                    <input name="maximumPeople" class="form-control" th:value="${roomMainFile.room.maximumPeople}" required>
                                 </div>
                                 <div>
                                     <label>객실 개수</label>
-                                    <input name="count" class="form-control" placeholder="객실 개수" required>
+                                    <input name="count" class="form-control" th:value="${roomMainFile.room.count}" required>
                                 </div>
                                 <div>
                                     <button class="btn btn-primary modify_room_btn w-100">수정</button>
@@ -162,7 +164,7 @@
         </div>
     </div>
 
-    <input hidden class="hotelname" type="text" th:value="${hotelname}">
+    <input hidden id="hotelName" type="text" th:value="${hotelName}">
 </main>
 
 <th:block th:insert="~{fragments/footer.html :: footer_fragment}"></th:block>
