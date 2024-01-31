@@ -16,21 +16,18 @@ const decemberSales = document.querySelector('.december-sales').innerText;
 const option = document.querySelector('.option');
 
 option.addEventListener('change', function() {
-    const seletedvalue = option.value;
-    location.href="/admin/monthSales?value=" + seletedvalue;
+    const seletedValue = option.value;
+    location.href="/admin/monthSales?value=" + seletedValue;
 })
 
-if (document.querySelector('.value').innerText === "") {
-    option.value = document.querySelector('.total').innerText;
-} else {
-    option.value = document.querySelector('.value').innerText;
-}
+option.value = document.querySelector('.value').innerText;
+
 new Chart(ctx, {
     type: 'bar',
     data: {
         labels: ['01월', '02월', '03월', '04월', '05월', '06월', '07월', '08월', '09월', '10월', '11월', '12월'],
         datasets: [{
-            label: '매출',
+            label: '매출(원)',
             data: [januarySales, februarySales, marchSales, aprilSales, maySales, junSales, julySales, augustSales, septemberSales, octoberSales, novemberSales, decemberSales],
             borderWidth: 1
         }]

@@ -18,4 +18,6 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
     void deleteByHotelHotelNameAndKind(String hotelName, String kind);
 
     void deleteByHotelHotelName(String hotelName);
+
+    List<Room> findByHotelHotelName(String hotelName);
 }

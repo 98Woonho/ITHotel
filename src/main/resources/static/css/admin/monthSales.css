@@ -10,6 +10,8 @@
 
 .option {
     max-width: 100%;
+    max-height: 100%;
+    font-size: 1rem;
     position: absolute;
     right: 0;
     border: none;

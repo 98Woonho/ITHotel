@@ -1,9 +1,6 @@
 package com.whl.hotelService.domain.common.service;
 
-import com.whl.hotelService.domain.common.entity.Hotel;
-import com.whl.hotelService.domain.common.entity.HotelFileInfo;
-import com.whl.hotelService.domain.common.entity.Payment;
-import com.whl.hotelService.domain.common.entity.RoomFileInfo;
+import com.whl.hotelService.domain.common.entity.*;
 import com.whl.hotelService.domain.common.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -44,7 +41,7 @@ public class AdminService {
         return hotelFileInfoRepository.findByHotelHotelName(hotelName);
     }
 
-    public List<String> getRoomList(String hotelName) {
+    public List<String> getRoomKindList(String hotelName) {
         return roomRepository.findHotelsRoomKind(hotelName);
     }
 
@@ -56,7 +53,19 @@ public class AdminService {
         return roomFileInfoRepository.findAllByRoomKindAndRoomHotelHotelNameAndIsMainImage(roomKind, hotelName, isMainImage);
     }
 
-    public List<Payment> getPaymentList() {
+    public List<Payment> getAllPaymentList() {
         return paymentRepository.findAll();
+    }
+
+    public List<Payment> getPaymentList(String hotelName) {
+        return paymentRepository.findAllByReservationRoomHotelHotelName(hotelName);
+    }
+
+    public List<Hotel> getAllHotelList() {
+        return hotelRepository.findAll();
+    }
+
+    public List<Room> getRoomList(String hotelName) {
+        return roomRepository.findByHotelHotelName(hotelName);
     }
 }

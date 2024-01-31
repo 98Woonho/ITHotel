@@ -1,0 +1,18 @@
+.roomList-table {
+    margin-top: 5rem;
+
+    border-collapse: separate;
+    border-spacing: 0.35rem;
+}
+
+.roomList-table th {
+    font-weight: 500;
+    font-size: 1.25rem;
+    background-color: #EBEAEA;
+    border-radius: 5px;
+}
+
+.roomList-table td {
+    background-color: #F9F8F8;
+    border-radius: 5px;
+}

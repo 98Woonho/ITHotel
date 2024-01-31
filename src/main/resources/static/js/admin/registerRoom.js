@@ -183,6 +183,7 @@ addRoomBtn.addEventListener('click', function(e) {
     const mainPreview = document.getElementById('mainPreview');
     const roomPreview = document.getElementById('roomPreview');
 
+    const kindRegex = new RegExp("^[^\/]+$");
     const checkinHourRegex = new RegExp("^(0?[0-9]|1[0-9]|2[0-3])$");
     const checkoutHourRegex = new RegExp("^(0?[0-9]|1[0-9]|2[0-3])$");
     const checkinMinuteRegex = new RegExp("^[0-5]?[0-9]$");
@@ -197,6 +198,11 @@ addRoomBtn.addEventListener('click', function(e) {
 
     if(roomForm['kind'].value === "") {
         alert("객실 종류를 입력해 주세요.");
+        return;
+    }
+
+    if(!kindRegex.test(roomForm['kind'].value)) {
+        alert("특수문자 / 은 사용할 수 없습니다. 객실 종류를 다시 한 번 확인해 주세요.");
         return;
     }
 

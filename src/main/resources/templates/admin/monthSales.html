@@ -35,8 +35,8 @@
                 <div class="sales-container">
                     <label>
                         <select class="option" name="option" id="option">
+                            <option value="total" class="total">전체</option>
                             <th:block th:each="hotelName : ${hotelNameList}">
-                                <option class="total">전체</option>
                                 <option th:text="${hotelName}"></option>
                             </th:block>
                         </select>
