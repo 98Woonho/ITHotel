@@ -1,18 +1,13 @@
-#main_wrapper {
-    width: 1000px;
-    margin: 50px auto;
-}
-
-#main_wrapper > .table_wrapper .main_table {
+.information-info-container > .table_wrapper .main_table {
     border-top: #cdcbbe solid 1px;
     border-collapse: collapse;
     width: 100%;
 }
-#main_wrapper > .table_wrapper > .main_table > tbody > tr {
+.information-info-container > .table_wrapper > .main_table > tbody > tr {
 
     border-bottom: #cdcbbe solid 1px;
 }
-#main_wrapper > .table_wrapper > .main_table > tbody > tr > th {
+.information-info-container > .table_wrapper > .main_table > tbody > tr > th {
     border-right: #cdcbbe solid 1px;
     color: #666;
     background: #faf9f4;
@@ -20,23 +15,23 @@
     width: 15%;
 }
 
-#main_wrapper > .table_wrapper > .main_table > tbody > tr > td {
+.information-info-container > .table_wrapper > .main_table > tbody > tr > td {
     padding-left: 20px;
     background: #FFF;
     color: #1b1b1b;
 }
 
 
-#main_wrapper > .table_wrapper .main_table {
+.information-info-container > .table_wrapper .main_table {
     border-top: #cdcbbe solid 1px;
     border-collapse: collapse;
     width: 100%;
 }
-#main_wrapper > .table_wrapper > .main_table > tbody > tr {
+.information-info-container > .table_wrapper > .main_table > tbody > tr {
 
     border-bottom: #cdcbbe solid 1px;
 }
-#main_wrapper > .table_wrapper > .main_table > tbody > tr > th {
+.information-info-container > .table_wrapper > .main_table > tbody > tr > th {
     border-right: #cdcbbe solid 1px;
     color: #666;
     background: #faf9f4;
@@ -44,7 +39,7 @@
     width: 15%;
 }
 
-#main_wrapper > .table_wrapper > .main_table > tbody > tr > td {
+.information-info-container > .table_wrapper > .main_table > tbody > tr > td {
     padding-left: 20px;
     background: #FFF;
     color: #1b1b1b;

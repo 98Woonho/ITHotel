@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>게시글</title>
@@ -17,54 +16,79 @@
 </header>
 <main id="main">
     <div id="main_wrapper">
-        <h1>회원 게시글</h1>
-        <div class="card mb-4">
-            <div class="card-body">
-                <form>
-                    <div class="mb-3">
-                        <label for="title" class="form-label">제목</label>
-                        <input type="text" class="form-control" id="title" name="title"
-                               th:value="${board.title}" disabled>
-                    </div>
-                    <div class="mb-3">
-                        <label for="content" class="form-label">내용</label>
-                        <textarea class="form-control" id="content" name="content" disabled
-                                  th:text="${board.content}"></textarea>
-                    </div>
-                    <div class="mb-3">
-                        <label for="createdAt" class="form-label">작성일</label>
-                        <input type="text" class="form-control" id="createdAt" name="createdAt"
-                               th:value="${#temporals.format(board.createdTime, 'yyyy-MM-dd HH:mm')}" disabled>
-                    </div>
-                    <div class="mb-3">
-                        <label for="createdAt" class="form-label">수정일</label>
-                        <input type="text" class="form-control" id="updatedAt" name="updatedAt"
-                               th:value="${#temporals.format(board.updatedTime, 'yyyy-MM-dd HH:mm')}" disabled>
-                    </div>
-                    <div class="mb-3">
-                        <label for="writer" class="form-label">작성자</label>
-                        <input type="text" class="form-control" id="writer" name="writer"
-                               th:value="${board.username}" disabled>
-                    </div>
-                </form>
+        <div class="table_wrapper">
+            <h1>회원 문의글</h1>
+                <table class="main_table">
+                    <tbody>
+                    <tr>
+                        <th>
+                            <span>*</span>
+                            호텔이름
+                        </th>
+                        <td>
+                            <div th:text="${board.hotelname}"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <span>*</span>
+                            질문유형
+                        </th>
+                        <td>
+                            <div th:text="${board.relation}"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <span>*</span>
+                            제목
+                        </th>
+                        <td>
+                            <div th:text="${board.title}"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <span>*</span>
+                            작성일
+                        </th>
+                        <td>
+                            <div th:text="${board.createdTime}"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <span>*</span>
+                            작성자
+                        </th>
+                        <td>
+                            <div th:text="${board.username}"></div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+        </div>
+        <div class="card my-4">
+            <h4 class="card-header">질문보기</h4>
+            <div class="card-body" th:text="${board.content}">
+
             </div>
         </div>
-        <!-- 댓글 쓰기-->
-        <div class="card my-4">
-            <h5 class="card-header">댓글 쓰기</h5>
+        <div class="comment_admin card my-4" th:if="${comments.isEmpty()}">
+            <h5 class="card-header">답글 쓰기</h5>
             <div class="card-body">
                 <form th:action="@{/board/{id}/comment(id=${id})}" th:method="post">
                     <div class="form-group" style="margin-bottom: 10px;">
                         <input type="hidden" name="idx" th:value="*{idx}"/>
                         <textarea name="content" class="form-control" rows="3"></textarea>
                     </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-primary">답변</button>
                 </form>
             </div>
         </div>
         <!-- 댓글 화면-->
         <div class="card my-4">
-            <h5 class="card-header">댓글</h5>
+            <h5 class="card-header">답글</h5>
             <div class="card-body">
                 <div th:each="comment : ${comments}">
                     <div class="media mb-4">
@@ -88,9 +112,8 @@
             </div>
         </div>
 
-        <button onclick="listReq()">게시판 목록</button>
-        <th:block
-                th:if="${board != null and #authentication.principal instanceof T(org.springframework.security.core.userdetails.UserDetails) and board.getUsername() == #authentication.principal.username}">
+        <button class="btn btn-outline-secondary" onclick="listReq()">게시판 목록</button>
+        <th:block>
             <a th:href="@{/board/{id}/admin/adminRemove(id=${id})}" class="btn btn-outline-danger"
                onclick="return confirm('삭제하시겠습니까?')">회원 글 삭제</a>
         </th:block>
@@ -99,10 +122,13 @@
 <th:block th:replace="~{/fragments/footer.html :: footer_fragment}"></th:block>
 </body>
 
-<script th:inline="javascript">
+<script>
     const listReq = () => {
-        location.href = "/board/admin/adminList"
+        if (history.length > 1) {
+            history.back();
+        } else {
+            window.close();
+        }
     }
 </script>
-
 </html>
