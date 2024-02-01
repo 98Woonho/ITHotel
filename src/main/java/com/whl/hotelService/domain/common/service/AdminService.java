@@ -57,15 +57,19 @@ public class AdminService {
         return paymentRepository.findAll();
     }
 
-    public List<Payment> getPaymentList(String hotelName) {
-        return paymentRepository.findAllByReservationRoomHotelHotelName(hotelName);
-    }
-
     public List<Hotel> getAllHotelList() {
         return hotelRepository.findAll();
     }
 
     public List<Room> getRoomList(String hotelName) {
         return roomRepository.findByHotelHotelName(hotelName);
+    }
+
+    public List<Payment> getPaymentListByRegion(String region) {
+        return paymentRepository.findAllByReservationRoomHotelRegion(region);
+    }
+
+    public List<Payment> getPaymentListByHotelName(String hotelName) {
+        return paymentRepository.findAllByReservationRoomHotelHotelName(hotelName);
     }
 }

@@ -60,15 +60,16 @@ public class AdminController {
     }
 
     @GetMapping("monthSales")
-    public void getMonthSales(@RequestParam(value = "value", required = false) String value, Model model) {
-        model.addAttribute("value", value);
+    public void getMonthSales(@RequestParam(value = "region", required = false) String region, @RequestParam(value = "hotelName", required = false) String hotelName, Model model) {
+        List<String> regionList = adminService.getRegionList();
+        model.addAttribute("regionList", regionList);
 
-        if (Objects.equals(value, "total")) {
+        List<Hotel> allHotelList = adminService.getAllHotelList();
+        model.addAttribute("allHotelList", allHotelList);
+
+        if (Objects.equals(region, "total") && hotelName == null) {
             List<Payment> paymentList = adminService.getAllPaymentList();
             model.addAttribute("paymentList", paymentList);
-
-            List<String> hotelNameList = adminService.getHotelNameList();
-            model.addAttribute("hotelNameList", hotelNameList);
 
             int januarySales = 0;
             int februarySales = 0;
@@ -129,12 +130,10 @@ public class AdminController {
             model.addAttribute("octoberSales", octoberSales);
             model.addAttribute("novemberSales", novemberSales);
             model.addAttribute("decemberSales", decemberSales);
-        } else {
-            List<Payment> paymentList = adminService.getPaymentList(value);
-            model.addAttribute("paymentList", paymentList);
+        } else if(!Objects.equals(region, "total") && Objects.equals(hotelName, "total")){
+            List<Payment> paymentList = adminService.getPaymentListByRegion(region);
 
-            List<String> hotelNameList = adminService.getHotelNameList();
-            model.addAttribute("hotelNameList", hotelNameList);
+            model.addAttribute("paymentList", paymentList);
 
             int januarySales = 0;
             int februarySales = 0;
@@ -151,9 +150,6 @@ public class AdminController {
 
             for (Payment payment : paymentList) {
                 String checkin = payment.getReservation().getCheckin();
-
-                LocalDate currentDate = LocalDate.now();
-
 
                 LocalDate startDate = LocalDate.parse(checkin, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
@@ -185,7 +181,70 @@ public class AdminController {
                     decemberSales += payment.getPaidAmount();
                 }
             }
+            model.addAttribute("januarySales", januarySales);
+            model.addAttribute("februarySales", februarySales);
+            model.addAttribute("marchSales", marchSales);
+            model.addAttribute("aprilSales", aprilSales);
+            model.addAttribute("maySales", maySales);
+            model.addAttribute("junSales", junSales);
+            model.addAttribute("julySales", julySales);
+            model.addAttribute("augustSales", augustSales);
+            model.addAttribute("septemberSales", septemberSales);
+            model.addAttribute("octoberSales", octoberSales);
+            model.addAttribute("novemberSales", novemberSales);
+            model.addAttribute("decemberSales", decemberSales);
 
+        } else if(!Objects.equals(region, "total") && !Objects.equals(hotelName, "total")){
+            List<Payment> paymentList = adminService.getPaymentListByHotelName(hotelName);
+
+            model.addAttribute("paymentList", paymentList);
+
+            int januarySales = 0;
+            int februarySales = 0;
+            int marchSales = 0;
+            int aprilSales = 0;
+            int maySales = 0;
+            int junSales = 0;
+            int julySales = 0;
+            int augustSales = 0;
+            int septemberSales = 0;
+            int octoberSales = 0;
+            int novemberSales = 0;
+            int decemberSales = 0;
+
+            for (Payment payment : paymentList) {
+                String checkin = payment.getReservation().getCheckin();
+
+                LocalDate startDate = LocalDate.parse(checkin, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
+                int month = startDate.getMonthValue();
+
+                if (month == 1) {
+                    januarySales += payment.getPaidAmount();
+                } else if (month == 2) {
+                    februarySales += payment.getPaidAmount();
+                } else if (month == 3) {
+                    marchSales += payment.getPaidAmount();
+                } else if (month == 4) {
+                    aprilSales += payment.getPaidAmount();
+                } else if (month == 5) {
+                    maySales += payment.getPaidAmount();
+                } else if (month == 6) {
+                    junSales += payment.getPaidAmount();
+                } else if (month == 7) {
+                    julySales += payment.getPaidAmount();
+                } else if (month == 8) {
+                    augustSales += payment.getPaidAmount();
+                } else if (month == 9) {
+                    septemberSales += payment.getPaidAmount();
+                } else if (month == 10) {
+                    octoberSales += payment.getPaidAmount();
+                } else if (month == 11) {
+                    novemberSales += payment.getPaidAmount();
+                } else if (month == 12) {
+                    decemberSales += payment.getPaidAmount();
+                }
+            }
             model.addAttribute("januarySales", januarySales);
             model.addAttribute("februarySales", februarySales);
             model.addAttribute("marchSales", marchSales);

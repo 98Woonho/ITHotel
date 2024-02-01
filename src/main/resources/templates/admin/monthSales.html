@@ -33,14 +33,31 @@
                     <h1 class="title">매출 현황 > 월별 매출</h1>
                 </div>
                 <div class="sales-container">
-                    <label>
-                        <select class="option" name="option" id="option">
-                            <option value="total" class="total">전체</option>
-                            <th:block th:each="hotelName : ${hotelNameList}">
-                                <option th:text="${hotelName}"></option>
+                    <div>
+                        <button disabled class="category-btn">카테고리</button>
+                        <div hidden class="category-container">
+                            <ul class="region-category">
+                                <li>
+                                    <a class="total" href="javascript:void(0)">전체</a>
+                                </li>
+                                <li th:each="region : ${regionList}">
+                                    <span class="region" th:text="${region}"></span>
+                                </li>
+                            </ul>
+                            <th:block th:each="region : ${regionList}">
+                                <ul hidden th:data-value="${region}" class="hotel-list">
+                                    <li>
+                                        <a class="link hotel-total" href="javascript:void(0)">전체</a>
+                                    </li>
+                                    <li th:if="${region == hotel.region}" th:each="hotel : ${allHotelList}">
+                                        <a href="javascript:void(0)"
+                                           class="link hotel"
+                                           th:text="${hotel.hotelName}"></a>
+                                    </li>
+                                </ul>
                             </th:block>
-                        </select>
-                    </label>
+                        </div>
+                    </div>
                     <canvas id="salesGraph"></canvas>
                 </div>
 
@@ -60,8 +77,6 @@
     <span hidden class="october-sales" th:text="${octoberSales}"></span>
     <span hidden class="november-sales" th:text="${novemberSales}"></span>
     <span hidden class="december-sales" th:text="${decemberSales}"></span>
-
-    <span hidden class="value" th:text="${value}"></span>
 </main>
 
 <th:block th:insert="~{fragments/footer.html :: footer_fragment}"></th:block>
