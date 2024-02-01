@@ -70,7 +70,7 @@
             </tr>
             </tbody>
         </table>
-        <div th:if="${!boardList.isEmpty()}">
+        <div th:if="${boardList.totalPages >= 10}">
             <ul class="pagination"
                 th:with="
             pageNumber = ${boardList.pageable.pageNumber},

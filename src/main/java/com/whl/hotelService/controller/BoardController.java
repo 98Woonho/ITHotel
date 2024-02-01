@@ -1,7 +1,6 @@
 package com.whl.hotelService.controller;
 
 
-import com.whl.hotelService.config.auth.PrincipalDetails;
 import com.whl.hotelService.domain.common.dto.BoardResponseDto;
 import com.whl.hotelService.domain.common.dto.BoardWriteRequestDto;
 import com.whl.hotelService.domain.common.dto.CommentResponseDto;
@@ -33,18 +32,11 @@ public class BoardController {
     @Autowired
     private CommentService commentService;
 
-//    @GetMapping("/write")
-//    public String writeForm(Model model) {
-//        List<String> hotelnames = boardService.searchHotelname();
-//        model.addAttribute("hotelnames", hotelnames);
-//        return "board/write";
-//    }
-
-    //    관리자 글쓰기
     @GetMapping("/admin/adminWrite")
-    public String adminWriteForm(){
+    public String adminWriteForm() {
         return "board/admin/adminWrite";
     }
+
     @PostMapping("/admin/adminWrite") // 게시판 글쓰기 로그인된 유저만 글을 쓸수 있음
     public String adminWrite(@RequestParam String hotelname,
                              @RequestParam String relation,
@@ -54,6 +46,7 @@ public class BoardController {
         System.out.println("relation" + relation);
         return "redirect:/";
     }
+
     @PostMapping("/write") // 게시판 글쓰기 로그인된 유저만 글을 쓸수 있음
     public String write(BoardWriteRequestDto boardWriteRequestDto, Authentication authentication) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
@@ -80,32 +73,13 @@ public class BoardController {
 
         return "board/admin/adminDetail";
     }
-    @GetMapping("/admin/adminList") // 게시판 전체 조회 + paging 처리 + 검색처리 + 답변완료 처리
-    public String adminBoardList(Model model,
-                                 @PageableDefault(page = 0, size = 10, sort = "id")Pageable pageable,
-                                 @RequestParam(name = "keyword", required = false) String keyword,
-                                 @RequestParam(name = "type", required = false) String type){
-
-        Page<BoardResponseDto> boardList = adminBoardService.boardList(pageable);
-        Page<BoardResponseDto> boardSerchList = adminBoardService.searchingBoardList(keyword, type, pageable);
-        Page<CommentResponseDto> commentList = adminBoardService.commentList(pageable);
-        if (keyword == null){
-            model.addAttribute("boardList", boardList);
-            model.addAttribute("commentList", commentList);
-        } else {
-            model.addAttribute("boardList", boardSerchList);
-            model.addAttribute("commentList", commentList);
-        }
-        return "board/admin/adminList";
-    }
-
 
     @GetMapping("/list") // 게시판 전체 조회 + paging 처리 + 검색처리 + 답변완료 처리
-    public String boardList(Model model, @PageableDefault(page = 0, size = 10, sort = "id")Pageable pageable, String keyword, String type){
+    public String boardList(Model model, @PageableDefault(page = 0, size = 10, sort = "id") Pageable pageable, String keyword, String type) {
 
         Page<BoardResponseDto> boardList = boardService.boardList(pageable);
         Page<BoardResponseDto> boardSerchList = boardService.searchingBoardList(keyword, type, pageable);
-        if (keyword == null){
+        if (keyword == null) {
             model.addAttribute("boardList", boardList);
         } else {
             model.addAttribute("boardList", boardSerchList);
@@ -121,8 +95,7 @@ public class BoardController {
             System.out.println("userDetails.getUsername : " + userDetails.getUsername());
             System.out.println("getUsername() : " + board.getUsername());
             return "redirect:/";
-        }
-        else {
+        } else {
             model.addAttribute("board", board);
             model.addAttribute("id", id);
 
@@ -145,24 +118,15 @@ public class BoardController {
             System.out.println("userDetails.getUsername : " + userDetails.getUsername());
             System.out.println("getUsername() : " + board.getUsername());
             return "redirect:/";
-        }
-        else {
+        } else {
             boardService.boardRemove(id);
             return "redirect:/board/list";
         }
     }
+
     @GetMapping("/{id}/admin/adminRemove") // 게시판 삭제
-    public String adminBoardRemove(@PathVariable Long id, Authentication authentication) {
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        BoardResponseDto board = adminBoardService.boardDetail(id);
-        if (!(board.getUsername().equals(userDetails.getUsername()))) {
-            System.out.println("userDetails.getUsername : " + userDetails.getUsername());
-            System.out.println("getUsername() : " + board.getUsername());
-            return "redirect:/";
-        }
-        else {
-            adminBoardService.boardRemove(id);
-            return "redirect:/board/admin/adminList";
-        }
+    public String adminBoardRemove(@PathVariable Long id) {
+        adminBoardService.boardRemove(id);
+        return "redirect:/";
     }
 }

@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="/css/user/myinfo.css">
 
     <!-- js -->
+    <script defer src="/js/user/questionInfo.js"></script>
 </head>
 <body>
 
@@ -37,12 +38,12 @@
                         <span class="text" th:case='create'>
     <div id="main_wrapper">
         <form id="mainForm" action="/board/admin/adminWrite" method="post">
-            <div>호텔위치</div>
-            <select name="hotelname" th:value="hotelname">
+            <div class="fw-bold fs-5">호텔위치</div>
+            <select class="form-select" name="hotelname" th:value="hotelname">
                 <option th:each="hotelname : ${hotelnames}" th:text="${hotelname}"></option>
             </select>
-            <div>관련 문의</div>
-            <select name="relation">
+            <div class="fw-bold fs-5">관련 문의</div>
+            <select class="form-select" name="relation">
                 <option value="호텔문의">호텔문의</option>
                 <option value="객실문의">객실문의</option>
                 <option value="예약문의">예약문의</option>
@@ -73,10 +74,10 @@
                 <th>답변작성여부</th>
             </tr>
             </thead>
-            <tbody>
-            <tr th:each="board : ${boardList}">
+            <tbody id="main_tbody">
+            <tr class="addDetail" th:each="board : ${boardList}">
                 <td>
-                    <a th:href="@{'/board/admin/' + ${board.id}}">
+                    <a th:href="@{'/user/questionInfo/' + ${board.id}}">
                         <span th:text="${board.title}"></span>
                     </a>
                 </td>
@@ -103,7 +104,7 @@
             </tbody>
         </table>
                             <div th:if="${!boardList.isEmpty()}">
-            <ul class="pagination"
+            <ul class="pagination" style="justify-content: center;"
                 th:with="
             pageNumber = ${boardList.pageable.pageNumber},
             pageSize = ${boardList.pageable.pageSize},
@@ -133,7 +134,6 @@
                 </li>
             </ul>
         </div>
-                        </span>
                     </th:block>
                 </div>
             </div>

@@ -1,10 +1,16 @@
 package com.whl.hotelService.controller;
 
 
+import com.whl.hotelService.domain.common.dto.BoardResponseDto;
+import com.whl.hotelService.domain.common.dto.CommentResponseDto;
 import com.whl.hotelService.domain.common.entity.*;
+import com.whl.hotelService.domain.common.service.AdminBoardService;
 import com.whl.hotelService.domain.common.service.AdminService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +29,8 @@ public class AdminController {
 
     @Autowired
     private AdminService adminService;
+    @Autowired
+    private AdminBoardService adminBoardService;
 
     @GetMapping("reservationStatus")
     public void getReservationStatus(@RequestParam(value = "region") String region,
@@ -31,7 +39,21 @@ public class AdminController {
     }
 
     @GetMapping("inquiry")
-    public void getInquiry() {
+    public void adminBoardList(Model model,
+                                 @PageableDefault(page = 0, size = 10, sort = "id") Pageable pageable,
+                                 @RequestParam(name = "keyword", required = false) String keyword,
+                                 @RequestParam(name = "type", required = false) String type) {
+
+        Page<BoardResponseDto> boardList = adminBoardService.boardList(pageable);
+        Page<BoardResponseDto> boardSerchList = adminBoardService.searchingBoardList(keyword, type, pageable);
+        Page<CommentResponseDto> commentList = adminBoardService.commentList(pageable);
+        if (keyword == null) {
+            model.addAttribute("boardList", boardList);
+            model.addAttribute("commentList", commentList);
+        } else {
+            model.addAttribute("boardList", boardSerchList);
+            model.addAttribute("commentList", commentList);
+        }
     }
 
     @GetMapping("registerHotel")

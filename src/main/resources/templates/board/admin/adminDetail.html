@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>게시글</title>
@@ -18,7 +17,7 @@
 <main id="main">
     <div id="main_wrapper">
         <div class="table_wrapper">
-            <h1>회원 게시글</h1>
+            <h1>회원 문의글</h1>
                 <table class="main_table">
                     <tbody>
                     <tr>
@@ -75,7 +74,7 @@
 
             </div>
         </div>
-        <div class="card my-4">
+        <div class="comment_admin card my-4" th:if="${comments.isEmpty()}">
             <h5 class="card-header">답글 쓰기</h5>
             <div class="card-body">
                 <form th:action="@{/board/{id}/comment(id=${id})}" th:method="post">
@@ -83,7 +82,7 @@
                         <input type="hidden" name="idx" th:value="*{idx}"/>
                         <textarea name="content" class="form-control" rows="3"></textarea>
                     </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-primary">답변</button>
                 </form>
             </div>
         </div>
@@ -113,9 +112,8 @@
             </div>
         </div>
 
-        <button onclick="listReq()">게시판 목록</button>
-        <th:block
-                th:if="${board != null and #authentication.principal instanceof T(org.springframework.security.core.userdetails.UserDetails) and board.getUserid() == #authentication.principal.username}">
+        <button class="btn btn-outline-secondary" onclick="listReq()">게시판 목록</button>
+        <th:block>
             <a th:href="@{/board/{id}/admin/adminRemove(id=${id})}" class="btn btn-outline-danger"
                onclick="return confirm('삭제하시겠습니까?')">회원 글 삭제</a>
         </th:block>
@@ -124,9 +122,13 @@
 <th:block th:replace="~{/fragments/footer.html :: footer_fragment}"></th:block>
 </body>
 
-<script th:inline="javascript">
+<script>
     const listReq = () => {
-        location.href = "/board/admin/adminList"
+        if (history.length > 1) {
+            history.back();
+        } else {
+            window.close();
+        }
     }
 </script>
 </html>

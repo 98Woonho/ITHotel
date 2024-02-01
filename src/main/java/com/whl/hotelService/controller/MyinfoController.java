@@ -123,4 +123,13 @@ public class MyinfoController {
         model.addAttribute("hotelnames", hotelnames);
         model.addAttribute("function", function);
     }
+    @GetMapping("/questionInfo/{id}") // 게시판 조회
+    public String adminBoardDetail(@PathVariable Long id, Model model) {
+        BoardResponseDto board = adminBoardService.boardDetail(id);
+        List<CommentResponseDto> commentResponseDtos = commentService.commentList(id);
+        model.addAttribute("comments", commentResponseDtos);
+        model.addAttribute("board", board);
+        model.addAttribute("id", id);
+        return "board/userdetail";
+    }
 }
