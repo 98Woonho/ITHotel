@@ -7,7 +7,7 @@ const buttons = hotelList.querySelectorAll('.button');
 buttons.forEach(
     function (button) {
         button.onclick = function () {
-            searchForm['hotelname'].value = button.value;
+            searchForm['hotelName'].value = button.value;
             hotelList.classList.remove('visible');
         };
     }
@@ -74,7 +74,7 @@ document.addEventListener('mouseup', function (e) {
 searchForm.onsubmit = function (e) {
     e.preventDefault();
 
-    if (searchForm['hotelname'].value === '') {
+    if (searchForm['hotelName'].value === '') {
         alert("호텔을 선택해 주세요.");
         return;
     }
@@ -89,11 +89,11 @@ searchForm.onsubmit = function (e) {
         return;
     }
 
-    const hotelname = searchForm['hotelname'].value;
+    const hotelName = searchForm['hotelName'].value;
     const checkin = searchForm['checkin'].value;
     const checkout = searchForm['checkout'].value;
     const adultCount = searchForm['adultCount'].value;
     const childCount = searchForm['childCount'].value;
 
-    location.href = '/reservation/select?hotelname=' + hotelname + '&checkin=' + checkin + '&checkout=' + checkout + '&adultCount=' + adultCount + '&childCount=' + childCount;
+    location.href = '/reservation/select?hotelName=' + hotelName + '&checkin=' + checkin + '&checkout=' + checkout + '&adultCount=' + adultCount + '&childCount=' + childCount;
 }

@@ -1,5 +1,6 @@
 package com.whl.hotelService.domain.common.service;
 
+import com.whl.hotelService.domain.common.dto.HotelDto;
 import com.whl.hotelService.domain.common.dto.PaymentDto;
 import com.whl.hotelService.domain.common.dto.ReservationDto;
 import com.whl.hotelService.domain.common.entity.*;
@@ -11,19 +12,33 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.*;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.Date;
+import java.util.*;
 import java.util.List;
-import java.util.Optional;
+
+import static java.awt.geom.Path2D.contains;
 
 @Service
 public class HotelService {
     @Autowired
     private HotelRepository hotelRepository;
+
+    @Autowired
+    private RoomRepository roomRepository;
+
+    @Autowired
+    private HotelFileInfoRepository hotelFileInfoRepository;
 
     @Transactional(rollbackFor = Exception.class)
     public List<Hotel> getAllHotel() {
@@ -33,5 +48,154 @@ public class HotelService {
     @Transactional(rollbackFor = Exception.class)
     public List<String> getDistinctRegion() {
         return hotelRepository.findDistinctRegion();
+    }
+
+    public String confirmHotelName(String hotelName) {
+        List<String> hotelNameList = hotelRepository.findAllHotelName();
+
+        for (String existingHotelName : hotelNameList) {
+            if (Objects.equals(existingHotelName, hotelName)) {
+                return "FAILURE_DUPLICATED_HOTEL_NAME";
+            }
+        }
+
+        return "SUCCESS";
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public boolean addHotel(HotelDto hotelDto) throws IOException {
+        Hotel hotel = Hotel.builder()
+                .hotelName(hotelDto.getHotelName())
+                .region(hotelDto.getRegion())
+                .addr1(hotelDto.getAddr1())
+                .addr2(hotelDto.getAddr2())
+                .zipcode(hotelDto.getZipcode())
+                .contactInfo(hotelDto.getContactInfo())
+                .hotelDetails(hotelDto.getHotelDetails())
+                .build();
+
+        hotelRepository.save(hotel);
+
+        //저장 폴더 지정()
+        String uploadPath = "c:\\" + File.separator + "hotelimage" + File.separator + hotelDto.getHotelName();
+        File dir = new File(uploadPath);
+        if (!dir.exists())
+            dir.mkdirs();
+
+        for (String fileName : hotelDto.getFileNames()) {
+            for (MultipartFile file : hotelDto.getFiles()) {
+                if (Objects.equals(fileName, file.getOriginalFilename())) {
+
+                    File fileobj = new File(dir, file.getOriginalFilename());    //파일객체생성
+
+                    if (!fileobj.exists()) {
+                        // DB에 파일경로 저장
+                        HotelFileInfo hotelFileInfo = new HotelFileInfo();
+                        hotelFileInfo.setHotel(hotel);
+                        String dirPath = File.separator + "hotelimage" + File.separator + hotelDto.getHotelName() + File.separator;
+                        hotelFileInfo.setDir(dirPath);
+                        hotelFileInfo.setFileName(file.getOriginalFilename());
+                        hotelFileInfoRepository.save(hotelFileInfo);
+                    }
+
+                    file.transferTo(fileobj);   //저장
+                }
+            }
+        }
+        return true;
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public boolean modifyHotel(HotelDto hotelDto) throws IOException {
+        Hotel hotel = Hotel.builder()
+                .hotelName(hotelDto.getHotelName())
+                .region(hotelDto.getRegion())
+                .addr1(hotelDto.getAddr1())
+                .addr2(hotelDto.getAddr2())
+                .zipcode(hotelDto.getZipcode())
+                .contactInfo(hotelDto.getContactInfo())
+                .hotelDetails(hotelDto.getHotelDetails())
+                .build();
+
+        hotelRepository.save(hotel);
+
+        String uploadPath = "c:\\" + File.separator + "hotelimage" + File.separator + hotelDto.getHotelName();
+        File dir = new File(uploadPath);
+        if (!dir.exists())
+            dir.mkdirs();
+
+        // 기존 파일 삭제
+        File[] files = dir.listFiles();
+
+        String[] existingFileNameArray = hotelDto.getExistingFileNames();
+
+        for (File file : files) {
+            if (!Arrays.asList(existingFileNameArray).contains(file.getName())) {
+                hotelFileInfoRepository.deleteByFileNameAndHotelHotelName(file.getName(), hotelDto.getHotelName());
+                file.delete();
+            }
+        }
+
+        for (String fileName : hotelDto.getFileNames()) {
+            for (MultipartFile file : hotelDto.getFiles()) {
+                if (Objects.equals(fileName, file.getOriginalFilename())) {
+
+                    File fileobj = new File(dir, file.getOriginalFilename());    //파일객체생성
+
+                    if (!fileobj.exists()) {
+                        // DB에 파일경로 저장
+                        HotelFileInfo hotelFileInfo = new HotelFileInfo();
+                        hotelFileInfo.setHotel(hotel);
+                        String dirPath = File.separator + "hotelimage" + File.separator + hotelDto.getHotelName() + File.separator;
+                        hotelFileInfo.setDir(dirPath);
+                        hotelFileInfo.setFileName(file.getOriginalFilename());
+                        hotelFileInfoRepository.save(hotelFileInfo);
+                    }
+                    file.transferTo(fileobj);   //저장
+                }
+            }
+        }
+        return true;
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public void deleteHotel(String hotelName) {
+        hotelRepository.deleteById(hotelName);
+        roomRepository.deleteByHotelHotelName(hotelName);
+
+        String hotelUploadPath = "c:\\" + File.separator + "hotelimage" + File.separator + hotelName;
+        File hotelDir = new File(hotelUploadPath);
+        if (!hotelDir.exists())
+            hotelDir.mkdirs();
+
+        File[] hotelFiles = hotelDir.listFiles();
+
+        for(File file : hotelFiles) {
+            file.delete();
+        }
+
+        hotelDir.delete();
+
+        String roomUploadPath = "c:\\" + File.separator + "roomimage" + File.separator + hotelName;
+
+        Path path = Paths.get(roomUploadPath);
+
+        try {
+            Files.walkFileTree(path, EnumSet.noneOf(FileVisitOption.class), Integer.MAX_VALUE, new SimpleFileVisitor<Path>() {
+                @Override
+                public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+                    Files.delete(file);
+                    return FileVisitResult.CONTINUE;
+                }
+
+                @Override
+                public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
+                    Files.delete(dir);
+                    return FileVisitResult.CONTINUE;
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
