@@ -34,12 +34,12 @@
                     <h1 class="tag" th:case='delete'>회원탈퇴</h1>
                 </div>
                 <div class="information-info-container" th:switch="${function}">
-                    <th:block th:case='read'>
+                    <th:block th:case="read">
                         <div class="sub-title-container">
                             <h2 class="sub-title">회원정보 확인</h2>
                         </div>
                         <div class="info-content-container">
-                            <label>아이디</label> <br/>
+                            <label>아이디</label> <span th:if="${provider} != null" style="color: gray">카카오로그인/구글로그인의 경우 아이디변경이 불가합니다.</span> <br/>
                             <span th:text="${userid}"></span> <br/>
                         </div>
                         <div class="info-content-container">
@@ -64,21 +64,20 @@
                             <span th:text="${addr2}"></span>
                         </div>
                     </th:block>
-                    <div class="info-auth-container" th:case="update">
+                    <div class="info-auth-container" th:case="update" th:if="!${auth}">
                         <div class="auth-title-container">
                             <h2 class="sub-title">회원정보 수정</h2>
                         </div>
                         <span class="auth_msg" th:text="${auth_msg}"></span> <br/>
                         <input name="password" type="password" class="password" placeholder="비밀번호 입력">
                         <button onclick="userAuth()">확인</button> <br/>
-                        <span th:text="${msg}"></span>
                     </div>
                     <form name="updateinfo" action="/user/updateinfo" method="post">
-                        <div class="information-info-container" style="display: none;">
+                        <div class="information-info-container" th:if="${auth}">
                             <div class="sub-title-container">
                                 <h2 class="sub-title">회원정보 수정</h2>
                             </div>
-                            <div class="info-content-container">
+                            <div class="info-content-container" th:if="${provider} == null">
                                 <label>아이디</label> <span id="id_msg" th:text="${userid_msg}"></span> <br/>
                                 <input name="userid" class="info" th:value="${userid}">
                                 <button type="button" onclick="IdCheck()">중복확인</button> <br/>
@@ -89,9 +88,9 @@
                             </div>
                             <div class="info-content-container">
                                 <label>이메일</label> <span id="email_msg" th:text="${email_msg}"></span> <br/>
-                                <input name="email" class="info" th:value="${email}"> <button type="button" onclick="SendEmail()">인증</button> <br/>
+                                <input name="email" id="email" type="email" class="info" th:value="${email}"> <button type="button" onclick="SendEmail()">인증</button> <br/>
                             </div>
-                            <div class="info-content-container" style="display: none;">
+                            <div class="info-content-container" id="auth_code" style="display: none;">
                                 <label>인증코드</label> <span id="code_msg"></span> <br/>
                                 <input id="code" class="info"> <button type="button" onclick="ConfirmEmail()">확인</button> <br/>
                             </div>
@@ -113,6 +112,27 @@
                             <input name="repassword" type="hidden" value=".">
                         </div>
                     </form>
+                    <div class="delete-info-container" th:case="delete">
+                        <form class="deleteinfo" action="/user/deleteinfo" method="post">
+                            <div class="sub-title-container">
+                                <h2 class="sub-title">회원탈퇴</h2>
+                            </div>
+                            <p>
+                                회원을 탈퇴하시면 웹사이트내의 모든 정보들(예약현황, 문의사항 등)이 삭제됩니다. <br/>
+                                그럼에도 회원을 탈퇴하시겠다면 회원탈퇴 확인여부를 위해 비밀번호와<br/>
+                                <b style="color:red;">"위의 내용을 인지하였으며 회원탈퇴에 동의합니다."</b>
+                                를 입력해 주세요.
+                            </p>
+                            <div class="info-content-container">
+                                <label>비밀번호</label> <span th:text="${msg}"></span><br/>
+                                <input name="password" type="password" placeholder="비밀번호"> <br/>
+                            </div>
+                            <div class="info-content-container">
+                                <input name="word" placeholder="위의 내용을 인지하였으며 회원탈퇴에 동의합니다."> <br/>
+                            </div>
+                            <button>회원탈퇴</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -146,8 +166,7 @@
                     pw_msg.style.color = 'orange';
                 }
                 else{
-                    info.style.display = "block";
-                    auth.style.display = "none";
+                    window.location.reload();
                 }
             })
             .catch( err => { console.log(err); });
@@ -176,27 +195,33 @@
             id_msg.textContent = "아이디는 소문자와 숫자로만 이루어진 6~16자여야 합니다.";
     }
 
-    const EmailCheck = () => {
-        const email = document.joinform.email.value;
+    const EmailCheck = function (){
+        const email = document.querySelector('#email').value;
         let regexEmail = new RegExp("^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$");
         const email_msg = document.querySelector('#email_msg');
+        let success;
         axios.get('/user/ConfirmEmail/' + email)
             .then(res => {
                 console.log(res);
-                if(!regexEmail.test(email.trim())){
-                    email_msg.textContent = "이메일 형식으로 작성해야 합니다.";
-                    email_msg.style.color = 'orange';
-                }else if(!res.data.success) {
+                if(!res.data.success) {
                     email_msg.innerHTML = res.data.message;
                     email_msg.style.color = 'orange';
+                    success = false;
                 }
             })
             .catch(err =>{ console.log(err); });
-        return true;
+        if(!regexEmail.test(email.trim())) {
+            email_msg.textContent = "이메일 형식으로 작성해야 합니다.";
+            email_msg.style.color = 'orange';
+            success = false;
+        }else {
+            success = true;
+        }
+        return success;
     }
 
     const SendEmail = function(){
-        const email = document.joinform.email.value;
+        const email = document.querySelector('#email').value;
         const email_msg = document.querySelector('#email_msg');
         if(EmailCheck()){
             email_msg.textContent = "이메일로 인증코드가 전송되었습니다.";
@@ -204,15 +229,15 @@
             axios.get('/user/sendEmail/' + email)
                 .then(res => {
                     console.log(res);
-                    document.querySelector('#code').style.display = 'block';
+                    document.querySelector('#auth_code').style.display = 'block';
                 })
                 .catch( err => {console.log(err);} )
         }
     }
 
     const ConfirmEmail = function(){
-        const email = document.joinform.email.value;
-        const code = document.joinform.emailCode.value;
+        const email = document.querySelector('#email').value;
+        const code = document.querySelector('#code').value;
         axios.get('/user/confirmCode?email='+email+"&code="+code)
             .then(res => {
                 console.log(res);

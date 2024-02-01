@@ -67,10 +67,9 @@ public class PrincipalDetailsOAuth2Service extends DefaultOAuth2UserService {
                     .build();
             userRepository.save(user);
             dto = User.entityToDto(user);
-        }else{
+        }else {
             User user = optional.get();
             dto = User.entityToDto(user);
-
         }
 
         //PrincipalDetails생성

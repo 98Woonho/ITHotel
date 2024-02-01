@@ -213,7 +213,7 @@ public class UserController {
             TokenInfo tokenInfo = jwtTokenProvider.generateToken("IdAuth", id, true);
             Cookie cookie = new Cookie("IdAuth", tokenInfo.getAccessToken());
             cookie.setMaxAge(JwtProperties.EXPIRATION_TIME); // 쿠키의 만료시간 설정
-            cookie.setPath("/");
+            cookie.setPath("/user");
             response.addCookie(cookie);
 
             return obj;
@@ -279,7 +279,7 @@ public class UserController {
             TokenInfo tokenInfo = jwtTokenProvider.generateToken("EmailAuth", email, true);
             Cookie cookie = new Cookie("EmailAuth", tokenInfo.getAccessToken());
             cookie.setMaxAge(JwtProperties.EXPIRATION_TIME); // 쿠키의 만료시간 설정
-            cookie.setPath("/");
+            cookie.setPath("/user");
             response.addCookie(cookie);
 
             return obj;

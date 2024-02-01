@@ -28,6 +28,11 @@ public class PrincipalDetailsService implements UserDetailsService {
         dto.setUserid(userOptional.get().getUserid());
         dto.setPassword(userOptional.get().getPassword());
         dto.setName(userOptional.get().getName());
+        dto.setEmail(userOptional.get().getEmail());
+        dto.setPhone(userOptional.get().getPhone());
+        dto.setZipcode(userOptional.get().getZipcode());
+        dto.setAddr1(userOptional.get().getAddr1());
+        dto.setAddr2(userOptional.get().getAddr2());
         dto.setRole(userOptional.get().getRole());
 
         return new PrincipalDetails(dto);
