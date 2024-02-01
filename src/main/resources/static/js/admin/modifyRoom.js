@@ -348,7 +348,7 @@ modifyRoomBtn.addEventListener('click', function(e) {
     axios.put("/room/modify", formData, {header : {'Content-Type': 'multipart/form-data'}})
         .then(res => {
             alert("객실 수정이 완료 되었습니다.");
-            location.href = "/admin/reservationStatus?region=seoul";
+            location.href = "/admin/roomStatus";
         })
         .catch(err => {
             console.log(err);
@@ -367,7 +367,7 @@ deleteRoomBtn.addEventListener('click', function(e) {
                 console.log(res.data);
                 if(res.data === "SUCCESS") {
                     alert("객실이 성공적으로 삭제 되었습니다.");
-                    location.href = "/admin/reservationStatus?region=seoul";
+                    location.href = "/admin/roomStatus";
                 }
             })
             .catch(err => {

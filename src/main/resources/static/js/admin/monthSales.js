@@ -40,28 +40,29 @@ new Chart(ctx, {
 const categoryBtn = document.querySelector('.category-btn');
 
 categoryBtn.addEventListener('mouseover', function () {
-    document.querySelector('.category-container').removeAttribute('hidden');
+    document.querySelector('.category').removeAttribute('hidden');
 })
 
 categoryBtn.addEventListener('mouseout', function () {
-    document.querySelector('.category-container').setAttribute('hidden', '');
+    document.querySelector('.category').setAttribute('hidden', '');
 })
 
 
-const categoryContainer = document.querySelector('.category-container');
+const categoryContainer = document.querySelector('.category');
 
 categoryContainer.addEventListener('mouseover', function () {
-    document.querySelector('.category-container').removeAttribute('hidden');
+    document.querySelector('.category').removeAttribute('hidden');
 })
 
 categoryContainer.addEventListener('mouseout', function () {
-    document.querySelector('.category-container').setAttribute('hidden', '');
+    document.querySelector('.category').setAttribute('hidden', '');
 })
 
 const regions = document.querySelectorAll('.region');
 const hotelLists = document.querySelectorAll('.hotel-list');
 regions.forEach(region => {
     region.addEventListener('mouseover', function () {
+        region.style.color = "blue";
         hotelLists.forEach(hotelList => {
             if(region.innerText === hotelList.dataset.value) {
                 hotelList.removeAttribute('hidden');
@@ -74,6 +75,7 @@ regions.forEach(region => {
 
     region.addEventListener('mouseout', function () {
         hotelLists.forEach(hotelList => {
+            region.style.color = "black";
             if(region.innerText === hotelList.dataset.value) {
                 hotelList.setAttribute('hidden', '');
             }
@@ -87,19 +89,48 @@ regions.forEach(region => {
 
 
 
+const totalLink = document.querySelector('.total.link');
 
-
-document.querySelector('.total').addEventListener('click', function () {
+totalLink.addEventListener('click', function () {
     location.href = "/admin/monthSales?region=total";
 })
 
+totalLink.addEventListener('mouseover', function () {
+    totalLink.style.color = "blue";
+})
+
+totalLink.addEventListener('mouseout', function () {
+    totalLink.style.color = "black";
+})
 
 hotelLists.forEach(hotelList => {
-    hotelList.querySelector('.link.hotel-total').addEventListener('click', function() {
+    const hotelToTalLink = hotelList.querySelector('.link.hotel-total');
+
+    hotelToTalLink.addEventListener('click', function() {
         location.href = "/admin/monthSales?region=" + hotelList.dataset.value + "&hotelName=" + "total";
     })
 
-    hotelList.querySelector('.link.hotel').addEventListener('click', function() {
-        location.href = "/admin/monthSales?region=" + hotelList.dataset.value + "&hotelName=" + hotelList.querySelector('.link.hotel').innerText;
+    hotelToTalLink.addEventListener('mouseover', function() {
+        hotelToTalLink.style.color = "blue";
+    })
+
+    hotelToTalLink.addEventListener('mouseout', function() {
+        hotelToTalLink.style.color = "black";
+    })
+
+    const hotelLinks = hotelList.querySelectorAll('.hotel.link');
+
+    hotelLinks.forEach(hotelLink => {
+        hotelLink.addEventListener('click', function() {
+            location.href = "/admin/monthSales?region=" + hotelList.dataset.value + "&hotelName=" + hotelLink.innerText;
+        })
+
+        hotelLink.addEventListener('mouseover', function() {
+            hotelLink.style.color = "blue";
+        })
+
+        hotelLink.addEventListener('mouseout', function() {
+            hotelLink.style.color = "black";
+        })
     })
 })

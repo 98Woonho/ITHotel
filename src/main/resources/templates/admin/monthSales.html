@@ -33,12 +33,12 @@
                     <h1 class="title">매출 현황 > 월별 매출</h1>
                 </div>
                 <div class="sales-container">
-                    <div>
+                    <div class="category-container">
                         <button disabled class="category-btn">카테고리</button>
-                        <div hidden class="category-container">
-                            <ul class="region-category">
+                        <div hidden class="row-container category">
+                            <ul>
                                 <li>
-                                    <a class="total" href="javascript:void(0)">전체</a>
+                                    <a class="link total" href="javascript:void(0)">전체</a>
                                 </li>
                                 <li th:each="region : ${regionList}">
                                     <span class="region" th:text="${region}"></span>

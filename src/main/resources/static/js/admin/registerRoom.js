@@ -330,7 +330,7 @@ addRoomBtn.addEventListener('click', function(e) {
     axios.post("/room/add", formData, {header : {'Content-Type': 'multipart/form-data'}})
         .then(res => {
             alert("객실 등록이 완료 되었습니다.");
-            location.href = "/admin/reservationStatus?region=seoul";
+            location.href = "/admin/roomStatus";
         })
         .catch(err => {
             console.log(err);

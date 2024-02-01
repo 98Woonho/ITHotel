@@ -157,7 +157,7 @@ modifyHotelBtn.addEventListener('click', function(e) {
     axios.put("/hotel/modify", formData, {header : {'Content-Type': 'multipart/form-data'}})
         .then(res => {
             alert("호텔 수정이 완료 되었습니다.");
-            location.href = "/admin/reservationStatus?region=seoul";
+            location.href = "/admin/hotelStatus";
         })
         .catch(err => {
             console.log(err);
@@ -175,7 +175,7 @@ deleteHotelBtn.addEventListener('click', function(e) {
                 console.log(res.data);
                 if(res.data === "SUCCESS") {
                     alert("호텔이 성공적으로 삭제 되었습니다.");
-                    location.href = "/admin/reservationStatus?region=seoul";
+                    location.href = "/admin/hotelStatus";
                 }
             })
             .catch(err => {

@@ -177,7 +177,7 @@ addHotelBtn.addEventListener('click', function (e) {
     axios.post("/hotel/add", formData, {header: {'Content-Type': 'multipart/form-data'}})
         .then(res => {
             alert("호텔 등록이 완료 되었습니다.");
-            location.href = "/admin/reservationStatus?region=seoul";
+            location.href = "/admin/hotelStatus";
         })
         .catch(err => {
             console.log(err);
