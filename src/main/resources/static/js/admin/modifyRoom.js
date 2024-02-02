@@ -44,6 +44,12 @@ function confirmDuplication() {
 
 // 대표 이미지
 
+let existingFileNameArray = [];
+const existingFileNames = modifyRoom.querySelectorAll('.existing-file-name');
+existingFileNames.forEach(fileName => {
+    existingFileNameArray.push(fileName.value)
+})
+
 let fileNameArray = [];
 let mainFileName = modifyRoom.querySelector('.existing-main-file-name').value;
 const mainUploadBox = mainImg.querySelector('.main-upload-box');
@@ -74,24 +80,33 @@ mainUploadBox.addEventListener('drop', function (e) {
     // 이미지 파일 용량 제한
     imgFiles.forEach(file => {
         if (file.size > (1024 * 1024 * 5)) {
-            alert("파일 하나당 최대 사이즈는 5MB이하여야 합니다.")
+            alert("파일 하나당 최대 사이즈는 5MB이하여야 합니다.");
+            return false;
         }
     })
 
     const reader = new FileReader(); // FileReader
+    const preview = document.querySelector('#mainPreview');
 
     for (const file of imgFiles) {
-        const preview = document.querySelector('#mainPreview');
-
+        if(preview.querySelectorAll('.item').length === 1) {
+            alert("대표 이미지는 한 개만 등록 가능합니다.");
+            return;
+        }
         for (const fileName of fileNameArray) {
-            if(preview.querySelectorAll('.item').length == 1) {
-                alert("대표 이미지는 한 개만 등록 가능합니다.");
-                return;
-            } else if (fileName === file.name) {
+            if (fileName === file.name) {
                 alert("동일한 이미지는 등록할 수 없습니다. 다른 이미지를 등록해 주세요.");
                 return;
             }
         }
+
+        for (const existingFileName of existingFileNameArray) {
+            if (existingFileName === file.name) {
+                alert("동일한 이미지는 등록할 수 없습니다. 다른 이미지를 등록해 주세요.");
+                return
+            }
+        }
+
         fileNameArray.push(file.name);
         reader.readAsDataURL(file); // reader에 file 정보를 넣어줌.
         reader.onload = function (e) { // preview 태그에 이미지가 업로드 되었을 때 동작 함수
@@ -153,14 +168,9 @@ roomUploadBox.addEventListener('drop', function (e) {
     // 이미지 파일 용량 제한
     imgFiles.forEach(file => {
         if (file.size > (1024 * 1024 * 5)) {
-            alert("파일 하나당 최대 사이즈는 5MB이하여야 합니다.")
+            alert("파일 하나당 최대 사이즈는 5MB이하여야 합니다.");
+            return false;
         }
-    })
-
-    let existingFileNameArray = [];
-    const existingFileNames = modifyRoom.querySelectorAll('.existing-file-name');
-    existingFileNames.forEach(fileName => {
-        existingFileNameArray.push(fileName.value)
     })
 
     const reader = new FileReader(); // FileReader
@@ -221,6 +231,7 @@ const items = modifyRoom.querySelectorAll('.item');
 items.forEach(item => {
     const deleteBtn = item.querySelector('.delete-btn');
     deleteBtn.onclick = function () {
+        existingFileNameArray = existingFileNameArray.filter(name => name !== item.querySelector('.existing-file-name').value);
         item.remove();
     }
 })
