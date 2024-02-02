@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="/css/user/myinfo.css">
 
     <!-- js -->
+    <script defer src="/js/user/questionInfo.js"></script>
 </head>
 <body>
 
@@ -34,8 +35,105 @@
                 </div>
                 <div class="information-info-container">
                     <th:block th:switch="${function}">
-                        <span class="text" th:case='create'>문의하기</span>
-                        <span class="text" th:case='read'>문의현황</span>
+                        <span class="text" th:case='create'>
+    <div id="main_wrapper">
+        <form id="mainForm" action="/board/admin/adminWrite" method="post">
+            <div class="fw-bold fs-5">호텔위치</div>
+            <select class="form-select" name="hotelname" th:value="hotelname">
+                <option th:each="hotelname : ${hotelnames}" th:text="${hotelname}"></option>
+            </select>
+            <div class="fw-bold fs-5">관련 문의</div>
+            <select class="form-select" name="relation">
+                <option value="호텔문의">호텔문의</option>
+                <option value="객실문의">객실문의</option>
+                <option value="예약문의">예약문의</option>
+            </select>
+            <div>
+                <label class="form-label fw-bold fs-5">문의 제목</label>
+                <input class="form-control" type="text" name="title" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label fw-bold fs-5">문의 내용</label>
+                <textarea class="form-control" name="content" cols="30" rows="10" required></textarea>
+            </div>
+            <span class="mb-3">
+        <input class="form-control write" type="submit" value="글작성">
+    </span>
+        </form>
+    </div>
+                        </span>
+                        <span class="text" th:case='read'>
+                             <table class="table table-striped table-hover">
+            <thead>
+            <tr>
+                <th>글제목</th>
+                <th>호텔이름</th>
+                <th>질문유형</th>
+                <th>작성자</th>
+                <th>작성일</th>
+                <th>답변작성여부</th>
+            </tr>
+            </thead>
+            <tbody id="main_tbody">
+            <tr class="addDetail" th:each="board : ${boardList}">
+                <td>
+                    <a th:href="@{'/user/questionInfo/' + ${board.id}}">
+                        <span th:text="${board.title}"></span>
+                    </a>
+                </td>
+                <td>
+                    <span th:text="${board.hotelname}"></span>
+                </td>
+                <td>
+                    <span th:text="${board.relation}"></span>
+                </td>
+                <td>
+                    <span th:text="${board.username}"></span>
+                </td>
+                <td>
+                    <span th:text="${#temporals.format(board.createdTime, 'yyyy-MM-dd HH:mm:ss')}"></span>
+                </td>
+                <td>
+                    <th:block th:each="comment: ${commentList}">
+                        <th:block th:if="${comment.board.id} == ${board.id}">
+                            <button>답변완료</button>
+                        </th:block>
+                    </th:block>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+                            <div th:if="${!boardList.isEmpty()}">
+            <ul class="pagination" style="justify-content: center;"
+                th:with="
+            pageNumber = ${boardList.pageable.pageNumber},
+            pageSize = ${boardList.pageable.pageSize},
+            totalPages = ${boardList.totalPages},
+            startPage = ${T(java.lang.Math).floor(pageNumber / pageSize) * pageSize + 1},
+            tempEndPage = ${startPage + pageSize - 1},
+            endPage = (${tempEndPage < totalPages ? tempEndPage : totalPages})">
+
+                <li th:classappend="${boardList.first} ? 'disabled'" class="page-item">
+                    <a class="page-link"
+                       th:href="${boardList.first} ? '#' : @{/user/questionInfo?function=read(page=${pageNumber - 1})}"
+                       aria-label="Previous">
+                        <span aria-hidden="true">&lt;</span>
+                    </a>
+                </li>
+                <li th:each="page: ${#numbers.sequence(startPage, endPage)}"
+                    th:classappend="${page == pageNumber + 1} ? 'active'" class="page-item">
+                    <a th:text="${page}" class="page-link"
+                       th:href="@{/user/questionInfo?function=read(page=${page - 1})}"></a>
+                </li>
+                <li th:classappend="${boardList.last} ? 'disabled'" class="page-item">
+                    <a class="page-link"
+                       th:href="${boardList.last} ? '#' : @{/user/questionInfo?function=read(page=${pageNumber + 1})}"
+                       aria-label="Next">
+                        <span aria-hidden="true">&gt;</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
                     </th:block>
                 </div>
             </div>
@@ -47,4 +145,13 @@
 
 
 </body>
+<script>
+    const listReq = () => {
+        if (history.length > 1) {
+            history.back();
+        } else {
+            window.close();
+        }
+    }
+</script>
 </html>

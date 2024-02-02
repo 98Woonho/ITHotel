@@ -4,7 +4,14 @@ import com.whl.hotelService.config.auth.PrincipalDetails;
 import com.whl.hotelService.config.auth.jwt.JwtProperties;
 import com.whl.hotelService.config.auth.jwt.JwtTokenProvider;
 import com.whl.hotelService.config.auth.jwt.TokenInfo;
+import com.whl.hotelService.domain.common.dto.BoardResponseDto;
+import com.whl.hotelService.domain.common.dto.CommentResponseDto;
+import com.whl.hotelService.domain.common.entity.AdminBoard;
+import com.whl.hotelService.domain.common.service.AdminBoardService;
+import com.whl.hotelService.domain.common.service.BoardService;
+import com.whl.hotelService.domain.common.service.CommentService;
 import com.whl.hotelService.domain.user.dto.UserDto;
+import com.whl.hotelService.domain.user.entity.User;
 import com.whl.hotelService.domain.user.service.MyinfoService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -13,6 +20,9 @@ import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,11 +31,8 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.swing.*;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.sql.SQLException;
-import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 @Slf4j
@@ -35,9 +42,16 @@ public class MyinfoController {
 
     @Autowired
     MyinfoService myinfoService;
-
+    @Autowired
+    BoardService boardService;
+    @Autowired
+    AdminBoardService adminBoardService;
     @Autowired
     JwtTokenProvider jwtTokenProvider;
+    @Autowired
+    CommentService commentService;
+    @Autowired
+    HttpServletResponse response;
 
     @GetMapping("informationInfo")
     public void getInformationInfo(@RequestParam(value="function", defaultValue = "read") String function,
@@ -48,7 +62,7 @@ public class MyinfoController {
                                    @RequestParam(value="zipcode_msg", required = false) String zipcode_msg,
                                    @RequestParam(value="addr1_msg", required = false) String addr1_msg,
                                    @RequestParam(value="msg", required = false) String msg,
-                                Model model, Authentication authentication, HttpServletRequest request){
+                                   HttpServletRequest request, Model model, Authentication authentication){
         log.info("get information");
         model.addAttribute("auth_msg", "회원정보 수정을 위해 비밀번호가 필요합니다.");
 
@@ -65,7 +79,13 @@ public class MyinfoController {
         for(Cookie cookie : cookies){
             if(Objects.equals(cookie.getName(), "InfoAuth") && Objects.equals(function, "update"))
                 model.addAttribute("auth", true);
+            else if(!Objects.equals(function, "update")){
+                cookie.setPath("/user");
+                cookie.setMaxAge(0);
+                response.addCookie(cookie);
+            }
         }
+
     }
 
     @PostMapping("infoAuth/{password}")
@@ -130,8 +150,24 @@ public class MyinfoController {
     }
 
     @GetMapping("questionInfo")
-    public void questionInfo(@RequestParam(value="function", defaultValue = "create") String function, Model model){
-        log.info("get question");
+    public void questionInfo(@RequestParam(value="function", required = false) String function,
+                             @PageableDefault(page = 0, size = 10)Pageable pageable,
+                             Authentication authentication, Model model){
+        List<String> hotelnames = boardService.searchHotelname();
+        Page<BoardResponseDto> boardList = adminBoardService.userBoardList(pageable, authentication);
+        Page<CommentResponseDto> commentList = adminBoardService.commentList(pageable);
+        model.addAttribute("commentList", commentList);
+        model.addAttribute("boardList", boardList);
+        model.addAttribute("hotelnames", hotelnames);
         model.addAttribute("function", function);
+    }
+    @GetMapping("/questionInfo/{id}") // 게시판 조회
+    public String adminBoardDetail(@PathVariable Long id, Model model) {
+        BoardResponseDto board = adminBoardService.boardDetail(id);
+        List<CommentResponseDto> commentResponseDtos = commentService.commentList(id);
+        model.addAttribute("comments", commentResponseDtos);
+        model.addAttribute("board", board);
+        model.addAttribute("id", id);
+        return "board/userdetail";
     }
 }
