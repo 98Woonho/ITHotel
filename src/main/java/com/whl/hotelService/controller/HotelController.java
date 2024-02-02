@@ -3,6 +3,7 @@ package com.whl.hotelService.controller;
 import com.whl.hotelService.domain.common.dto.HotelDto;
 import com.whl.hotelService.domain.common.entity.Hotel;
 import com.whl.hotelService.domain.common.entity.HotelFileInfo;
+import com.whl.hotelService.domain.common.repository.HotelRepository;
 import com.whl.hotelService.domain.common.service.HotelService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,9 +42,15 @@ public class HotelController {
         log.info("getInfo()");
     }
 
+    @GetMapping(value = "HotelList")
+    public @ResponseBody List<Hotel> getHotelInfo() {
+        List<Hotel> list = hotelService.getAllHotel();
+        return list;
+    }
+
     @GetMapping(value = "confirmHotelName")
     @ResponseBody
-    public String getConfirmHotelName(@RequestParam(value="hotelName") String hotelName) {
+    public String getConfirmHotelName(@RequestParam(value = "hotelName") String hotelName) {
         return hotelService.confirmHotelName(hotelName);
     }
 
