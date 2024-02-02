@@ -22,4 +22,7 @@ public class HotelFileInfo {
 
     private String dir;
     private String fileName;
+
+    @Column(name="main_image_flag")
+    private boolean isMainImage;
 }

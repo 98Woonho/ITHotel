@@ -1,5 +1,4 @@
 const ctx = document.getElementById('salesGraph');
-
 const januarySales = document.querySelector('.january-sales').innerText;
 const februarySales = document.querySelector('.february-sales').innerText;
 const marchSales = document.querySelector('.march-sales').innerText;
@@ -12,15 +11,6 @@ const septemberSales = document.querySelector('.september-sales').innerText;
 const octoberSales = document.querySelector('.october-sales').innerText;
 const novemberSales = document.querySelector('.november-sales').innerText;
 const decemberSales = document.querySelector('.december-sales').innerText;
-
-const option = document.querySelector('.option');
-
-option.addEventListener('change', function() {
-    const seletedValue = option.value;
-    location.href="/admin/monthSales?value=" + seletedValue;
-})
-
-option.value = document.querySelector('.value').innerText;
 
 new Chart(ctx, {
     type: 'bar',
@@ -40,3 +30,103 @@ new Chart(ctx, {
         }
     }
 });
+
+
+
+
+
+
+const categoryBtn = document.querySelector('.category-btn');
+
+categoryBtn.addEventListener('mouseover', function () {
+    document.querySelector('.category').removeAttribute('hidden');
+})
+
+categoryBtn.addEventListener('mouseout', function () {
+    document.querySelector('.category').setAttribute('hidden', '');
+})
+
+
+const categoryContainer = document.querySelector('.category');
+
+categoryContainer.addEventListener('mouseover', function () {
+    document.querySelector('.category').removeAttribute('hidden');
+})
+
+categoryContainer.addEventListener('mouseout', function () {
+    document.querySelector('.category').setAttribute('hidden', '');
+})
+
+const regions = document.querySelectorAll('.region');
+const hotelLists = document.querySelectorAll('.hotel-list');
+regions.forEach(region => {
+    region.addEventListener('mouseover', function () {
+        region.style.color = "blue";
+        hotelLists.forEach(hotelList => {
+            if(region.innerText === hotelList.dataset.value) {
+                hotelList.removeAttribute('hidden');
+            }
+            hotelList.addEventListener('mouseover', function() {
+                hotelList.removeAttribute('hidden');
+            })
+        })
+    })
+
+    region.addEventListener('mouseout', function () {
+        hotelLists.forEach(hotelList => {
+            region.style.color = "black";
+            if(region.innerText === hotelList.dataset.value) {
+                hotelList.setAttribute('hidden', '');
+            }
+            hotelList.addEventListener('mouseout', function() {
+                hotelList.setAttribute('hidden','');
+            })
+        })
+    })
+})
+
+const totalLink = document.querySelector('.total.link');
+
+totalLink.addEventListener('click', function () {
+    location.href = "/admin/monthSales?region=total";
+})
+
+totalLink.addEventListener('mouseover', function () {
+    totalLink.style.color = "blue";
+})
+
+totalLink.addEventListener('mouseout', function () {
+    totalLink.style.color = "black";
+})
+
+hotelLists.forEach(hotelList => {
+    const hotelToTalLink = hotelList.querySelector('.link.hotel-total');
+
+    hotelToTalLink.addEventListener('click', function() {
+        location.href = "/admin/monthSales?region=" + hotelList.dataset.value + "&hotelName=total";
+    })
+
+    hotelToTalLink.addEventListener('mouseover', function() {
+        hotelToTalLink.style.color = "blue";
+    })
+
+    hotelToTalLink.addEventListener('mouseout', function() {
+        hotelToTalLink.style.color = "black";
+    })
+
+    const hotelLinks = hotelList.querySelectorAll('.hotel.link');
+
+    hotelLinks.forEach(hotelLink => {
+        hotelLink.addEventListener('click', function() {
+            location.href = "/admin/monthSales?region=" + hotelList.dataset.value + "&hotelName=" + hotelLink.innerText;
+        })
+
+        hotelLink.addEventListener('mouseover', function() {
+            hotelLink.style.color = "blue";
+        })
+
+        hotelLink.addEventListener('mouseout', function() {
+            hotelLink.style.color = "black";
+        })
+    })
+})
