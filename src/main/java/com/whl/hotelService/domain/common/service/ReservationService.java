@@ -44,6 +44,7 @@ public class ReservationService {
     }
 
     @Transactional(rollbackFor = Exception.class)
+    @Scheduled(fixedRate = 1000)
     public void deleteExpiredReservations() {
         List<LocalDateTime> createdAtList = reservationRepository.findCreatedAtByStatus("예약 중");
         LocalDateTime currentDate = LocalDateTime.now();
