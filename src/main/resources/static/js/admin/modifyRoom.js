@@ -2,7 +2,7 @@ const hotelList = document.querySelector('.hotel-list');
 const roomList = document.querySelector('.room-list');
 const mainImg = document.querySelector('.main-img');
 const roomImg = document.querySelector('.room-img');
-const roomForm = document.getElementById('roomForm');
+const roomForm = document.querySelector('.room-form');
 const modifyRoom = document.querySelector('.modify-room-container');
 const formData = new FormData();
 
@@ -44,6 +44,7 @@ function confirmDuplication() {
 
 // 대표 이미지
 
+let fileNameArray = [];
 let mainFileName = modifyRoom.querySelector('.existing-main-file-name').value;
 const mainUploadBox = mainImg.querySelector('.main-upload-box');
 
@@ -80,9 +81,20 @@ mainUploadBox.addEventListener('drop', function (e) {
     const reader = new FileReader(); // FileReader
 
     for (const file of imgFiles) {
+        const preview = document.querySelector('#mainPreview');
+
+        for (const fileName of fileNameArray) {
+            if(preview.querySelectorAll('.item').length == 1) {
+                alert("대표 이미지는 한 개만 등록 가능합니다.");
+                return;
+            } else if (fileName === file.name) {
+                alert("동일한 이미지는 등록할 수 없습니다. 다른 이미지를 등록해 주세요.");
+                return;
+            }
+        }
+        fileNameArray.push(file.name);
         reader.readAsDataURL(file); // reader에 file 정보를 넣어줌.
         reader.onload = function (e) { // preview 태그에 이미지가 업로드 되었을 때 동작 함수
-            const preview = document.querySelector('#mainPreview');
             const src = e.target.result;
 
             const item = new DOMParser().parseFromString(`
@@ -96,12 +108,11 @@ mainUploadBox.addEventListener('drop', function (e) {
 
             if(preview.querySelectorAll('.item').length !== 1) {
                 preview.append(item);
-            } else {
-                alert("대표 이미지는 한 개만 등록 가능합니다.");
-                return;
             }
 
             deleteBtn.onclick = function () {
+                mainFileName = null;
+                fileNameArray = fileNameArray.filter(name => name !== file.name);
                 item.remove();
             }
         }
@@ -128,8 +139,6 @@ roomUploadBox.addEventListener('dragleave', function (e) {
     e.preventDefault();
     roomUploadBox.style.opacity = '1';
 });
-
-let fileNameArray = [];
 
 roomUploadBox.addEventListener('drop', function (e) {
     e.preventDefault();

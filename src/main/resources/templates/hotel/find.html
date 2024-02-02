@@ -41,8 +41,15 @@
                     </button>
                     <ul th:data-value="${region}" class="hotel-info">
                         <li th:each="hotelMainFileInfo : ${hotelMainFileInfoList}" th:if="${hotelMainFileInfo.hotel.region == region}">
-                            <span class="text" th:text="${hotelMainFileInfo.hotel.hotelName}"></span>
                             <img th:src="@{${hotelMainFileInfo.dir} + ${hotelMainFileInfo.fileName}}" alt="">
+                            <div>
+                                <span class="text" th:text="${hotelMainFileInfo.hotel.hotelName}"></span>
+                                <div class="address-container">
+                                    <span class="text" th:text="${hotelMainFileInfo.hotel.addr1}"></span>
+                                    <span class="text" th:text="${hotelMainFileInfo.hotel.addr2}"></span>
+                                </div>
+                                <span class="text" th:text="${hotelMainFileInfo.hotel.contactInfo}"></span>
+                            </div>
                         </li>
                     </ul>
                 </li>

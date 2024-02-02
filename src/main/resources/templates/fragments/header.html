@@ -22,7 +22,7 @@
                 <a class="link" href="/user/informationInfo?function=read" sec:authorize="hasRole('ROLE_USER')">
                     <span class="text">마이페이지</span>
                 </a>
-                <a href="/admin/reservationStatus?region=seoul" class="link" sec:authorize="hasRole('ROLE_ADMIN')">
+                <a href="/admin/reservationStatus" class="link" sec:authorize="hasRole('ROLE_ADMIN')">
                     <span class="text">관리자페이지</span>
                 </a>
                 <a href="/user/login" class="link" sec:authorize="isAnonymous()">

@@ -10,6 +10,23 @@
     height: 200px;
 }
 
+.hotel-info li {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 2rem;
+}
+
+.hotel-info li div {
+    display: flex;
+    flex-direction: column;
+}
+
+.hotel-info li div > .address-container {
+    display: flex;
+    flex-direction: row;
+}
+
+
 .list-container > .subtitle-container {
     width: 1150px;
     margin: 0.5rem auto;
