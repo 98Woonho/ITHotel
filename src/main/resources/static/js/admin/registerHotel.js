@@ -65,6 +65,12 @@ mainUploadBox.addEventListener('drop', function (e) {
     const reader = new FileReader(); // FileReader
 
     for (const file of imgFiles) {
+        for (const fileName of fileNameArray) {
+            if (fileName === file.name) {
+                alert("동일한 이미지는 등록할 수 없습니다. 다른 이미지를 등록해 주세요.");
+                return;
+            }
+        }
         fileNameArray.push(file.name);
         reader.readAsDataURL(file); // reader에 file 정보를 넣어줌.
         reader.onload = function (e) { // preview 태그에 이미지가 업로드 되었을 때 동작 함수
@@ -88,6 +94,7 @@ mainUploadBox.addEventListener('drop', function (e) {
             }
 
             deleteBtn.onclick = function () {
+                mainFileName = null;
                 fileNameArray = fileNameArray.filter(name => name !== file.name);
                 item.remove();
             }
@@ -137,6 +144,11 @@ hotelUploadBox.addEventListener('drop', function (e) {
     const reader = new FileReader(); // FileReader
 
     for (const file of imgFiles) {
+        if(file.name === mainFileName) {
+            alert("이미 대표 이미지에 등록된 이미지입니다. 다른 이미지를 등록해 주세요.");
+            return;
+        }
+
         for (const fileName of fileNameArray) {
             if (fileName === file.name) {
                 alert("동일한 이미지는 등록할 수 없습니다. 다른 이미지를 등록해 주세요.");

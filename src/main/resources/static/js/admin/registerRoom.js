@@ -99,6 +99,7 @@ mainUploadBox.addEventListener('drop', function (e) {
             }
 
             deleteBtn.onclick = function () {
+                mainFileName = null;
                 fileNameArray = fileNameArray.filter(name => name !== file.name);
                 item.remove();
             }
@@ -148,6 +149,11 @@ roomUploadBox.addEventListener('drop', function (e) {
     const reader = new FileReader(); // FileReader
 
     for (const file of imgFiles) {
+        if(file.name === mainFileName) {
+            alert("이미 대표 이미지에 등록된 이미지입니다. 다른 이미지를 등록해 주세요.");
+            return;
+        }
+
         for (const fileName of fileNameArray) {
             if (fileName === file.name) {
                 alert("동일한 이미지는 등록할 수 없습니다. 다른 이미지를 등록해 주세요.");
