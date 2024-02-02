@@ -11,4 +11,6 @@ public class BoardWriteRequestDto {
 
     private String title;
     private String content;
+    private String hotelname;
+    private String relation;
 }
