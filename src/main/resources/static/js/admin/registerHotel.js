@@ -63,8 +63,13 @@ mainUploadBox.addEventListener('drop', function (e) {
     })
 
     const reader = new FileReader(); // FileReader
+    const preview = document.querySelector('#mainPreview');
 
     for (const file of imgFiles) {
+        if(preview.querySelectorAll('.item').length == 1) {
+            alert("대표 이미지는 한 개만 등록 가능합니다.");
+            return;
+        }
         for (const fileName of fileNameArray) {
             if (fileName === file.name) {
                 alert("동일한 이미지는 등록할 수 없습니다. 다른 이미지를 등록해 주세요.");
@@ -74,7 +79,6 @@ mainUploadBox.addEventListener('drop', function (e) {
         fileNameArray.push(file.name);
         reader.readAsDataURL(file); // reader에 file 정보를 넣어줌.
         reader.onload = function (e) { // preview 태그에 이미지가 업로드 되었을 때 동작 함수
-            const preview = document.querySelector('#mainPreview');
             const src = e.target.result;
 
             const item = new DOMParser().parseFromString(`
@@ -88,9 +92,6 @@ mainUploadBox.addEventListener('drop', function (e) {
 
             if(preview.querySelectorAll('.item').length !== 1) {
                 preview.append(item);
-            } else {
-                alert("대표 이미지는 한 개만 등록 가능합니다.");
-                return;
             }
 
             deleteBtn.onclick = function () {
@@ -137,7 +138,8 @@ hotelUploadBox.addEventListener('drop', function (e) {
     imgFiles.forEach(file => {
         if (file.size > (1024 * 1024 * 5)) {
             alert("파일 하나당 최대 사이즈는 5MB이하여야 합니다.");
-            return;
+            return false;
+
         }
     })
 
