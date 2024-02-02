@@ -42,13 +42,11 @@ public class HotelController {
         log.info("getInfo()");
     }
 
-
     @GetMapping(value = "HotelList")
     public @ResponseBody List<Hotel> getHotelInfo() {
         List<Hotel> list = hotelService.getAllHotel();
         return list;
     }
-
 
     @GetMapping(value = "confirmHotelName")
     @ResponseBody

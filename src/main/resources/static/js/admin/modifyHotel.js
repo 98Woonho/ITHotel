@@ -35,6 +35,8 @@ const AddressSearch = () => {
 
 
 // 대표 이미지
+
+let fileNameArray = [];
 let mainFileName = modifyHotel.querySelector('.existing-main-file-name').value;
 const mainUploadBox = mainImg.querySelector('.main-upload-box');
 
@@ -58,19 +60,20 @@ mainUploadBox.addEventListener('drop', function (e) {
     let imgFiles = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/')); // type이 image/로 시작하는 파일들만 가져와서 배열로 구성
     if (imgFiles.length === 0) {
         alert("이미지 파일만 가능합니다.");
-        return false;
+        return;
     }
 
     // 이미지 파일 용량 제한
     imgFiles.forEach(file => {
         if (file.size > (1024 * 1024 * 5)) {
-            alert("파일 하나당 최대 사이즈는 5MB이하여야 합니다.")
+            alert("파일 하나당 최대 사이즈는 5MB이하여야 합니다.");
         }
     })
 
     const reader = new FileReader(); // FileReader
 
     for (const file of imgFiles) {
+        fileNameArray.push(file.name);
         reader.readAsDataURL(file); // reader에 file 정보를 넣어줌.
         reader.onload = function (e) { // preview 태그에 이미지가 업로드 되었을 때 동작 함수
             const preview = document.querySelector('#mainPreview');
@@ -93,6 +96,7 @@ mainUploadBox.addEventListener('drop', function (e) {
             }
 
             deleteBtn.onclick = function () {
+                fileNameArray = fileNameArray.filter(name => name !== file.name);
                 item.remove();
             }
         }
@@ -119,8 +123,6 @@ hotelUploadBox.addEventListener('dragleave', function (e) {
     hotelUploadBox.style.opacity = '1';
 });
 
-let fileNameArray = [];
-
 hotelUploadBox.addEventListener('drop', function (e) {
     e.preventDefault();
 
@@ -128,13 +130,14 @@ hotelUploadBox.addEventListener('drop', function (e) {
     let imgFiles = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/')); // type이 image/로 시작하는 파일들만 가져와서 배열로 구성
     if (imgFiles.length === 0) {
         alert("이미지 파일만 가능합니다.");
-        return false;
+        return;
     }
 
     // 이미지 파일 용량 제한
     imgFiles.forEach(file => {
         if (file.size > (1024 * 1024 * 5)) {
-            alert("파일 하나당 최대 사이즈는 5MB이하여야 합니다.")
+            alert("파일 하나당 최대 사이즈는 5MB이하여야 합니다.");
+            return;
         }
     })
 
