@@ -1,4 +1,3 @@
-
 const ctx = document.getElementById('salesGraph');
 const januarySales = document.querySelector('.january-sales').innerText;
 const februarySales = document.querySelector('.february-sales').innerText;
@@ -86,9 +85,6 @@ regions.forEach(region => {
     })
 })
 
-
-
-
 const totalLink = document.querySelector('.total.link');
 
 totalLink.addEventListener('click', function () {
@@ -107,7 +103,7 @@ hotelLists.forEach(hotelList => {
     const hotelToTalLink = hotelList.querySelector('.link.hotel-total');
 
     hotelToTalLink.addEventListener('click', function() {
-        location.href = "/admin/monthSales?region=" + hotelList.dataset.value + "&hotelName=" + "total";
+        location.href = "/admin/monthSales?region=" + hotelList.dataset.value + "&hotelName=total";
     })
 
     hotelToTalLink.addEventListener('mouseover', function() {

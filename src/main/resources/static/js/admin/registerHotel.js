@@ -1,7 +1,6 @@
-const uploadBox = document.querySelector('.upload-box');
-const formData = new FormData();
-
 const hotelForm = document.getElementById('hotelForm');
+const mainImg = document.querySelector('.main-img');
+const hotelImg = document.querySelector('.hotel-img');
 
 function confirmDuplication() {
     const hotelName = hotelForm['hotelName'].value;
@@ -24,23 +23,103 @@ function confirmDuplication() {
         })
 }
 
-uploadBox.addEventListener('dragenter', function (e) {
+// 추가 이미지
+
+const formData = new FormData();
+const hotelUploadBox = hotelImg.querySelector('.hotel-upload-box');
+
+hotelUploadBox.addEventListener('dragenter', function (e) {
     e.preventDefault();
 });
-
-uploadBox.addEventListener('dragover', function (e) {
+hotelUploadBox.addEventListener('dragover', function (e) {
     e.preventDefault();
-    uploadBox.style.opacity = '0.5';
+    hotelUploadBox.style.opacity = '0.5';
+
 });
-
-uploadBox.addEventListener('dragleave', function (e) {
+hotelUploadBox.addEventListener('dragleave', function (e) {
     e.preventDefault();
-    uploadBox.style.opacity = '1';
+    hotelUploadBox.style.opacity = '1';
 });
 
 let fileNameArray = [];
 
-uploadBox.addEventListener('drop', function (e) {
+hotelUploadBox.addEventListener('drop', function (e) {
+    e.preventDefault();
+
+    // 유효성 체크
+    let imgFiles = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/')); // type이 image/로 시작하는 파일들만 가져와서 배열로 구성
+    if (imgFiles.length === 0) {
+        alert("이미지 파일만 가능합니다.");
+        return false;
+    }
+
+    // 이미지 파일 용량 제한
+    imgFiles.forEach(file => {
+        if (file.size > (1024 * 1024 * 5)) {
+            alert("파일 하나당 최대 사이즈는 5MB이하여야 합니다.")
+        }
+    })
+
+    const reader = new FileReader(); // FileReader
+
+    for (const file of imgFiles) {
+        for (const fileName of fileNameArray) {
+            if (fileName === file.name) {
+                alert("동일한 이미지는 등록할 수 없습니다. 다른 이미지를 등록해 주세요.");
+                return;
+            }
+        }
+        fileNameArray.push(file.name);
+        reader.readAsDataURL(file); // reader에 file 정보를 넣어줌.
+        reader.onload = function (e) { // preview 태그에 이미지가 업로드 되었을 때 동작 함수
+            const preview = document.querySelector('#hotelPreview');
+            const src = e.target.result;
+
+            const item = new DOMParser().parseFromString(`
+                <li class="item">
+                    <input hidden type="text" class="file-name" name="fileName" th:value="${file.name}">
+                    <img class="img" src="${src}" alt="">
+                    <a class="btn btn-secondary delete-btn">삭제</a>
+                </li>
+            `, 'text/html').querySelector('.item');
+            const deleteBtn = item.querySelector('.delete-btn');
+
+            preview.append(item);
+            preview.scrollLeft = preview.scrollWidth; // 파일이 추가 되면 스크롤을 오른쪽 끝으로 알아서 당겨줌.
+
+            deleteBtn.onclick = function () {
+                fileNameArray = fileNameArray.filter(name => name !== file.name);
+                item.remove();
+            }
+        }
+        formData.append("files", file);
+    }
+});
+
+
+
+
+
+// 대표 이미지
+
+let mainFileName;
+const mainUploadBox = mainImg.querySelector('.main-upload-box');
+
+mainUploadBox.addEventListener('dragenter', function (e) {
+    e.preventDefault();
+});
+
+mainUploadBox.addEventListener('dragover', function (e) {
+    e.preventDefault();
+    mainUploadBox.style.opacity = '0.5';
+});
+
+mainUploadBox.addEventListener('dragleave', function (e) {
+    e.preventDefault();
+    mainUploadBox.style.opacity = '1';
+});
+
+mainUploadBox.addEventListener('drop', function (e) {
     e.preventDefault();
 
     // 유효성 체크
@@ -69,7 +148,7 @@ uploadBox.addEventListener('drop', function (e) {
         fileNameArray.push(file.name);
         reader.readAsDataURL(file); // reader에 file 정보를 넣어줌.
         reader.onload = function (e) { // preview 태그에 이미지가 업로드 되었을 때 동작 함수
-            const preview = document.querySelector('#preview');
+            const preview = document.querySelector('#mainPreview');
             const src = e.target.result;
 
             const item = new DOMParser().parseFromString(`
@@ -81,15 +160,19 @@ uploadBox.addEventListener('drop', function (e) {
             `, 'text/html').querySelector('.item');
             const deleteBtn = item.querySelector('.delete-btn');
 
-            preview.append(item);
-            preview.scrollLeft = preview.scrollWidth; // 파일이 추가 되면 스크롤을 오른쪽 끝으로 알아서 당겨줌.
+            if(preview.querySelectorAll('.item').length !== 1) {
+                preview.append(item);
+            } else {
+                alert("대표 이미지는 한 개만 등록 가능합니다.");
+                return;
+            }
 
             deleteBtn.onclick = function () {
-                fileNameArray = fileNameArray.filter(name => name !== file.name);
                 item.remove();
             }
         }
-        formData.append("files", file);
+        mainFileName = file.name;
+        formData.append("mainFiles", file);
     }
 });
 
@@ -118,10 +201,12 @@ const AddressSearch = () => {
 
 
 const addHotelBtn = hotelForm.querySelector('.add_hotel_btn');
-const registerHotel = document.querySelector('.register-hotel-container');
 
 addHotelBtn.addEventListener('click', function (e) {
     e.preventDefault();
+
+    const mainPreview = document.getElementById('mainPreview');
+    const hotelPreview = document.getElementById('hotelPreview');
 
     const hotelNameRegex = new RegExp("^[a-zA-Z0-9\uAC00-\uD7A3\\s]+$");
     const contactRegex = new RegExp("^\\d{3}-\\d{3,4}-\\d{4}$");
@@ -161,10 +246,17 @@ addHotelBtn.addEventListener('click', function (e) {
         return;
     }
 
-    if (registerHotel.querySelector('.item') == null) {
-        alert("한 개 이상의 호텔 이미지를 등록해 주세요.");
+    if (mainPreview.querySelector('.item') == null) {
+        alert("대표 이미지를 등록해 주세요.");
         return;
     }
+
+    if (hotelPreview.querySelector('.item') == null) {
+        alert("한 개 이상의 객실 이미지를 등록해 주세요.");
+        return;
+    }
+
+    formData.append("mainFileName", mainFileName);
     formData.append("fileNames", fileNameArray);
     formData.append("hotelName", hotelForm['hotelName'].value);
     formData.append("region", hotelForm['region'].value);

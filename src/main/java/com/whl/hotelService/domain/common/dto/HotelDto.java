@@ -14,5 +14,7 @@ public class HotelDto {
     private String hotelDetails;
     private MultipartFile[] files;
     private String[] fileNames;
+    private MultipartFile[] mainFiles;
+    private String mainFileName;
     private String[] existingFileNames;
 }

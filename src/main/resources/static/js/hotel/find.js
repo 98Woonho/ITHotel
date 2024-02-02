@@ -1,13 +1,16 @@
-let main = document.getElementById('main');
-const hotelInfoButtons = document.getElementsByClassName('hotel-info-button');
-const hotelInfo = document.getElementsByClassName('hotel-info');
+const hotelInfoButtons = document.querySelectorAll('.hotel-info-button');
+const hotelInfos = document.querySelectorAll('.hotel-info');
 
-for (let i = 0; i < hotelInfoButtons.length; i++) {
-    hotelInfoButtons[i].addEventListener('click', function() {
-        if(hotelInfo[i].classList.contains('visible')) {
-            hotelInfo[i].classList.remove('visible');
-        } else {
-            hotelInfo[i].classList.add('visible');
-        }
+hotelInfoButtons.forEach(hotelInfoButton => {
+    hotelInfoButton.addEventListener('click', function() {
+        hotelInfos.forEach(hotelInfo => {
+            if(hotelInfoButton.dataset.value === hotelInfo.dataset.value) {
+                if(hotelInfo.classList.contains('visible')) {
+                    hotelInfo.classList.remove('visible');
+                } else {
+                    hotelInfo.classList.add('visible');
+                }
+            }
+        })
     });
-}
+})

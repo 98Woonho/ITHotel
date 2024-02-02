@@ -25,9 +25,10 @@ public class AdminController {
     private AdminService adminService;
 
     @GetMapping("reservationStatus")
-    public void getReservationStatus(@RequestParam(value = "region") String region,
-                                     Model model) {
-        model.addAttribute("region", region);
+    public void getReservationStatus(Model model) {
+        List<Reservation> reservationList = adminService.getAllReservationList();
+
+        model.addAttribute("reservationList", reservationList);
     }
 
     @GetMapping("inquiry")
@@ -42,6 +43,9 @@ public class AdminController {
     public void getModifyHotel(@RequestParam(value = "hotelName", required = false) String hotelName, Model model) {
         Hotel hotel = new Hotel();
 
+        HotelFileInfo hotelMainFile = adminService.getHotelMainFileInfo(hotelName, true);
+        model.addAttribute("hotelMainFile", hotelMainFile);
+
         if (hotelName != null) {
             hotel = adminService.getHotel(hotelName);
         }
@@ -50,9 +54,9 @@ public class AdminController {
 
         List<String> regionList = adminService.getRegionList();
 
-        List<HotelFileInfo> hotelFileList = adminService.getHotelFileInfo(hotelName);
+        List<HotelFileInfo> hotelFileList = adminService.getHotelFileInfoList(hotelName, false);
 
-        model.addAttribute("fileList", hotelFileList);
+        model.addAttribute("hotelFileList", hotelFileList);
         model.addAttribute("hotel", hotel);
         model.addAttribute("regionList", regionList);
         model.addAttribute("hotelName", hotelName);
@@ -61,6 +65,18 @@ public class AdminController {
 
     @GetMapping("monthSales")
     public void getMonthSales(@RequestParam(value = "region", required = false) String region, @RequestParam(value = "hotelName", required = false) String hotelName, Model model) {
+        if(Objects.equals(region, "total")) {
+            model.addAttribute("region", "전체");
+        } else {
+            model.addAttribute("region", region);
+        }
+
+        if(Objects.equals(hotelName, "total")) {
+            model.addAttribute("hotelName", "전체");
+        } else {
+            model.addAttribute("hotelName", hotelName);
+        }
+
         List<String> regionList = adminService.getRegionList();
         model.addAttribute("regionList", regionList);
 
@@ -260,11 +276,6 @@ public class AdminController {
         }
     }
 
-    @GetMapping("regionSales")
-    public void getRegionSales() {
-
-    }
-
     @GetMapping("registerRoom")
     public void getRegisterRoom(@RequestParam(value = "hotelName", required = false) String hotelName, Model model) {
         List<String> hotelList = adminService.getHotelNameList();
@@ -279,7 +290,7 @@ public class AdminController {
 
         List<String> hotelList = adminService.getHotelNameList();
 
-        RoomFileInfo roomMainFile = adminService.getRoomMainFile(hotelName, roomKind, true);
+        RoomFileInfo roomMainFile = adminService.getRoomMainFileInfo(hotelName, roomKind, true);
 
         if (roomMainFile != null) {
             String[] checkinTime = roomMainFile.getRoom().getCheckinTime().split(":");

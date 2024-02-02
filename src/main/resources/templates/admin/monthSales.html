@@ -30,7 +30,11 @@
             <th:block th:replace="~{fragments/adminLeft.html :: adminLeft_fragment}"></th:block>
             <div class="admin-right">
                 <div class="title-container">
-                    <h1 class="title">매출 현황 > 월별 매출</h1>
+                    <h1 class="title">매출 현황 > 월별 매출 >&nbsp;
+                        <span th:text="${region}"></span>&nbsp;
+                        <span th:if="${hotelName != null}">></span>&nbsp;
+                        <span th:text="${hotelName}"></span>
+                    </h1>
                 </div>
                 <div class="sales-container">
                     <div class="category-container">

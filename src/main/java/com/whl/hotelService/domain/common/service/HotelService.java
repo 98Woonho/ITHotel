@@ -50,6 +50,14 @@ public class HotelService {
         return hotelRepository.findDistinctRegion();
     }
 
+    public List<String> getHotelName() {
+        return hotelRepository.findAllHotelName();
+    }
+
+    public List<HotelFileInfo> getHotelMainFileInfoList(boolean isMainImage) {
+        return hotelFileInfoRepository.findByIsMainImage(isMainImage);
+    }
+
     public String confirmHotelName(String hotelName) {
         List<String> hotelNameList = hotelRepository.findAllHotelName();
 
@@ -82,6 +90,7 @@ public class HotelService {
         if (!dir.exists())
             dir.mkdirs();
 
+        // 추가 이미지
         for (String fileName : hotelDto.getFileNames()) {
             for (MultipartFile file : hotelDto.getFiles()) {
                 if (Objects.equals(fileName, file.getOriginalFilename())) {
@@ -100,6 +109,26 @@ public class HotelService {
 
                     file.transferTo(fileobj);   //저장
                 }
+            }
+        }
+        
+        // 대표 이미지
+        for (MultipartFile file : hotelDto.getMainFiles()) {
+            if (Objects.equals(hotelDto.getMainFileName(), file.getOriginalFilename())) {
+
+                File fileobj = new File(dir, file.getOriginalFilename()); //파일객체생성
+
+                if (!fileobj.exists()) {
+                    HotelFileInfo mainFileInfo = new HotelFileInfo();
+                    mainFileInfo.setHotel(hotel);
+                    String mainDirPath = File.separator + "hotelimage" + File.separator + hotelDto.getHotelName() + File.separator;
+                    mainFileInfo.setDir(mainDirPath);
+                    mainFileInfo.setFileName(file.getOriginalFilename());
+                    mainFileInfo.setMainImage(true);
+                    hotelFileInfoRepository.save(mainFileInfo);
+                }
+
+                file.transferTo(fileobj); // 저장
             }
         }
         return true;
@@ -136,10 +165,10 @@ public class HotelService {
             }
         }
 
+        // 추가 이미지
         for (String fileName : hotelDto.getFileNames()) {
             for (MultipartFile file : hotelDto.getFiles()) {
                 if (Objects.equals(fileName, file.getOriginalFilename())) {
-
                     File fileobj = new File(dir, file.getOriginalFilename());    //파일객체생성
 
                     if (!fileobj.exists()) {
@@ -152,6 +181,28 @@ public class HotelService {
                         hotelFileInfoRepository.save(hotelFileInfo);
                     }
                     file.transferTo(fileobj);   //저장
+                }
+            }
+        }
+
+        // 대표 이미지
+        if (hotelDto.getMainFiles() != null) {
+            for (MultipartFile file : hotelDto.getMainFiles()) {
+                if (Objects.equals(hotelDto.getMainFileName(), file.getOriginalFilename())) {
+
+                    File fileobj = new File(dir, file.getOriginalFilename()); //파일객체생성
+
+                    if (!fileobj.exists()) {
+                        HotelFileInfo mainFileInfo = new HotelFileInfo();
+                        mainFileInfo.setHotel(hotel);
+                        String mainDirPath = File.separator + "hotelimage" + File.separator + hotelDto.getHotelName() + File.separator;
+                        mainFileInfo.setDir(mainDirPath);
+                        mainFileInfo.setFileName(file.getOriginalFilename());
+                        mainFileInfo.setMainImage(true);
+                        hotelFileInfoRepository.save(mainFileInfo);
+                    }
+
+                    file.transferTo(fileobj); // 저장
                 }
             }
         }

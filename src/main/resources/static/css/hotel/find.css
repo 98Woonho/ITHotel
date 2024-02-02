@@ -1,12 +1,13 @@
 @charset "UTF-8";
 
-#main > .content-container {
-
-}
-
 .list-container {
     border-top: 0.175rem solid #575757;
     margin-bottom: 5rem;
+}
+
+.hotel-info img {
+    width: 200px;
+    height: 200px;
 }
 
 .list-container > .subtitle-container {

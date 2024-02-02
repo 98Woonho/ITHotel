@@ -24,6 +24,9 @@ public class AdminService {
     @Autowired
     private PaymentRepository paymentRepository;
 
+    @Autowired
+    private ReservationRepository reservationRepository;
+
 
     public List<String> getRegionList() {
         return hotelRepository.findDistinctRegion();
@@ -37,15 +40,19 @@ public class AdminService {
         return hotelRepository.findById(hotelName).get();
     }
 
-    public List<HotelFileInfo> getHotelFileInfo(String hotelName) {
-        return hotelFileInfoRepository.findByHotelHotelName(hotelName);
-    }
-
     public List<String> getRoomKindList(String hotelName) {
         return roomRepository.findHotelsRoomKind(hotelName);
     }
 
-    public RoomFileInfo getRoomMainFile(String hotelName, String roomKind, boolean isMainImage) {
+    public HotelFileInfo getHotelMainFileInfo(String hotelName, boolean isMainImage) {
+        return hotelFileInfoRepository.findByHotelHotelNameAndIsMainImage(hotelName, isMainImage);
+    }
+
+    public List<HotelFileInfo> getHotelFileInfoList(String hotelName, boolean isMainImage) {
+        return hotelFileInfoRepository.findAllByHotelHotelNameAndIsMainImage(hotelName, isMainImage);
+    }
+
+    public RoomFileInfo getRoomMainFileInfo(String hotelName, String roomKind, boolean isMainImage) {
         return roomFileInfoRepository.findByRoomKindAndRoomHotelHotelNameAndIsMainImage(roomKind, hotelName, isMainImage);
     }
 
@@ -71,5 +78,9 @@ public class AdminService {
 
     public List<Payment> getPaymentListByHotelName(String hotelName) {
         return paymentRepository.findAllByReservationRoomHotelHotelName(hotelName);
+    }
+
+    public List<Reservation> getAllReservationList() {
+        return reservationRepository.findAll();
     }
 }
