@@ -2,6 +2,9 @@ const hotelList = document.querySelector('.hotel-list');
 const hotelForm = document.querySelector('.hotel-form');
 const mainImg = document.querySelector('.main-img');
 const hotelImg = document.querySelector('.hotel-img');
+const modifyHotel = document.querySelector('.modify-hotel-container');
+const formData = new FormData();
+
 
 function selectedHotel() {
     location.href = "/admin/modifyHotel?hotelName=" + hotelList.value;
@@ -30,83 +33,9 @@ const AddressSearch = () => {
     }).open();
 }
 
-// 추가 이미지
-
-const formData = new FormData();
-const hotelUploadBox = hotelImg.querySelector('.hotel-upload-box');
-
-hotelUploadBox.addEventListener('dragenter', function (e) {
-    e.preventDefault();
-});
-hotelUploadBox.addEventListener('dragover', function (e) {
-    e.preventDefault();
-    hotelUploadBox.style.opacity = '0.5';
-
-});
-hotelUploadBox.addEventListener('dragleave', function (e) {
-    e.preventDefault();
-    hotelUploadBox.style.opacity = '1';
-});
-
-let fileNameArray = [];
-
-hotelUploadBox.addEventListener('drop', function (e) {
-    e.preventDefault();
-
-    // 유효성 체크
-    let imgFiles = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/')); // type이 image/로 시작하는 파일들만 가져와서 배열로 구성
-    if (imgFiles.length === 0) {
-        alert("이미지 파일만 가능합니다.");
-        return false;
-    }
-
-    // 이미지 파일 용량 제한
-    imgFiles.forEach(file => {
-        if (file.size > (1024 * 1024 * 5)) {
-            alert("파일 하나당 최대 사이즈는 5MB이하여야 합니다.")
-        }
-    })
-
-    const reader = new FileReader(); // FileReader
-
-    for (const file of imgFiles) {
-        for (const fileName of fileNameArray) {
-            if (fileName === file.name) {
-                alert("동일한 이미지는 등록할 수 없습니다. 다른 이미지를 등록해 주세요.");
-                return;
-            }
-        }
-        fileNameArray.push(file.name);
-        reader.readAsDataURL(file); // reader에 file 정보를 넣어줌.
-        reader.onload = function (e) { // preview 태그에 이미지가 업로드 되었을 때 동작 함수
-            const preview = document.querySelector('#hotelPreview');
-            const src = e.target.result;
-
-            const item = new DOMParser().parseFromString(`
-                <li class="item">
-                    <input hidden type="text" class="file-name" name="fileName" th:value="${file.name}">
-                    <img class="img" src="${src}" alt="">
-                    <a class="btn btn-secondary delete-btn">삭제</a>
-                </li>
-            `, 'text/html').querySelector('.item');
-            const deleteBtn = item.querySelector('.delete-btn');
-
-            preview.append(item);
-            preview.scrollLeft = preview.scrollWidth; // 파일이 추가 되면 스크롤을 오른쪽 끝으로 알아서 당겨줌.
-
-            deleteBtn.onclick = function () {
-                fileNameArray = fileNameArray.filter(name => name !== file.name);
-                item.remove();
-            }
-        }
-        formData.append("files", file);
-    }
-});
-
 
 // 대표 이미지
-
-let mainFileName;
+let mainFileName = modifyHotel.querySelector('.existing-main-file-name').value;
 const mainUploadBox = mainImg.querySelector('.main-upload-box');
 
 mainUploadBox.addEventListener('dragenter', function (e) {
@@ -173,7 +102,100 @@ mainUploadBox.addEventListener('drop', function (e) {
 });
 
 
-const modifyHotel = document.querySelector('.modify-hotel-container');
+
+// 추가 이미지
+const hotelUploadBox = hotelImg.querySelector('.hotel-upload-box');
+
+hotelUploadBox.addEventListener('dragenter', function (e) {
+    e.preventDefault();
+});
+hotelUploadBox.addEventListener('dragover', function (e) {
+    e.preventDefault();
+    hotelUploadBox.style.opacity = '0.5';
+
+});
+hotelUploadBox.addEventListener('dragleave', function (e) {
+    e.preventDefault();
+    hotelUploadBox.style.opacity = '1';
+});
+
+let fileNameArray = [];
+
+hotelUploadBox.addEventListener('drop', function (e) {
+    e.preventDefault();
+
+    // 유효성 체크
+    let imgFiles = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/')); // type이 image/로 시작하는 파일들만 가져와서 배열로 구성
+    if (imgFiles.length === 0) {
+        alert("이미지 파일만 가능합니다.");
+        return false;
+    }
+
+    // 이미지 파일 용량 제한
+    imgFiles.forEach(file => {
+        if (file.size > (1024 * 1024 * 5)) {
+            alert("파일 하나당 최대 사이즈는 5MB이하여야 합니다.")
+        }
+    })
+
+    let existingFileNameArray = [];
+    const existingFileNames = modifyHotel.querySelectorAll('.existing-file-name');
+    existingFileNames.forEach(fileName => {
+        existingFileNameArray.push(fileName.value)
+    })
+
+    const reader = new FileReader(); // FileReader
+
+    for (const file of imgFiles) {
+        if(file.name === mainFileName) {
+            alert("이미 대표 이미지에 등록된 이미지입니다. 다른 이미지를 등록해 주세요.");
+            return;
+        }
+
+        for (const fileName of fileNameArray) {
+            if (fileName === file.name) {
+                alert("동일한 이미지는 등록할 수 없습니다. 다른 이미지를 등록해 주세요.");
+                return;
+            }
+        }
+        for (const existingFileName of existingFileNameArray) {
+            if (existingFileName === file.name) {
+                alert("동일한 이미지는 등록할 수 없습니다. 다른 이미지를 등록해 주세요.");
+                return;
+            }
+        }
+
+        fileNameArray.push(file.name);
+        reader.readAsDataURL(file); // reader에 file 정보를 넣어줌.
+        reader.onload = function (e) { // preview 태그에 이미지가 업로드 되었을 때 동작 함수
+            const preview = document.querySelector('#hotelPreview');
+            const src = e.target.result;
+
+            const item = new DOMParser().parseFromString(`
+                <li class="item">
+                    <input hidden type="text" class="file-name" name="fileName" th:value="${file.name}">
+                    <img class="img" src="${src}" alt="">
+                    <a class="btn btn-secondary delete-btn">삭제</a>
+                </li>
+            `, 'text/html').querySelector('.item');
+            const deleteBtn = item.querySelector('.delete-btn');
+
+            preview.append(item);
+            preview.scrollLeft = preview.scrollWidth; // 파일이 추가 되면 스크롤을 오른쪽 끝으로 알아서 당겨줌.
+
+            deleteBtn.onclick = function () {
+                fileNameArray = fileNameArray.filter(name => name !== file.name);
+                item.remove();
+            }
+        }
+        formData.append("files", file);
+    }
+});
+
+
+
+
+
 const items = modifyHotel.querySelectorAll('.item');
 
 items.forEach(item => {
@@ -192,10 +214,10 @@ modifyHotelBtn.addEventListener('click', function (e) {
     const mainPreview = document.getElementById('mainPreview');
     const hotelPreview = document.getElementById('hotelPreview');
 
-    let existingFileNameArray = [];
+    let newExistingFileNameArray = [];
     const existingFileNames = modifyHotel.querySelectorAll('.existing-file-name');
     existingFileNames.forEach(fileName => {
-        existingFileNameArray.push(fileName.value)
+        newExistingFileNameArray.push(fileName.value)
     })
 
     const contactRegex = new RegExp("^\\d{3}-\\d{3,4}-\\d{4}$");
@@ -235,7 +257,7 @@ modifyHotelBtn.addEventListener('click', function (e) {
         return;
     }
 
-    formData.append("existingFileNames", existingFileNameArray);
+    formData.append("existingFileNames", newExistingFileNameArray);
     formData.append("mainFileName", mainFileName);
     formData.append("fileNames", fileNameArray);
     formData.append("hotelName", hotelForm['hotelName'].value);
