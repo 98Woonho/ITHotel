@@ -4,6 +4,7 @@
 
 a:link, a:visited {
     text-decoration: none;
+    color: black;
 }
 
 body {

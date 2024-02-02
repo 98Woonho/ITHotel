@@ -74,7 +74,7 @@
                                     <label>PREVIEW</label>
                                     <ul class="preview" id="mainPreview">
                                         <li class="item">
-                                            <input hidden type="text" class="existing-file-name" name="existingFileName" th:value="${roomMainFile.fileName}">
+                                            <input hidden type="text" class="existing-file-name existing-main-file-name" name="existingMainFileName" th:value="${roomMainFile.fileName}">
                                             <img class="img" th:src="@{${roomMainFile.dir} + ${roomMainFile.fileName}}" alt="">
                                             <a class="btn btn-secondary delete-btn">삭제</a>
                                         </li>

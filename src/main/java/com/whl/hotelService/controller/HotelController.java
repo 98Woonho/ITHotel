@@ -1,15 +1,19 @@
 package com.whl.hotelService.controller;
 
 import com.whl.hotelService.domain.common.dto.HotelDto;
+import com.whl.hotelService.domain.common.entity.Hotel;
+import com.whl.hotelService.domain.common.entity.HotelFileInfo;
 import com.whl.hotelService.domain.common.service.HotelService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.List;
 
 @Slf4j
 @Controller
@@ -19,8 +23,12 @@ public class HotelController {
     private HotelService hotelService;
 
     @GetMapping(value = "find")
-    public void getFind() {
-        log.info("getFind()");
+    public void getFind(Model model) {
+        List<String> regionList = hotelService.getDistinctRegion();
+        model.addAttribute("regionList", regionList);
+
+        List<HotelFileInfo> hotelMainFileInfoList = hotelService.getHotelMainFileInfoList(true);
+        model.addAttribute("hotelMainFileInfoList", hotelMainFileInfoList);
     }
 
     @GetMapping(value = "findMap")

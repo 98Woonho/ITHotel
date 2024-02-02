@@ -48,20 +48,42 @@
                 <div th:if="${hotelName != null}">
                     <div class="modify-hotel-container">
                         <section class="hotel_img_block">
-                            <div class="hotel_img">
-                                <div class="upload-box">
-                                    <div class="plus">+</div>
+                            <div class="main-image-container">
+                                <span class="text">대표 이미지</span>
+                                <div class="main-img">
+                                    <div class="upload-box main-upload-box" >
+                                        <div class="plus">+</div>
+                                    </div>
+                                </div>
+                                <div class="preview_img_block">
+                                    <label>PREVIEW</label>
+                                    <ul class="preview" id="mainPreview">
+                                        <li class="item">
+                                            <input hidden type="text" class="existing-file-name existing-main-file-name" name="existingMainFileName" th:value="${hotelMainFile.fileName}">
+                                            <img class="img" th:src="@{${hotelMainFile.dir} + ${hotelMainFile.fileName}}" alt="">
+                                            <a class="btn btn-secondary delete-btn">삭제</a>
+                                        </li>
+                                    </ul>
                                 </div>
                             </div>
-                            <div class="preview_img_block">
-                                <label>PREVIEW</label>
-                                <ul id="preview">
-                                    <li class="item" th:each="file : ${fileList}">
-                                        <input hidden type="text" class="file-name" name="fileName" th:value="${file.fileName}">
-                                        <img class="img" th:src="@{${file.dir} + ${file.fileName}}" alt="">
-                                        <a class="btn btn-secondary delete-btn">삭제</a>
-                                    </li>
-                                </ul>
+
+                            <div class="hotel-image-container">
+                                <span class="text hotel-image">객실 이미지</span>
+                                <div class="hotel-img">
+                                    <div class="upload-box hotel-upload-box">
+                                        <div class="plus">+</div>
+                                    </div>
+                                </div>
+                                <div class="preview_img_block">
+                                    <label>PREVIEW</label>
+                                    <ul class="preview" id="hotelPreview">
+                                        <li class="item" th:each="file : ${hotelFileList}">
+                                            <input hidden type="text" class="existing-file-name" name="existingFileName" th:value="${file.fileName}">
+                                            <img class="img" th:src="@{${file.dir} + ${file.fileName}}" alt="">
+                                            <a class="btn btn-secondary delete-btn">삭제</a>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
                         </section>
 

@@ -148,8 +148,6 @@ public class RoomService {
 
         String[] existingFileNameArray = roomDto.getExistingFileNames();
 
-        System.out.println(Arrays.toString(existingFileNameArray));
-
         // 객실 종류가 바뀌지 않았다면 기존 파일 리스트와 수정된 파일 리스트를 비교해서 제거/추가
         if (Objects.equals(roomDto.getExistingKind(), roomDto.getKind())) {
 

@@ -33,9 +33,10 @@ public class AdminController {
     private AdminBoardService adminBoardService;
 
     @GetMapping("reservationStatus")
-    public void getReservationStatus(@RequestParam(value = "region") String region,
-                                     Model model) {
-        model.addAttribute("region", region);
+    public void getReservationStatus(Model model) {
+        List<Reservation> reservationList = adminService.getAllReservationList();
+
+        model.addAttribute("reservationList", reservationList);
     }
 
     @GetMapping("inquiry")
@@ -64,6 +65,9 @@ public class AdminController {
     public void getModifyHotel(@RequestParam(value = "hotelName", required = false) String hotelName, Model model) {
         Hotel hotel = new Hotel();
 
+        HotelFileInfo hotelMainFile = adminService.getHotelMainFileInfo(hotelName, true);
+        model.addAttribute("hotelMainFile", hotelMainFile);
+
         if (hotelName != null) {
             hotel = adminService.getHotel(hotelName);
         }
@@ -72,9 +76,9 @@ public class AdminController {
 
         List<String> regionList = adminService.getRegionList();
 
-        List<HotelFileInfo> hotelFileList = adminService.getHotelFileInfo(hotelName);
+        List<HotelFileInfo> hotelFileList = adminService.getHotelFileInfoList(hotelName, false);
 
-        model.addAttribute("fileList", hotelFileList);
+        model.addAttribute("hotelFileList", hotelFileList);
         model.addAttribute("hotel", hotel);
         model.addAttribute("regionList", regionList);
         model.addAttribute("hotelName", hotelName);
@@ -82,15 +86,28 @@ public class AdminController {
     }
 
     @GetMapping("monthSales")
-    public void getMonthSales(@RequestParam(value = "value", required = false) String value, Model model) {
-        model.addAttribute("value", value);
+    public void getMonthSales(@RequestParam(value = "region", required = false) String region, @RequestParam(value = "hotelName", required = false) String hotelName, Model model) {
+        if(Objects.equals(region, "total")) {
+            model.addAttribute("region", "전체");
+        } else {
+            model.addAttribute("region", region);
+        }
 
-        if (Objects.equals(value, "total")) {
+        if(Objects.equals(hotelName, "total")) {
+            model.addAttribute("hotelName", "전체");
+        } else {
+            model.addAttribute("hotelName", hotelName);
+        }
+
+        List<String> regionList = adminService.getRegionList();
+        model.addAttribute("regionList", regionList);
+
+        List<Hotel> allHotelList = adminService.getAllHotelList();
+        model.addAttribute("allHotelList", allHotelList);
+
+        if (Objects.equals(region, "total") && hotelName == null) {
             List<Payment> paymentList = adminService.getAllPaymentList();
             model.addAttribute("paymentList", paymentList);
-
-            List<String> hotelNameList = adminService.getHotelNameList();
-            model.addAttribute("hotelNameList", hotelNameList);
 
             int januarySales = 0;
             int februarySales = 0;
@@ -151,12 +168,10 @@ public class AdminController {
             model.addAttribute("octoberSales", octoberSales);
             model.addAttribute("novemberSales", novemberSales);
             model.addAttribute("decemberSales", decemberSales);
-        } else {
-            List<Payment> paymentList = adminService.getPaymentList(value);
-            model.addAttribute("paymentList", paymentList);
+        } else if(!Objects.equals(region, "total") && Objects.equals(hotelName, "total")){
+            List<Payment> paymentList = adminService.getPaymentListByRegion(region);
 
-            List<String> hotelNameList = adminService.getHotelNameList();
-            model.addAttribute("hotelNameList", hotelNameList);
+            model.addAttribute("paymentList", paymentList);
 
             int januarySales = 0;
             int februarySales = 0;
@@ -173,9 +188,6 @@ public class AdminController {
 
             for (Payment payment : paymentList) {
                 String checkin = payment.getReservation().getCheckin();
-
-                LocalDate currentDate = LocalDate.now();
-
 
                 LocalDate startDate = LocalDate.parse(checkin, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
@@ -207,7 +219,70 @@ public class AdminController {
                     decemberSales += payment.getPaidAmount();
                 }
             }
+            model.addAttribute("januarySales", januarySales);
+            model.addAttribute("februarySales", februarySales);
+            model.addAttribute("marchSales", marchSales);
+            model.addAttribute("aprilSales", aprilSales);
+            model.addAttribute("maySales", maySales);
+            model.addAttribute("junSales", junSales);
+            model.addAttribute("julySales", julySales);
+            model.addAttribute("augustSales", augustSales);
+            model.addAttribute("septemberSales", septemberSales);
+            model.addAttribute("octoberSales", octoberSales);
+            model.addAttribute("novemberSales", novemberSales);
+            model.addAttribute("decemberSales", decemberSales);
 
+        } else if(!Objects.equals(region, "total") && !Objects.equals(hotelName, "total")){
+            List<Payment> paymentList = adminService.getPaymentListByHotelName(hotelName);
+
+            model.addAttribute("paymentList", paymentList);
+
+            int januarySales = 0;
+            int februarySales = 0;
+            int marchSales = 0;
+            int aprilSales = 0;
+            int maySales = 0;
+            int junSales = 0;
+            int julySales = 0;
+            int augustSales = 0;
+            int septemberSales = 0;
+            int octoberSales = 0;
+            int novemberSales = 0;
+            int decemberSales = 0;
+
+            for (Payment payment : paymentList) {
+                String checkin = payment.getReservation().getCheckin();
+
+                LocalDate startDate = LocalDate.parse(checkin, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
+                int month = startDate.getMonthValue();
+
+                if (month == 1) {
+                    januarySales += payment.getPaidAmount();
+                } else if (month == 2) {
+                    februarySales += payment.getPaidAmount();
+                } else if (month == 3) {
+                    marchSales += payment.getPaidAmount();
+                } else if (month == 4) {
+                    aprilSales += payment.getPaidAmount();
+                } else if (month == 5) {
+                    maySales += payment.getPaidAmount();
+                } else if (month == 6) {
+                    junSales += payment.getPaidAmount();
+                } else if (month == 7) {
+                    julySales += payment.getPaidAmount();
+                } else if (month == 8) {
+                    augustSales += payment.getPaidAmount();
+                } else if (month == 9) {
+                    septemberSales += payment.getPaidAmount();
+                } else if (month == 10) {
+                    octoberSales += payment.getPaidAmount();
+                } else if (month == 11) {
+                    novemberSales += payment.getPaidAmount();
+                } else if (month == 12) {
+                    decemberSales += payment.getPaidAmount();
+                }
+            }
             model.addAttribute("januarySales", januarySales);
             model.addAttribute("februarySales", februarySales);
             model.addAttribute("marchSales", marchSales);
@@ -221,11 +296,6 @@ public class AdminController {
             model.addAttribute("novemberSales", novemberSales);
             model.addAttribute("decemberSales", decemberSales);
         }
-    }
-
-    @GetMapping("regionSales")
-    public void getRegionSales() {
-
     }
 
     @GetMapping("registerRoom")
@@ -242,7 +312,7 @@ public class AdminController {
 
         List<String> hotelList = adminService.getHotelNameList();
 
-        RoomFileInfo roomMainFile = adminService.getRoomMainFile(hotelName, roomKind, true);
+        RoomFileInfo roomMainFile = adminService.getRoomMainFileInfo(hotelName, roomKind, true);
 
         if (roomMainFile != null) {
             String[] checkinTime = roomMainFile.getRoom().getCheckinTime().split(":");

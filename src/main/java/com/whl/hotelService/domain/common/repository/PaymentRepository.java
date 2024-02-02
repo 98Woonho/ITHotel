@@ -10,4 +10,6 @@ import java.util.List;
 public interface PaymentRepository extends JpaRepository<Payment, Long> {
 
     List<Payment> findAllByReservationRoomHotelHotelName(String hotelName);
+
+    List<Payment> findAllByReservationRoomHotelRegion(String region);
 }
