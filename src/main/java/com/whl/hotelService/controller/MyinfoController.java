@@ -55,6 +55,8 @@ public class MyinfoController {
     JwtTokenProvider jwtTokenProvider;
     @Autowired
     CommentService commentService;
+    @Autowired
+    HttpServletResponse response;
 
     @GetMapping("informationInfo")
     public void getInformationInfo(@RequestParam(value="function", defaultValue = "read") String function,
@@ -65,7 +67,7 @@ public class MyinfoController {
                                    @RequestParam(value="zipcode_msg", required = false) String zipcode_msg,
                                    @RequestParam(value="addr1_msg", required = false) String addr1_msg,
                                    @RequestParam(value="msg", required = false) String msg,
-                                Model model, Authentication authentication, HttpServletRequest request){
+                                   HttpServletRequest request, Model model, Authentication authentication){
         log.info("get information");
         model.addAttribute("auth_msg", "회원정보 수정을 위해 비밀번호가 필요합니다.");
 
@@ -82,7 +84,13 @@ public class MyinfoController {
         for(Cookie cookie : cookies){
             if(Objects.equals(cookie.getName(), "InfoAuth") && Objects.equals(function, "update"))
                 model.addAttribute("auth", true);
+            else if(!Objects.equals(function, "update")){
+                cookie.setPath("/user");
+                cookie.setMaxAge(0);
+                response.addCookie(cookie);
+            }
         }
+
     }
 
     @PostMapping("infoAuth/{password}")
