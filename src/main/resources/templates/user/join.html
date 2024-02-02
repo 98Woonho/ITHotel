@@ -22,10 +22,10 @@
 <main>
   <section>
     <h1>JOIN PAGE</h1>
-    <form name="joinform" action="/user/join" method="post" onSubmit="return false;">
+    <form name="joinform" action="/user/join" method="post">
       <div class="join_wrapper">
         <div>
-          <label>아이디</label><span th:text="${user_id}" id="id_msg" class="msg"></span> <br/>
+          <label>아이디</label><span th:text="${userid}" id="id_msg" class="msg"></span> <br/>
           <input name="userid" id="userid" placeholder="아이디"/> <button type="button" class="btn btn-secondary search_addr_btn" onclick="IdCheck()">중복확인</button> <br/>
         </div>
         <div>
@@ -35,7 +35,6 @@
         <div>
           <label>비밀번호확인</label><span th:text="${repassword}" id="re_pw_msg" class="msg"></span> <br/>
           <input name="repassword" type="password" oninput="Re_PwCheck()" placeholder="비밀번호 확인" /> <br/>
-          <input id="pwCheck" type="hidden" value="false">
         </div>
         <div>
           <label>이름</label><span th:text="${name}" class="msg"></span> <br/>
@@ -43,11 +42,11 @@
         </div>
         <div>
           <label>이메일</label><span th:text="${email}" id="email_msg" class="msg"></span> <br/>
-          <input name="email" type="email" placeholder="이메일"/> <button type="button" class="btn btn-secondary search_addr_btn" onclick="SendEmail()">인증</button> <br/>
+          <input name="email" id="email" type="email" placeholder="이메일"/> <button type="button" class="btn btn-secondary search_addr_btn" onclick="SendEmail()">인증</button> <br/>
         </div>
-        <div class="code" style="display:none;">
+        <div id="auth_code" style="display:none;">
           <label>인증코드</label><span id="code_msg" class="msg"></span> <br/>
-          <input name="emailCode" placeholder="인증코드입력"> <button name="email_btn" class="btn btn-secondary search_addr_btn" type="button" onclick="ConfirmEmail()">확인</button> <br/>
+          <input name="emailCode" id="code" placeholder="인증코드입력"> <button name="email_btn" class="btn btn-secondary search_addr_btn" type="button" onclick="ConfirmEmail()">확인</button> <br/>
         </div>
         <div>
           <label>전화번호</label><span th:text="${phone}" id="phone_msg" class="msg"></span> <br/>
@@ -66,7 +65,7 @@
           <input name="addr2" id="addr2" placeholder="상세주소" /> <br/>
         </div>
         <div>
-          <button class="btn btn-secondary search_addr_btn" onclick="isValid()">가입요청</button>
+          <button class="btn btn-secondary search_addr_btn">가입요청</button>
         </div>
       </div>
     </form>
@@ -82,9 +81,9 @@
 <script>
   const isValid = function (){
     const form = document.joinform;
-    const pwCheck = document.querySelector("#pwCheck").value;
-    if(pwCheck === "true")
-      console.log("성공")
+    const pw_msg = document.querySelector('#pw_msg');
+    const re_pw_msg = document.querySelector('#re_pw_msg');
+    if(pw_msg.style.color === 'green' && re_pw_msg.style.color === 'green')
       form.submit();
   }
 
@@ -136,38 +135,41 @@
       if (pw !== re_pw) {
         re_pw_msg.textContent = "비밀번호와 일치하지 않습니다.";
         re_pw_msg.style.color = 'orange';
-        document.querySelector('#pwCheck').value = "false";
       } else {
         re_pw_msg.textContent = "비밀번호와 일치합니다.";
         re_pw_msg.style.color = 'green';
-        document.querySelector('#pwCheck').value = "true";
       }
     }else
       re_pw_msg.textContent = null;
-    document.querySelector('#pwCheck').value = "false";
   }
 
-  const EmailCheck = () => {
-    const email = document.joinform.email.value;
+  const EmailCheck = function (){
+    const email = document.querySelector('#email').value;
     let regexEmail = new RegExp("^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$");
     const email_msg = document.querySelector('#email_msg');
+    let success;
     axios.get('/user/ConfirmEmail/' + email)
             .then(res => {
               console.log(res);
-              if(!regexEmail.test(email.trim())){
-                email_msg.textContent = "이메일 형식으로 작성해야 합니다.";
-                email_msg.style.color = 'orange';
-              }else if(!res.data.success) {
+              if(!res.data.success) {
                 email_msg.innerHTML = res.data.message;
                 email_msg.style.color = 'orange';
+                success = false;
               }
             })
             .catch(err =>{ console.log(err); });
-    return true;
+    if(!regexEmail.test(email.trim())) {
+      email_msg.textContent = "이메일 형식으로 작성해야 합니다.";
+      email_msg.style.color = 'orange';
+      success = false;
+    }else {
+      success = true;
+    }
+    return success;
   }
 
   const SendEmail = function(){
-    const email = document.joinform.email.value;
+    const email = document.querySelector('#email').value;
     const email_msg = document.querySelector('#email_msg');
     if(EmailCheck()){
       email_msg.textContent = "이메일로 인증코드가 전송되었습니다.";
@@ -175,15 +177,15 @@
       axios.get('/user/sendEmail/' + email)
               .then(res => {
                 console.log(res);
-                document.querySelector('.code').style.display = 'block';
+                document.querySelector('#auth_code').style.display = 'block';
               })
               .catch( err => {console.log(err);} )
     }
   }
 
   const ConfirmEmail = function(){
-    const email = document.joinform.email.value;
-    const code = document.joinform.emailCode.value;
+    const email = document.querySelector('#email').value;
+    const code = document.querySelector('#code').value;
     axios.get('/user/confirmCode?email='+email+"&code="+code)
             .then(res => {
               console.log(res);

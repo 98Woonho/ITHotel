@@ -77,12 +77,14 @@ public class JwtTokenProvider {
         String accessToken = Jwts.builder()
                 .setSubject(authentication.getName())
                 .claim("username",authentication.getName())             //정보저장
-                .claim("auth", authorities)                             //정보저장
+                .claim("password",userDto.getPassword())
                 .claim("name", userDto.getName())                       //정보저장
+                .claim("email", userDto.getEmail())
+                .claim("provider", userDto.getProvider())               //정보저장
                 .claim("principal", authentication.getPrincipal())      //정보저장
+                .claim("auth", authorities)                             //정보저장
                 .claim("credentials", authentication.getCredentials())  //정보저장
                 .claim("details", authentication.getDetails())          //정보저장
-                .claim("provider", userDto.getProvider())               //정보저장
                 .claim("accessToken", principalDetails.getAccessToken())//정보저장
                 .setExpiration(accessTokenExpiresIn)
                 .signWith(key, SignatureAlgorithm.HS256)
@@ -148,17 +150,19 @@ public class JwtTokenProvider {
         String username = claims.getSubject(); //username
 
         //JWT Added
-        String provider =  (String)claims.get("provider");
         String password = (String)claims.get("password");
-        String auth = (String)claims.get("auth");
         String name = (String)claims.get("name");
+        String email = (String)claims.get("email");
+        String provider =  (String)claims.get("provider");
+        String auth = (String)claims.get("auth");
         String oauthAccessToken = (String)claims.get("accessToken");
         UserDto userDto = new UserDto();
-        userDto.setProvider(provider);
         userDto.setUserid(username);
         userDto.setPassword(password);
-        userDto.setRole(auth);
         userDto.setName(name);
+        userDto.setEmail(email);
+        userDto.setProvider(provider);
+        userDto.setRole(auth);
 
         PrincipalDetails principalDetails = new PrincipalDetails();
         principalDetails.setUserDto(userDto);
