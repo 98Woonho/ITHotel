@@ -13,4 +13,5 @@
 
 .page-link > span {
     font-weight: bold;
+    color: gray;
 }

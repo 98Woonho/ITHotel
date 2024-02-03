@@ -48,10 +48,10 @@
 
 
                         <th:block
-                                th:if="${board != null and #authentication.principal instanceof T(org.springframework.security.core.userdetails.UserDetails) and board.getUsername() == #authentication.principal.username}">
+                                th:if="${board != null and #authentication.principal instanceof T(org.springframework.security.core.userdetails.UserDetails) and board.getUserid() == #authentication.principal.username}">
                             <a th:href="@{/board/{id}/update(id=${id})}" class="btn btn-outline-warning">수정</a>
                             <a th:href="@{/board/{id}/remove(id=${id})}" class="btn btn-outline-danger"
-                               onclick="return confirm('삭제하시겠습니까?')">삭제</a>
+                               onclick="return alert('삭제하시겠습니까?')">삭제</a>
                         </th:block>
                     </div>
                 </form>
