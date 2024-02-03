@@ -3,7 +3,6 @@ package com.whl.hotelService.controller;
 
 import com.whl.hotelService.domain.common.dto.BoardResponseDto;
 import com.whl.hotelService.domain.common.dto.BoardWriteRequestDto;
-import com.whl.hotelService.domain.common.dto.CommentResponseDto;
 import com.whl.hotelService.domain.common.service.AdminBoardService;
 import com.whl.hotelService.domain.common.service.BoardService;
 import com.whl.hotelService.domain.common.service.CommentService;
@@ -17,7 +16,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -32,50 +30,33 @@ public class BoardController {
     @Autowired
     private CommentService commentService;
 
-    @GetMapping("/admin/adminWrite")
-    public String adminWriteForm() {
-        return "board/admin/adminWrite";
+    @GetMapping("/inquiryForm")
+    public void inquiryForm(Model model) {
+        List<String> hotelnames = boardService.searchHotelname();
+        model.addAttribute("hotelnames", hotelnames);
     }
 
-    @PostMapping("/admin/adminWrite") // 게시판 글쓰기 로그인된 유저만 글을 쓸수 있음
-    public String adminWrite(@RequestParam String hotelname,
+    @PostMapping("/inquiryForm") // 게시판 글쓰기 로그인된 유저만 글을 쓸수 있음
+    public String inquiry(@RequestParam String hotelname,
                              @RequestParam String relation,
                              BoardWriteRequestDto boardWriteRequestDto, Authentication authentication) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         adminBoardService.saveBoard(hotelname, relation, boardWriteRequestDto, userDetails.getUsername());
         System.out.println("relation" + relation);
-        return "redirect:/";
+        return "redirect:/board/inquiryForm";
     }
 
-    @PostMapping("/write") // 게시판 글쓰기 로그인된 유저만 글을 쓸수 있음
-    public String write(BoardWriteRequestDto boardWriteRequestDto, Authentication authentication) {
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        boardService.saveBoard(boardWriteRequestDto, userDetails.getUsername());
-        return "redirect:/board/list";
-    }
-
-    @GetMapping("/{id}") // 게시판 조회
+    @GetMapping("/{id}") // 자주하는 질문 조회 수정
     public String boardDetail(@PathVariable Long id, Model model) {
         BoardResponseDto board = boardService.boardDetail(id);
         model.addAttribute("board", board);
         model.addAttribute("id", id);
 
-        return "board/detail";
+        return "board/questionDetail";
     }
 
-    @GetMapping("/admin/{id}") // 게시판 조회
-    public String adminBoardDetail(@PathVariable Long id, Model model) {
-        BoardResponseDto board = adminBoardService.boardDetail(id);
-        List<CommentResponseDto> commentResponseDtos = commentService.commentList(id);
-        model.addAttribute("comments", commentResponseDtos);
-        model.addAttribute("board", board);
-        model.addAttribute("id", id);
-
-        return "board/admin/adminDetail";
-    }
-
-    @GetMapping("/list") // 게시판 전체 조회 + paging 처리 + 검색처리 + 답변완료 처리
-    public String boardList(Model model, @PageableDefault(page = 0, size = 10, sort = "id") Pageable pageable, String keyword, String type) {
+    @GetMapping("/question") // 게시판 전체 조회 + paging 처리 + 검색처리 + 답변완료 처리
+    public void boardList(Model model, @PageableDefault(page = 0, size = 10, sort = "id") Authentication authentication, Pageable pageable, String keyword, String type) {
 
         Page<BoardResponseDto> boardList = boardService.boardList(pageable);
         Page<BoardResponseDto> boardSerchList = boardService.searchingBoardList(keyword, type, pageable);
@@ -84,14 +65,13 @@ public class BoardController {
         } else {
             model.addAttribute("boardList", boardSerchList);
         }
-        return "board/list";
     }
 
     @GetMapping("/{id}/update") // 게시판 업데이트화면 이동
     public String boardUpdateForm(@PathVariable Long id, Authentication authentication, Model model) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal(); //로그인된 회원을 조회해서
         BoardResponseDto board = boardService.boardDetail(id);
-        if (!(board.getUsername().equals(userDetails.getUsername()))) { //확인해서 같으면 수정페이지 이동
+        if (!(board.getUserid().equals(userDetails.getUsername()))) { //확인해서 같으면 수정페이지 이동
             System.out.println("userDetails.getUsername : " + userDetails.getUsername());
             System.out.println("getUsername() : " + board.getUsername());
             return "redirect:/";
@@ -99,7 +79,7 @@ public class BoardController {
             model.addAttribute("board", board);
             model.addAttribute("id", id);
 
-            return "board/update";
+            return "board/questionUpdate";
         }
     }
 
@@ -107,26 +87,31 @@ public class BoardController {
     public String boardUpdate(@PathVariable Long id, BoardWriteRequestDto boardWriteRequestDto) {
         boardService.boardUpdate(id, boardWriteRequestDto);
 
-        return "redirect:/board/list";
+        return "redirect:/board/{id}";
     }
 
     @GetMapping("/{id}/remove") // 게시판 삭제
     public String boardRemove(@PathVariable Long id, Authentication authentication) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         BoardResponseDto board = boardService.boardDetail(id);
-        if (!(board.getUsername().equals(userDetails.getUsername()))) {
+        if (!(board.getUserid().equals(userDetails.getUsername()))) {
             System.out.println("userDetails.getUsername : " + userDetails.getUsername());
             System.out.println("getUsername() : " + board.getUsername());
             return "redirect:/";
         } else {
             boardService.boardRemove(id);
-            return "redirect:/board/list";
+            return "redirect:/board/question";
         }
     }
 
-    @GetMapping("/{id}/admin/adminRemove") // 게시판 삭제
+    @GetMapping("/admin/{id}/adminRemove") // 게시판 삭제
     public String adminBoardRemove(@PathVariable Long id) {
         adminBoardService.boardRemove(id);
         return "redirect:/";
+    }
+
+    @GetMapping("/basic")
+    public void boardBasic(){
+
     }
 }

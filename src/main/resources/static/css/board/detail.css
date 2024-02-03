@@ -49,3 +49,14 @@
     background: #FFF;
     color: #1b1b1b;
 }
+
+.page-link {
+    border: unset!important;
+}
+.page-item.active > .page-link{
+    background-color: rgb(32, 150, 243)!important;
+}
+
+.page-link > span {
+    font-weight: bold;
+}
