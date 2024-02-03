@@ -33,9 +33,10 @@ public class AdminController {
     private AdminBoardService adminBoardService;
 
     @GetMapping("reservationStatus")
-    public void getReservationStatus(Model model) {
-        List<Reservation> reservationList = adminService.getAllReservationList();
+    public void getReservationStatus(@PageableDefault(page = 0, size = 10) Pageable pageable, Model model) {
+        Page<Reservation> reservationList = adminService.getAllReservationList(pageable);
 
+        reservationList.isEmpty();
         model.addAttribute("reservationList", reservationList);
     }
 

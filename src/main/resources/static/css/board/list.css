@@ -60,9 +60,21 @@
 #board > ul > .answer_li {
     display: none;
 }
+
 .pagination {
     margin-top: 30px;
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.page-link {
+    border: unset!important;
+}
+.page-item.active > .page-link{
+    background-color: rgb(32, 150, 243)!important;
+}
+
+.page-link > span {
+    font-weight: bold;
 }

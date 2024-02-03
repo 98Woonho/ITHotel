@@ -3,6 +3,8 @@ package com.whl.hotelService.domain.common.service;
 import com.whl.hotelService.domain.common.entity.*;
 import com.whl.hotelService.domain.common.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -80,7 +82,7 @@ public class AdminService {
         return paymentRepository.findAllByReservationRoomHotelHotelName(hotelName);
     }
 
-    public List<Reservation> getAllReservationList() {
-        return reservationRepository.findAll();
+    public Page<Reservation> getAllReservationList(Pageable pageable) {
+        return reservationRepository.findAll(pageable);
     }
 }

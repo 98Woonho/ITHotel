@@ -47,7 +47,7 @@
             </ul>
         </div>
         </div>
-        <div th:if="$!boardList.isEmpty()}">
+        <div th:if="${!boardList.isEmpty()}">
             <ul class="pagination"
                 th:with="
             pageNumber = ${boardList.pageable.pageNumber},
