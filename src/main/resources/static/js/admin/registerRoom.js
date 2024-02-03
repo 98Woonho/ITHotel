@@ -8,21 +8,30 @@ function selectedHotel() {
     location.href = "/admin/registerRoom?hotelName=" + hotelList.value;
 }
 
+let kind = roomForm['kind'];
+
+kind.addEventListener('input', function() {
+    if(kind.classList.contains("confirmed")) {
+        kind.classList.remove("confirmed");
+    }
+})
+
 function confirmDuplication() {
     const hotelName = roomForm['hotelName'].value;
-    const kind = encodeURIComponent(roomForm['kind'].value);
+    kind = roomForm['kind'];
 
-    if(kind === "") {
+    if(encodeURIComponent(kind.value) === "") {
         alert("객실 종류를 입력해 주세요.");
         return;
     }
 
-    axios.get("/room/confirmKind?kind=" + kind + "&hotelName=" + hotelName)
+    axios.get("/room/confirmKind?kind=" + encodeURIComponent(kind.value) + "&hotelName=" + hotelName)
         .then(res => {
             if (res.data === "FAILURE_DUPLICATED_KIND") {
                 alert("이미 존재하는 객실 종류입니다. 다른 객실 종류를 입력해 주세요.");
             } else {
                 alert("사용 가능한 객실 종류입니다.");
+                kind.classList.add("confirmed");
             }
         })
         .catch(err => {
@@ -68,8 +77,13 @@ mainUploadBox.addEventListener('drop', function (e) {
     })
 
     const reader = new FileReader(); // FileReader
+    const preview = document.querySelector('#mainPreview');
 
     for (const file of imgFiles) {
+        if(preview.querySelectorAll('.item').length == 1) {
+            alert("대표 이미지는 한 개만 등록 가능합니다.");
+            return;
+        }
         for (const fileName of fileNameArray) {
             if (fileName === file.name) {
                 alert("동일한 이미지는 등록할 수 없습니다. 다른 이미지를 등록해 주세요.");
@@ -79,7 +93,6 @@ mainUploadBox.addEventListener('drop', function (e) {
         fileNameArray.push(file.name);
         reader.readAsDataURL(file); // reader에 file 정보를 넣어줌.
         reader.onload = function (e) { // preview 태그에 이미지가 업로드 되었을 때 동작 함수
-            const preview = document.querySelector('#mainPreview');
             const src = e.target.result;
 
             const item = new DOMParser().parseFromString(`
@@ -93,9 +106,6 @@ mainUploadBox.addEventListener('drop', function (e) {
 
             if(preview.querySelectorAll('.item').length !== 1) {
                 preview.append(item);
-            } else {
-                alert("대표 이미지는 한 개만 등록 가능합니다.");
-                return;
             }
 
             deleteBtn.onclick = function () {
@@ -142,7 +152,8 @@ roomUploadBox.addEventListener('drop', function (e) {
     // 이미지 파일 용량 제한
     imgFiles.forEach(file => {
         if (file.size > (1024 * 1024 * 5)) {
-            alert("파일 하나당 최대 사이즈는 5MB이하여야 합니다.")
+            alert("파일 하나당 최대 사이즈는 5MB이하여야 합니다.");
+            return false;
         }
     })
 
@@ -327,6 +338,11 @@ addRoomBtn.addEventListener('click', function(e) {
 
     }if (roomForm['checkoutMinute'].value.length < 2) {
         checkoutMinute = '0' + roomForm['checkoutMinute'].value;
+    }
+
+    if (!roomForm['kind'].classList.contains("confirmed")) {
+        alert("객실 종류 중복 확인을 진행해주세요.");
+        return;
     }
 
     formData.append("mainFileName", mainFileName);
