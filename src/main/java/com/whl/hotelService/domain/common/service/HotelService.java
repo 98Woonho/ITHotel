@@ -111,7 +111,7 @@ public class HotelService {
                 }
             }
         }
-        
+
         // 대표 이미지
         for (MultipartFile file : hotelDto.getMainFiles()) {
             if (Objects.equals(hotelDto.getMainFileName(), file.getOriginalFilename())) {
@@ -243,6 +243,16 @@ public class HotelService {
                 public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
                     Files.delete(dir);
                     return FileVisitResult.CONTINUE;
+                }
+
+                @Override
+                public FileVisitResult visitFileFailed(Path file, IOException exc) throws IOException {
+                    // Ignore if the file doesn't exist
+                    if (exc instanceof NoSuchFileException) {
+                        return FileVisitResult.CONTINUE;
+                    } else {
+                        throw exc;
+                    }
                 }
             });
         } catch (IOException e) {
