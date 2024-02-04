@@ -76,4 +76,5 @@ public class HotelController {
 
         return "SUCCESS";
     }
+
 }

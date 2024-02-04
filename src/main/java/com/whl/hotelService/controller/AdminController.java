@@ -65,7 +65,7 @@ public class AdminController {
         }
     }
 
-    @GetMapping("/{id}") // 게시판 조회
+    @GetMapping("/inquiryList/{id}") // 게시판 조회
     public String adminBoardDetail(@PathVariable Long id, Model model) {
         BoardResponseDto board = adminBoardService.boardDetail(id);
         List<CommentResponseDto> commentResponseDtos = commentService.commentList(id);
@@ -73,7 +73,13 @@ public class AdminController {
         model.addAttribute("board", board);
         model.addAttribute("id", id);
 
-        return "admin/detail";
+        return "admin/inquiryListDetail";
+    }
+
+    @GetMapping("/inquiryList/{id}/adminRemove") // 게시판 삭제
+    public String adminBoardRemove(@PathVariable Long id) {
+        adminBoardService.boardRemove(id);
+        return "redirect:/admin/inquiryList";
     }
 
     @GetMapping("/questionWrite")
@@ -81,12 +87,13 @@ public class AdminController {
 
     }
 
-    @PostMapping("/write") // 관리자 게시판 글쓰기
+    @PostMapping("/questionWrite") // 관리자 게시판 글쓰기
     public String write(BoardWriteRequestDto boardWriteRequestDto, Authentication authentication) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         boardService.saveBoard(boardWriteRequestDto, userDetails.getUsername());
         return "redirect:/board/question";
     }
+
 
     @GetMapping("registerHotel")
     public void getRegisterHotel() {

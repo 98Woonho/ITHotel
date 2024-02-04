@@ -166,6 +166,6 @@ public class MyinfoController {
         model.addAttribute("comments", commentResponseDtos);
         model.addAttribute("board", board);
         model.addAttribute("id", id);
-        return "user/detail";
+        return "user/questionInfoDetail";
     }
 }

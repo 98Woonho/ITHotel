@@ -4,11 +4,9 @@ import com.whl.hotelService.domain.common.dto.BoardResponseDto;
 import com.whl.hotelService.domain.common.dto.BoardWriteRequestDto;
 import com.whl.hotelService.domain.common.dto.CommentResponseDto;
 import com.whl.hotelService.domain.common.entity.AdminBoard;
-import com.whl.hotelService.domain.common.entity.Board;
 import com.whl.hotelService.domain.common.entity.Comment;
 import com.whl.hotelService.domain.common.repository.AdminBoardRepository;
 import com.whl.hotelService.domain.common.repository.CommentRepository;
-import com.whl.hotelService.domain.user.dto.UserDto;
 import com.whl.hotelService.domain.user.entity.User;
 import com.whl.hotelService.domain.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +29,6 @@ public class AdminBoardService {
     private UserRepository userRepository;
     @Autowired
     private CommentRepository commentRepository;
-
 
     public Long saveBoard(String hotelname, String relation, BoardWriteRequestDto boardWriteRequestDto, String id) {
         boardWriteRequestDto.setHotelname(hotelname);
@@ -124,4 +121,5 @@ public class AdminBoardService {
             }
             return new PageImpl<>(boardDtos, pageable, adminBoards.getTotalElements());
     }
+
 }
