@@ -54,7 +54,7 @@
                                     </th:block>
                                     <th:block
                                             th:if="${board != null and #authentication.principal instanceof T(org.springframework.security.core.userdetails.UserDetails) and board.getUserid() == #authentication.principal.username}">
-                                        <a th:text="|Q ${board.title}|" th:href="@{'/board/' + ${board.id}}"></a>
+                                        <a th:text="|Q ${board.title}|" th:href="@{'/board/question/' + ${board.id}}"></a>
                                     </th:block>
                                 </li>
                                 <li  class="answer_li" th:unless="${board != null and #authentication.principal instanceof T(org.springframework.security.core.userdetails.UserDetails) and board.getUserid() == #authentication.principal.username}"

@@ -1,29 +1,17 @@
 package com.whl.hotelService.domain.common.service;
 
 import com.whl.hotelService.domain.common.dto.HotelDto;
-import com.whl.hotelService.domain.common.dto.PaymentDto;
-import com.whl.hotelService.domain.common.dto.ReservationDto;
 import com.whl.hotelService.domain.common.entity.*;
 import com.whl.hotelService.domain.common.repository.*;
-import com.whl.hotelService.domain.user.entity.User;
-import com.whl.hotelService.domain.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.List;
 
@@ -248,5 +236,17 @@ public class HotelService {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    public List<Hotel> hotelContact(HotelDto hotelDto){
+        Hotel hotel = Hotel.builder()
+                .hotelName(hotelDto.getHotelName())
+                .region(hotelDto.getRegion())
+                .addr1(hotelDto.getAddr1())
+                .addr2(hotelDto.getAddr2())
+                .zipcode(hotelDto.getZipcode())
+                .contactInfo(hotelDto.getContactInfo())
+                .hotelDetails(hotelDto.getHotelDetails())
+                .build();
+        return hotelRepository.findAll();
     }
 }

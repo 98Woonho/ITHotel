@@ -17,7 +17,7 @@
 <main id="main">
     <div id="main_wrapper">
         <div class="table_wrapper">
-            <h1>회원 문의글</h1>
+            <h1>1:1 문의글</h1>
                 <table class="main_table">
                     <tbody>
                     <tr>
@@ -115,7 +115,7 @@
         <button class="btn btn-outline-secondary" onclick="listReq()">게시판 목록</button>
         <th:block>
 
-            <a th:href="@{/board/admin/{id}/adminRemove(id=${id})}" class="btn btn-outline-danger"
+            <a th:href="@{/admin/inquiryList/{id}/adminRemove(id=${id})}" class="btn btn-outline-danger"
                onclick="return confirm('글을 삭제하시겠습니까?')">회원 글 삭제</a>
         </th:block>
     </div>

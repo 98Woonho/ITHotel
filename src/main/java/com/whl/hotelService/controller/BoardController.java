@@ -3,9 +3,12 @@ package com.whl.hotelService.controller;
 
 import com.whl.hotelService.domain.common.dto.BoardResponseDto;
 import com.whl.hotelService.domain.common.dto.BoardWriteRequestDto;
+import com.whl.hotelService.domain.common.dto.HotelDto;
+import com.whl.hotelService.domain.common.entity.Hotel;
 import com.whl.hotelService.domain.common.service.AdminBoardService;
 import com.whl.hotelService.domain.common.service.BoardService;
 import com.whl.hotelService.domain.common.service.CommentService;
+import com.whl.hotelService.domain.common.service.HotelService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -28,7 +31,7 @@ public class BoardController {
     @Autowired
     private AdminBoardService adminBoardService;
     @Autowired
-    private CommentService commentService;
+    private HotelService hotelService;
 
     @GetMapping("/inquiryForm")
     public void inquiryForm(Model model) {
@@ -46,7 +49,7 @@ public class BoardController {
         return "redirect:/board/inquiryForm";
     }
 
-    @GetMapping("/{id}") // 자주하는 질문 조회 수정
+    @GetMapping("/question/{id}") // 자주하는 질문 조회 수정
     public String boardDetail(@PathVariable Long id, Model model) {
         BoardResponseDto board = boardService.boardDetail(id);
         model.addAttribute("board", board);
@@ -67,7 +70,7 @@ public class BoardController {
         }
     }
 
-    @GetMapping("/{id}/update") // 게시판 업데이트화면 이동
+    @GetMapping("/question/{id}/update") // 게시판 업데이트화면 이동
     public String boardUpdateForm(@PathVariable Long id, Authentication authentication, Model model) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal(); //로그인된 회원을 조회해서
         BoardResponseDto board = boardService.boardDetail(id);
@@ -83,14 +86,14 @@ public class BoardController {
         }
     }
 
-    @PostMapping("/{id}/update") // 게시글 업데이트
+    @PostMapping("/question/{id}/update") // 게시글 업데이트
     public String boardUpdate(@PathVariable Long id, BoardWriteRequestDto boardWriteRequestDto) {
         boardService.boardUpdate(id, boardWriteRequestDto);
 
-        return "redirect:/board/{id}";
+        return "redirect:/board/question/{id}";
     }
 
-    @GetMapping("/{id}/remove") // 게시판 삭제
+    @GetMapping("/question/{id}/remove") // 게시판 삭제
     public String boardRemove(@PathVariable Long id, Authentication authentication) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         BoardResponseDto board = boardService.boardDetail(id);
@@ -104,14 +107,13 @@ public class BoardController {
         }
     }
 
-    @GetMapping("/admin/{id}/adminRemove") // 게시판 삭제
-    public String adminBoardRemove(@PathVariable Long id) {
-        adminBoardService.boardRemove(id);
-        return "redirect:/";
-    }
-
     @GetMapping("/basic")
     public void boardBasic(){
 
+    }
+    @GetMapping("hotelContact")
+    public void hotelContact(HotelDto hotelDto, Model model){
+        List<Hotel> hotels = hotelService.hotelContact(hotelDto);
+        model.addAttribute("hotels", hotels);
     }
 }

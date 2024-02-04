@@ -12,7 +12,7 @@
 
     <!-- css -->
     <link rel="stylesheet" href="/css/common.css">
-    <link rel="stylesheet" href="/css/board/basic.css">
+    <link rel="stylesheet" href="/css/board/hotelContact.css">
 
     <!-- js -->
     <!--    <script defer src="/js/admin/modifyRoom.js"></script>-->
@@ -31,8 +31,40 @@
                 <div class="title-container">
                     <h1 class="title">고객문의 안내 > 호텔 연락처</h1>
                 </div>
-
-
+                <div class="information-info-container">
+                    <div class="table_wrapper">
+                        <table class="main_table" th:each="hotel : ${hotels}">
+                            <tbody>
+                            <tr>
+                                <th>
+                                </th>
+                                <td>
+                                    <span class="main_call">대표전화</span>
+                                    <span th:text="${hotel.contactInfo}"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <span th:text="${hotel.hotelName}"></span>
+                                </th>
+                                <td>
+                                    <span class="hotel_addr">호텔 주소</span>
+                                    <span th:text="${hotel.addr1}"></span>
+                                    <span th:text="${hotel.addr2}"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                </th>
+                                <td class="unset_border">
+                                    <span class="hotel_introduce">호텔 소개</span>
+                                    <span th:text="${hotel.hotelDetails}"></span>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
