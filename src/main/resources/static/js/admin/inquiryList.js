@@ -1,4 +1,4 @@
-const searchForm = document.getElementById('searchForm');
+const searchForm = document.getElementById('search_Form');
 
 const btnSearch = document.querySelector('.btn-search');
 

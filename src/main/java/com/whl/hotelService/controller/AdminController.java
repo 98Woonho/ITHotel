@@ -387,6 +387,7 @@ public class AdminController {
 
     @GetMapping("hotelStatus")
     public void getHotelStatus(Model model) {
+
         List<Hotel> hotelList = adminService.getAllHotelList();
 
         model.addAttribute("hotelList", hotelList);
