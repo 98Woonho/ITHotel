@@ -229,7 +229,8 @@ addHotelBtn.addEventListener('click', function (e) {
     const hotelPreview = document.getElementById('hotelPreview');
 
     const hotelNameRegex = new RegExp("^[a-zA-Z0-9\uAC00-\uD7A3\\s]+$");
-    const contactRegex = new RegExp("^\\d{3}-\\d{3,4}-\\d{4}$");
+    const contactRegex = new RegExp("^\\d{2,3}-\\d{3,4}-\\d{4}$");
+
 
     if (hotelForm['hotelName'].value === "") {
         alert("호텔 이름을 입력해 주세요.");

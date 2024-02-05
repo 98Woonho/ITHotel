@@ -104,6 +104,7 @@ public class HotelService {
                         String dirPath = File.separator + "hotelimage" + File.separator + hotelDto.getHotelName() + File.separator;
                         hotelFileInfo.setDir(dirPath);
                         hotelFileInfo.setFileName(file.getOriginalFilename());
+                        hotelFileInfo.setMainImage(false);
                         hotelFileInfoRepository.save(hotelFileInfo);
                     }
                     file.transferTo(fileobj);   //저장
