@@ -10,6 +10,7 @@ import com.whl.hotelService.domain.common.service.AdminService;
 import com.whl.hotelService.domain.common.service.BoardService;
 import com.whl.hotelService.domain.common.service.CommentService;
 import lombok.extern.slf4j.Slf4j;
+import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -48,21 +49,28 @@ public class AdminController {
     }
 
     @GetMapping("inquiryList")
-    public void adminBoardList(Model model,
-                                 @PageableDefault(page = 0, size = 10, sort = "id") Pageable pageable,
-                                 @RequestParam(name = "keyword", required = false) String keyword,
-                                 @RequestParam(name = "type", required = false) String type) {
+    public JSONObject adminBoardList(Model model,
+                                     @PageableDefault(page = 0, size = 10, sort = "id") Pageable pageable,
+                                     @RequestParam(name = "keyword", required = false) String keyword,
+                                     @RequestParam(name = "type", required = false) String type) {
+
+        model.addAttribute("type", type);
 
         Page<BoardResponseDto> boardList = adminBoardService.boardList(pageable);
-        Page<BoardResponseDto> boardSerchList = adminBoardService.searchingBoardList(keyword, type, pageable);
+        Page<BoardResponseDto> boardSearchList = adminBoardService.searchingBoardList(keyword, type, pageable);
         Page<CommentResponseDto> commentList = adminBoardService.commentList(pageable);
         if (keyword == null) {
             model.addAttribute("boardList", boardList);
             model.addAttribute("commentList", commentList);
         } else {
-            model.addAttribute("boardList", boardSerchList);
+            model.addAttribute("boardList", boardSearchList);
             model.addAttribute("commentList", commentList);
         }
+        JSONObject obj = new JSONObject();
+
+        obj.put("SUCCESS", true);
+
+        return obj;
     }
 
     @GetMapping("/inquiryList/{id}") // 게시판 조회
