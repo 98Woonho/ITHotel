@@ -106,7 +106,6 @@ public class HotelService {
                         hotelFileInfo.setFileName(file.getOriginalFilename());
                         hotelFileInfoRepository.save(hotelFileInfo);
                     }
-
                     file.transferTo(fileobj);   //저장
                 }
             }

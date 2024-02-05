@@ -7,35 +7,35 @@
 <body>
 
 <th:block th:fragment="header_fragment">
-    <div class="content-container menu">
+    <div class="content-container menu-container">
         <h1 class="item logo">
             <a class="link" href="/">
                 <img th:src="@{/images/ITHOTEL.header.png}" class="title-logo">
             </a>
         </h1>
         <span class="spring"></span>
-        <div class="subMenu">
-            <div class="userArea">
+        <div class="menu">
+            <div class="user-area">
                 <div class="welcome-message-container" sec:authorize="hasRole('ROLE_USER')">
                     <a class="link name" href="/user/informationInfo?function=read" th:text="${#authentication.Principal.userDto.name}"></a>님 환영합니다!
                 </div>
                 <a class="link" href="/user/informationInfo?function=read" sec:authorize="hasRole('ROLE_USER')">
                     <span class="text">마이페이지</span>
                 </a>
-                <a href="/admin/reservationStatus" class="link" sec:authorize="hasRole('ROLE_ADMIN')">
+                <a class="link" href="/admin/reservationStatus"  sec:authorize="hasRole('ROLE_ADMIN')">
                     <span class="text">관리자페이지</span>
                 </a>
-                <a href="/user/login" class="link" sec:authorize="isAnonymous()">
+                <a class="link" href="/user/login" sec:authorize="isAnonymous()">
                     <span class="text">로그인</span>
                 </a>
                 <a class="link" href="/logout" sec:authorize="isAuthenticated()">
                     <span class="text">로그아웃</span>
                 </a>
-                <a href="/user/join" class="link" sec:authorize="isAnonymous()">
+                <a class="link" href="/user/join" sec:authorize="isAnonymous()">
                     <span class="text">회원가입</span>
                 </a>
             </div>
-            <div class="hotelArea">
+            <div class="hotel-area">
                 <a class="link" href="/hotel/find">호텔 찾기</a>
                 <a class="link" href="/hotel/info">호텔 소개</a>
                 <a class="link" href="#" sec:authorize="hasRole('ROLE_USER') || isAnonymous()">고객 문의</a>

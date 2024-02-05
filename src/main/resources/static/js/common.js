@@ -58,7 +58,7 @@ $(function () {
 })
 
 
-searchForm.querySelector('.hotelSearch').onclick = function () {
+searchForm.querySelector('.hotel-search-container').onclick = function () {
     hotelList.classList.add('visible');
 }
 
