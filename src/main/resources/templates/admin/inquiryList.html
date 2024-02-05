@@ -32,7 +32,7 @@
                     <h1 class="title">고객문의 > 1:1 문의 내역</h1>
                 </div>
                     <div id="main_wrapper">
-                        <form method="get" th:action="@{/admin/inquiryList}">
+                        <form id="searchForm" method="get" th:action="@{/admin/inquiryList}">
                             <div class="search">
                                 <select name="type" class="form-select">
                                     <option value='T'>제목별</option>
@@ -46,7 +46,7 @@
                                 <button type="submit" class="btn btn-secondary">검색</button>
                             </div>
                         </form>
-                        <table class="table table-striped table-hover">
+                        <table id="table_List" class="table table-striped table-hover">
                             <thead>
                             <tr>
                                 <th>글제목</th>

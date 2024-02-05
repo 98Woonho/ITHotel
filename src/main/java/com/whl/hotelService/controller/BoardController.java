@@ -4,6 +4,7 @@ package com.whl.hotelService.controller;
 import com.whl.hotelService.domain.common.dto.BoardResponseDto;
 import com.whl.hotelService.domain.common.dto.BoardWriteRequestDto;
 import com.whl.hotelService.domain.common.dto.HotelDto;
+import com.whl.hotelService.domain.common.entity.AdminBoard;
 import com.whl.hotelService.domain.common.entity.Hotel;
 import com.whl.hotelService.domain.common.service.AdminBoardService;
 import com.whl.hotelService.domain.common.service.BoardService;
@@ -35,17 +36,15 @@ public class BoardController {
 
     @GetMapping("/inquiryForm")
     public void inquiryForm(Model model) {
+
         List<String> hotelnames = boardService.searchHotelname();
         model.addAttribute("hotelnames", hotelnames);
     }
 
     @PostMapping("/inquiryForm") // 게시판 글쓰기 로그인된 유저만 글을 쓸수 있음
-    public String inquiry(@RequestParam String hotelname,
-                             @RequestParam String relation,
-                             BoardWriteRequestDto boardWriteRequestDto, Authentication authentication) {
+    public String inquiry(AdminBoard adminBoard, BoardWriteRequestDto boardWriteRequestDto, Authentication authentication) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        adminBoardService.saveBoard(hotelname, relation, boardWriteRequestDto, userDetails.getUsername());
-        System.out.println("relation" + relation);
+        adminBoardService.saveBoard(boardWriteRequestDto, userDetails.getUsername());
         return "redirect:/board/inquiryForm";
     }
 
