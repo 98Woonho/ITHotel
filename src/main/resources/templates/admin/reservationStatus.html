@@ -44,7 +44,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr class="empty" th:if="${reservationList.size() == 0}">
+                    <tr class="empty" th:if="${reservationList.isEmpty()}">
                         <td colspan="5">예약이 존재하지 않습니다.</td>
                     </tr>
                     <tr th:each="reservation : ${reservationList}">
@@ -58,6 +58,40 @@
                     </tr>
                     </tbody>
                 </table>
+                <div>
+                    <div th:if="${!reservationList.isEmpty()}">
+                        <ul class="pagination" style="justify-content: center;"
+                            th:with="
+            pageNumber = ${reservationList.pageable.pageNumber},
+            pageSize = ${reservationList.pageable.pageSize},
+            totalPages = ${reservationList.totalPages},
+            startPage = ${T(java.lang.Math).floor(pageNumber / pageSize) * pageSize + 1},
+            tempEndPage = ${startPage + pageSize - 1},
+            endPage = (${tempEndPage < totalPages ? tempEndPage : totalPages})">
+
+                            <li th:classappend="${reservationList.first} ? 'disabled'" class="page-item">
+                                <a class="page-link"
+                                   th:href="${reservationList.first} ? '#' : @{/admin/reservationStatus(page=${pageNumber - 1})}"
+                                   aria-label="Previous">
+                                    <span aria-hidden="true">이전</span>
+                                </a>
+                            </li>
+
+                            <li th:each="page: ${#numbers.sequence(startPage, endPage)}"
+                                th:classappend="${page == pageNumber + 1} ? 'active'" class="page-item">
+                                <a th:text="${page}" class="page-link"
+                                   th:href="@{/admin/reservationStatus(page=${page - 1})}"></a>
+                            </li>
+                            <li th:classappend="${reservationList.last} ? 'disabled'" class="page-item">
+                                <a class="page-link"
+                                   th:href="${reservationList.last} ? '#' : @{/admin/reservationStatus(page=${pageNumber + 1})}"
+                                   aria-label="Next">
+                                    <span aria-hidden="true">다음</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

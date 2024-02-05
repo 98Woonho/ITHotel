@@ -29,10 +29,10 @@
             <th:block th:replace="~{fragments/adminLeft.html :: adminLeft_fragment}"></th:block>
             <div class="admin-right">
                 <div class="title-container">
-                    <h1 class="title">문의 사항 > 문의 내역</h1>
+                    <h1 class="title">고객문의 > 1:1 문의 내역</h1>
                 </div>
                     <div id="main_wrapper">
-                        <form method="get" th:action="@{/admin/inquiry}">
+                        <form method="get" th:action="@{/admin/inquiryList}">
                             <div class="search">
                                 <select name="type" class="form-select">
                                     <option value='T'>제목별</option>
@@ -61,7 +61,7 @@
                             <!-- 댓글 !-->
                             <tr th:each="board : ${boardList}">
                                 <td>
-                                    <a th:href="@{'/board/admin/' + ${board.id}}">
+                                    <a th:href="@{'/admin/inquiryList/' + ${board.id}}">
                                         <span th:text="${board.title}"></span>
                                     </a>
                                 </td>
@@ -99,35 +99,35 @@
 
                                 <li th:classappend="${boardList.first} ? 'disabled'" class="page-item">
                                     <a class="page-link" th:if="${param.keyword == null}"
-                                       th:href="${boardList.first} ? '#' : @{/admin/inquiry(page=${pageNumber - 1})}"
+                                       th:href="${boardList.first} ? '#' : @{/admin/inquiryList(page=${pageNumber - 1})}"
                                        aria-label="Previous">
-                                        <span aria-hidden="true">&lt;</span>
+                                        <span aria-hidden="true">이전</span>
                                     </a>
                                     <a class="page-link" th:if="${param.keyword != null}"
-                                       th:href="${boardList.first} ? '#' : @{/admin/inquiry(page=${pageNumber - 1}, type=${param.type}, keyword=${param.keyword})}"
+                                       th:href="${boardList.first} ? '#' : @{/admin/inquiryList(page=${pageNumber - 1}, type=${param.type}, keyword=${param.keyword})}"
                                        aria-label="Previous">
-                                        <span aria-hidden="true">&lt;</span>
+                                        <span aria-hidden="true">이전</span>
                                     </a>
                                 </li>
 
                                 <li th:each="page: ${#numbers.sequence(startPage, endPage)}"
                                     th:classappend="${page == pageNumber + 1} ? 'active'" class="page-item">
                                     <a th:text="${page}" th:if="${param.keyword == null}" class="page-link"
-                                       th:href="@{/admin/inquiry(page=${page - 1})}"></a>
+                                       th:href="@{/admin/inquiryList(page=${page - 1})}"></a>
                                     <a th:text="${page}" th:if="${param.keyword != null}" class="page-link"
-                                       th:href="@{/admin/inquiry(page=${page - 1}, type=${param.type}, keyword=${param.keyword})}"></a>
+                                       th:href="@{/admin/inquiryList(page=${page - 1}, type=${param.type}, keyword=${param.keyword})}"></a>
                                 </li>
 
                                 <li th:classappend="${boardList.last} ? 'disabled'" class="page-item">
                                     <a class="page-link" th:if="${param.keyword == null}"
-                                       th:href="${boardList.last} ? '#' : @{/admin/inquiry(page=${pageNumber + 1})}"
+                                       th:href="${boardList.last} ? '#' : @{/admin/inquiryList(page=${pageNumber + 1})}"
                                        aria-label="Next">
-                                        <span aria-hidden="true">&gt;</span>
+                                        <span aria-hidden="true">다음</span>
                                     </a>
                                     <a class="page-link" th:if="${param.keyword != null}"
-                                       th:href="${boardList.last} ? '#' : @{/admin/inquiry(page=${pageNumber + 1}, type=${param.type}, keyword=${param.keyword})}"
+                                       th:href="${boardList.last} ? '#' : @{/admin/inquiryList(page=${pageNumber + 1}, type=${param.type}, keyword=${param.keyword})}"
                                        aria-label="Next">
-                                        <span aria-hidden="true">&gt;</span>
+                                        <span aria-hidden="true">다음</span>
                                     </a>
                                 </li>
                             </ul>

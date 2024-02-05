@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>나의 문의</title>
 
-    <link rel="stylesheet" href="/css/board/userdetail.css">
+    <link rel="stylesheet" href="/css/board/questionInfoDetail.css">
     <link rel="stylesheet" href="/css/user/myinfo.css">
     <link rel="stylesheet" href="/css/common.css">
     <script defer src="/js/board/admin/detail.js"></script>
@@ -22,8 +22,8 @@
         <div class="user-container">
             <th:block th:replace="~{fragments/userLeft.html :: userLeft_fragment}"></th:block>
             <div class="user-right">
-                <div class="title-container" th:switch="${function}">
-                    <h1 class="title">나의 문의 > </h1>
+                <div class="title-container">
+                    <h1 class="title">문의사항 > 나의문의 </h1>
                 </div>
                 <div class="information-info-container">
         <div class="table_wrapper">
@@ -94,14 +94,6 @@
                                         <small class="text-muted"
                                                th:text="${#temporals.format(comment.createdTime, 'yyyy-MM-dd HH:mm')}">댓글 작성
                                             시간</small>
-                                        <div>
-                                            <button class="btn btn-sm btn-outline-warning" th:attr="data-id=${comment.id}"
-                                                    onclick="editComment(this)">수정
-                                            </button>
-                                            <a th:href="@{/board/{id}/comment/{commentId}/remove(id=${id}, commentId=${comment.id})}"
-                                               class="btn btn-sm btn-outline-danger"
-                                               onclick="return confirm('Delete this comment?')">삭제</a>
-                                        </div>
                                     </div>
                                 </div>
                             </div>

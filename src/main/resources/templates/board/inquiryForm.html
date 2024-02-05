@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <!--  cdns  -->
+    <th:block th:insert="~{fragments/link.html :: link_fragment}"></th:block>
+
+    <!-- css -->
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/board/basic.css">
+
+    <!-- js -->
+    <!--    <script defer src="/js/admin/modifyRoom.js"></script>-->
+</head>
+<body>
+
+<header id="header" class="content-container-wrapper">
+    <th:block th:insert="~{fragments/header.html :: header_fragment}"></th:block>
+</header>
+
+<main id="main" class="content-container-wrapper">
+    <div class="content-container">
+        <div class="board-container">
+            <th:block th:replace="~{fragments/boardLeft.html :: boardLeft_fragment}"></th:block>
+            <div class="board-right">
+                <div class="title-container">
+                    <h1 class="title">고객문의 안내 > 1:1 고객문의</h1>
+                </div>
+                <div id="main_wrapper">
+                    <form id="mainForm" method="post">
+                        <div class="fw-bold fs-5">호텔위치</div>
+                        <select class="form-select" name="hotelname" th:value="hotelname">
+                            <option th:each="hotelname : ${hotelnames}" th:text="${hotelname}"></option>
+                        </select>
+                        <div class="fw-bold fs-5">관련 문의</div>
+                        <select class="form-select" name="relation">
+                            <option value="호텔문의">호텔문의</option>
+                            <option value="객실문의">객실문의</option>
+                            <option value="예약문의">예약문의</option>
+                        </select>
+                        <div>
+                            <label class="form-label fw-bold fs-5">문의 제목</label>
+                            <input class="form-control" type="text" name="title" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold fs-5">문의 내용</label>
+                            <textarea class="form-control" name="content" cols="30" rows="10" required></textarea>
+                        </div>
+                        <span class="mb-3">
+        <input class="form-control write" type="submit" value="글작성">
+    </span>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<th:block th:insert="~{fragments/footer.html :: footer_fragment}"></th:block>
+
+</body>
+</html>

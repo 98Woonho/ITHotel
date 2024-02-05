@@ -2,20 +2,23 @@ package com.whl.hotelService.controller;
 
 
 import com.whl.hotelService.domain.common.dto.BoardResponseDto;
+import com.whl.hotelService.domain.common.dto.BoardWriteRequestDto;
 import com.whl.hotelService.domain.common.dto.CommentResponseDto;
 import com.whl.hotelService.domain.common.entity.*;
 import com.whl.hotelService.domain.common.service.AdminBoardService;
 import com.whl.hotelService.domain.common.service.AdminService;
+import com.whl.hotelService.domain.common.service.BoardService;
+import com.whl.hotelService.domain.common.service.CommentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -31,15 +34,20 @@ public class AdminController {
     private AdminService adminService;
     @Autowired
     private AdminBoardService adminBoardService;
+    @Autowired
+    private BoardService boardService;
+    @Autowired
+    private CommentService commentService;
 
     @GetMapping("reservationStatus")
-    public void getReservationStatus(Model model) {
-        List<Reservation> reservationList = adminService.getAllReservationList();
+    public void getReservationStatus(@PageableDefault(page = 0, size = 10) Pageable pageable, Model model) {
+        Page<Reservation> reservationList = adminService.getAllReservationList(pageable);
 
+        reservationList.isEmpty();
         model.addAttribute("reservationList", reservationList);
     }
 
-    @GetMapping("inquiry")
+    @GetMapping("inquiryList")
     public void adminBoardList(Model model,
                                  @PageableDefault(page = 0, size = 10, sort = "id") Pageable pageable,
                                  @RequestParam(name = "keyword", required = false) String keyword,
@@ -56,6 +64,36 @@ public class AdminController {
             model.addAttribute("commentList", commentList);
         }
     }
+
+    @GetMapping("/inquiryList/{id}") // 게시판 조회
+    public String adminBoardDetail(@PathVariable Long id, Model model) {
+        BoardResponseDto board = adminBoardService.boardDetail(id);
+        List<CommentResponseDto> commentResponseDtos = commentService.commentList(id);
+        model.addAttribute("comments", commentResponseDtos);
+        model.addAttribute("board", board);
+        model.addAttribute("id", id);
+
+        return "admin/inquiryListDetail";
+    }
+
+    @GetMapping("/inquiryList/{id}/adminRemove") // 게시판 삭제
+    public String adminBoardRemove(@PathVariable Long id) {
+        adminBoardService.boardRemove(id);
+        return "redirect:/admin/inquiryList";
+    }
+
+    @GetMapping("/questionWrite")
+    public void adminWrite(){
+
+    }
+
+    @PostMapping("/questionWrite") // 관리자 게시판 글쓰기
+    public String write(BoardWriteRequestDto boardWriteRequestDto, Authentication authentication) {
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        boardService.saveBoard(boardWriteRequestDto, userDetails.getUsername());
+        return "redirect:/board/question";
+    }
+
 
     @GetMapping("registerHotel")
     public void getRegisterHotel() {

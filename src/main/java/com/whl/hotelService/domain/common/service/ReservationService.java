@@ -43,6 +43,7 @@ public class ReservationService {
         return roomRepository.findByHotelHotelNameAndStandardPeopleGreaterThanEqual(hotelname, people);
     }
 
+//    @Scheduled(fixedRate = 1000000)
     @Transactional(rollbackFor = Exception.class)
     public void deleteExpiredReservations() {
         List<LocalDateTime> createdAtList = reservationRepository.findCreatedAtByStatus("예약 중");
