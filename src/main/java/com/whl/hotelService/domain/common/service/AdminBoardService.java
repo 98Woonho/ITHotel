@@ -5,6 +5,7 @@ import com.whl.hotelService.domain.common.dto.BoardWriteRequestDto;
 import com.whl.hotelService.domain.common.dto.CommentResponseDto;
 import com.whl.hotelService.domain.common.entity.AdminBoard;
 import com.whl.hotelService.domain.common.entity.Comment;
+import com.whl.hotelService.domain.common.repository.BoardFileInfoRepository;
 import com.whl.hotelService.domain.common.repository.AdminBoardRepository;
 import com.whl.hotelService.domain.common.repository.CommentRepository;
 import com.whl.hotelService.domain.user.entity.User;
@@ -29,7 +30,8 @@ public class AdminBoardService {
     private UserRepository userRepository;
     @Autowired
     private CommentRepository commentRepository;
-
+    @Autowired
+    private BoardFileInfoRepository boardFileInfoRepository;
     public void saveBoard(BoardWriteRequestDto boardWriteRequestDto, String userid) {
 
         // 유저 아이디로 유저 찾기

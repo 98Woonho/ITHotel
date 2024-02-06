@@ -115,4 +115,8 @@ public class BoardController {
         List<Hotel> hotels = hotelService.hotelContact(hotelDto);
         model.addAttribute("hotels", hotels);
     }
+    @GetMapping("notice")
+    public void noticeboardList(){
+
+    }
 }

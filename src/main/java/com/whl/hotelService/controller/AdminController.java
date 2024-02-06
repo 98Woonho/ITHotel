@@ -20,7 +20,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -39,6 +41,7 @@ public class AdminController {
     private BoardService boardService;
     @Autowired
     private CommentService commentService;
+
 
     @GetMapping("reservationStatus")
     public void getReservationStatus(@PageableDefault(page = 0, size = 10) Pageable pageable, Model model) {
@@ -101,10 +104,20 @@ public class AdminController {
         boardService.saveBoard(boardWriteRequestDto, userDetails.getUsername());
         return "redirect:/board/question";
     }
+    @GetMapping("/noticeWrite")
+    public void noticeWrite(){
 
+    }
+    @PostMapping("/noticeWrite") // 관리자 게시판 글쓰기
+    public void noticeWrite(BoardWriteRequestDto boardWriteRequestDto, MultipartFile multipartFile, Authentication authentication) throws IOException {
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        boardService.saveImageFile(boardWriteRequestDto,multipartFile,  userDetails.getUsername());
+
+    }
 
     @GetMapping("registerHotel")
     public void getRegisterHotel() {
+
     }
 
     @GetMapping("modifyHotel")
