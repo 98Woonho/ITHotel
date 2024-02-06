@@ -21,32 +21,31 @@
     flex-direction: column;
 }
 
-.hotel-info li div > .address-container {
+.address-container {
     display: flex;
     flex-direction: row;
 }
 
-
-.list-container > .subtitle-container {
+.subtitle-container {
     width: 1150px;
     margin: 0.5rem auto;
 }
 
-.list-container > .subtitle-container > .subtitle {
+.subtitle {
     font-size: 2.25rem;
     font-weight: 400;
 }
 
-.list-container > .area {
+.area {
     width: 1150px;
     margin: 0 auto;
 }
 
-.list-container > .area > .item {
+.item {
     border-top: 0.0625rem solid #D2C4A5;
 }
 
-.list-container > .area > .item > .button {
+.item button {
     width: 100%;
 
     display: flex;
@@ -55,15 +54,15 @@
     padding: 1rem 0;
 }
 
-.list-container > .area > .item > .button > .text {
+.item button .text {
     font-size: 1.25rem;
 }
 
-.list-container > .area > .item > .button > .icon {
+.item button .icon {
     height: 2rem;
 }
 
-.list-container > .area > .item > .hotel-info {
+.hotel-info {
     max-height: 0;
     overflow: hidden;
     transition-duration: 500ms;
@@ -71,6 +70,6 @@
     transition-timing-function: ease;
 }
 
-.list-container > .area > .item > .hotel-info.visible {
+.hotel-info.visible {
     max-height: 50rem;
 }

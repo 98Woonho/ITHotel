@@ -26,9 +26,7 @@
 
 <main id="main" class="content-container-wrapper">
     <div class="content-container">
-        <div class="title-container">
-            <h1 class="title">예약 확인 및 결제</h1>
-        </div>
+        <h1 class="title">예약 확인 및 결제</h1>
         <div class="step-container">
             <span class="step">1</span>
             <span class="line"></span>
@@ -42,7 +40,7 @@
                 <ul class="info">
                     <li>
                         <span class="text bold">호텔 및 객실</span>
-                        <span class="hotelName text"><span th:text="${reservation.room.hotel.hotelName}"></span>, <span th:text="${reservation.room.kind}"></span></span>
+                        <span class="text"><span th:text="${reservation.room.hotel.hotelName}"></span>, <span th:text="${reservation.room.kind}"></span></span>
                     </li>
                     <li>
                         <span class="text bold">투숙 날짜</span>
