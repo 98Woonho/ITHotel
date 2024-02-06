@@ -23,6 +23,7 @@ function confirmDuplication() {
         .then(res => {
             if (res.data === "FAILURE_DUPLICATED_HOTEL_NAME") {
                 alert("이미 존재하는 호텔 이름입니다. 다른 호텔 이름을 입력해 주세요.");
+
             } else {
                 alert("사용 가능한 호텔 이름입니다.");
                 hotelName.classList.add("confirmed");
