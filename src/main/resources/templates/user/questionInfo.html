@@ -49,7 +49,7 @@
             <tr class="addDetail" th:each="board : ${boardList}">
                 <td>
                     <a th:href="@{'/user/questionInfo/' + ${board.id}}">
-                        <span th:text="${board.title}"></span>
+                    <span th:text="${board.title}"></span>
                     </a>
                 </td>
                 <td>
@@ -72,6 +72,7 @@
                     </th:block>
                 </td>
             </tr>
+
             </tbody>
         </table>
                             <div th:if="${!boardList.isEmpty()}">

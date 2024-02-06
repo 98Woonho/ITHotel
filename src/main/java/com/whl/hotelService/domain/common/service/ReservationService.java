@@ -45,7 +45,6 @@ public class ReservationService {
 
 //    @Scheduled(fixedRate = 1000000)
     @Transactional(rollbackFor = Exception.class)
-    @Scheduled(fixedRate = 1000)
     public void deleteExpiredReservations() {
         List<LocalDateTime> createdAtList = reservationRepository.findCreatedAtByStatus("예약 중");
         LocalDateTime currentDate = LocalDateTime.now();
@@ -59,7 +58,8 @@ public class ReservationService {
         }
     }
 
-    @Transactional(rollbackFor = Exception.class) public int getReservedRoomCount(String date, Long roomId) {
+    @Transactional(rollbackFor = Exception.class)
+    public int getReservedRoomCount(String date, Long roomId) {
         ReservedRoomCount reservedRoomCount = reservedRoomCountRepository.findByDateAndRoomId(date, roomId);
 
         return (reservedRoomCount != null) ? reservedRoomCount.getReservedCount() : 0;

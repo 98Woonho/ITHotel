@@ -5,6 +5,7 @@ import com.whl.hotelService.config.auth.jwt.JwtTokenProvider;
 import com.whl.hotelService.config.auth.jwt.TokenInfo;
 import com.whl.hotelService.domain.common.dto.BoardResponseDto;
 import com.whl.hotelService.domain.common.dto.CommentResponseDto;
+import com.whl.hotelService.domain.common.entity.Reservation;
 import com.whl.hotelService.domain.common.service.AdminBoardService;
 import com.whl.hotelService.domain.common.service.BoardService;
 import com.whl.hotelService.domain.common.service.CommentService;
@@ -63,8 +64,8 @@ public class MyinfoController {
                                    HttpServletRequest request, Model model, Authentication authentication){
         log.info("get information");
         model.addAttribute("auth_msg", "회원정보 수정을 위해 비밀번호가 필요합니다.");
-
         model.addAttribute("function", function);
+
         model.addAttribute("userid_msg", userid_msg);
         model.addAttribute("name_msg", name_msg);
         model.addAttribute("email_msg", email_msg);
@@ -142,9 +143,11 @@ public class MyinfoController {
     }
 
     @GetMapping("reservationInfo")
-    public void ReservationInfo(@RequestParam(value="function", defaultValue = "read") String function, Model model){
+    public void ReservationInfo(@RequestParam(value="function", defaultValue = "read") String function, Model model, Authentication authentication){
         log.info("get reservation");
         model.addAttribute("function", function);
+        List<Reservation> reservation = myinfoService.FindUserReservation(authentication);
+        model.addAttribute("reservationList", reservation);
     }
 
     @GetMapping("questionInfo")
