@@ -11,7 +11,7 @@ input:focus {
     justify-content: flex-start;
 }
 
-#main > .content-container {
+.content-container {
     margin: 0 auto;
 }
 
@@ -54,6 +54,7 @@ input:focus {
     top: 50%;
     transform: translateY(-50%);
     margin-left: 5%;
+    opacity: 0;
 }
 
 .slide button.next {
@@ -63,4 +64,10 @@ input:focus {
     top: 50%;
     transform: translateY(-50%);
     margin-right: 5%;
+    opacity: 0;
+}
+
+.slide:hover button.prev,
+.slide:hover button.next {
+    opacity: 1;
 }

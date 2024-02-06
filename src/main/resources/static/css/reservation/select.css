@@ -12,7 +12,7 @@ input {
     justify-content: flex-start;
 }
 
-.title-container > .title {
+.title {
     text-align: center;
     margin: 4rem 0 2rem 0;
     font-size: 2.25rem;
@@ -29,7 +29,7 @@ input {
     margin-bottom: 2rem;
 }
 
-.step-container > .step {
+.step-container .step {
     width: 1.75rem;
     height: 1.75rem;
 
@@ -43,29 +43,16 @@ input {
     justify-content: center;
 }
 
-.step-container > .step:first-child {
+.step-container .step:first-child {
     color: #ffffff;
     background-color: #AD9E87;
 }
 
 
-.step-container > .line {
+.step-container .line {
     width: 2rem;
     height: 0;
     border: 0.0625rem solid #AD9E87;
-}
-
-.room-container {
-    margin-top: 4rem;
-
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-}
-
-.room-container img {
-    width: 250px;
-    height: 200px;
 }
 
 .room-container {
@@ -74,6 +61,7 @@ input {
     justify-content: flex-start;
 
     padding-bottom: 4rem;
+    margin-top: 4rem;
     border-bottom: 0.0625rem solid #9c9c9c;
 }
 
@@ -81,7 +69,12 @@ input {
     border-bottom: none;
 }
 
-.room-container > .reservation-form {
+.room-container img {
+    width: 250px;
+    height: 200px;
+}
+
+.reservation-form {
     width: 950px;
     margin-left: 2.5rem;
 
@@ -91,7 +84,7 @@ input {
     justify-content: flex-start;
 }
 
-.room-container > .reservation-form > .reservation-button {
+.reservation-button {
     margin-left: 1.5rem;
 
     width: 100px;
@@ -100,14 +93,25 @@ input {
     border-radius: 0.375rem;
 }
 
-.room-container > .reservation-form > .room-info-container > .room-name {
+.kind {
     font-size: 2.5rem;
     font-weight: 500;
 }
 
-.room-container > .reservation-form > .room-info-container > .time-container {
+.time-container {
     margin-bottom: 4rem;
 
     display: flex;
     flex-direction: column;
+}
+
+.price-remaining-room-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.total-price {
+    font-size: 1.25rem;
+    font-weight: 500;
 }

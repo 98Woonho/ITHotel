@@ -17,21 +17,30 @@ function selectedRoom() {
     location.href = "/admin/modifyRoom?hotelName=" + hotelName + "&roomKind=" + roomList.value;
 }
 
+let kind = roomForm['kind'];
+
+kind.addEventListener('input', function() {
+    if(kind.classList.contains("confirmed")) {
+        kind.classList.remove("confirmed");
+    }
+})
+
 function confirmDuplication() {
     const hotelName = document.getElementById('hotelName').value;
-    const kind = encodeURIComponent(roomForm['kind'].value);
+    kind = roomForm['kind'];
 
-    if(kind === "") {
+    if(encodeURIComponent(kind.value) === "") {
         alert("객실 종류를 입력해 주세요.");
         return;
     }
 
-    axios.get("/room/confirmKind?kind=" + kind + "&hotelName=" + hotelName)
+    axios.get("/room/confirmKind?kind=" + encodeURIComponent(kind.value) + "&hotelName=" + hotelName)
         .then(res => {
             if (res.data === "FAILURE_DUPLICATED_KIND") {
                 alert("이미 존재하는 객실 종류입니다. 다른 객실 종류를 입력해 주세요.");
             } else {
                 alert("사용 가능한 객실 종류입니다.");
+                kind.classList.add("confirmed");
             }
         })
         .catch(err => {
@@ -243,6 +252,7 @@ const modifyRoomBtn = roomForm.querySelector('.modify_room_btn');
 modifyRoomBtn.addEventListener('click', function(e) {
     e.preventDefault();
 
+    const hotelName = document.getElementById('hotelName').value;
     const mainPreview = document.getElementById('mainPreview');
     const roomPreview = document.getElementById('roomPreview');
 
@@ -383,12 +393,17 @@ modifyRoomBtn.addEventListener('click', function(e) {
         checkoutMinute = '0' + roomForm['checkoutMinute'].value;
     }
 
+    if (!roomForm['kind'].classList.contains("confirmed")) {
+        alert("객실 종류 중복 확인을 진행해주세요.");
+        return;
+    }
+
     formData.append("existingFileNames", newExistingFileNameArray);
     formData.append("existingKind", roomForm['existingKind'].value);
     formData.append("mainFileName", mainFileName);
     formData.append("fileNames", fileNameArray);
     formData.append("id", document.querySelector('.room-id').value);
-    formData.append("hotelName", document.getElementById('hotelName').value);
+    formData.append("hotelName", hotelName);
     formData.append("kind", roomForm['kind'].value);
     formData.append("checkinTime", checkinHour + ":" + checkinMinute);
     formData.append("checkoutTime", checkoutHour + ":" + checkoutMinute);
@@ -402,7 +417,7 @@ modifyRoomBtn.addEventListener('click', function(e) {
     axios.put("/room/modify", formData, {header : {'Content-Type': 'multipart/form-data'}})
         .then(res => {
             alert("객실 수정이 완료 되었습니다.");
-            location.href = "/admin/roomStatus";
+            location.href = "/admin/roomStatus?hotelName=" + hotelName;
         })
         .catch(err => {
             console.log(err);

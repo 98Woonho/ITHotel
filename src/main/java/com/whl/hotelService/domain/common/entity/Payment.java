@@ -1,6 +1,5 @@
 package com.whl.hotelService.domain.common.entity;
 
-import com.whl.hotelService.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

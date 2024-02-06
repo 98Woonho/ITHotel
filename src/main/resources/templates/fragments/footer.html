@@ -10,7 +10,7 @@
 <footer id="footer" class="content-container-wrapper" th:fragment="footer_fragment">
     <div class="content-container">
         <div class="content-container-left">
-            <a class="link" onclick="navigateTo('/')">
+            <a class="link" href="/">
                 <img th:src="@{/images/ITHOTEL.header.png}" class="title-logo">
             </a>
             <p class="copyright">Copyright ⓒ 2023 ITHOTEL Inc.</p>
@@ -24,13 +24,13 @@
                 </a>
             </div>
             <ul class="terms-policy-container">
-                <li class="item privacy-policy">
-                    <a class="link" href="#">
+                <li>
+                    <a class="link privacy-policy" href="/policy/privacyPolicy">
                         <span class="text">개인정보 처리방침</span>
                     </a>
                 </li>
-                <li class="item terms">
-                    <a class="link" href="#">
+                <li>
+                    <a class="link terms" href="/policy/terms">
                         <span class="text">이용약관</span>
                     </a>
                 </li>

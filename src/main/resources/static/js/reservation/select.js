@@ -30,8 +30,6 @@ document.querySelectorAll('.reservation-form').forEach(function(form) {
     form.onsubmit = function(e) {
         e.preventDefault();
 
-        
-
         const formData = new FormData();
         formData.append("checkin", searchForm['checkin'].value);
         formData.append("checkout", searchForm['checkout'].value);
