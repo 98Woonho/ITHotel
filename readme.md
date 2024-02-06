@@ -17,9 +17,9 @@ WEB PROJECT PLANING
 <br/>
 
 ## ▶️ 구성인원 
-##### 이운호(조장) : Git, UI, 호텔의 전반적인 기능, 예약 및 결제 CRUD
-##### 황보성현(조원1) : 게시판 CRUD
-##### 함성모(조원2) : 유저 CRUD
+##### 이운호(조장) : Git, UI, 예약 및 결제 CRUD, 관리자 CRUD
+##### 황보성현(조원1) : 게시판 CRUD, UI
+##### 함성모(조원2) : 사용자 CRUD, UI
 
 <br/>
 
@@ -34,20 +34,27 @@ WEB PROJECT PLANING
 
 ## ▶️ Software 목록
 
-##### IDE : IntelliJ Ultimate 버전명
+##### IDE : IntelliJ Ultimate 2023.3.3
 ##### SpringBoot 3.1.7
 ##### gradle version 8.5
 ##### Mysql Server 8.x.x
 ##### Mysql Workbench 8.x.x
-##### DbWeaver x.x
-##### ...
 <br/>
 
 ## ▶️ 의존 lib
-##### lombok 2.1.3 
-##### thymeleaf 3.1.1
-##### spring security 3.1.5
-...
+##### lombok
+##### thymeleaf
+##### spring security
+##### web mvc
+##### mysql
+##### jdbc
+##### mybatis
+##### jpa
+##### oauth2-client
+##### jwt-token
+##### mail
+##### devtools
+##### validation
 
 ## ▶️ DevOps 
 ##### Amazon Web Service EC2(Deploy Server)
@@ -61,23 +68,24 @@ WEB PROJECT PLANING
 
 
 ## ▶️ 사용(or 예정) API
-##### 원포트 결제시스템 API
-##### Openweather API
+##### 아임포트 결제시스템 API
+##### 카카오 지도 API
+##### 다음 주소 API
 ##### OAuth2 로그인 API
 
 <br/>
 
 ## ▶️ 기술스택
 
-![JAVA](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white)
-![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white)
+![JAVA](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html&logoColor=white)
+![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
 ![MySQL](https://img.shields.io/badge/mysql-%2300f.svg?style=for-the-badge&logo=mysql&logoColor=white)
 ![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=java&logoColor=white)
 ![AWS](https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white)
 
 
-[참고 배지 싸이트] <br/>
+[참고 배지 사이트] <br/>
 https://badgen.net/ <br/>
 https://shields.io/
 
@@ -92,8 +100,20 @@ https://shields.io/
 |/hotel/find|GET|호텔 찾기 페이지|
 |/hotel/findMap|GET|호텔 찾기 지도 페이지|
 |/hotel/info|GET|호텔 정보 페이지|
-|/hotel/reservationStep1|GET|호텔 예약 첫 번째 페이지|
-|/hotel/reservationStep2|GET|호텔 예약 두 번째 페이지|
+|/reservation/select|GET|호텔 및 객실 선택 페이지|
+|/payment/read|GET|결제 페이지|
+|/admin/inquiry|GET|관리자 문의 페이지|
+|/admin/modifyHotel|GET|관리자 호텔 수정 페이지|
+|/admin/modifyRoom|GET|관리자 객실 수정 페이지|
+|/admin/registerHotel|GET|관리자 호텔 등록 페이지|
+|/admin/registerRoom|GET|관리자 객실 등록 페이지|
+|/admin/monthSales|GET|관리자 월 매출 페이지|
+|/admin/monthSales|GET|관리자 월 매출 페이지|
+|/admin/hotelStatus|GET|관리자 호텔 현황 페이지|
+|/admin/reservationStatus|GET|관리자 예약 현황 페이지|
+|/admin/roomStatus|GET|관리자 객실 현황 페이지|
+|/policy/privacyPolicy|GET|개인정보 처리방침 페이지|
+|/policy/terms|GET|이용약관 페이지|
 |/user/login|GET|로그인 페이지|
 |/user/join|GET|회원가입 페이지|
 |/user/join|POST|회원가입|

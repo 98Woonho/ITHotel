@@ -10,6 +10,7 @@ import com.whl.hotelService.domain.common.service.AdminService;
 import com.whl.hotelService.domain.common.service.BoardService;
 import com.whl.hotelService.domain.common.service.CommentService;
 import lombok.extern.slf4j.Slf4j;
+import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,7 +20,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -38,30 +41,36 @@ public class AdminController {
     @Autowired
     private CommentService commentService;
 
+
     @GetMapping("reservationStatus")
     public void getReservationStatus(@PageableDefault(page = 0, size = 10) Pageable pageable, Model model) {
         Page<Reservation> reservationList = adminService.getAllReservationList(pageable);
-
-        reservationList.isEmpty();
         model.addAttribute("reservationList", reservationList);
     }
 
     @GetMapping("inquiryList")
-    public void adminBoardList(Model model,
-                                 @PageableDefault(page = 0, size = 10, sort = "id") Pageable pageable,
-                                 @RequestParam(name = "keyword", required = false) String keyword,
-                                 @RequestParam(name = "type", required = false) String type) {
+    public JSONObject adminBoardList(Model model,
+                                     @PageableDefault(page = 0, size = 10, sort = "id") Pageable pageable,
+                                     @RequestParam(name = "keyword", required = false) String keyword,
+                                     @RequestParam(name = "type", required = false) String type) {
+
+        model.addAttribute("type", type);
 
         Page<BoardResponseDto> boardList = adminBoardService.boardList(pageable);
-        Page<BoardResponseDto> boardSerchList = adminBoardService.searchingBoardList(keyword, type, pageable);
+        Page<BoardResponseDto> boardSearchList = adminBoardService.searchingBoardList(keyword, type, pageable);
         Page<CommentResponseDto> commentList = adminBoardService.commentList(pageable);
         if (keyword == null) {
             model.addAttribute("boardList", boardList);
             model.addAttribute("commentList", commentList);
         } else {
-            model.addAttribute("boardList", boardSerchList);
+            model.addAttribute("boardList", boardSearchList);
             model.addAttribute("commentList", commentList);
         }
+        JSONObject obj = new JSONObject();
+
+        obj.put("SUCCESS", true);
+
+        return obj;
     }
 
     @GetMapping("/inquiryList/{id}") // 게시판 조회
@@ -92,10 +101,20 @@ public class AdminController {
         boardService.saveBoard(boardWriteRequestDto, userDetails.getUsername());
         return "redirect:/board/question";
     }
+    @GetMapping("/noticeWrite")
+    public void noticeWrite(){
 
+    }
+    @PostMapping("/noticeWrite") // 관리자 게시판 글쓰기
+    public void noticeWrite(BoardWriteRequestDto boardWriteRequestDto, MultipartFile multipartFile, Authentication authentication) throws IOException {
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        boardService.saveImageFile(boardWriteRequestDto,multipartFile,  userDetails.getUsername());
+
+    }
 
     @GetMapping("registerHotel")
     public void getRegisterHotel() {
+
     }
 
     @GetMapping("modifyHotel")
@@ -378,6 +397,7 @@ public class AdminController {
 
     @GetMapping("hotelStatus")
     public void getHotelStatus(Model model) {
+
         List<Hotel> hotelList = adminService.getAllHotelList();
 
         model.addAttribute("hotelList", hotelList);
