@@ -13,8 +13,8 @@
 <th:block th:fragment="hotelList">
     <div id="hotelList">
         <div class="modal" rel="modal">
-            <div class="hotel" th:each="region:${region}">
-                <span class="text area" th:text="${region}"></span>
+            <div class="list-container" th:each="region:${region}">
+                <span class="text region" th:text="${region}"></span>
                 <label class="label name">
                     <th:block th:each="list:${hotelList}">
                         <input type="button" class="button" th:if="${region == list.region}" th:value="${list.hotelName}">

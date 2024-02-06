@@ -8,21 +8,30 @@ function selectedHotel() {
     location.href = "/admin/registerRoom?hotelName=" + hotelList.value;
 }
 
+let kind = roomForm['kind'];
+
+kind.addEventListener('input', function() {
+    if(kind.classList.contains("confirmed")) {
+        kind.classList.remove("confirmed");
+    }
+})
+
 function confirmDuplication() {
     const hotelName = roomForm['hotelName'].value;
-    const kind = encodeURIComponent(roomForm['kind'].value);
+    kind = roomForm['kind'];
 
-    if(kind === "") {
+    if(encodeURIComponent(kind.value) === "") {
         alert("객실 종류를 입력해 주세요.");
         return;
     }
 
-    axios.get("/room/confirmKind?kind=" + kind + "&hotelName=" + hotelName)
+    axios.get("/room/confirmKind?kind=" + encodeURIComponent(kind.value) + "&hotelName=" + hotelName)
         .then(res => {
             if (res.data === "FAILURE_DUPLICATED_KIND") {
                 alert("이미 존재하는 객실 종류입니다. 다른 객실 종류를 입력해 주세요.");
             } else {
                 alert("사용 가능한 객실 종류입니다.");
+                kind.classList.add("confirmed");
             }
         })
         .catch(err => {
@@ -329,6 +338,11 @@ addRoomBtn.addEventListener('click', function(e) {
 
     }if (roomForm['checkoutMinute'].value.length < 2) {
         checkoutMinute = '0' + roomForm['checkoutMinute'].value;
+    }
+
+    if (!roomForm['kind'].classList.contains("confirmed")) {
+        alert("객실 종류 중복 확인을 진행해주세요.");
+        return;
     }
 
     formData.append("mainFileName", mainFileName);
