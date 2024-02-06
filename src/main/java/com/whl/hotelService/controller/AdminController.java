@@ -93,6 +93,12 @@ public class AdminController {
         return "redirect:/admin/inquiryList";
     }
 
+    @GetMapping("/questionInfo/{id}/adminRemove") // 게시판 삭제
+    public String questionInfoBoardRemove(@PathVariable Long id) {
+        adminBoardService.boardRemove(id);
+        return "redirect:/user/questionInfo?function=read";
+    }
+
     @GetMapping("/questionWrite")
     public void adminWrite(){
 
