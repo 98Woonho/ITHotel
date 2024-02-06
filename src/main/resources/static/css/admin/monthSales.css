@@ -21,15 +21,15 @@
     position: absolute;
 }
 
+.category-container ul {
+    box-shadow: 0 0 0.1rem 0.0625rem #17202a50;
+    background-color: white;
+}
+
 .category-btn {
     font-size: 1.25rem;
     font-weight: 500;
     color: black;
-}
-
-ul {
-    box-shadow: 0 0 0.1rem 0.0625rem #17202a50;
-    background-color: white;
 }
 
 .row-container {

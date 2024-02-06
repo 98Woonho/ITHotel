@@ -21,14 +21,14 @@ body {
     justify-content: flex-start;
 }
 
-body > .content-container-wrapper {
+.content-container-wrapper {
     align-items: center;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
 }
 
-body > .content-container-wrapper > .content-container {
+.content-container {
     max-width: 1200px;
     width: 100%;
 }
@@ -104,24 +104,24 @@ button {
     top: 50%;
 }
 
-#hotelList > .modal > .hotel {
+#hotelList .list-container {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
 }
 
-#hotelList > .modal > .hotel > .text.area {
+#hotelList .text.region {
     padding-bottom: 0.5rem;
     font-size: 1.25rem;
     font-weight: 500;
     border-bottom: 0.1rem solid #4D473C;
 }
 
-#hotelList > .modal > .hotel > .label.name {
+#hotelList .label.name {
     margin: 1rem 0;
 }
 
-#hotelList > .modal > .hotel > .label.name > input {
+#hotelList input {
     cursor: pointer;
 }
 
@@ -130,7 +130,7 @@ button {
     height: 90px;
 }
 
-#header > .menu {
+#header > .menu-container {
     align-items: center;
     display: flex;
     flex-direction: row;
@@ -139,7 +139,7 @@ button {
     height: inherit;
 }
 
-#header > .menu > .subMenu {
+#header .menu {
     align-items: flex-end;
     display: flex;
     flex-direction: column;
@@ -148,7 +148,7 @@ button {
     height: 100%;
 }
 
-#header > .menu > .subMenu > .userArea {
+#header .user-area {
     margin-top: 0.5rem;
 
     align-items: center;
@@ -158,35 +158,35 @@ button {
 
 }
 
-#header > .menu > .subMenu > .userArea > .welcome-message-container {
+#header .welcome-message-container {
     font-size: 0.9rem;
     font-weight: 400;
     margin-right: 1rem;
 }
 
-#header > .menu > .subMenu > .userArea > .welcome-message-container > .link.name {
+#header .welcome-message-container > .link.name {
     color: black;
     font-weight: 700;
 }
 
-#header > .menu > .subMenu > .userArea > .link > .text {
+#header .user-area > .link > .text {
     padding: 0 0.75rem;
     color: #706958;
     font-weight: 400;
     font-size: 0.9rem;
 }
 
-#header > .menu > .subMenu > .userArea > .link:not(:last-child) > .text {
+#header .user-area > .link:not(:last-child) > .text {
     border-right: 0.0625rem solid #D2C4A5;
 }
 
-#header > .menu > .subMenu > .hotelArea {
+#header .hotel-area {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
 }
 
-#header > .menu > .subMenu > .hotelArea > .link {
+#header .hotel-area > .link {
     margin: 0 0.25rem;
     padding: 0 0.75rem 0.5rem 0.75rem;
     color: #4D473C;
@@ -199,7 +199,7 @@ button {
     transition-timing-function: ease;
 }
 
-#header > .menu > .subMenu > .hotelArea > .link:hover {
+#header .hotel-area > .link:hover {
     border-bottom: 0.25rem solid #4D473C;
 }
 
@@ -225,14 +225,14 @@ button {
     justify-content: flex-start;
 }
 
-#footer > .content-container > .content-container-right > .icon-container {
+#footer .icon-container {
     align-items: center;
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
 }
 
-#footer > .content-container > .content-container-right > .terms-policy-container {
+#footer .terms-policy-container {
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
@@ -240,28 +240,29 @@ button {
     margin-top: 0.35rem;
 }
 
-#footer > .content-container > .content-container-right > .terms-policy-container > .privacy-policy > .link {
-    border-right: 0.0625rem solid #D2C4A5;
-    box-sizing: border-box;
-    padding: 0 1.5rem;
-}
 
-#footer > .content-container > .content-container-right > .terms-policy-container .text {
+#footer .terms-policy-container .text {
     white-space: nowrap;
     color: #706958;
     font-weight: 400;
     font-size: 0.9rem;
 }
 
-#footer > .content-container > .content-container-right > .terms-policy-container > .terms > .link {
+#footer .terms-policy-container .link.privacy-policy {
+    border-right: 0.0625rem solid #D2C4A5;
+    box-sizing: border-box;
+    padding: 0 1.5rem;
+}
+
+#footer .terms-policy-container .link.terms {
     margin-left: 1.5rem;
 }
 
-#footer > .content-container > .content-container-left > .copyright {
+#footer .copyright {
     margin: unset;
 }
 
-#findTop > .title-container > .title {
+#findTop > .title {
     text-align: center;
     margin: 4rem 0;
     font-size: 2.25rem;
@@ -272,20 +273,20 @@ button {
     margin-bottom: 1rem;
 }
 
-#findTop > .link-container > .link:first-child {
+#findTop .link.list {
     border-right: 0.0625rem solid #D2C4A5;
 }
 
-#findTop > .link-container > .link:nth-child(2) {
+#findTop .link.map {
     margin-left: 1.25rem;
 }
 
-#findTop > .link-container > .link > .icon {
+#findTop .icon {
     height: 1.25rem;
     margin-bottom: 0.25rem;
 }
 
-#findTop > .link-container > .link > .text {
+#findTop .text {
     color: #4D473C;
     font-size: 1.2rem;
     padding-right: 1.25rem;
@@ -308,13 +309,13 @@ button {
     border: none;
 }
 
-#searchForm > .search-button {
+#searchForm .search-button {
     padding: 0.925rem 3rem;
     border-radius: 0.375rem;
     border: 0.0625rem solid #ffffff;
 }
 
-#searchForm > .label.person {
+#searchForm .label.person {
     margin-right: 5rem;
 
     display: flex;
@@ -322,43 +323,48 @@ button {
     justify-content: space-between;
 }
 
-#searchForm > .label.hotel > .hotelSearch {
-    white-space: nowrap;
+#searchForm .label.checkin,
+#searchForm .label.checkout {
+    display: flex;
+    flex-direction: column;
 }
 
-#searchForm > .label.hotel > .hotelSearch > .icon {
-    cursor: pointer;
-    height: 1.25rem;
-    margin-bottom: 0.275rem;
-}
-
-#searchForm > .label.person input {
+#searchForm .label.person input {
     pointer-events: none;
     width: 30px;
     text-align: center;
 }
 
-#searchForm > .label.person > .adult-container {
+#searchForm .label.person .icon {
+    height: 1.125rem;
+    margin-bottom: 0.25rem;
+    cursor: pointer;
+}
+
+#searchForm .hotel-search-container {
+    white-space: nowrap;
+}
+
+#searchForm .hotel-search-container .icon {
+    cursor: pointer;
+    height: 1.25rem;
+    margin-bottom: 0.275rem;
+}
+
+#searchForm .adult-container {
     margin-right: 2rem;
     text-align: center;
 }
 
-#searchForm > .label.person > .adult-container > .count-container,
-#searchForm > .label.person > .child-container > .count-container {
+#searchForm .child-container {
+    text-align: center;
+}
+
+#searchForm .count-container {
     align-items: center;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-}
-
-#searchForm > .label.person > .child-container {
-    text-align: center;
-}
-
-#searchForm > .label.person .icon {
-    height: 1.125rem;
-    margin-bottom: 0.25rem;
-    cursor: pointer;
 }
 
 .admin-left {
@@ -371,22 +377,16 @@ button {
     justify-content: flex-start;
 }
 
-.admin-left a {
-    color: black;
-    font-weight: 500;
-}
-
-.admin-left > .menu > .link-container {
+.admin-left li {
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
-    margin-left: 2rem;
 }
 
-.admin-left > .menu > .link-container > .link {
-    margin: 0.5rem 0;
+.admin-left .link {
+    color: black;
+    font-weight: 500;
+    margin: 0.5rem 0 0.5rem 2rem;
 }
-
 
 .admin-container {
     margin: 5rem 0;
@@ -413,7 +413,7 @@ button {
     border-bottom: 0.3rem solid #4a4a4a;
 }
 
-.admin-container > .admin-right {
+.admin-container .admin-right {
     width: 950px;
     display: flex;
     flex-direction: column;

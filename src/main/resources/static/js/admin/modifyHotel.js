@@ -129,7 +129,6 @@ mainUploadBox.addEventListener('drop', function (e) {
 })
 ;
 
-
 // 추가 이미지
 const hotelUploadBox = hotelImg.querySelector('.hotel-upload-box');
 
@@ -238,7 +237,7 @@ modifyHotelBtn.addEventListener('click', function (e) {
         newExistingFileNameArray.push(fileName.value)
     })
 
-    const contactRegex = new RegExp("^\\d{3}-\\d{3,4}-\\d{4}$");
+    const contactRegex = new RegExp("^\\d{2,3}-\\d{3,4}-\\d{4}$");
 
     if (hotelForm['zipcode'].value === "") {
         alert("주소 찾기를 통해 주소를 입력해 주세요.");
@@ -304,7 +303,6 @@ deleteHotelBtn.addEventListener('click', function (e) {
     if (confirm("호텔을 삭제 하면 객실 정보도 함께 삭제 됩니다. 정말로 삭제 하시겠습니까?")) {
         axios.delete("/hotel/delete?hotelName=" + hotelForm['hotelName'].value)
             .then(res => {
-                console.log(res.data);
                 if (res.data === "SUCCESS") {
                     alert("호텔이 성공적으로 삭제 되었습니다.");
                     location.href = "/admin/hotelStatus";
