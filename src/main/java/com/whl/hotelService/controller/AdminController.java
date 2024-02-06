@@ -26,7 +26,6 @@ import java.util.Objects;
 @Controller
 @RequestMapping(value = "admin")
 public class AdminController {
-
     @Autowired
     private AdminService adminService;
     @Autowired

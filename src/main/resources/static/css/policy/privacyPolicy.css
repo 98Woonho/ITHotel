@@ -44,6 +44,7 @@
 }
 
 .privacy-policy-content {
+    background-color: #f1f1f1;
     max-height: 0;
     overflow: hidden;
     transition-duration: 500ms;
