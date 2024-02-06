@@ -46,8 +46,6 @@ public class AdminController {
     @GetMapping("reservationStatus")
     public void getReservationStatus(@PageableDefault(page = 0, size = 10) Pageable pageable, Model model) {
         Page<Reservation> reservationList = adminService.getAllReservationList(pageable);
-
-        reservationList.isEmpty();
         model.addAttribute("reservationList", reservationList);
     }
 
