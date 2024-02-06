@@ -17,26 +17,28 @@ public class CommentController {
     private CommentService commentService;
 
     //    댓글 작성
-    @PostMapping("/board/{id}/comment")
+    @PostMapping("/{id}/comment")
     public String writeComment(@PathVariable Long id, CommentRequestDto commentRequestDto, Authentication authentication) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         commentService.writeComment(commentRequestDto, id, userDetails.getUsername());
 
-        return "redirect:/board/admin/" + id;
+        return "redirect:/admin/" + id;
     }
 
-    //    댓글 수정
+    //    답변 수정
     @ResponseBody
-    @PostMapping("/board/{id}/comment/{commentId}/update")
+    @PostMapping("/admin/{id}/comment/{commentId}/update")
     public String updateComment(@PathVariable Long id, @PathVariable Long commentId, CommentRequestDto commentRequestDto) {
         commentService.updateComment(commentRequestDto, commentId);
-        return "/board/admin/" + id;
+        System.out.println(id);
+        return "/admin/" + id;
     }
 
-    //    댓글 삭제
+    //    답변 삭제
     @GetMapping("/board/{id}/comment/{commentId}/remove")
     public String deleteComment(@PathVariable Long id, @PathVariable Long commentId) {
         commentService.deleteComment(commentId);
-        return "redirect:/board/admin/" + id;
+        System.out.println(id);
+        return "redirect:/admin/" + id;
     }
 }

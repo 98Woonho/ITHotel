@@ -29,39 +29,10 @@
             <th:block th:replace="~{fragments/userLeft.html :: userLeft_fragment}"></th:block>
             <div class="user-right">
                 <div class="title-container" th:switch="${function}">
-                    <h1 class="title">문의사항 > </h1>
-                    <h1 class="tag" th:case='create'>문의하기</h1>
-                    <h1 class="tag" th:case='read'>문의현황</h1>
+                    <h1 class="title">문의사항 > 1:1 문의내역</h1>
                 </div>
                 <div class="information-info-container">
                     <th:block th:switch="${function}">
-                        <span class="text" th:case='create'>
-    <div id="main_wrapper">
-        <form id="mainForm" action="/board/admin/adminWrite" method="post">
-            <div class="fw-bold fs-5">호텔위치</div>
-            <select class="form-select" name="hotelname" th:value="hotelname">
-                <option th:each="hotelname : ${hotelnames}" th:text="${hotelname}"></option>
-            </select>
-            <div class="fw-bold fs-5">관련 문의</div>
-            <select class="form-select" name="relation">
-                <option value="호텔문의">호텔문의</option>
-                <option value="객실문의">객실문의</option>
-                <option value="예약문의">예약문의</option>
-            </select>
-            <div>
-                <label class="form-label fw-bold fs-5">문의 제목</label>
-                <input class="form-control" type="text" name="title" required>
-            </div>
-            <div class="mb-3">
-                <label class="form-label fw-bold fs-5">문의 내용</label>
-                <textarea class="form-control" name="content" cols="30" rows="10" required></textarea>
-            </div>
-            <span class="mb-3">
-        <input class="form-control write" type="submit" value="글작성">
-    </span>
-        </form>
-    </div>
-                        </span>
                         <span class="text" th:case='read'>
                              <table class="table table-striped table-hover">
             <thead>
@@ -117,7 +88,7 @@
                     <a class="page-link"
                        th:href="${boardList.first} ? '#' : @{/user/questionInfo?function=read(page=${pageNumber - 1})}"
                        aria-label="Previous">
-                        <span aria-hidden="true">&lt;</span>
+                        <span aria-hidden="true">이전</span>
                     </a>
                 </li>
                 <li th:each="page: ${#numbers.sequence(startPage, endPage)}"
@@ -129,11 +100,12 @@
                     <a class="page-link"
                        th:href="${boardList.last} ? '#' : @{/user/questionInfo?function=read(page=${pageNumber + 1})}"
                        aria-label="Next">
-                        <span aria-hidden="true">&gt;</span>
+                        <span aria-hidden="true">다음</span>
                     </a>
                 </li>
             </ul>
-        </div>
+                            </div>
+                        </span>
                     </th:block>
                 </div>
             </div>
