@@ -22,7 +22,7 @@ public class CommentController {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         commentService.writeComment(commentRequestDto, id, userDetails.getUsername());
 
-        return "redirect:/admin/" + id;
+        return "redirect:/admin/inquiryList/" + id;
     }
 
     //    답변 수정
@@ -31,7 +31,7 @@ public class CommentController {
     public String updateComment(@PathVariable Long id, @PathVariable Long commentId, CommentRequestDto commentRequestDto) {
         commentService.updateComment(commentRequestDto, commentId);
         System.out.println(id);
-        return "/admin/" + id;
+        return "/admin/inquiryList/" + id;
     }
 
     //    답변 삭제
@@ -39,6 +39,6 @@ public class CommentController {
     public String deleteComment(@PathVariable Long id, @PathVariable Long commentId) {
         commentService.deleteComment(commentId);
         System.out.println(id);
-        return "redirect:/admin/" + id;
+        return "redirect:/admin/inquiryList/" + id;
     }
 }

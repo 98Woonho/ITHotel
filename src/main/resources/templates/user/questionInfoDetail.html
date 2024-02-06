@@ -102,7 +102,7 @@
                     <button class="btn btn-outline-secondary" onclick="listReq()">문의현황으로 가기</button>
                     <th:block
                             th:if="${board != null and #authentication.principal instanceof T(org.springframework.security.core.userdetails.UserDetails) and board.getUserid() == #authentication.principal.username}">
-                        <a th:href="@{/board/{id}/admin/adminRemove(id=${id})}" class="btn btn-outline-danger"
+                        <a th:href="@{/admin/questionInfo/{id}/adminRemove(id=${id})}" class="btn btn-outline-danger"
                            onclick="return confirm('삭제하시겠습니까?')">나의 문의 삭제</a>
                     </th:block>
         </div>
