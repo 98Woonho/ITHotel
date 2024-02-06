@@ -106,7 +106,6 @@ body > .content-container-wrapper > .content-container {
 
 #board {
     border-top : #cdcbbe solid 1px;
-    margin-top: 20px;
 }
 
 #board > ul {
@@ -154,4 +153,20 @@ body > .content-container-wrapper > .content-container {
 
 .page-link > span {
     font-weight: bold;
+}
+
+.search {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.form-select {
+    width: unset!important;
+}
+.form-control {
+    width: unset!important;
+}
+
+.board-right >.title-container {
+    margin-bottom: 1rem;
 }

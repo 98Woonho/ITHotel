@@ -12,10 +12,10 @@
 
     <!-- css -->
     <link rel="stylesheet" href="/css/common.css">
-    <link rel="stylesheet" href="/css/admin/inquiry.css">
+    <link rel="stylesheet" href="/css/admin/inquiryList.css">
 
     <!-- js -->
-    <script defer src="/js/admin/inquiry.js"></script>
+    <script defer src="/js/admin/inquiryList.js"></script>
 </head>
 <body>
 
@@ -32,21 +32,22 @@
                     <h1 class="title">고객문의 > 1:1 문의 내역</h1>
                 </div>
                     <div id="main_wrapper">
-                        <form method="get" th:action="@{/admin/inquiryList}">
+                        <form id="search_Form">
                             <div class="search">
+                                <input hidden type="text" th:value="${type}" class="type">
                                 <select name="type" class="form-select">
-                                    <option value='T'>제목별</option>
-                                    <option value='C'>내용</option>
-                                    <option value='W'>작성자별</option>
-                                    <option value="H">호텔이름별</option>
-                                    <option value="Q">질문유형별</option>
+                                    <option class="option" value='T'>제목별</option>
+                                    <option class="option" value='C'>내용</option>
+                                    <option class="option" value='W'>작성자별</option>
+                                    <option class="option" value="H">호텔이름별</option>
+                                    <option class="option" value="Q">질문유형별</option>
                                 </select>
                                 <label for="searchText"></label>
                                 <input type="text" id="searchText" class="form-control" name="keyword" placeholder="검색">
-                                <button type="submit" class="btn btn-secondary">검색</button>
+                                <button type="submit" class="btn btn-secondary btn-search">검색</button>
                             </div>
                         </form>
-                        <table class="table table-striped table-hover">
+                        <table id="table_List" class="table table-striped table-hover">
                             <thead>
                             <tr>
                                 <th>글제목</th>

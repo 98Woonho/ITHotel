@@ -5,6 +5,7 @@ import com.whl.hotelService.domain.common.dto.BoardWriteRequestDto;
 import com.whl.hotelService.domain.common.dto.CommentResponseDto;
 import com.whl.hotelService.domain.common.entity.AdminBoard;
 import com.whl.hotelService.domain.common.entity.Comment;
+import com.whl.hotelService.domain.common.repository.BoardFileInfoRepository;
 import com.whl.hotelService.domain.common.repository.AdminBoardRepository;
 import com.whl.hotelService.domain.common.repository.CommentRepository;
 import com.whl.hotelService.domain.user.entity.User;
@@ -29,15 +30,15 @@ public class AdminBoardService {
     private UserRepository userRepository;
     @Autowired
     private CommentRepository commentRepository;
+    @Autowired
+    private BoardFileInfoRepository boardFileInfoRepository;
+    public void saveBoard(BoardWriteRequestDto boardWriteRequestDto, String userid) {
 
-    public Long saveBoard(String hotelname, String relation, BoardWriteRequestDto boardWriteRequestDto, String id) {
-        boardWriteRequestDto.setHotelname(hotelname);
-        boardWriteRequestDto.setRelation(relation);
         // 유저 아이디로 유저 찾기
-        User user = userRepository.findById(id)
+        User user = userRepository.findById(userid)
                 .orElseThrow(() -> new UsernameNotFoundException("유저 아이디가 존재하지 않습니다."));
         // 연관된 유저와 함께 새로운 Board 엔터티 생성
-        AdminBoard result = AdminBoard.builder()
+        AdminBoard adminBoard = AdminBoard.builder()
                 .title(boardWriteRequestDto.getTitle())
                 .content(boardWriteRequestDto.getContent())
                 .user(user)
@@ -45,9 +46,7 @@ public class AdminBoardService {
                 .relation((boardWriteRequestDto.getRelation()))
                 .build();
         // Board 엔터티를 데이터베이스에 저장
-        adminBoardRepository.save(result);
-
-        return result.getId();
+        AdminBoard save = adminBoardRepository.save(adminBoard);
     }
 
 

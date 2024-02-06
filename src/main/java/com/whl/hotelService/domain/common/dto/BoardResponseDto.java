@@ -33,7 +33,7 @@ public class BoardResponseDto {
                 .userid(user.getUserid())
                 .createdTime(board.getCreatedTime())
                 .updatedTime(board.getUpdatedTime())
-                .hotelname(board.getHotelname())
+//                .hotelname(board.getHotelname())
                 .build();
         return dto;
     }

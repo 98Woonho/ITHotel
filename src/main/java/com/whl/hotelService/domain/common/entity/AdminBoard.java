@@ -2,10 +2,7 @@ package com.whl.hotelService.domain.common.entity;
 
 import com.whl.hotelService.domain.user.entity.User;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Getter
 @AllArgsConstructor

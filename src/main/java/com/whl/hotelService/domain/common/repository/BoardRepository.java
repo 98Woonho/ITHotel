@@ -20,5 +20,4 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
             "ORDER BY b.createdTime asc")
     Page<Board> searchBoards(@Param("keyword") String keyword, @Param("type") String type, Pageable pageable);
 
-    List<Board> findByBoardType(String boardType);
 }
