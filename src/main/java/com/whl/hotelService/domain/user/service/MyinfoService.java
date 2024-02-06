@@ -3,6 +3,8 @@ package com.whl.hotelService.domain.user.service;
 import com.whl.hotelService.config.DataSourceConfig;
 import com.whl.hotelService.config.auth.PrincipalDetails;
 import com.whl.hotelService.config.auth.jwt.JwtTokenProvider;
+import com.whl.hotelService.domain.common.entity.Reservation;
+import com.whl.hotelService.domain.common.repository.ReservationRepository;
 import com.whl.hotelService.domain.user.dto.UserDto;
 import com.whl.hotelService.domain.user.entity.User;
 import com.whl.hotelService.domain.user.repository.UserRepository;
@@ -25,15 +27,16 @@ import java.beans.Transient;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class MyinfoService {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    ReservationRepository reservationRepository;
 
     @Autowired
     PasswordEncoder passwordEncoder;
@@ -192,5 +195,15 @@ public class MyinfoService {
         }
         userRepository.delete(user);
         return true;
+    }
+
+    public List<Reservation> FindUserReservation(Authentication authentication){
+        List<Reservation> AllReservationList = reservationRepository.findAll();
+        List<Reservation> UserReservationList = new ArrayList<>();
+        for(Reservation reservation : AllReservationList) {
+            if(Objects.equals(reservation.getUser().getUserid(), authentication.getName()))
+                UserReservationList.add(reservation);
+        }
+        return UserReservationList;
     }
 }
