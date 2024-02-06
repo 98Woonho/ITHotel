@@ -100,8 +100,20 @@ https://shields.io/
 |/hotel/find|GET|호텔 찾기 페이지|
 |/hotel/findMap|GET|호텔 찾기 지도 페이지|
 |/hotel/info|GET|호텔 정보 페이지|
-|/hotel/reservationStep1|GET|호텔 예약 첫 번째 페이지|
-|/hotel/reservationStep2|GET|호텔 예약 두 번째 페이지|
+|/reservation/select|GET|호텔 및 객실 선택 페이지|
+|/payment/read|GET|결제 페이지|
+|/admin/inquiry|GET|관리자 문의 페이지|
+|/admin/modifyHotel|GET|관리자 호텔 수정 페이지|
+|/admin/modifyRoom|GET|관리자 객실 수정 페이지|
+|/admin/registerHotel|GET|관리자 호텔 등록 페이지|
+|/admin/registerRoom|GET|관리자 객실 등록 페이지|
+|/admin/monthSales|GET|관리자 월 매출 페이지|
+|/admin/monthSales|GET|관리자 월 매출 페이지|
+|/admin/hotelStatus|GET|관리자 호텔 현황 페이지|
+|/admin/reservationStatus|GET|관리자 예약 현황 페이지|
+|/admin/roomStatus|GET|관리자 객실 현황 페이지|
+|/policy/privacyPolicy|GET|개인정보 처리방침 페이지|
+|/policy/terms|GET|이용약관 페이지|
 |/user/login|GET|로그인 페이지|
 |/user/join|GET|회원가입 페이지|
 |/user/join|POST|회원가입|
