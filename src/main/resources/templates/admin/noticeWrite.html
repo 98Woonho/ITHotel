@@ -32,7 +32,7 @@
                     <h1 class="title">고객문의 > 공지사항 작성</h1>
                 </div>
                 <div id="main_wrapper">
-                    <form id="mainForm" method="post">
+                    <form id="mainForm" method="post" enctype="multipart/form-data">
                         <div>
                             <label class="form-label fw-bold fs-5">제목</label>
                             <input class="form-control" type="text" name="title" required>
@@ -41,10 +41,14 @@
                             <label class="form-label fw-bold fs-5">내용</label>
                             <textarea class="form-control" name="content" cols="30" rows="10" required></textarea>
                         </div>
+                        <div class="mb-3">
+                            <input type="file" name="file" multiple>
+                        </div>
                         <span class="mb-3">
         <input class="form-control write" type="submit" value="글작성">
     </span>
                     </form>
+
                     <span class="button mt-3">
     <button class="btn btn-primary mb-3" onclick="listReq()">목록</button>
 </span>

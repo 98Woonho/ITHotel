@@ -21,6 +21,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @Slf4j
@@ -115,8 +116,18 @@ public class BoardController {
         List<Hotel> hotels = hotelService.hotelContact(hotelDto);
         model.addAttribute("hotels", hotels);
     }
-    @GetMapping("notice")
-    public void noticeboardList(){
+    @GetMapping("noticeList")
+    public void noticeBoardList(BoardWriteRequestDto boardWriteRequestDto, Model model) throws IOException {
+        List<BoardWriteRequestDto> noticeBoardList = adminBoardService.noticeBoardList(boardWriteRequestDto);
+        for (BoardWriteRequestDto noticeBoard : noticeBoardList ) {
+            System.out.println(noticeBoard.getFileAttached());
+            System.out.println(noticeBoard.getContent());
+            System.out.println(noticeBoard.getTitle());
+            System.out.println(noticeBoard.getOriginalFileName());
+            System.out.println(noticeBoard.getStoredFileName());
+            System.out.println(noticeBoard.getCreatedTime());
+        }
+        model.addAttribute("noticeBoardList", noticeBoardList);
 
     }
 }

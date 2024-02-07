@@ -1,0 +1,7 @@
+package com.whl.hotelService.domain.common.repository;
+
+import com.whl.hotelService.domain.common.entity.NoticeBoardFileInfo;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface NoticeBoardFileInfoRepository extends JpaRepository<NoticeBoardFileInfo, Long> {
+}

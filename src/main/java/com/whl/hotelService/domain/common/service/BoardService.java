@@ -4,10 +4,7 @@ import com.whl.hotelService.domain.common.dto.BoardResponseDto;
 import com.whl.hotelService.domain.common.dto.BoardWriteRequestDto;
 import com.whl.hotelService.domain.common.dto.HotelDto;
 import com.whl.hotelService.domain.common.entity.Board;
-import com.whl.hotelService.domain.common.entity.BoardFileInfo;
 import com.whl.hotelService.domain.common.entity.Hotel;
-import com.whl.hotelService.domain.common.entity.HotelFileInfo;
-import com.whl.hotelService.domain.common.repository.BoardFileInfoRepository;
 import com.whl.hotelService.domain.common.repository.BoardRepository;
 import com.whl.hotelService.domain.common.repository.HotelRepository;
 import com.whl.hotelService.domain.user.entity.User;
@@ -18,10 +15,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.io.File;
-import java.io.IOException;
 import java.util.*;
 
 // DTO -> Entity변환 작업은 (Entity class)컨트롤러가 서비스로 데이터를 넘겨줄 땐 DTO 객체를 반환해야함 반대로 서비스에서 컨트롤러에 데이터를 넘겨줄 땐 DTO 객체를 반환
@@ -34,8 +27,6 @@ public class BoardService {
     private UserRepository userRepository;
     @Autowired
     private HotelRepository hotelRepository;
-    @Autowired
-    private BoardFileInfoRepository boardFileInfoRepository;
 
     public Long saveBoard(BoardWriteRequestDto boardWriteRequestDto, String id) {
         // 유저 아이디로 유저 찾기
@@ -112,45 +103,5 @@ public class BoardService {
             hotelNames.add(hotelDto.getHotelName());
         }
         return hotelNames;
-    }
-    public void saveImageFile(BoardWriteRequestDto boardWriteRequestDto, MultipartFile multipartFile, String id) throws IOException {
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new UsernameNotFoundException("유저 아이디가 존재하지 않습니다."));
-
-        // 연관된 유저와 함께 새로운 Board 엔터티 생성
-        Board board = Board.builder()
-                .title(boardWriteRequestDto.getTitle())
-                .content(boardWriteRequestDto.getContent())
-                .user(user)
-                .build();
-        // Board 엔터티를 데이터베이스에 저장
-        boardRepository.save(board);
-
-            //저장 폴더 지정()
-            String uploadPath = "c:\\" + File.separator + "boardImage" + File.separator + boardWriteRequestDto.getId();
-            File dir = new File(uploadPath);
-            if (!dir.exists())
-                dir.mkdirs();
-
-            for (String fileName : boardWriteRequestDto.getFileNames()) {
-                for (MultipartFile file : boardWriteRequestDto.getFiles()) {
-                    if (Objects.equals(fileName, file.getOriginalFilename())) {
-
-                        File fileobj = new File(dir, file.getOriginalFilename());    //파일객체생성
-
-                        if (!fileobj.exists()) {
-                            // DB에 파일경로 저장
-                            BoardFileInfo boardFileInfo = new BoardFileInfo();
-                            boardFileInfo.setBoard(board);
-                            String dirPath = File.separator + "boardimage" + File.separator + boardWriteRequestDto.getId() + File.separator;
-                            boardFileInfo.setDir(dirPath);
-                            boardFileInfo.setFileName(file.getOriginalFilename());
-                            boardFileInfoRepository.save(boardFileInfo);
-                        }
-
-                        file.transferTo(fileobj);   //저장
-                }
-            }
-        }
     }
 }

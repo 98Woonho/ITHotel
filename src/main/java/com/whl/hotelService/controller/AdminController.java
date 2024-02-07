@@ -22,6 +22,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -111,11 +112,10 @@ public class AdminController {
     public void noticeWrite(){
 
     }
-    @PostMapping("/noticeWrite") // 관리자 게시판 글쓰기
-    public void noticeWrite(BoardWriteRequestDto boardWriteRequestDto, MultipartFile multipartFile, Authentication authentication) throws IOException {
+    @PostMapping("/noticeWrite") // 공지 게시글 쓰기
+    public void noticeWrite(BoardWriteRequestDto boardWriteRequestDto, Authentication authentication) throws IOException {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        boardService.saveImageFile(boardWriteRequestDto,multipartFile,  userDetails.getUsername());
-
+        adminBoardService.fileAttach(boardWriteRequestDto);
     }
 
     @GetMapping("registerHotel")
