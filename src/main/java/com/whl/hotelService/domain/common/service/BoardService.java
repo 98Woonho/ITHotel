@@ -62,17 +62,14 @@ public class BoardService {
         return result;
     }
 
-//    public BoardWriteRequestDto noticeBoardDetail(Long id) {
-//        NoticeBoard noticeBoard = noticeBoardRepsoitory.findById(id).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시글입니다."));
-//        BoardWriteRequestDto result = BoardWriteRequestDto.entityToDto(noticeBoard);
-//
-//        return result;
-//    }
-
     public NoticeBoardFileInfo noticeBoardFileDetail(Long id) {
         NoticeBoardFileInfo noticeBoardFileInfo = noticeBoardFileInfoRepository.findByNoticeBoardId(id);
 
         return noticeBoardFileInfo;
+    }
+    public NoticeBoard noticeBoard(Long id) {
+        NoticeBoard noticeBoard = noticeBoardRepsoitory.findById(id).orElseThrow();
+        return noticeBoard;
     }
 
     public Page<BoardResponseDto> boardList(Pageable pageable) {

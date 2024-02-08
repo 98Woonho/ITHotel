@@ -41,7 +41,7 @@
                                     글제목
                                 </th>
                                 <td>
-                                    <div th:text="${noticeBoardFileInfo.noticeBoard.title}"></div>
+                                    <div th:text="${noticeBoard.title}"></div>
                                 </td>
                             </tr>
                             <tr>
@@ -50,7 +50,7 @@
                                     글 내용
                                 </th>
                                 <td>
-                                    <div th:text="${noticeBoardFileInfo.noticeBoard.content}"></div>
+                                    <div th:text="${noticeBoard.content}"></div>
                                 </td>
                             </tr>
                             <tr>
@@ -59,15 +59,21 @@
                                     작성일
                                 </th>
                                 <td>
-                                    <div th:text="${noticeBoardFileInfo.noticeBoard.createdTime}"></div>
+                                    <div th:text="${noticeBoard.createdTime}"></div>
                                 </td>
                             </tr>
                             </tbody>
                         </table>
                     </div>
-                    <div class="card my-4" th:if="${noticeBoardFileInfo.noticeBoard.fileAttached == 1}">
-                        <h4 class="card-header">첨부파일</h4>
-                        <div class="card-body" th:text="${noticeBoardFileInfo.originalFileName}"></div>
+                    <div class="card my-4" th:if="${noticeBoard.fileAttached == 0}">첨부 파일이 없습니다.</div>
+                    <div class="card my-4" th:if="${noticeBoard.fileAttached == 1}">
+                        <h4 class="card-header"></h4>
+<!--                        <div class="card-body" th:text="${noticeBoardFileInfo.originalFileName}">-->
+
+<!--                        </div>-->
+                        <a th:href="@{'/board/noticeList/download?fileName='+${noticeBoardFileInfo.storedFileName}}">
+                            <th:block th:text="${noticeBoardFileInfo.originalFileName}"></th:block>
+                        </a>
                     </div>
                 </div>
             </div>

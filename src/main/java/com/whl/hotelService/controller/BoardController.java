@@ -1,29 +1,43 @@
 package com.whl.hotelService.controller;
 
 
+import com.nimbusds.jose.util.Resource;
 import com.whl.hotelService.domain.common.dto.BoardResponseDto;
 import com.whl.hotelService.domain.common.dto.BoardWriteRequestDto;
 import com.whl.hotelService.domain.common.dto.HotelDto;
 import com.whl.hotelService.domain.common.entity.AdminBoard;
 import com.whl.hotelService.domain.common.entity.Hotel;
+import com.whl.hotelService.domain.common.entity.NoticeBoard;
 import com.whl.hotelService.domain.common.entity.NoticeBoardFileInfo;
 import com.whl.hotelService.domain.common.service.AdminBoardService;
 import com.whl.hotelService.domain.common.service.BoardService;
 import com.whl.hotelService.domain.common.service.CommentService;
 import com.whl.hotelService.domain.common.service.HotelService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
+import java.io.*;
+import java.net.URLEncoder;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
+
+import static org.aspectj.weaver.tools.cache.SimpleCacheFactory.path;
 
 @Slf4j
 @Controller
@@ -134,7 +148,52 @@ public class BoardController {
     @GetMapping("/noticeList/{id}")
     public String noticeBoardDetail(@PathVariable Long id,  Model model) {
         NoticeBoardFileInfo noticeBoardFileInfo = boardService.noticeBoardFileDetail(id);
-        model.addAttribute("noticeBoardFileInfo", noticeBoardFileInfo);
+        NoticeBoard noticeBoard = boardService.noticeBoard(id);
+            model.addAttribute("noticeBoard", noticeBoard);
+            model.addAttribute("noticeBoardFileInfo", noticeBoardFileInfo);
+
         return "board/noticeBoardDetail";
+    }
+
+    //파일 다운로드 할때 이거 쓸것!!!!
+    @GetMapping("/noticeList/download")
+    public void downloadFile(HttpServletRequest request, HttpServletResponse response) throws Exception{
+        try {
+            String fileName = request.getParameter("fileName");
+            String filePath = "c:\\" + File.separator + "noticeBoardImage" + File.separator;
+
+            File dFile = new File(filePath, fileName);
+            int fSize = (int) dFile.length();
+            if (fSize > 0) {
+                String encodeFilename = "attachment; filename*=" + "UTF-8" + "''" + URLEncoder.encode(fileName, "UTF-8");
+
+                response.setContentType("application/octet-stream; charset=utf-8");
+                response.setHeader("Content-Disposition", encodeFilename);
+                response.setContentLengthLong(fSize);
+
+                BufferedInputStream in = null;
+                BufferedOutputStream out = null;
+
+                in = new BufferedInputStream(new FileInputStream(dFile));
+                out = new BufferedOutputStream(response.getOutputStream());
+
+                try {
+                    byte[] buffer = new byte[4096];
+                    int bytesRead = 0;
+
+                    while ((bytesRead = in .read(buffer)) != -1){
+                        out.write(buffer, 0, bytesRead);
+                    }
+                    out.flush();
+                } finally {
+                    in.close();
+                    out.close();
+                }
+            }else {
+                throw new FileNotFoundException("파일이 없습니다.");
+            }
+        }catch (Exception e){
+            e.getMessage();
+        }
     }
 }
