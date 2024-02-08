@@ -6,6 +6,7 @@ import com.whl.hotelService.domain.common.dto.BoardWriteRequestDto;
 import com.whl.hotelService.domain.common.dto.HotelDto;
 import com.whl.hotelService.domain.common.entity.AdminBoard;
 import com.whl.hotelService.domain.common.entity.Hotel;
+import com.whl.hotelService.domain.common.entity.NoticeBoardFileInfo;
 import com.whl.hotelService.domain.common.service.AdminBoardService;
 import com.whl.hotelService.domain.common.service.BoardService;
 import com.whl.hotelService.domain.common.service.CommentService;
@@ -128,6 +129,12 @@ public class BoardController {
             System.out.println(noticeBoard.getCreatedTime());
         }
         model.addAttribute("noticeBoardList", noticeBoardList);
+    }
 
+    @GetMapping("/noticeList/{id}")
+    public String noticeBoardDetail(@PathVariable Long id,  Model model) {
+        NoticeBoardFileInfo noticeBoardFileInfo = boardService.noticeBoardFileDetail(id);
+        model.addAttribute("noticeBoardFileInfo", noticeBoardFileInfo);
+        return "board/noticeBoardDetail";
     }
 }

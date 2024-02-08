@@ -20,7 +20,5 @@ public class NoticeBoard extends BaseEntity {
     private String title; //제목
     @Column(length = 500, nullable = false)
     private String content; // 내용
-    private String originalFileName; // 원본 파일 이름
-    private String storedFileName; // 서버 저장 파일 이름
     private int fileAttached;
 }

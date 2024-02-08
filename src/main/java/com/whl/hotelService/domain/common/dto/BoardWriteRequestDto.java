@@ -2,6 +2,7 @@ package com.whl.hotelService.domain.common.dto;
 
 import com.whl.hotelService.domain.common.entity.AdminBoard;
 import com.whl.hotelService.domain.common.entity.NoticeBoard;
+import com.whl.hotelService.domain.common.entity.NoticeBoardFileInfo;
 import com.whl.hotelService.domain.user.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -38,9 +39,21 @@ public class BoardWriteRequestDto {
                 .createdTime(board.getCreatedTime())
                 .updatedTime(board.getUpdatedTime())
                 .fileAttached(board.getFileAttached())
-                .originalFileName(board.getOriginalFileName())
-                .storedFileName(board.getStoredFileName())
                 .build();
         return dto;
     }
+//    public static BoardWriteRequestDto entityToDto(NoticeBoardFileInfo noticeBoardFileInfo){
+//        NoticeBoard noticeBoard = noticeBoardFileInfo.getNoticeBoard();
+//        BoardWriteRequestDto dto = BoardWriteRequestDto.builder()
+//                .id(noticeBoardFileInfo.getId())
+//                .title(noticeBoard.getTitle())
+//                .content(noticeBoard.getContent())
+//                .createdTime(noticeBoardFileInfo.getCreatedTime())
+//                .updatedTime(noticeBoardFileInfo.getUpdatedTime())
+//                .fileAttached(noticeBoard.getFileAttached())
+//                .originalFileName(noticeBoardFileInfo.getOriginalFileName())
+//                .storedFileName(noticeBoardFileInfo.getStoredFileName())
+//                .build();
+//        return dto;
+//    }
 }

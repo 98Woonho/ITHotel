@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <!--  cdns  -->
+    <th:block th:insert="~{fragments/link.html :: link_fragment}"></th:block>
+
+    <!-- css -->
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/board/basic.css">
+
+    <!-- js -->
+    <!--    <script defer src="/js/admin/modifyRoom.js"></script>-->
+</head>
+<body>
+
+<header id="header" class="content-container-wrapper">
+    <th:block th:insert="~{fragments/header.html :: header_fragment}"></th:block>
+</header>
+
+<main id="main" class="content-container-wrapper">
+    <div class="content-container">
+        <div class="board-container">
+            <th:block th:replace="~{fragments/boardLeft.html :: boardLeft_fragment}"></th:block>
+            <div class="board-right">
+                <div class="title-container">
+                    <h1 class="title">고객문의 안내 > 공지사항</h1>
+                </div>
+                <div class="information-info-container">
+                    <div class="table_wrapper">
+                        <table class="main_table">
+                            <tbody>
+                            <tr>
+                                <th>
+                                    <span>*</span>
+                                    글제목
+                                </th>
+                                <td>
+                                    <div th:text="${noticeBoardFileInfo.noticeBoard.title}"></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <span>*</span>
+                                    글 내용
+                                </th>
+                                <td>
+                                    <div th:text="${noticeBoardFileInfo.noticeBoard.content}"></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <span>*</span>
+                                    작성일
+                                </th>
+                                <td>
+                                    <div th:text="${noticeBoardFileInfo.noticeBoard.createdTime}"></div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="card my-4" th:if="${noticeBoardFileInfo.noticeBoard.fileAttached == 1}">
+                        <h4 class="card-header">첨부파일</h4>
+                        <div class="card-body" th:text="${noticeBoardFileInfo.originalFileName}"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<th:block th:insert="~{fragments/footer.html :: footer_fragment}"></th:block>
+
+</body>
+</html>
