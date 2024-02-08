@@ -43,3 +43,40 @@ function childPlus() {
     childNum += 1;
     searchForm['childCount'].value = childNum;
 }
+
+
+document.addEventListener('scroll', function() {
+    const scrollPosition = window.scrollY;
+    const mainSection1 = document.querySelector('.main-section-1');
+    const mainSection2 = document.querySelector('.main-section-2');
+    const swiper = document.querySelector('.swiper');
+
+    if (scrollPosition > 200) {
+        mainSection1.classList.add('visible');
+    } else {
+        mainSection1.classList.remove('visible');
+    }
+
+    if (scrollPosition > 650) {
+        mainSection2.classList.add('visible');
+    } else {
+        mainSection2.classList.remove('visible');
+    }
+
+    if (scrollPosition > 1150) {
+        swiper.classList.add('visible');
+    } else {
+        swiper.classList.remove('visible');
+    }
+});
+
+
+
+new Swiper('.swiper', {
+    cssMode: true,
+    navigation: {
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev",
+    }
+})
+
