@@ -235,9 +235,9 @@
             </button>
             <ul>
                 <!-- 이미지는 외부 정적 경로로 변경할 예정 -->
-                <li><img th:src="@{/images/hotel1.jpg}" alt=""></li>
-                <li><img th:src="@{/images/hotel2.jpg}" alt=""></li>
-                <li><img th:src="@{/images/hotel3.jpg}" alt=""></li>
+                <li><img src="/images/hotel1.jpg" alt=""></li>
+                <li><img src="/images/hotel2.jpg" alt=""></li>
+                <li><img src="/images/hotel3.jpg" alt=""></li>
             </ul>
         </div>
     </div>
@@ -324,9 +324,7 @@
         </div>
 
         <div id="chat-container">
-            <div id="chat-messages">
-                <div class="message-me">ㅎㅇ</div>
-            </div>
+            <div id="chat-messages"></div>
             <div id="user-input">
                 <input type="text" placeholder="메시지를 입력하세요..."/>
                 <button>전송</button>
