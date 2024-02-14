@@ -13,9 +13,9 @@
     <!-- css -->
     <link rel="stylesheet" href="/css/common.css">
     <link rel="stylesheet" href="/css/admin/noticeWrite.css">
-
-    <!--    &lt;!&ndash; js &ndash;&gt;-->
-    <!--    <script defer src="/js/admin/inquiryList.js"></script>-->
+    <script defer src="/js/admin/noticeWrite.js"></script>
+    <script type="application/json" src="/js/board/libraries/translations"></script>
+    <script src="/js/board/libraries/ckeditor.js"></script>
 </head>
 <body>
 
@@ -32,14 +32,14 @@
                     <h1 class="title">고객문의 > 공지사항 작성</h1>
                 </div>
                 <div id="main_wrapper">
-                    <form id="mainForm" method="post" enctype="multipart/form-data">
+                    <form id="mainForm" enctype="multipart/form-data">
                         <div>
                             <label class="form-label fw-bold fs-5">제목</label>
-                            <input class="form-control" type="text" name="title" required>
+                            <input class="form-control" type="text" name="title">
                         </div>
                         <div class="mb-3">
                             <label class="form-label fw-bold fs-5">내용</label>
-                            <textarea class="form-control" name="content" cols="30" rows="10" required></textarea>
+                            <textarea class="form-control" name="content" maxlength="100000" placeholder="내용을 입력해주세요" rows="15"></textarea>
                         </div>
                         <div class="mb-3">
                             <input type="file" name="file" multiple>

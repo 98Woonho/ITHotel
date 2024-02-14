@@ -134,14 +134,7 @@ public class BoardController {
     @GetMapping("noticeList")
     public void noticeBoardList(BoardWriteRequestDto boardWriteRequestDto, Model model) throws IOException {
         List<BoardWriteRequestDto> noticeBoardList = adminBoardService.noticeBoardList(boardWriteRequestDto);
-        for (BoardWriteRequestDto noticeBoard : noticeBoardList ) {
-            System.out.println(noticeBoard.getFileAttached());
-            System.out.println(noticeBoard.getContent());
-            System.out.println(noticeBoard.getTitle());
-            System.out.println(noticeBoard.getOriginalFileName());
-            System.out.println(noticeBoard.getStoredFileName());
-            System.out.println(noticeBoard.getCreatedTime());
-        }
+
         model.addAttribute("noticeBoardList", noticeBoardList);
     }
 
@@ -196,4 +189,5 @@ public class BoardController {
             e.getMessage();
         }
     }
+
 }

@@ -68,9 +68,6 @@
                     <div class="card my-4" th:if="${noticeBoard.fileAttached == 0}">첨부 파일이 없습니다.</div>
                     <div class="card my-4" th:if="${noticeBoard.fileAttached == 1}">
                         <h4 class="card-header"></h4>
-<!--                        <div class="card-body" th:text="${noticeBoardFileInfo.originalFileName}">-->
-
-<!--                        </div>-->
                         <a th:href="@{'/board/noticeList/download?fileName='+${noticeBoardFileInfo.storedFileName}}">
                             <th:block th:text="${noticeBoardFileInfo.originalFileName}"></th:block>
                         </a>
