@@ -20,6 +20,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -129,7 +130,7 @@ public class AdminBoardService {
         }
         return new PageImpl<>(boardDtos, pageable, adminBoards.getTotalElements());
     }
-
+    @Transactional(rollbackFor = Exception.class)
     public void fileAttach(BoardWriteRequestDto boardWriteRequestDto) throws IOException {
         if (boardWriteRequestDto.getFile().isEmpty()) {
             boardWriteRequestDto.setFileAttached(0);

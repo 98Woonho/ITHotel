@@ -113,9 +113,11 @@ public class AdminController {
 
     }
     @PostMapping("/noticeWrite") // 공지 게시글 쓰기
-    public void noticeWrite(BoardWriteRequestDto boardWriteRequestDto, Authentication authentication) throws IOException {
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+    @ResponseBody
+    public String noticeWrite(BoardWriteRequestDto boardWriteRequestDto,
+                              @RequestParam("file")MultipartFile file) throws IOException {
         adminBoardService.fileAttach(boardWriteRequestDto);
+        return "SUCCESS";
     }
 
     @GetMapping("registerHotel")

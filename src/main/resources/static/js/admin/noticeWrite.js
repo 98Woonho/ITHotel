@@ -25,11 +25,14 @@ if (mainForm){
 
         formData.append('title', mainForm['title'].value);
         formData.append('content', mainForm.editor.getData());
+        formData.append('file', mainForm['file'].value);
 
-        axios.post("noticeWrite", formData,  {header: {'Content-Type': 'multipart/form-data'}})
+        axios.post("/admin/noticeWrite", formData, {header: {'Content-Type': 'multipart/form-data'}})
             .then(res => {
-                alert('공지사항 등록이 완료되었습니다.');
-                location.href ="/board/noticeList";
+                if (res.data === "SUCCESS") {
+                    alert('공지사항 등록이 완료되었습니다.');
+                    location.href = "/board/noticeList";
+                }
             })
             .catch(err => {
                 console.log(err);
