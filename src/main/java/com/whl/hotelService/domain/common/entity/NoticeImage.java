@@ -23,7 +23,9 @@ public class NoticeImage extends BaseEntity {
     @Lob
     @Column(columnDefinition = "LONGBLOB")
     private byte[] data;
-
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="notice_board_id", foreignKey = @ForeignKey(name="fk_notice_image_notice_board_id", foreignKeyDefinition = "FOREIGN KEY(notice_board_id) REFERENCES notice_board(id) ON DELETE CASCADE ON UPDATE CASCADE"))
+    private NoticeBoard noticeBoard;
     public NoticeImage(MultipartFile file) throws IOException, java.io.IOException {
         super();
         this.name = file.getOriginalFilename();

@@ -168,6 +168,7 @@ public class AdminBoardService {
         return noticeImageRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 이미지입니다."));
     }
     public String uploadImage(NoticeImage noticeImage){
+
         noticeImageRepository.save(noticeImage);
         return "SUCCESS";
     }
