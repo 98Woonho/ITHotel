@@ -15,6 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -114,10 +118,40 @@ public class AdminController {
     }
     @PostMapping("/noticeWrite") // 공지 게시글 쓰기
     @ResponseBody
-    public String noticeWrite(BoardWriteRequestDto boardWriteRequestDto,
-                              @RequestParam("file")MultipartFile file) throws IOException {
+    public String noticeWrite(BoardWriteRequestDto boardWriteRequestDto) throws IOException {
         adminBoardService.fileAttach(boardWriteRequestDto);
         return "SUCCESS";
+    }
+    @GetMapping("image")
+    public ResponseEntity<byte[]> getImage(@RequestParam("id") long id){
+        ResponseEntity<byte[]> response;
+        NoticeImage noticeImage = adminBoardService.getImage(id);
+        if (noticeImage == null){
+            response = new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            HttpHeaders httpHeaders = new HttpHeaders();
+            httpHeaders.setContentLength(noticeImage.getSize());
+            httpHeaders.setContentType(MediaType.parseMediaType(noticeImage.getType()));
+            response = new ResponseEntity<>(noticeImage.getData(), httpHeaders, HttpStatus.OK);
+        }
+        return response;
+    }
+
+
+    @PostMapping("image")
+    @ResponseBody
+    public String postImage(@RequestParam("upload") MultipartFile file) throws IOException{
+        NoticeImage noticeImage = new NoticeImage(file);
+        String result = adminBoardService.uploadImage(noticeImage);
+        JSONObject responseObject = new JSONObject();
+        if (result.equals("SUCCESS")){
+            responseObject.put("url", "/admin/image?id=" + noticeImage.getId());
+        } else {
+            JSONObject messageObject = new JSONObject();
+            messageObject.put("message", "알 수 없는 이유로 이미지를 업로드 하지 못하였습니다.");
+            responseObject.put("error", messageObject);
+        }
+        return responseObject.toString();
     }
 
     @GetMapping("registerHotel")

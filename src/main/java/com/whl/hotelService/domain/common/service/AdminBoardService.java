@@ -3,14 +3,8 @@ package com.whl.hotelService.domain.common.service;
 import com.whl.hotelService.domain.common.dto.BoardResponseDto;
 import com.whl.hotelService.domain.common.dto.BoardWriteRequestDto;
 import com.whl.hotelService.domain.common.dto.CommentResponseDto;
-import com.whl.hotelService.domain.common.entity.AdminBoard;
-import com.whl.hotelService.domain.common.entity.Comment;
-import com.whl.hotelService.domain.common.entity.NoticeBoard;
-import com.whl.hotelService.domain.common.entity.NoticeBoardFileInfo;
-import com.whl.hotelService.domain.common.repository.AdminBoardRepository;
-import com.whl.hotelService.domain.common.repository.CommentRepository;
-import com.whl.hotelService.domain.common.repository.NoticeBoardFileInfoRepository;
-import com.whl.hotelService.domain.common.repository.NoticeBoardRepsoitory;
+import com.whl.hotelService.domain.common.entity.*;
+import com.whl.hotelService.domain.common.repository.*;
 import com.whl.hotelService.domain.user.entity.User;
 import com.whl.hotelService.domain.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +35,8 @@ public class AdminBoardService {
     private NoticeBoardRepsoitory noticeBoardRepsoitory;
     @Autowired
     private NoticeBoardFileInfoRepository noticeBoardFileInfoRepository;
+    @Autowired
+    private NoticeImageRepository noticeImageRepository;
 
     public void saveBoard(BoardWriteRequestDto boardWriteRequestDto, String userid) {
 
@@ -132,7 +128,7 @@ public class AdminBoardService {
     }
     @Transactional(rollbackFor = Exception.class)
     public void fileAttach(BoardWriteRequestDto boardWriteRequestDto) throws IOException {
-        if (boardWriteRequestDto.getFile().isEmpty()) {
+        if (boardWriteRequestDto.getFile() == null) {
             boardWriteRequestDto.setFileAttached(0);
             NoticeBoard noticeBoard = NoticeBoard.builder()
                     .title(boardWriteRequestDto.getTitle())
@@ -167,6 +163,13 @@ public class AdminBoardService {
                     .build();
             noticeBoardFileInfoRepository.save(noticeBoardFileInfo);
         }
+    }
+    public NoticeImage getImage(Long id){
+        return noticeImageRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 이미지입니다."));
+    }
+    public String uploadImage(NoticeImage noticeImage){
+        noticeImageRepository.save(noticeImage);
+        return "SUCCESS";
     }
     public List<BoardWriteRequestDto> noticeBoardList(BoardWriteRequestDto boardWriteRequestDto){
         List<NoticeBoard> noticeBoardList = noticeBoardRepsoitory.findAll();
