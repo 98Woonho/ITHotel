@@ -5,18 +5,18 @@
     margin-bottom: 5rem;
 }
 
-.hotel-info img {
+.region-ul img {
     width: 200px;
     height: 200px;
 }
 
-.hotel-info li {
+.region-ul li {
     display: flex;
     flex-direction: row;
     margin-bottom: 2rem;
 }
 
-.hotel-info li div {
+.region-ul li div {
     display: flex;
     flex-direction: column;
 }
@@ -36,7 +36,7 @@
     font-weight: 400;
 }
 
-.area {
+.region {
     width: 1150px;
     margin: 0 auto;
 }
@@ -62,7 +62,7 @@
     height: 2rem;
 }
 
-.hotel-info {
+.region-ul {
     max-height: 0;
     overflow: hidden;
     transition-duration: 500ms;
@@ -70,6 +70,15 @@
     transition-timing-function: ease;
 }
 
-.hotel-info.visible {
+.region-ul.visible {
     max-height: 50rem;
+}
+
+.hotel-info-container {
+    margin-left: 1rem;
+}
+
+.hotel-name {
+    font-size: 1.5rem;
+    font-weight: 500;
 }

@@ -1,14 +1,14 @@
 const hotelInfoBtns = document.querySelectorAll('.hotel-info-btn');
-const hotelInfos = document.querySelectorAll('.hotel-info');
+const regionUls = document.querySelectorAll('.region-ul');
 
 hotelInfoBtns.forEach(hotelInfoBtn => {
     hotelInfoBtn.addEventListener('click', function() {
-        hotelInfos.forEach(hotelInfo => {
-            if(hotelInfoBtn.dataset.value === hotelInfo.dataset.value) {
-                if(hotelInfo.classList.contains('visible')) {
-                    hotelInfo.classList.remove('visible');
+        regionUls.forEach(regionUl => {
+            if(hotelInfoBtn.dataset.value === regionUl.dataset.value) {
+                if(regionUl.classList.contains('visible')) {
+                    regionUl.classList.remove('visible');
                 } else {
-                    hotelInfo.classList.add('visible');
+                    regionUl.classList.add('visible');
                 }
             }
         })
