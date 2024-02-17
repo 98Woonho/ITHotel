@@ -1,4 +1,5 @@
 const mainForm = document.querySelector('#mainForm');
+const CK_editor = document.querySelector('.ck.ck-content.ck-editor__editable.ck-rounded-corners.ck-editor__editable_inline.ck-blurred');
 const formData = new FormData();
 if (mainForm) {
     ClassicEditor
@@ -19,6 +20,10 @@ if (mainForm) {
 
         if (mainForm['title'].value === "") {
             alert('제목을 입력하세요');
+            return;
+        }
+        if (mainForm.editor.getData() === ""){
+            alert('내용을 입력하세요');
             return;
         }
         formData.append('title', mainForm['title'].value);

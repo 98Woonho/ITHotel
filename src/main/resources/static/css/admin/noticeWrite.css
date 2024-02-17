@@ -1,3 +1,8 @@
 .admin-right >.title-container {
     margin-bottom: 5rem;
 }
+.ck-editor__editable { height: 400px; }
+
+.ck.ck-button.ck-off.ck-file-dialog-button:nth-child(1) {
+    display: none;
+}

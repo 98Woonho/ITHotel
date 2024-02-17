@@ -1,6 +1,5 @@
 package com.whl.hotelService.controller;
 
-
 import com.whl.hotelService.domain.common.dto.BoardDto;
 import com.whl.hotelService.domain.common.dto.BoardFileDto;
 import com.whl.hotelService.domain.common.dto.CommentDto;
