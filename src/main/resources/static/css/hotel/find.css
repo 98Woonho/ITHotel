@@ -71,7 +71,7 @@
 }
 
 .region-ul.visible {
-    max-height: 50rem;
+    max-height: 500vh;
 }
 
 .hotel-info-container {
