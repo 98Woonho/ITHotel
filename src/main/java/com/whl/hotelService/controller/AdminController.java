@@ -1,9 +1,9 @@
 package com.whl.hotelService.controller;
 
 
-import com.whl.hotelService.domain.common.dto.BoardResponseDto;
-import com.whl.hotelService.domain.common.dto.BoardWriteRequestDto;
-import com.whl.hotelService.domain.common.dto.CommentResponseDto;
+import com.whl.hotelService.domain.common.dto.BoardDto;
+import com.whl.hotelService.domain.common.dto.BoardFileDto;
+import com.whl.hotelService.domain.common.dto.CommentDto;
 import com.whl.hotelService.domain.common.entity.*;
 import com.whl.hotelService.domain.common.service.AdminBoardService;
 import com.whl.hotelService.domain.common.service.AdminService;
@@ -15,6 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -56,9 +60,9 @@ public class AdminController {
 
         model.addAttribute("type", type);
 
-        Page<BoardResponseDto> boardList = adminBoardService.boardList(pageable);
-        Page<BoardResponseDto> boardSearchList = adminBoardService.searchingBoardList(keyword, type, pageable);
-        Page<CommentResponseDto> commentList = adminBoardService.commentList(pageable);
+        Page<BoardDto> boardList = adminBoardService.boardList(pageable);
+        Page<BoardDto> boardSearchList = adminBoardService.searchingBoardList(keyword, type, pageable);
+        Page<CommentDto> commentList = adminBoardService.commentList(pageable);
         if (keyword == null) {
             model.addAttribute("boardList", boardList);
             model.addAttribute("commentList", commentList);
@@ -75,9 +79,9 @@ public class AdminController {
 
     @GetMapping("/inquiryList/{id}") // 게시판 조회
     public String adminBoardDetail(@PathVariable Long id, Model model) {
-        BoardResponseDto board = adminBoardService.boardDetail(id);
-        List<CommentResponseDto> commentResponseDtos = commentService.commentList(id);
-        model.addAttribute("comments", commentResponseDtos);
+        BoardDto board = adminBoardService.boardDetail(id);
+        List<CommentDto> commentDtos = commentService.commentList(id);
+        model.addAttribute("comments", commentDtos);
         model.addAttribute("board", board);
         model.addAttribute("id", id);
 
@@ -102,20 +106,52 @@ public class AdminController {
     }
 
     @PostMapping("/questionWrite") // 관리자 게시판 글쓰기
-    public String write(BoardWriteRequestDto boardWriteRequestDto, Authentication authentication) {
+    public String write(BoardDto boardDto, Authentication authentication) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        boardService.saveBoard(boardWriteRequestDto, userDetails.getUsername());
+        boardService.saveBoard(boardDto, userDetails.getUsername());
         return "redirect:/board/question";
     }
     @GetMapping("/noticeWrite")
     public void noticeWrite(){
 
     }
-    @PostMapping("/noticeWrite") // 관리자 게시판 글쓰기
-    public void noticeWrite(BoardWriteRequestDto boardWriteRequestDto, MultipartFile multipartFile, Authentication authentication) throws IOException {
+    @PostMapping("/noticeWrite") // 공지 게시글 쓰기
+    @ResponseBody
+    public String noticeWrite(BoardFileDto boardFileDto, Authentication authentication) throws IOException {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        boardService.saveImageFile(boardWriteRequestDto,multipartFile,  userDetails.getUsername());
+        adminBoardService.fileAttach(boardFileDto, userDetails.getUsername());
+        return "SUCCESS";
+    }
+    @GetMapping("image")
+    public ResponseEntity<byte[]> getImage(@RequestParam("id") long id){
+        ResponseEntity<byte[]> response;
+        NoticeImage noticeImage = adminBoardService.getImage(id);
+        if (noticeImage == null){
+            response = new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            HttpHeaders httpHeaders = new HttpHeaders();
+            httpHeaders.setContentLength(noticeImage.getSize());
+            httpHeaders.setContentType(MediaType.parseMediaType(noticeImage.getType()));
+            response = new ResponseEntity<>(noticeImage.getData(), httpHeaders, HttpStatus.OK);
+        }
+        return response;
+    }
 
+
+    @PostMapping("image")
+    @ResponseBody
+    public String postImage(@RequestParam("upload") MultipartFile file) throws IOException{
+        NoticeImage noticeImage = new NoticeImage(file);
+        String result = adminBoardService.uploadImage(noticeImage);
+        JSONObject responseObject = new JSONObject();
+        if (result.equals("SUCCESS")){
+            responseObject.put("url", "/admin/image?id=" + noticeImage.getId());
+        } else {
+            JSONObject messageObject = new JSONObject();
+            messageObject.put("message", "알 수 없는 이유로 이미지를 업로드 하지 못하였습니다.");
+            responseObject.put("error", messageObject);
+        }
+        return responseObject.toString();
     }
 
     @GetMapping("registerHotel")

@@ -1,19 +1,15 @@
 package com.whl.hotelService.domain.common.dto;
 
 import com.whl.hotelService.domain.common.entity.AdminBoard;
-import com.whl.hotelService.domain.common.entity.Board;
 import com.whl.hotelService.domain.common.entity.Comment;
 import com.whl.hotelService.domain.user.entity.User;
 import lombok.*;
-import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Builder
-public class CommentResponseDto {
+public class CommentDto {
 
     private Long id;
     private String content;
@@ -23,8 +19,8 @@ public class CommentResponseDto {
     private LocalDateTime createdTime;
     private LocalDateTime updatedTime;
 
-    public static CommentResponseDto entityToDto(Comment comment, AdminBoard board, User user) {
-        CommentResponseDto dto = CommentResponseDto.builder()
+    public static CommentDto entityToDto(Comment comment, AdminBoard board, User user) {
+        CommentDto dto = CommentDto.builder()
                 .id(comment.getId())
                 .content(comment.getContent())
                 .username(user.getName())
