@@ -3,8 +3,8 @@ package com.whl.hotelService.controller;
 import com.whl.hotelService.config.auth.jwt.JwtProperties;
 import com.whl.hotelService.config.auth.jwt.JwtTokenProvider;
 import com.whl.hotelService.config.auth.jwt.TokenInfo;
-import com.whl.hotelService.domain.common.dto.BoardResponseDto;
-import com.whl.hotelService.domain.common.dto.CommentResponseDto;
+import com.whl.hotelService.domain.common.dto.BoardDto;
+import com.whl.hotelService.domain.common.dto.CommentDto;
 import com.whl.hotelService.domain.common.entity.Reservation;
 import com.whl.hotelService.domain.common.service.AdminBoardService;
 import com.whl.hotelService.domain.common.service.BoardService;
@@ -155,8 +155,8 @@ public class MyinfoController {
                              @PageableDefault(page = 0, size = 10)Pageable pageable,
                              Authentication authentication, Model model){
         List<String> hotelnames = boardService.searchHotelname();
-        Page<BoardResponseDto> boardList = adminBoardService.userBoardList(pageable, authentication);
-        Page<CommentResponseDto> commentList = adminBoardService.commentList(pageable);
+        Page<BoardDto> boardList = adminBoardService.userBoardList(pageable, authentication);
+        Page<CommentDto> commentList = adminBoardService.commentList(pageable);
         model.addAttribute("commentList", commentList);
         model.addAttribute("boardList", boardList);
         model.addAttribute("hotelnames", hotelnames);
@@ -164,9 +164,9 @@ public class MyinfoController {
     }
     @GetMapping("/questionInfo/{id}") // 게시판 조회
     public String adminBoardDetail(@PathVariable Long id, Model model) {
-        BoardResponseDto board = adminBoardService.boardDetail(id);
-        List<CommentResponseDto> commentResponseDtos = commentService.commentList(id);
-        model.addAttribute("comments", commentResponseDtos);
+        BoardDto board = adminBoardService.boardDetail(id);
+        List<CommentDto> commentDtos = commentService.commentList(id);
+        model.addAttribute("comments", commentDtos);
         model.addAttribute("board", board);
         model.addAttribute("id", id);
         return "user/questionInfoDetail";

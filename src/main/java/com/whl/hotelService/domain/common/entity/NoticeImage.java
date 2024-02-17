@@ -2,15 +2,13 @@ package com.whl.hotelService.domain.common.entity;
 
 import io.jsonwebtoken.io.IOException;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@Setter
 @Builder
 @Entity
 public class NoticeImage extends BaseEntity {

@@ -1,9 +1,9 @@
 package com.whl.hotelService.controller;
 
 
-import com.whl.hotelService.domain.common.dto.BoardResponseDto;
-import com.whl.hotelService.domain.common.dto.BoardWriteRequestDto;
-import com.whl.hotelService.domain.common.dto.CommentResponseDto;
+import com.whl.hotelService.domain.common.dto.BoardDto;
+import com.whl.hotelService.domain.common.dto.BoardFileDto;
+import com.whl.hotelService.domain.common.dto.CommentDto;
 import com.whl.hotelService.domain.common.entity.*;
 import com.whl.hotelService.domain.common.service.AdminBoardService;
 import com.whl.hotelService.domain.common.service.AdminService;
@@ -26,7 +26,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -61,9 +60,9 @@ public class AdminController {
 
         model.addAttribute("type", type);
 
-        Page<BoardResponseDto> boardList = adminBoardService.boardList(pageable);
-        Page<BoardResponseDto> boardSearchList = adminBoardService.searchingBoardList(keyword, type, pageable);
-        Page<CommentResponseDto> commentList = adminBoardService.commentList(pageable);
+        Page<BoardDto> boardList = adminBoardService.boardList(pageable);
+        Page<BoardDto> boardSearchList = adminBoardService.searchingBoardList(keyword, type, pageable);
+        Page<CommentDto> commentList = adminBoardService.commentList(pageable);
         if (keyword == null) {
             model.addAttribute("boardList", boardList);
             model.addAttribute("commentList", commentList);
@@ -80,9 +79,9 @@ public class AdminController {
 
     @GetMapping("/inquiryList/{id}") // 게시판 조회
     public String adminBoardDetail(@PathVariable Long id, Model model) {
-        BoardResponseDto board = adminBoardService.boardDetail(id);
-        List<CommentResponseDto> commentResponseDtos = commentService.commentList(id);
-        model.addAttribute("comments", commentResponseDtos);
+        BoardDto board = adminBoardService.boardDetail(id);
+        List<CommentDto> commentDtos = commentService.commentList(id);
+        model.addAttribute("comments", commentDtos);
         model.addAttribute("board", board);
         model.addAttribute("id", id);
 
@@ -107,9 +106,9 @@ public class AdminController {
     }
 
     @PostMapping("/questionWrite") // 관리자 게시판 글쓰기
-    public String write(BoardWriteRequestDto boardWriteRequestDto, Authentication authentication) {
+    public String write(BoardDto boardDto, Authentication authentication) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        boardService.saveBoard(boardWriteRequestDto, userDetails.getUsername());
+        boardService.saveBoard(boardDto, userDetails.getUsername());
         return "redirect:/board/question";
     }
     @GetMapping("/noticeWrite")
@@ -118,8 +117,9 @@ public class AdminController {
     }
     @PostMapping("/noticeWrite") // 공지 게시글 쓰기
     @ResponseBody
-    public String noticeWrite(BoardWriteRequestDto boardWriteRequestDto) throws IOException {
-        adminBoardService.fileAttach(boardWriteRequestDto);
+    public String noticeWrite(BoardFileDto boardFileDto, Authentication authentication) throws IOException {
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        adminBoardService.fileAttach(boardFileDto, userDetails.getUsername());
         return "SUCCESS";
     }
     @GetMapping("image")

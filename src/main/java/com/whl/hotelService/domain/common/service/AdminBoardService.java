@@ -1,8 +1,8 @@
 package com.whl.hotelService.domain.common.service;
 
-import com.whl.hotelService.domain.common.dto.BoardResponseDto;
-import com.whl.hotelService.domain.common.dto.BoardWriteRequestDto;
-import com.whl.hotelService.domain.common.dto.CommentResponseDto;
+import com.whl.hotelService.domain.common.dto.BoardDto;
+import com.whl.hotelService.domain.common.dto.BoardFileDto;
+import com.whl.hotelService.domain.common.dto.CommentDto;
 import com.whl.hotelService.domain.common.entity.*;
 import com.whl.hotelService.domain.common.repository.*;
 import com.whl.hotelService.domain.user.entity.User;
@@ -38,64 +38,85 @@ public class AdminBoardService {
     @Autowired
     private NoticeImageRepository noticeImageRepository;
 
-    public void saveBoard(BoardWriteRequestDto boardWriteRequestDto, String userid) {
+    public void saveBoard(BoardDto boardDto, String userid) {
 
         // 유저 아이디로 유저 찾기
         User user = userRepository.findById(userid)
                 .orElseThrow(() -> new UsernameNotFoundException("유저 아이디가 존재하지 않습니다."));
         // 연관된 유저와 함께 새로운 Board 엔터티 생성
         AdminBoard adminBoard = AdminBoard.builder()
-                .title(boardWriteRequestDto.getTitle())
-                .content(boardWriteRequestDto.getContent())
+                .title(boardDto.getTitle())
+                .content(boardDto.getContent())
                 .user(user)
-                .hotelname(boardWriteRequestDto.getHotelname())
-                .relation((boardWriteRequestDto.getRelation()))
+                .hotelname(boardDto.getHotelname())
+                .relation((boardDto.getRelation()))
                 .build();
         // Board 엔터티를 데이터베이스에 저장
         AdminBoard save = adminBoardRepository.save(adminBoard);
     }
 
 
-    public BoardResponseDto boardDetail(Long id) {
+    public BoardDto boardDetail(Long id) {
         AdminBoard board = adminBoardRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시글입니다."));
         User user = board.getUser();
-        BoardResponseDto result = BoardResponseDto.entityToDto(board, user);
-
+        BoardDto result = BoardDto.builder()
+                .id(board.getId())
+                .title(board.getTitle())
+                .content(board.getContent())
+                .username(user.getName())
+                .email(user.getEmail())
+                .userid(user.getUserid())
+                .createdTime(board.getCreatedTime())
+                .updatedTime(board.getUpdatedTime())
+                .hotelname(board.getHotelname())
+                .relation(board.getRelation())
+                .build();
         return result;
     }
 
 
-    public Page<BoardResponseDto> boardList(Pageable pageable) {
+    public Page<BoardDto> boardList(Pageable pageable) {
         Page<AdminBoard> boards = adminBoardRepository.findAll(pageable);
-        List<BoardResponseDto> boardDtos = new ArrayList<>();
+        List<BoardDto> boardDtos = new ArrayList<>();
         for (AdminBoard board : boards) {
             User user = board.getUser();
-            BoardResponseDto result = BoardResponseDto.entityToDto(board, user);
+            BoardDto result = BoardDto.builder()
+                    .id(board.getId())
+                    .title(board.getTitle())
+                    .content(board.getContent())
+                    .username(user.getName())
+                    .email(user.getEmail())
+                    .userid(user.getUserid())
+                    .createdTime(board.getCreatedTime())
+                    .updatedTime(board.getUpdatedTime())
+                    .hotelname(board.getHotelname())
+                    .relation(board.getRelation())
+                    .build();
             boardDtos.add(result);
         }
 
         return new PageImpl<>(boardDtos, pageable, boards.getTotalElements());
     }
 
-    public Page<CommentResponseDto> commentList(Pageable pageable) {
+    public Page<CommentDto> commentList(Pageable pageable) {
         Page<Comment> comments = commentRepository.findAll(pageable);
-        List<CommentResponseDto> commentDtos = new ArrayList<>();
+        List<CommentDto> commentDtos = new ArrayList<>();
         for (Comment comment : comments) {
             User user = comment.getUser();
             AdminBoard board = comment.getAdminBoard();
-            CommentResponseDto result = CommentResponseDto.entityToDto(comment, board, user);
+            CommentDto result = CommentDto.entityToDto(comment, board, user);
             commentDtos.add(result);
         }
         return new PageImpl<>(commentDtos, pageable, comments.getTotalElements());
     }
 
-    public Long boardUpdate(Long id, BoardWriteRequestDto boardWriteRequestDto) {
-        AdminBoard board = adminBoardRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시글입니다."));
-        board.update(boardWriteRequestDto.getTitle(), boardWriteRequestDto.getContent());
-        adminBoardRepository.save(board);
-
-        return board.getId();
-    }
+//    public Long boardUpdate(Long id, BoardWriteRequestDto boardWriteRequestDto) {
+//        AdminBoard board = adminBoardRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시글입니다."));
+//        board.update(boardWriteRequestDto.getTitle(), boardWriteRequestDto.getContent());
+//        adminBoardRepository.save(board);
+//
+//        return board.getId();
+//    }
 
     public void boardRemove(Long id) {
         AdminBoard board = adminBoardRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시글입니다."));
@@ -103,41 +124,67 @@ public class AdminBoardService {
     }
 
 
-    public Page<BoardResponseDto> searchingBoardList(String keyword, String type, Pageable pageable) {
+    public Page<BoardDto> searchingBoardList(String keyword, String type, Pageable pageable) {
         Page<AdminBoard> boards = adminBoardRepository.searchBoards(keyword, type, pageable);
-        List<BoardResponseDto> boardDtos = new ArrayList<>();
+        List<BoardDto> boardDtos = new ArrayList<>();
         for (AdminBoard board : boards) {
             User user = board.getUser();
-            BoardResponseDto result = BoardResponseDto.entityToDto(board, user);
+            BoardDto result = BoardDto.builder()
+                    .id(board.getId())
+                    .title(board.getTitle())
+                    .content(board.getContent())
+                    .username(user.getName())
+                    .email(user.getEmail())
+                    .userid(user.getUserid())
+                    .createdTime(board.getCreatedTime())
+                    .updatedTime(board.getUpdatedTime())
+                    .hotelname(board.getHotelname())
+                    .relation(board.getRelation())
+                    .build();
             boardDtos.add(result);
         }
 
         return new PageImpl<>(boardDtos, pageable, boards.getTotalElements());
     }
 
-    public Page<BoardResponseDto> userBoardList(Pageable pageable, Authentication authentication) {
+    public Page<BoardDto> userBoardList(Pageable pageable, Authentication authentication) {
         Page<AdminBoard> adminBoards = adminBoardRepository.findByUserUserid(pageable, authentication.getName());
-        List<BoardResponseDto> boardDtos = new ArrayList<>();
+        List<BoardDto> boardDtos = new ArrayList<>();
         for (AdminBoard board : adminBoards) {
             User user = board.getUser();
             System.out.println("Authentication" + authentication.getName());
-            BoardResponseDto result = BoardResponseDto.entityToDto(board, user);
+            BoardDto result = BoardDto.
+                    builder()
+                    .id(board.getId())
+                    .title(board.getTitle())
+                    .content(board.getContent())
+                    .username(user.getName())
+                    .email(user.getEmail())
+                    .userid(user.getUserid())
+                    .createdTime(board.getCreatedTime())
+                    .updatedTime(board.getUpdatedTime())
+                    .hotelname(board.getHotelname())
+                    .relation(board.getRelation())
+                    .build();
             boardDtos.add(result);
         }
         return new PageImpl<>(boardDtos, pageable, adminBoards.getTotalElements());
     }
     @Transactional(rollbackFor = Exception.class)
-    public void fileAttach(BoardWriteRequestDto boardWriteRequestDto) throws IOException {
-        if (boardWriteRequestDto.getFile() == null) {
-            boardWriteRequestDto.setFileAttached(0);
+    public void fileAttach(BoardFileDto boardFileDto, String userid) throws IOException {
+        User user = userRepository.findById(userid)
+                .orElseThrow(() -> new UsernameNotFoundException("유저 아이디가 존재하지 않습니다."));
+        if (boardFileDto.getFile() == null) {
+            boardFileDto.setFileAttached(0);
             NoticeBoard noticeBoard = NoticeBoard.builder()
-                    .title(boardWriteRequestDto.getTitle())
-                    .content(boardWriteRequestDto.getContent())
-                    .fileAttached(boardWriteRequestDto.getFileAttached())
+                    .user(user)
+                    .title(boardFileDto.getTitle())
+                    .content(boardFileDto.getContent())
+                    .fileAttached(boardFileDto.getFileAttached())
                     .build(); // 파일 첨부 안했을 때
             noticeBoardRepsoitory.save(noticeBoard);
         } else {
-            MultipartFile file = boardWriteRequestDto.getFile(); // 파일 객체 생성
+            MultipartFile file = boardFileDto.getFile(); // 파일 객체 생성
             String originalFilename = file.getOriginalFilename(); // 파일의 실제 이름
             String storedFileName = System.currentTimeMillis() + "_" + originalFilename; // 서버에 담길 파일 이름
 
@@ -148,11 +195,12 @@ public class AdminBoardService {
 
             String savePath = noticeBoardUploadPath + storedFileName;
             file.transferTo(new File(savePath)); // 지정된 경로로 파일 저장
-            boardWriteRequestDto.setFileAttached(1);
+            boardFileDto.setFileAttached(1);
             NoticeBoard noticeBoard = NoticeBoard.builder()
-                    .title(boardWriteRequestDto.getTitle())
-                    .content(boardWriteRequestDto.getContent())
-                    .fileAttached(boardWriteRequestDto.getFileAttached())
+                    .user(user)
+                    .title(boardFileDto.getTitle())
+                    .content(boardFileDto.getContent())
+                    .fileAttached(boardFileDto.getFileAttached())
                     .build();
             Long id = noticeBoardRepsoitory.save(noticeBoard).getId(); // long타입으로 저장하는 이유 : 나중에 findById 를 했을 때 부모의 primaryKey를 전달 받기 위해
             NoticeBoard notice = noticeBoardRepsoitory.findById(id).get();
@@ -168,22 +216,36 @@ public class AdminBoardService {
         return noticeImageRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 이미지입니다."));
     }
     public String uploadImage(NoticeImage noticeImage){
-
         noticeImageRepository.save(noticeImage);
+
         return "SUCCESS";
     }
-    public List<BoardWriteRequestDto> noticeBoardList(BoardWriteRequestDto boardWriteRequestDto){
+
+    public List<BoardFileDto> noticeBoardList(BoardFileDto boardFileDto){
         List<NoticeBoard> noticeBoardList = noticeBoardRepsoitory.findAll();
-        List<BoardWriteRequestDto> boardWriteRequestDtos = new ArrayList<>();
+        List<BoardFileDto> boardDtos = new ArrayList<>();
         for (NoticeBoard board : noticeBoardList) {
-            if (boardWriteRequestDto.getFileAttached() == 0){
-                boardWriteRequestDto.setFileAttached(0);
+            if (boardFileDto.getFileAttached() == null){
+                boardFileDto.setFileAttached(0);
             } else {
-                boardWriteRequestDto.setFileAttached(1);
+                boardFileDto.setFileAttached(1);
             }
-            BoardWriteRequestDto result = BoardWriteRequestDto.entityToDto(board);
-            boardWriteRequestDtos.add(result);
+            BoardFileDto result = BoardFileDto.builder()
+                    .id(board.getId())
+                    .title(board.getTitle())
+                    .content(board.getContent())
+                    .createdTime(board.getCreatedTime())
+                    .updatedTime(board.getUpdatedTime())
+                    .fileAttached(board.getFileAttached())
+                    .build();
+            boardDtos.add(result);
         }
-        return boardWriteRequestDtos;
+        return boardDtos;
+    }
+
+    public String deleteNotice(Long id){
+        noticeBoardRepsoitory.deleteById(id);
+
+        return "SUCCESS";
     }
 }
