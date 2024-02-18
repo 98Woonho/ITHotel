@@ -121,6 +121,20 @@ public class AdminController {
         adminBoardService.fileAttach(boardFileDto, userDetails.getUsername());
         return "SUCCESS";
     }
+    @GetMapping("modifyNotice/{id}")
+    public String modifyNotice(@PathVariable Long id,  Model model){
+        NoticeBoardFileInfo noticeBoardFileInfo = boardService.noticeBoardFileDetail(id);
+        NoticeBoard noticeBoard = boardService.noticeBoard(id);
+        model.addAttribute("noticeBoard", noticeBoard);
+        model.addAttribute("noticeBoardFileInfo", noticeBoardFileInfo);
+        return "/admin/modifyNotice";
+    }
+    @PutMapping("modifyNotice/{id}")
+    @ResponseBody
+    public String putModifyNotice(@PathVariable Long id) {
+        adminBoardService.modifyNotice(id);
+        return "SUCCESS";
+    }
     @GetMapping("image")
     public ResponseEntity<byte[]> getImage(@RequestParam("id") long id){
         ResponseEntity<byte[]> response;
