@@ -236,8 +236,6 @@ public class MyinfoController {
         ResponseEntity<String> resp =  restTemplate.exchange(url, HttpMethod.POST,entity,String.class);
 
         if(reservationService.DeleteReservedRoomCount(id) && reservationService.DeleteReservation(id)) {
-            System.out.println(resp);
-            System.out.println(resp.getBody());
             return new ResponseEntity<>("Success", HttpStatus.OK);
         }
         return new ResponseEntity<>("fail", HttpStatus.BAD_REQUEST);
