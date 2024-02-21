@@ -12,7 +12,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -130,5 +133,79 @@ public class ReservationService {
 
     public List<RoomFileInfo> getAllMainFiles(String hotelname) {
         return roomFileInfoRepository.findAllMainFiles(hotelname);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public Reservation getReservationList() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userid = authentication.getName();
+        return reservationRepository.findByUserUseridAndStatus(userid, "예약 중");
+    }
+
+    public String addReservedRoomCount(Long reservationId) {
+        Reservation reservation = reservationRepository.findById(reservationId).get();
+
+        Room room = reservation.getRoom();
+
+        // Parse the strings to LocalDate objects
+        LocalDate date1 = LocalDate.parse(reservation.getCheckin());
+        LocalDate date2 = LocalDate.parse(reservation.getCheckout());
+
+        // Calculate the number of days between the two dates
+        long daysDifference = ChronoUnit.DAYS.between(date1, date2);
+
+        // Create a list containing LocalDate objects for each day between the two dates
+        List<LocalDate> dateList = new ArrayList<>();
+        for (int i = 0; i <= daysDifference - 1; i++) {
+            dateList.add(date1.plusDays(i));
+        }
+
+        for (LocalDate date : dateList) {
+            ReservedRoomCount existingReservedRoomCount = reservedRoomCountRepository.findByDateAndRoomId(String.valueOf(date), room.getId());
+
+            if (existingReservedRoomCount != null) {
+                if (existingReservedRoomCount.getReservedCount() == room.getCount()) {
+                    reservationRepository.deleteById(reservationId);
+                    return "FAILURE_NOVACANCY";
+                } else {
+                    existingReservedRoomCount.setReservedCount(existingReservedRoomCount.getReservedCount() + 1);
+                }
+
+                try {
+                    reservedRoomCountRepository.save(existingReservedRoomCount);
+                } catch (Exception e) {
+                    e.printStackTrace(); // Handle the exception appropriately
+                    return "FAILURE";
+                }
+            } else {
+                ReservedRoomCount reservedRoomCount = new ReservedRoomCount();
+                reservedRoomCount.setDate(String.valueOf(date));
+                reservedRoomCount.setRoom(room);
+
+                try {
+                    reservedRoomCountRepository.save(reservedRoomCount);
+                } catch (Exception e) {
+                    e.printStackTrace(); // Handle the exception appropriately
+                    return "FAILURE";
+                }
+            }
+        }
+        return "SUCCESS";
+    }
+
+    public boolean DeleteReservedRoomCount(int reservationId){
+        Long reservedRoomId = reservationRepository.findById((long)reservationId).get().getRoom().getId();
+        System.out.println(reservedRoomId);
+        ReservedRoomCount reservedRoomCount = reservedRoomCountRepository.findByRoomId(reservedRoomId);
+        System.out.println(reservedRoomCount);
+        reservedRoomCountRepository.delete(reservedRoomCount);
+        return reservedRoomCountRepository.findById(reservedRoomId).isEmpty();
+    }
+
+    @Transactional
+    public boolean DeleteReservation(int id) {
+        Reservation reservation = reservationRepository.findById((long) id).get();
+        reservationRepository.delete(reservation);
+        return reservationRepository.findById((long) id).isEmpty();
     }
 }

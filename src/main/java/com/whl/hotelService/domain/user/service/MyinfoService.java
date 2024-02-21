@@ -3,7 +3,9 @@ package com.whl.hotelService.domain.user.service;
 import com.whl.hotelService.config.DataSourceConfig;
 import com.whl.hotelService.config.auth.PrincipalDetails;
 import com.whl.hotelService.config.auth.jwt.JwtTokenProvider;
+import com.whl.hotelService.domain.common.entity.Payment;
 import com.whl.hotelService.domain.common.entity.Reservation;
+import com.whl.hotelService.domain.common.repository.PaymentRepository;
 import com.whl.hotelService.domain.common.repository.ReservationRepository;
 import com.whl.hotelService.domain.user.dto.UserDto;
 import com.whl.hotelService.domain.user.entity.User;
@@ -39,6 +41,9 @@ public class MyinfoService {
     ReservationRepository reservationRepository;
 
     @Autowired
+    PaymentRepository paymentRepository;
+
+    @Autowired
     PasswordEncoder passwordEncoder;
 
     @Autowired
@@ -48,7 +53,7 @@ public class MyinfoService {
     private DataSource dataSource;
 
     public void ReadMyinfo(String id, Model model){
-        User user = userRepository.getReferenceById(id);
+        User user = userRepository.findById(id).get();
         UserDto dto = User.entityToDto(user);
 
         model.addAttribute("userid", dto.getUserid());
@@ -155,6 +160,7 @@ public class MyinfoService {
         return userRepository.existsById(user.getUserid());
     }
 
+    @Transactional
     public void IdUpdate(UserDto dto) throws SQLException {
         Authentication authentication =  SecurityContextHolder.getContext().getAuthentication();
         PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
@@ -184,6 +190,7 @@ public class MyinfoService {
         }
     }
 
+    @Transactional
     public boolean DeleteInfo(String password, String word, Authentication authentication, RedirectAttributes redirectAttributes){
         User user = userRepository.findById(authentication.getName()).get();
         if(!passwordEncoder.matches(password, user.getPassword())){
@@ -197,13 +204,17 @@ public class MyinfoService {
         return true;
     }
 
-    public List<Reservation> FindUserReservation(Authentication authentication){
+    public List<Reservation> FindUserReservation(Authentication authentication) {
         List<Reservation> AllReservationList = reservationRepository.findAll();
         List<Reservation> UserReservationList = new ArrayList<>();
-        for(Reservation reservation : AllReservationList) {
-            if(Objects.equals(reservation.getUser().getUserid(), authentication.getName()))
+        for (Reservation reservation : AllReservationList) {
+            if (Objects.equals(reservation.getUser().getUserid(), authentication.getName()))
                 UserReservationList.add(reservation);
         }
         return UserReservationList;
+    }
+
+    public Payment FindUserPayment(int id) {
+        return paymentRepository.findByReservationId(id);
     }
 }

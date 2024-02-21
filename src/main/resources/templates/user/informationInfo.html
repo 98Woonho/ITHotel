@@ -20,6 +20,16 @@
 
 <header id="header" class="content-container-wrapper">
     <th:block th:insert="~{fragments/header.html :: header_fragment}"></th:block>
+    <th:block th:if="${data} != null">
+        <script>
+            top.alert("[[${data}]]");
+        </script>
+    </th:block>
+    <th:block th:if="${href} != null">
+        <script>
+            top.location.href = '[[${href}]]';
+        </script>
+    </th:block>
 </header>
 
 <main id="main" class="content-container-wrapper">
@@ -149,8 +159,6 @@
 
 <script>
     const userAuth = function (){
-        const info = document.updateinfo.querySelector(".information-info-container");
-        const auth = document.querySelector(".info-auth-container");
         const pw = document.querySelector(".password").value;
         const pw_msg = document.querySelector(".auth_msg");
         if(pw === ""){
