@@ -1,7 +1,9 @@
 package com.whl.hotelService.controller;
 
 import com.whl.hotelService.domain.common.entity.Hotel;
+import com.whl.hotelService.domain.common.entity.HotelFileInfo;
 import com.whl.hotelService.domain.common.repository.HotelRepository;
+import com.whl.hotelService.domain.common.service.HomeService;
 import com.whl.hotelService.domain.common.service.HotelService;
 import com.whl.hotelService.domain.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -18,16 +20,20 @@ import java.util.List;
 @Slf4j
 public class HomeController {
     @Autowired
-    private HotelService hotelService;
+    private HomeService homeService;
 
     @GetMapping("/")
     public String home(Model model){
 
-        List<Hotel> hotelList = hotelService.getAllHotel();
+        List<Hotel> hotelList = homeService.getAllHotel();
         model.addAttribute("hotelList", hotelList);
 
-        List<String> region = hotelService.getDistinctRegion();
+        List<String> region = homeService.getDistinctRegion();
         model.addAttribute("region", region);
+
+        List<HotelFileInfo> hotelMainFileInfoList = homeService.getHotelMainFileInfoList();
+        model.addAttribute("mainFileInfoList", hotelMainFileInfoList);
+
         return "index";
     }
 

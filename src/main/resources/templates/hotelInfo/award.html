@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <th:block th:insert="~{fragments/link.html :: link_fragment}"></th:block>
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/hotelInfo/award.css">
+
+
+</head>
+<body>
+
+<header id="header" class="content-container-wrapper">
+    <th:block th:insert="~{fragments/header.html :: header_fragment}"></th:block>
+</header>
+
+
+<main id="main" class="content-container-wrapper">
+    <div class="content-container">
+        <div class="info-container">
+            <div class="info-left">
+                <div class="title-container">
+                    <h1 class="title">호텔 소개</h1>
+                </div>
+                <div class="menu">
+                    <div class="link-container">
+                        <a href="/hotelInfo/info" class="link">소개</a>
+                        <a href="/hotelInfo/history" class="link">연혁</a>
+                        <a href="/hotelInfo/award" class="link">수상 이력</a>
+                    </div>
+                </div>
+            </div>
+            <div class="info-right">
+                <div class="title-container">
+                    <h1 class="title">호텔 소개 > 수상 이력</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<th:block th:insert="~{fragments/footer.html :: footer_fragment}"></th:block>
+
+</body>
+</html>

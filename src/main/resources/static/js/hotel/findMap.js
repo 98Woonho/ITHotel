@@ -3,13 +3,13 @@ const map = document.getElementById('map');
 map.init = function (latitude, longitude) {
     if (latitude === undefined || longitude === undefined) {
         navigator.geolocation.getCurrentPosition(function () {
-            map.init(36.31002549601922, 127.99374440243683);
+            map.init(37.5642135, 127.0016985);
         });
         return;
     }
     const option = {
         center: new kakao.maps.LatLng(latitude, longitude),
-        level: 12
+        level: 8
     };
     map.instance = new kakao.maps.Map(map, option);
 
