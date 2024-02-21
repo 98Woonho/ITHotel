@@ -29,7 +29,7 @@ document.addEventListener('mousemove', function (event) {
 
             if (!isDeleteExecuted) {
                 isDeleteExecuted = true;
-                axios.delete(`/payment/delete/${reservationId}`)
+                axios.delete(`/reservation/delete/${reservationId}`)
                     .then(res => {
                         alert("예약 확인 및 결제 시간이 초과 하였습니다. 이전 페이지로 이동합니다.");
                         window.history.back();
@@ -117,7 +117,7 @@ payButton.addEventListener('click', function () {
         pay_method = "phone";
     }
 
-    IMP.init("imp82217082");
+    IMP.init("imp13376034");
 
     IMP.request_pay({
             pg: pg,

@@ -31,7 +31,6 @@
                 <div class="title-container" th:switch="${function}">
                     <h1 class="title">예약정보 > </h1>
                     <h1 class="tag" th:case='read'>예약목록</h1>
-                    <h1 class="tag" th:case='update'>예약변경</h1>
                     <h1 class="tag" th:case='delete'>예약취소</h1>
                 </div>
                 <div class="information-info-container" th:switch="${function}">
@@ -54,13 +53,17 @@
                                     <td colspan="5">예약이 존재하지 않습니다.</td>
                                 </tr>
                                 <tr th:each="reservation : ${reservationList}">
-                                    <td th:text="${reservation.user.name}"></td>
-                                    <td th:text="${reservation.room.hotel.hotelName}"></td>
-                                    <td th:text="${reservation.room.kind}"></td>
-                                    <td th:text="${reservation.checkin}"></td>
-                                    <td th:text="${reservation.checkout}"></td>
-                                    <td th:text="${reservation.status}"></td>
-                                    <td>예약 취소 버튼</td>
+                                    <td id="Name" th:text="${reservation.user.name}"></td>
+                                    <td id="HotelName" th:text="${reservation.room.hotel.hotelName}"></td>
+                                    <td id="Kind" th:text="${reservation.room.kind}"></td>
+                                    <td id="Checkin" th:text="${reservation.checkin}"></td>
+                                    <td id="Checkout" th:text="${reservation.checkout}"></td>
+                                    <td id="Status"th:text="${reservation.status}"></td>
+                                    <th class="Cancel" style="background: white"></th>
+                                    <td class="Cancel_btn" th:id="${reservation.id}" th:onclick="cancel(this.getAttribute('id'))" style="background: white" th:if="${reservation.status} == '예약 완료'">
+                                        <img src="/images/cancel_btn.png" alt="취소">
+                                    </td>
+                                    <td class="Cancel_btn" onclick="location.href='/payment/read'" style="background: white" th:if="${reservation.status} == '예약 중'">예약 이어하기</td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -76,4 +79,19 @@
 
 
 </body>
+<script>
+    function cancel(id){
+        axios.delete('/user/deleteReservation/' + parseInt(id))
+            .then(res => {
+                console.log(res);
+                if(res.data === 'Success') {
+                    alert("예약이 취소되었습니다.");
+                    location.reload();
+                }
+                else
+                    alert("예약일이 당일이거나 지난 경우 취소가 불가능합니다.")
+            })
+            .catch(err => { console.log(err) })
+    }
+</script>
 </html>

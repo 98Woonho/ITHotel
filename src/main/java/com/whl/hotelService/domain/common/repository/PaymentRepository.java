@@ -12,4 +12,6 @@ public interface PaymentRepository extends JpaRepository<Payment, Long> {
     List<Payment> findAllByReservationRoomHotelHotelName(String hotelName);
 
     List<Payment> findAllByReservationRoomHotelRegion(String region);
+
+    Payment findByReservationId(long id);
 }
