@@ -192,15 +192,34 @@ input:focus {
     background-color: #e6e6e6;
 }
 
-#chat-container {
+.chat-container {
+    z-index: 10;
+
+    position: fixed;
+    bottom: 80px;
+    right: 80px;
+}
+
+.chat {
     width: 400px;
     height: 600px;
     display: flex;
     flex-direction: column;
+    background-color: white;
     border: 1px solid #ccc;
+    margin-bottom: 0.5rem;
+    opacity: 0;
+
+    transition-timing-function: ease;
+    transition-property: opacity;
+    transition-duration: 500ms;
 }
 
-#chat-messages {
+.chat.visible {
+    opacity: 1;
+}
+
+.chat-messages {
     flex: 1;
     overflow-y: auto;
     padding: 10px;
@@ -208,20 +227,31 @@ input:focus {
     flex-direction: column-reverse;
 }
 
-#user-input {
+.user-input {
     display: flex;
     padding: 10px;
 
 }
-#user-input input {
+
+.user-input input {
     flex: 1;
     padding: 10px;
     outline: none;
 }
-#user-input button {
+
+.user-input button {
     border: none;
     background-color: #1e88e5;
     color: white;
     padding: 10px 15px;
     cursor: pointer;
+}
+
+.chat-icon {
+    cursor: pointer;
+    float: right;
+    padding: 10px;
+    border-radius: 50%;
+    background-color: white;
+    box-shadow: 0 0 0.5rem 0.0625rem #17202a50;
 }

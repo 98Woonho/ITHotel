@@ -223,6 +223,17 @@
 </header>
 
 <main id="main" class="content-container-wrapper">
+    <div class="chat-container">
+        <div class="chat">
+            <div class="chat-messages"></div>
+            <div class="user-input">
+                <input type="text" placeholder="메시지를 입력하세요..."/>
+                <button>전송</button>
+            </div>
+        </div>
+        <img class="chat-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAACNklEQVR4nO3XS4jNcRTA8c8wikSGxCgbFhSzURNjCHnmuRKxlY2QISF5lEjyWFjMwhgrWdlQk8dCLLxSbCwsLLwaY+H9Kq9+OjPdue41c1+ThW/9Nud3zu/87+93Xpf/FM5A1GEe1saaG7K0VxFGYCsu4RN+ogMPY3WE7GPoNIVNydTiBD7gPvZiOqpz6CZZY+gk3fc4hlHFOl+BV7iG+UXYL8D1uJ1lhRofxGdsQpXiSbab46wDvTXahzeoVz7q48w9PSmuibdL71xuGiOWVuVTqMFLbFA5NqI9fP3BUdxGvwp+QH/cwZFcKdSOlSrP6rjpbqm8MIKkYpUsg0F4m53a+3FZ33Elsq2LMzglN0vxGNuy5ENxI4rNkKy97WGzJM+ZLWjNFJzD4TzKrVHnU3nNpCHkaU3L2nsQ8tN5zjwSPrtojpWL8TiJGTmq3E7syFEtZ4bNuDxnns32tyWus6+4GR2zW6n8gmEqT+qw3zApU5iu8FGFq2AnTTni6Tfr8BSDVY6aKHjrc21W4+5fgrEctMT75y33E/E65oByk2rDO0zuSXFOtORdJQ4jnVSF8zQvzuqtUQNe4CKGl+B8NNqi+aTJueB0+RGDRKGMxfEYQNriQwqmDt+zasOUqH6LMAFjwll99Iw0992KPL8a/x2K5lBWh1weQZSGlicZfSCtr3iGCzGEpmAuiZGRDYsxFefjNnZn6AwIvVJiJC/N4fB5/MJ7mK2PqI1WmVppeu9yjuf/Hr8AxWh52+toUS0AAAAASUVORK5CYII=" alt="">
+    </div>
+
     <div class="slide-container">
         <div class="slide">
             <button onclick="slideImage('prev')" class="prev" type="button">
@@ -321,14 +332,6 @@
             </div>
             <div class="swiper-button-next"></div>
             <div class="swiper-button-prev"></div>
-        </div>
-
-        <div id="chat-container">
-            <div id="chat-messages"></div>
-            <div id="user-input">
-                <input type="text" placeholder="메시지를 입력하세요..."/>
-                <button>전송</button>
-            </div>
         </div>
     </div>
 </main>
