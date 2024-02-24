@@ -43,7 +43,7 @@
                             <textarea class="form-control" name="content" maxlength="100000" placeholder="내용을 입력해주세요" rows="15" th:utext="${noticeBoard.content}"></textarea>
                         </div>
                         <div class="mb-3">
-                            <input type="file" name="file" multiple>
+                            <input type="file" name="file" th:value="${noticeBoardFileInfo.originalFileName}" multiple>
                         </div>
                         <span class="mb-3">
         <input class="form-control modify_Notice" type="submit" value="글 수정">

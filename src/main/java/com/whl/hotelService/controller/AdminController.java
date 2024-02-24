@@ -131,8 +131,9 @@ public class AdminController {
     }
     @PutMapping("modifyNotice/{id}")
     @ResponseBody
-    public String putModifyNotice(@PathVariable Long id) {
-        adminBoardService.modifyNotice(id);
+    public String putModifyNotice(@PathVariable Long id, BoardFileDto boardFileDto, Authentication authentication) throws IOException {
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        adminBoardService.modifyNotice(id, boardFileDto, userDetails.getUsername());
         return "SUCCESS";
     }
     @GetMapping("image")
