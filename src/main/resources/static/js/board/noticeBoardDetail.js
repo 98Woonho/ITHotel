@@ -1,6 +1,10 @@
 const deleteNoticeBtn = document.querySelector('.delete_notice_btn');
 const NoticeForm = document.querySelector('#notice_form');
-console.log(deleteNoticeBtn);
+function modifyNotice(){
+    location.href = "/admin/modifyNotice/" + NoticeForm['idx'].value;
+}
+
+
 deleteNoticeBtn.addEventListener('click', function (e){
     e.preventDefault();
 

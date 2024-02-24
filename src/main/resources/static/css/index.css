@@ -193,11 +193,10 @@ input:focus {
 }
 
 .chat-container {
-    z-index: 10;
-
     position: fixed;
     bottom: 80px;
     right: 80px;
+    z-index: 2;
 }
 
 .chat {

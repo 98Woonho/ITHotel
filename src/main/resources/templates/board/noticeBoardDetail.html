@@ -74,8 +74,8 @@
                             <th:block th:text="${noticeBoardFileInfo.originalFileName}"></th:block>
                         </a>
                     </div>
-                    <div th:if="${#authentication.principal instanceof T(org.springframework.security.core.userdetails.UserDetails) and noticeBoard.getUser() == #authentication.principal.username}">}">
-                        <button class="btn btn-primary modify_notice_btn w-100">수정</button>
+                    <div th:if="${#authentication.principal instanceof T(org.springframework.security.core.userdetails.UserDetails) and noticeBoard.getUser().getUserid() == #authentication.principal.username}">
+                        <button class="btn btn-primary modify_notice_btn w-100" onclick="modifyNotice()">수정</button>
                         <button class="btn btn-primary delete_notice_btn w-100">삭제</button>
                     </div>
                 </div>

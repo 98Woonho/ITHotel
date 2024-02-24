@@ -31,10 +31,11 @@ if (mainForm) {
         if (mainForm['file'].files.length > 0) {
             formData.append('file', mainForm['file'].files[0]);
         }
-        axios.post("/admin/noticeWrite", formData, {header: {'Content-Type': 'multipart/form-data'}})
+
+        axios.put("/admin/modifyNotice/" + mainForm['idx'].value, formData, {header: {'Content-Type': 'multipart/form-data'}})
             .then(res => {
                 if (res.data === "SUCCESS") {
-                    alert('공지사항 등록이 완료되었습니다.');
+                    alert('공지사항 수정이 완료되었습니다.');
                     location.href = "/board/noticeList";
                 }
             })
@@ -43,4 +44,3 @@ if (mainForm) {
             })
     }
 }
-

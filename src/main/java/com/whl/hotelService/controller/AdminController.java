@@ -1,6 +1,5 @@
 package com.whl.hotelService.controller;
 
-
 import com.whl.hotelService.domain.common.dto.BoardDto;
 import com.whl.hotelService.domain.common.dto.BoardFileDto;
 import com.whl.hotelService.domain.common.dto.CommentDto;
@@ -120,6 +119,21 @@ public class AdminController {
     public String noticeWrite(BoardFileDto boardFileDto, Authentication authentication) throws IOException {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         adminBoardService.fileAttach(boardFileDto, userDetails.getUsername());
+        return "SUCCESS";
+    }
+    @GetMapping("modifyNotice/{id}")
+    public String modifyNotice(@PathVariable Long id,  Model model){
+        NoticeBoardFileInfo noticeBoardFileInfo = boardService.noticeBoardFileDetail(id);
+        NoticeBoard noticeBoard = boardService.noticeBoard(id);
+        model.addAttribute("noticeBoard", noticeBoard);
+        model.addAttribute("noticeBoardFileInfo", noticeBoardFileInfo);
+        return "/admin/modifyNotice";
+    }
+    @PutMapping("modifyNotice/{id}")
+    @ResponseBody
+    public String putModifyNotice(@PathVariable Long id, BoardFileDto boardFileDto, Authentication authentication) throws IOException {
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        adminBoardService.modifyNotice(id, boardFileDto, userDetails.getUsername());
         return "SUCCESS";
     }
     @GetMapping("image")

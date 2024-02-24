@@ -12,10 +12,10 @@
 
     <!-- css -->
     <link rel="stylesheet" href="/css/common.css">
-    <link rel="stylesheet" href="/css/admin/questionWrite.css">
-
-<!--    &lt;!&ndash; js &ndash;&gt;-->
-<!--    <script defer src="/js/admin/inquiryList.js"></script>-->
+    <link rel="stylesheet" href="/css/admin/noticeWrite.css">
+    <script defer src="/js/admin/modifyNotice.js"></script>
+    <script type="application/json" src="/js/board/libraries/translations"></script>
+    <script src="/js/board/libraries/ckeditor.js"></script>
 </head>
 <body>
 
@@ -29,22 +29,27 @@
             <th:block th:replace="~{fragments/adminLeft.html :: adminLeft_fragment}"></th:block>
             <div class="admin-right">
                 <div class="title-container">
-                    <h1 class="title">고객문의 > 자주하는 질문 작성</h1>
+                    <h1 class="title">고객문의 > 공지사항 수정</h1>
                 </div>
                 <div id="main_wrapper">
-                    <form id="mainForm" action="/admin/questionWrite" method="post">
+                    <form id="mainForm" enctype="multipart/form-data">
+                        <input type="hidden" name="idx" th:value="${noticeBoard.id}">
                         <div>
                             <label class="form-label fw-bold fs-5">제목</label>
-                            <input class="form-control" type="text" name="title" required>
+                            <input class="form-control" type="text" name="title" th:value="${noticeBoard.title}">
                         </div>
                         <div class="mb-3">
                             <label class="form-label fw-bold fs-5">내용</label>
-                            <textarea class="form-control" name="content" cols="30" rows="10" required></textarea>
+                            <textarea class="form-control" name="content" maxlength="100000" placeholder="내용을 입력해주세요" rows="15" th:utext="${noticeBoard.content}"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <input type="file" name="file" th:value="${noticeBoardFileInfo.originalFileName}" multiple>
                         </div>
                         <span class="mb-3">
-        <input class="form-control write" type="submit" value="글작성">
+        <input class="form-control modify_Notice" type="submit" value="글 수정">
     </span>
                     </form>
+
                     <span class="button mt-3">
     <button class="btn btn-primary mb-3" onclick="listReq()">목록</button>
 </span>
