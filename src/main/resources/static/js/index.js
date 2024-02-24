@@ -93,13 +93,13 @@ new Swiper('.swiper', {
 
 // chatbot
 // 채팅 메시지를 표시할 DOM
-const chatMessages = document.querySelector('#chat-messages');
+const chatMessages = document.querySelector('.chat-messages');
 // 사용자 입력 필드
-const userInput = document.querySelector('#user-input input');
+const userInput = document.querySelector('.user-input input');
 // 전송 버튼
-const sendButton = document.querySelector('#user-input button');
+const sendButton = document.querySelector('.user-input button');
 // 발급받은 OpenAI API 키를 변수로 저장
-const apiKey = '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';
+const apiKey = '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';
 // OpenAI API 엔드포인트 주소를 변수로 저장
 const apiEndpoint = 'https://api.openai.com/v1/chat/completions'
 function addMessage(sender, message) {
@@ -169,3 +169,17 @@ userInput.addEventListener('keydown', (event) => {
         sendButton.click();
     }
 });
+
+
+const chatIcon = document.querySelector('.chat-icon');
+const chat = document.querySelector('.chat');
+
+chatIcon.addEventListener('click', function(e) {
+    e.preventDefault();
+
+    if(chat.classList.contains('visible')) {
+        chat.classList.remove('visible');
+    } else {
+        chat.classList.add('visible');
+    }
+})
