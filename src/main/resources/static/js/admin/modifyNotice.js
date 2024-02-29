@@ -6,7 +6,7 @@ if (mainForm) {
         .create(mainForm['content'], {
             removePlugins: ['Markdown'],
             simpleUpload: {
-                uploadUrl: './image'
+                uploadUrl: '/admin/image'
             }
         })
         .then(function (editor) {

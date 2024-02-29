@@ -257,15 +257,25 @@ public class AdminBoardService {
                     .fileAttached(boardFileDto.getFileAttached())
                     .build();
             noticeBoardRepsoitory.save(noticeBoard);// long타입으로 저장하는 이유 : 나중에 findById 를 했을 때
-            Long noticeBoardId = noticeBoardFileInfoRepository.findByNoticeBoardId(id).getId();
+            NoticeBoardFileInfo noticeBoardId = noticeBoardFileInfoRepository.findByNoticeBoardId(id);
+            if (noticeBoardId != null){
             NoticeBoard notice = noticeBoardRepsoitory.findById(id).get();
             NoticeBoardFileInfo noticeBoardFileInfo = NoticeBoardFileInfo.builder()
-                    .id(noticeBoardId)
+                    .id(noticeBoardId.getId())
                     .originalFileName(originalFilename)
                     .storedFileName(storedFileName)
                     .noticeBoard(notice)
                     .build();
-            noticeBoardFileInfoRepository.save(noticeBoardFileInfo);
+                noticeBoardFileInfoRepository.save(noticeBoardFileInfo);
+            } else {
+                NoticeBoard notice = noticeBoardRepsoitory.findById(id).get();
+                NoticeBoardFileInfo noticeBoardFileInfo = NoticeBoardFileInfo.builder()
+                        .originalFileName(originalFilename)
+                        .storedFileName(storedFileName)
+                        .noticeBoard(notice)
+                        .build();
+                noticeBoardFileInfoRepository.save(noticeBoardFileInfo);
+            }
         }
     }
 
