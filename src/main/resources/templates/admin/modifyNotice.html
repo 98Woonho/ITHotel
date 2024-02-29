@@ -42,7 +42,10 @@
                             <label class="form-label fw-bold fs-5">내용</label>
                             <textarea class="form-control" name="content" maxlength="100000" placeholder="내용을 입력해주세요" rows="15" th:utext="${noticeBoard.content}"></textarea>
                         </div>
-                        <div class="mb-3">
+                        <div class="mb-3" th:if="${noticeBoard.fileAttached == 0}">
+                            <input type="file" name="file" multiple>
+                        </div>
+                        <div class="mb-3" th:if="${noticeBoard.fileAttached == 1}">
                             <input type="file" name="file" th:value="${noticeBoardFileInfo.originalFileName}" multiple>
                         </div>
                         <span class="mb-3">
