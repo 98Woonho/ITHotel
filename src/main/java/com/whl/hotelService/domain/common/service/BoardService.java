@@ -36,7 +36,6 @@ public class BoardService {
         // 유저 아이디로 유저 찾기
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new UsernameNotFoundException("유저 아이디가 존재하지 않습니다."));
-
         // 연관된 유저와 함께 새로운 Board 엔터티 생성
         Board result = Board.builder()
                 .title(boardDto.getTitle())

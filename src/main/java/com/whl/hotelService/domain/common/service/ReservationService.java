@@ -195,9 +195,7 @@ public class ReservationService {
 
     public boolean DeleteReservedRoomCount(int reservationId){
         Long reservedRoomId = reservationRepository.findById((long)reservationId).get().getRoom().getId();
-        System.out.println(reservedRoomId);
         ReservedRoomCount reservedRoomCount = reservedRoomCountRepository.findByRoomId(reservedRoomId);
-        System.out.println(reservedRoomCount);
         reservedRoomCountRepository.delete(reservedRoomCount);
         return reservedRoomCountRepository.findById(reservedRoomId).isEmpty();
     }

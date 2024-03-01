@@ -152,7 +152,6 @@ public class AdminBoardService {
         List<BoardDto> boardDtos = new ArrayList<>();
         for (AdminBoard board : adminBoards) {
             User user = board.getUser();
-            System.out.println("Authentication" + authentication.getName());
             BoardDto result = BoardDto.
                     builder()
                     .id(board.getId())
@@ -182,7 +181,12 @@ public class AdminBoardService {
                     .content(boardFileDto.getContent())
                     .fileAttached(boardFileDto.getFileAttached())
                     .build(); // 파일 첨부 안했을 때
-            noticeBoardRepsoitory.save(noticeBoard);
+            Long id = noticeBoardRepsoitory.save(noticeBoard).getId();
+//            NoticeBoard notice = noticeBoardRepsoitory.findById(id).get(); // 해결해야함,,,,
+//            NoticeImage noticeImage = NoticeImage.builder()
+//                    .noticeBoard(notice)
+//                    .build();
+//            noticeImageRepository.save(noticeImage);
         } else {
             MultipartFile file = boardFileDto.getFile(); // 파일 객체 생성
             String originalFilename = file.getOriginalFilename(); // 파일의 실제 이름
@@ -202,7 +206,7 @@ public class AdminBoardService {
                     .content(boardFileDto.getContent())
                     .fileAttached(boardFileDto.getFileAttached())
                     .build();
-            Long id = noticeBoardRepsoitory.save(noticeBoard).getId(); // long타입으로 저장하는 이유 : 나중에 findById 를 했을 때 부모의 primaryKey를 전달 받기 위해
+            Long id = noticeBoardRepsoitory.save(noticeBoard).getId();// long타입으로 저장하는 이유 : 나중에 findById 를 했을 때
             NoticeBoard notice = noticeBoardRepsoitory.findById(id).get();
             NoticeBoardFileInfo noticeBoardFileInfo = NoticeBoardFileInfo.builder()
                     .originalFileName(originalFilename)
@@ -212,10 +216,60 @@ public class AdminBoardService {
             noticeBoardFileInfoRepository.save(noticeBoardFileInfo);
         }
     }
+    public String modifyNotice(Long id, BoardFileDto boardFileDto, String userid) throws IOException {
+        User user = userRepository.findById(userid)
+                .orElseThrow(() -> new UsernameNotFoundException("유저 아이디가 존재하지 않습니다."));
+        if (boardFileDto.getFile() == null) {
+            boardFileDto.setFileAttached(0);
+            NoticeBoard noticeBoard = NoticeBoard.builder()
+                    .id(id)
+                    .user(user)
+                    .title(boardFileDto.getTitle())
+                    .content(boardFileDto.getContent())
+                    .fileAttached(boardFileDto.getFileAttached())
+                    .build();
+            noticeBoardRepsoitory.save(noticeBoard);
+        }else {
+            MultipartFile file = boardFileDto.getFile(); // 파일 객체 생성
+            String originalFilename = file.getOriginalFilename(); // 파일의 실제 이름
+            String storedFileName = System.currentTimeMillis() + "_" + originalFilename; // 서버에 담길 파일 이름
+
+            String noticeBoardUploadPath = "c:\\" + File.separator + "noticeBoardImage" + File.separator; // 서버에 파일 생성
+            File noticeBoardDir = new File(noticeBoardUploadPath);
+            if (!noticeBoardDir.exists())
+                noticeBoardDir.mkdirs();
+
+            String savePath = noticeBoardUploadPath + storedFileName;
+            file.transferTo(new File(savePath)); // 지정된 경로로 파일 저장
+            boardFileDto.setFileAttached(1);
+            NoticeBoard noticeBoard = NoticeBoard.builder()
+                    .id(id)
+                    .user(user)
+                    .title(boardFileDto.getTitle())
+                    .content(boardFileDto.getContent())
+                    .fileAttached(boardFileDto.getFileAttached())
+                    .build();
+            noticeBoardRepsoitory.save(noticeBoard);// long타입으로 저장하는 이유 : 나중에 findById 를 했을 때
+            Long noticeBoardId = noticeBoardFileInfoRepository.findByNoticeBoardId(id).getId();
+            NoticeBoard notice = noticeBoardRepsoitory.findById(id).get();
+            NoticeBoardFileInfo noticeBoardFileInfo = NoticeBoardFileInfo.builder()
+                    .id(noticeBoardId)
+                    .originalFileName(originalFilename)
+                    .storedFileName(storedFileName)
+                    .noticeBoard(notice)
+                    .build();
+            noticeBoardFileInfoRepository.save(noticeBoardFileInfo);
+        }
+        return "SUCCESS";
+    }
+
+
     public NoticeImage getImage(Long id){
-        return noticeImageRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 이미지입니다."));
+        NoticeImage noticeImage = noticeImageRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 이미지입니다."));
+        return noticeImage;
     }
     public String uploadImage(NoticeImage noticeImage){
+
         noticeImageRepository.save(noticeImage);
 
         return "SUCCESS";
@@ -248,4 +302,6 @@ public class AdminBoardService {
 
         return "SUCCESS";
     }
+
+
 }

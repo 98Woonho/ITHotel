@@ -27,7 +27,6 @@ public class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
 
     @Override
     public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication auth) throws IOException, ServletException {
-        System.out.println("logout success");
 
         // cookie 에서 JWT token을 가져옵니다.
         String token = Arrays.stream(request.getCookies())
@@ -38,7 +37,6 @@ public class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
 
         PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
         String provider = principalDetails.getUserDto().getProvider();
-        System.out.println("logout provider : " + provider);
 
         if (provider != null && provider.equals("kakao")) {
             String url = "https://kauth.kakao.com/oauth/logout?client_id=" + kakaoClientId + "&logout_redirect_uri=" + REDIRECT_URI;
