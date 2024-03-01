@@ -16,9 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 @Slf4j
 @Controller
@@ -40,11 +38,27 @@ public class ReservationController {
         List<Room> roomList = reservationService.getHotelsRoom(hotelName, people);
 
         for(Room room : roomList) {
-            int reservedRoomCount = reservationService.getReservedRoomCount(checkin, room.getId());
-            reservationService.addReservedRoomCount(room.getId(), reservedRoomCount);
-        }
-        model.addAttribute("roomList", roomList);
+            // 시작 날짜와 종료 날짜를 LocalDate로 변환
+            LocalDate startDate = LocalDate.parse(checkin);
+            LocalDate endDate = LocalDate.parse(checkout);
 
+            // 날짜 목록을 저장할 리스트
+            List<String> dateList = new ArrayList<>();
+
+            // 시작 날짜부터 종료 날짜까지 반복하여 날짜 목록에 추가
+            while (!startDate.isEqual(endDate)) {
+                dateList.add(startDate.format(DateTimeFormatter.ISO_LOCAL_DATE));
+                startDate = startDate.plusDays(1);
+            }
+
+            List<Integer> reservedRoomCountList = new ArrayList<>();
+            for(String date : dateList) {
+                int reservedRoomCount = reservationService.getReservedRoomCount(date, room.getId());
+                reservedRoomCountList.add(reservedRoomCount);
+            }
+            int reservedMaxRoomCount = Collections.max(reservedRoomCountList);
+            reservationService.addReservedRoomCount(room.getId(), reservedMaxRoomCount);
+        }
 
         List<Hotel> hotelList = reservationService.getAllHotel();
         model.addAttribute("hotelList", hotelList);

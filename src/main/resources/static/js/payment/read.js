@@ -115,9 +115,12 @@ payButton.addEventListener('click', function () {
     } else if (phonepayButton.classList.contains("clicked")) {
         pg = "danal";
         pay_method = "phone";
+    } else {
+        alert('결제 수단을 선택해 주세요.');
+        return false;
     }
 
-    IMP.init("imp13376034");
+    IMP.init("imp82217082");
 
     IMP.request_pay({
             pg: pg,

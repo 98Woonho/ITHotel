@@ -23,13 +23,7 @@ public class PaymentService {
     private ReservationRepository reservationRepository;
 
     @Autowired
-    private ReservedRoomCountRepository reservedRoomCountRepository;
-
-    @Autowired
     private RoomFileInfoRepository roomFileInfoRepository;
-
-    @Autowired
-    private UserRepository userRepository;
 
     @Autowired
     private PaymentRepository paymentRepository;
