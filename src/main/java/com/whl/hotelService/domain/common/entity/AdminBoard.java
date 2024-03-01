@@ -10,7 +10,7 @@ import lombok.*;
 @Builder
 @Entity
 @Table(name = "admin_board")
-public class AdminBoard extends BaseEntity {
+public class              AdminBoard extends BaseEntity {
     @Id //PrimaryKey 지정
     @GeneratedValue(strategy = GenerationType.IDENTITY) // auto_increment
     private Long id;

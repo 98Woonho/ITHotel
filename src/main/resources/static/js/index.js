@@ -180,7 +180,7 @@ chatIcon.addEventListener('click', function(e) {
 
     if(chat.classList.contains('visible')) {
         chat.classList.remove('visible');
-        chatContainer.style.zIndex = 2;
+        chatContainer.removeAttribute("style");
 
     } else {
         chat.classList.add('visible');
