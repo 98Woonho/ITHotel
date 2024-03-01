@@ -12,7 +12,6 @@ import java.net.URLEncoder;
 public class CustomAuthenticationFailureHandler implements AuthenticationFailureHandler {
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
-        System.out.println("Login Failure");
         response.sendRedirect("/user/login?error=" + URLEncoder.encode(exception.getMessage(), "UTF-8"));
     }
 }

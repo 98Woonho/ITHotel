@@ -19,7 +19,6 @@ public class CommentController {
                                Authentication authentication) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         commentService.writeComment(id, content, userDetails.getUsername());
-        System.out.println("댓글작성!!!");
         return "redirect:/admin/inquiryList/" + id;
     }
 
@@ -37,7 +36,6 @@ public class CommentController {
     @GetMapping("/board/{id}/comment/{commentId}/remove")
     public String deleteComment(@PathVariable Long id, @PathVariable Long commentId) {
         commentService.deleteComment(commentId);
-        System.out.println(id);
         return "redirect:/admin/inquiryList/" + id;
     }
 }

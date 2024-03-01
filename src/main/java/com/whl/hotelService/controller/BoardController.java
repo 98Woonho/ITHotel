@@ -79,8 +79,6 @@ public class BoardController {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal(); //로그인된 회원을 조회해서
         BoardDto board = boardService.boardDetail(id);
         if (!(board.getUserid().equals(userDetails.getUsername()))) { //확인해서 같으면 수정페이지 이동
-            System.out.println("userDetails.getUsername : " + userDetails.getUsername());
-            System.out.println("getUsername() : " + board.getUsername());
             return "redirect:/";
         } else {
             model.addAttribute("board", board);
@@ -102,8 +100,6 @@ public class BoardController {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         BoardDto board = boardService.boardDetail(id);
         if (!(board.getUserid().equals(userDetails.getUsername()))) {
-            System.out.println("userDetails.getUsername : " + userDetails.getUsername());
-            System.out.println("getUsername() : " + board.getUsername());
             return "redirect:/";
         } else {
             boardService.boardRemove(id);

@@ -174,12 +174,14 @@ userInput.addEventListener('keydown', (event) => {
 const chatIcon = document.querySelector('.chat-icon');
 const chat = document.querySelector('.chat');
 const chatContainer = document.querySelector('.chat-container');
+
 chatIcon.addEventListener('click', function(e) {
     e.preventDefault();
 
     if(chat.classList.contains('visible')) {
         chat.classList.remove('visible');
         chatContainer.style.zIndex = 2;
+
     } else {
         chat.classList.add('visible');
         chatContainer.style.zIndex = 10;

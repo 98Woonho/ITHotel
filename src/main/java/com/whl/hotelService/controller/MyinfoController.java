@@ -219,7 +219,6 @@ public class MyinfoController {
 
         MultiValueMap<String,String> params = new LinkedMultiValueMap<>();
         params.add("imp_uid", imp_uid);
-        System.out.println(period.getYears() + "년 " + period.getMonths() + "월 " + period.getDays() + "일");
         if(period.getYears() > 0 || period.getMonths() > 0 || period.getDays() >= 2)        // 체크인 2일 이전에 환불시
             params.add("amount", String.valueOf(payment.getPaidAmount()));                   // 100% 환불
         else if(period.getYears() == 0 && period.getMonths() == 0 && period.getDays() == 1) // 체크인 하루 전에 환불시
