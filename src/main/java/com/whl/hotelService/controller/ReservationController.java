@@ -1,17 +1,22 @@
 package com.whl.hotelService.controller;
 
+import com.whl.hotelService.domain.common.dto.PaymentDto;
 import com.whl.hotelService.domain.common.dto.ReservationDto;
 import com.whl.hotelService.domain.common.entity.Hotel;
+import com.whl.hotelService.domain.common.entity.Payment;
 import com.whl.hotelService.domain.common.entity.Room;
 import com.whl.hotelService.domain.common.entity.RoomFileInfo;
 import com.whl.hotelService.domain.common.service.ReservationService;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -135,4 +140,71 @@ public class ReservationController {
         }
     }
 
+    // 결제 취소용 AccessToken 발급요청
+    public String getAccessToken() {
+        // URL
+        // 아임포트 API의 토큰을 얻기 위한 엔드포인트 URL을 지정
+        String url = "https://api.iamport.kr/users/getToken";
+
+        // Request Header
+        // HTTP 요청 헤더를 설정
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
+
+        // Request Body
+        // HTTP 요청 바디를 설정
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+        params.add("imp_key", "7582034642764268");
+        params.add("imp_secret", "JxMwheK2PKBrxFxOifDLwwZvdyzjwDERKj4TzStgSZ06Wmg3oQp7h3WjK3nOfdjXsSXF0ZNgCbBWyPrV");
+
+        // Header + Body
+        // 요청 헤더와 바디를 합쳐서 HttpEntity 객체를 생성
+        HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity(params, headers);
+
+        // 요청
+        // RestTemplate을 사용하여 HTTP POST 요청을 보냄. 응답은 ImportAccessTokenResponse에 Mapping됨.
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<ImportAccessTokenResponse> resp =  restTemplate.exchange(url, HttpMethod.POST,entity,ImportAccessTokenResponse.class);
+
+        // accessToken return
+        return resp.getBody().getResponse().getAccess_token();
+    }
+
+    @GetMapping("cancel")
+    @ResponseBody
+    public void getCancel(Long id) {
+        // accessToken 받기
+        String accessToken = getAccessToken();
+
+        Payment payment = reservationService.getPayment(id);
+        String imp_uid = payment.getImpUid();
+
+        // URL
+        // 아임포트 결제 취소를 위한 엔드포인트 URL을 지정
+        String url = "https://api.iamport.kr/payments/cancel";
+
+        // Request Header
+        // HTTP 요청 헤더를 설정
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "Bearer " + accessToken);
+        headers.add("Content-Type", "application/json");
+
+        // Request Body
+        // HTTP 요청 바디를 설정
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+        params.add("imp_uid", imp_uid);
+
+        // Header + Body
+        // 요청 헤더와 바디를 합쳐서 HttpEntity 객체를 생성
+        HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity(params, headers);
+
+        // 요청
+        // RestTemplate을 사용하여 HTTP POST 요청을 보냄. 응답은 String에 Mapping됨.
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> resp = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
+
+        // DB 삭제
+        reservationService.deleteReservationRoomCount(id);
+        reservationService.DeleteReservation(Math.toIntExact(id));
+    }
 }

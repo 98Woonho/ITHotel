@@ -29,7 +29,7 @@ public class PaymentController {
     private ReservationService reservationService;
 
     @GetMapping(value = "read")
-    public void getReservationStep2(Model model) {
+    public void getRead(Model model) {
         Reservation reservation = reservationService.getReservationList();
 
         Room room = reservation.getRoom();
@@ -43,7 +43,7 @@ public class PaymentController {
 
 
     @PostMapping(value = "read")
-    public ResponseEntity<String> getPayment(PaymentDto paymentDto) throws UnsupportedEncodingException {
+    public ResponseEntity<String> postPayment(PaymentDto paymentDto) throws UnsupportedEncodingException {
         paymentDto.setAddress(URLDecoder.decode(paymentDto.getAddress(), "UTF-8"));
         paymentDto.setName(URLDecoder.decode(paymentDto.getName(), "UTF-8"));
 

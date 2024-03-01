@@ -22,6 +22,9 @@ import java.util.List;
 @Service
 public class ReservationService {
     @Autowired
+    private PaymentRepository paymentRepository;
+
+    @Autowired
     private ReservationRepository reservationRepository;
 
     @Autowired
@@ -39,7 +42,10 @@ public class ReservationService {
     @Autowired
     private RoomFileInfoRepository roomFileInfoRepository;
 
-
+    @Transactional(rollbackFor = Exception.class)
+    public Payment getPayment(Long id) {
+        return paymentRepository.findByReservationId(id);
+    }
 
     @Transactional(rollbackFor = Exception.class)
     public List<Room> getHotelsRoom(String hotelname, int people) {
@@ -142,6 +148,7 @@ public class ReservationService {
         return reservationRepository.findByUserUseridAndStatus(userid, "예약 중");
     }
 
+    @Transactional(rollbackFor = Exception.class)
     public String addReservedRoomCount(Long reservationId) {
         Reservation reservation = reservationRepository.findById(reservationId).get();
 
@@ -193,6 +200,36 @@ public class ReservationService {
         return "SUCCESS";
     }
 
+    @Transactional(rollbackFor = Exception.class)
+    public void deleteReservationRoomCount(Long id) {
+        System.out.println(id);
+        Reservation reservation = reservationRepository.findById(id).get();
+
+        Room room = reservation.getRoom();
+
+        // Parse the strings to LocalDate objects
+        LocalDate date1 = LocalDate.parse(reservation.getCheckin());
+        LocalDate date2 = LocalDate.parse(reservation.getCheckout());
+
+        // Calculate the number of days between the two dates
+        long daysDifference = ChronoUnit.DAYS.between(date1, date2);
+
+        // Create a list containing LocalDate objects for each day between the two dates
+        List<LocalDate> dateList = new ArrayList<>();
+        for (int i = 0; i <= daysDifference - 1; i++) {
+            dateList.add(date1.plusDays(i));
+        }
+
+        for (LocalDate date : dateList) {
+            ReservedRoomCount existingReservedRoomCount = reservedRoomCountRepository.findByDateAndRoomId(String.valueOf(date), room.getId());
+
+            existingReservedRoomCount.setReservedCount(existingReservedRoomCount.getReservedCount() - 1);
+
+            reservedRoomCountRepository.save(existingReservedRoomCount);
+        }
+    }
+
+    @Transactional(rollbackFor = Exception.class)
     public boolean DeleteReservedRoomCount(int reservationId){
         Long reservedRoomId = reservationRepository.findById((long)reservationId).get().getRoom().getId();
         ReservedRoomCount reservedRoomCount = reservedRoomCountRepository.findByRoomId(reservedRoomId);
@@ -200,7 +237,7 @@ public class ReservationService {
         return reservedRoomCountRepository.findById(reservedRoomId).isEmpty();
     }
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public boolean DeleteReservation(int id) {
         Reservation reservation = reservationRepository.findById((long) id).get();
         reservationRepository.delete(reservation);
