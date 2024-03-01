@@ -1,13 +1,27 @@
-const isValid = function (){
-    const form = document.joinform;
-    const pw_msg = document.querySelector('#pw_msg');
-    const re_pw_msg = document.querySelector('#re_pw_msg');
-    if(pw_msg.style.color === 'green' && re_pw_msg.style.color === 'green')
-        form.submit();
+const userAuth = function (){
+    const pw = document.querySelector(".password").value;
+    const pw_msg = document.querySelector(".auth_msg");
+    if(pw === ""){
+        pw_msg.innerHTML = "비밀번호를 입력하세요";
+        pw_msg.style.color = 'orange';
+        return ;
+    }
+    axios.post("/user/infoAuth/" + pw)
+        .then( res => {
+            console.log(res);
+            if(!res.data.success){
+                pw_msg.innerHTML = res.data.massage;
+                pw_msg.style.color = 'orange';
+            }
+            else{
+                window.location.reload();
+            }
+        })
+        .catch( err => { console.log(err); });
 }
 
 const IdCheck = function(){
-    const user_id = document.joinform.userid.value;
+    const user_id = document.updateinfo.userid.value;
     const id_msg = document.querySelector('#id_msg');
     let regexpId = new RegExp("^[A-Za-z0-9]{6,16}$");
     if(regexpId.test(user_id.trim())) {
@@ -15,11 +29,11 @@ const IdCheck = function(){
             .then(res => {
                 console.log(res);
                 if (res.data.success) {
-                    document.querySelector('#id_msg').style.color = 'green';
-                    document.querySelector('#id_msg').innerHTML = res.data.message;
+                    id_msg.style.color = 'green';
+                    id_msg.innerHTML = res.data.message;
                 } else {
-                    document.querySelector('#id_msg').style.color = 'orange';
-                    document.querySelector('#id_msg').innerHTML = res.data.message;
+                    id_msg.style.color = 'orange';
+                    id_msg.innerHTML = res.data.message;
                 }
             })
             .catch(err => {
@@ -27,39 +41,6 @@ const IdCheck = function(){
             });
     } else
         id_msg.textContent = "아이디는 소문자와 숫자로만 이루어진 6~16자여야 합니다.";
-}
-
-const PwCheck = () => {
-    const pw = document.joinform.password.value;
-    const pw_msg = document.querySelector('#pw_msg');
-    let regexpPw = new RegExp("^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$");
-
-    if(!regexpPw.test(pw.trim())) {
-        pw_msg.textContent = "비밀번호는 영문,숫자,특수문자가 1개 이상 포함된 8~15자여야 합니다.";
-        pw_msg.style.color = 'orange';
-        return false;
-    }else{
-        pw_msg.textContent = "사용가능한 비밀번호입니다.";
-        pw_msg.style.color = 'green';
-        return true;
-    }
-}
-
-const Re_PwCheck = function (){
-    const pw = document.joinform.password.value;
-    const re_pw = document.joinform.repassword.value;
-    const re_pw_msg = document.querySelector('#re_pw_msg');
-
-    if(PwCheck()) {
-        if (pw !== re_pw) {
-            re_pw_msg.textContent = "비밀번호와 일치하지 않습니다.";
-            re_pw_msg.style.color = 'orange';
-        } else {
-            re_pw_msg.textContent = "비밀번호와 일치합니다.";
-            re_pw_msg.style.color = 'green';
-        }
-    }else
-        re_pw_msg.textContent = null;
 }
 
 const EmailCheck = function (){
