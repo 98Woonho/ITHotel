@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class AdminBoardService {
@@ -326,5 +327,40 @@ public class AdminBoardService {
         return "SUCCESS";
     }
 
+    @Transactional(rollbackFor = Exception.class)
+    public void updateComment(String content, Long commentId) {
+        Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 댓글입니다."));
+        comment.update(content);
+        commentRepository.save(comment);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public void deleteComment(Long commentId) {
+        commentRepository.deleteById(commentId);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public Long writeComment(Long boardId, String content, String id) {
+        User user = userRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException("유저 아이디가 존재하지 않습니다."));
+        AdminBoard board = adminBoardRepository.findById(boardId).orElseThrow(() -> new IllegalArgumentException("게시물을 찾을 수 없습니다."));
+        Comment result = Comment.builder()
+                .content(content)
+                .adminBoard(board)
+                .user(user)
+                .build();
+        commentRepository.save(result);
+
+        return result.getId();
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public List<CommentDto> commentList(Long id) {
+        AdminBoard board = adminBoardRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("게시물을 찾을 수 없습니다."));
+        List<Comment> comments = commentRepository.findByAdminBoard(board);
+
+        return comments.stream()
+                .map(comment -> CommentDto.entityToDto(comment, comment.getAdminBoard(), comment.getUser()))
+                .collect(Collectors.toList());
+    }
 
 }
