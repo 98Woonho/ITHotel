@@ -4,7 +4,6 @@ package com.whl.hotelService.controller;
 import com.whl.hotelService.domain.common.dto.BoardDto;
 import com.whl.hotelService.domain.common.dto.BoardFileDto;
 import com.whl.hotelService.domain.common.dto.HotelDto;
-import com.whl.hotelService.domain.common.entity.AdminBoard;
 import com.whl.hotelService.domain.common.entity.Hotel;
 import com.whl.hotelService.domain.common.entity.NoticeBoard;
 import com.whl.hotelService.domain.common.entity.NoticeBoardFileInfo;

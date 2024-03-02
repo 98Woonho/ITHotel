@@ -7,7 +7,6 @@ import com.whl.hotelService.domain.common.entity.*;
 import com.whl.hotelService.domain.common.service.AdminBoardService;
 import com.whl.hotelService.domain.common.service.AdminService;
 import com.whl.hotelService.domain.common.service.BoardService;
-import com.whl.hotelService.domain.common.service.CommentService;
 import lombok.extern.slf4j.Slf4j;
 import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,8 +40,6 @@ public class AdminController {
     private AdminBoardService adminBoardService;
     @Autowired
     private BoardService boardService;
-    @Autowired
-    private CommentService commentService;
 
 
     @GetMapping("reservationStatus")
@@ -79,7 +76,7 @@ public class AdminController {
     @GetMapping("/inquiryList/{id}") // 게시판 조회
     public String adminBoardDetail(@PathVariable Long id, Model model) {
         BoardDto board = adminBoardService.boardDetail(id);
-        List<CommentDto> commentDtos = commentService.commentList(id);
+        List<CommentDto> commentDtos = adminBoardService.commentList(id);
         model.addAttribute("comments", commentDtos);
         model.addAttribute("board", board);
         model.addAttribute("id", id);
@@ -166,6 +163,31 @@ public class AdminController {
             responseObject.put("error", messageObject);
         }
         return responseObject.toString();
+    }
+
+    @PostMapping("{id}/comment") // 답변작성
+    public String writeComment(@PathVariable Long id,
+                               @RequestParam("content")String content,
+                               Authentication authentication) {
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        adminBoardService.writeComment(id, content, userDetails.getUsername());
+        return "redirect:/admin/inquiryList/" + id;
+    }
+
+    @ResponseBody // 답변수정
+    @PostMapping("{id}/comment/{commentId}/update")
+    public String updateComment(@PathVariable Long id,
+                                @PathVariable Long commentId,
+                                @RequestParam("content")String content) {
+        adminBoardService.updateComment(content, commentId);
+        return "/admin/inquiryList/" + id;
+    }
+
+    @GetMapping("{id}/comment/{commentId}/remove") // 답변삭제
+    public String deleteComment(@PathVariable Long id, @PathVariable Long commentId) {
+        adminBoardService.deleteComment(commentId);
+        System.out.println(id);
+        return "redirect:/admin/inquiryList/" + id;
     }
 
     @GetMapping("registerHotel")

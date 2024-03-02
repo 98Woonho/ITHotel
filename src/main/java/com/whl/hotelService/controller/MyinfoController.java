@@ -10,7 +10,6 @@ import com.whl.hotelService.domain.common.dto.CommentDto;
 import com.whl.hotelService.domain.common.entity.Reservation;
 import com.whl.hotelService.domain.common.service.AdminBoardService;
 import com.whl.hotelService.domain.common.service.BoardService;
-import com.whl.hotelService.domain.common.service.CommentService;
 import com.whl.hotelService.domain.common.service.ReservationService;
 import com.whl.hotelService.domain.user.dto.UserDto;
 import com.whl.hotelService.domain.user.service.MyinfoService;
@@ -61,8 +60,6 @@ public class MyinfoController {
     ReservationService reservationService;
     @Autowired
     JwtTokenProvider jwtTokenProvider;
-    @Autowired
-    CommentService commentService;
     @Autowired
     HttpServletResponse response;
 
@@ -255,7 +252,7 @@ public class MyinfoController {
     @GetMapping("/questionInfo/{id}") // 게시판 조회
     public String adminBoardDetail(@PathVariable Long id, Model model) {
         BoardDto board = adminBoardService.boardDetail(id);
-        List<CommentDto> commentDtos = commentService.commentList(id);
+        List<CommentDto> commentDtos = adminBoardService.commentList(id);
         model.addAttribute("comments", commentDtos);
         model.addAttribute("board", board);
         model.addAttribute("id", id);
