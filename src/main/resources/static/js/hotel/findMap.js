@@ -13,7 +13,7 @@ map.init = function (latitude, longitude) {
     };
     map.instance = new kakao.maps.Map(map, option);
 
-    axios.get('/hotel/HotelList')
+    axios.get('/hotel/hotelList')
         .then(res => {
             const items = res.data;
             const geocoder = new kakao.maps.services.Geocoder();

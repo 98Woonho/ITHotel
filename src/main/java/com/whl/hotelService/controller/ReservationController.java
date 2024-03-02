@@ -42,25 +42,29 @@ public class ReservationController {
         int people = adultCount + childCount;
         List<Room> roomList = reservationService.getHotelsRoom(hotelName, people);
 
+
         for(Room room : roomList) {
-            // 시작 날짜와 종료 날짜를 LocalDate로 변환
+            // checkin 날짜와 checkout 날짜를 LocalDate로 변환
             LocalDate startDate = LocalDate.parse(checkin);
             LocalDate endDate = LocalDate.parse(checkout);
 
             // 날짜 목록을 저장할 리스트
             List<String> dateList = new ArrayList<>();
 
-            // 시작 날짜부터 종료 날짜까지 반복하여 날짜 목록에 추가
+            // checkin 날짜와 checkout 날짜 까지 반복하여 날짜 목록에 추가
             while (!startDate.isEqual(endDate)) {
                 dateList.add(startDate.format(DateTimeFormatter.ISO_LOCAL_DATE));
                 startDate = startDate.plusDays(1);
             }
 
             List<Integer> reservedRoomCountList = new ArrayList<>();
+            // 날짜 List를 반복
             for(String date : dateList) {
+                // 해당 날짜에 예약된 객실 개수를 List로 저장
                 int reservedRoomCount = reservationService.getReservedRoomCount(date, room.getId());
                 reservedRoomCountList.add(reservedRoomCount);
             }
+            // 객실 개수 List에서 가장 큰 예약된 방 개수를 int reservedMaxRoomCount에 초기화
             int reservedMaxRoomCount = Collections.max(reservedRoomCountList);
             reservationService.addReservedRoomCount(room.getId(), reservedMaxRoomCount);
         }
@@ -81,11 +85,9 @@ public class ReservationController {
         LocalDate startDate = LocalDate.parse(checkin, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         LocalDate endDate = LocalDate.parse(checkout, DateTimeFormatter.ofPattern("yyyy-MM-dd")).minusDays(1);
 
-//        System.out.println(startDate.getMonthValue()); 월 가져오기
-
         List<DayOfWeek> daysOfWeekList = new ArrayList<>();
 
-        // Iterate through the dates and add the day of the week to the list
+        // 날짜를 반복하고 목록에 요일을 추가
         LocalDate currentDate = startDate;
         while (!currentDate.isAfter(endDate)) {
             daysOfWeekList.add(currentDate.getDayOfWeek());

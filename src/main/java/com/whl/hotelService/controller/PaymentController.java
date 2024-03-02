@@ -25,12 +25,10 @@ public class PaymentController {
     @Autowired
     private PaymentService paymentService;
 
-    @Autowired
-    private ReservationService reservationService;
-
+    // 결제 창 view
     @GetMapping(value = "read")
     public void getRead(Model model) {
-        Reservation reservation = reservationService.getReservationList();
+        Reservation reservation = paymentService.getReservationList();
 
         Room room = reservation.getRoom();
         Long id = room.getId();
@@ -41,13 +39,15 @@ public class PaymentController {
         model.addAttribute("reservation", reservation);
     }
 
-
+    // 결제
     @PostMapping(value = "read")
     public ResponseEntity<String> postPayment(PaymentDto paymentDto) throws UnsupportedEncodingException {
         paymentDto.setAddress(URLDecoder.decode(paymentDto.getAddress(), "UTF-8"));
         paymentDto.setName(URLDecoder.decode(paymentDto.getName(), "UTF-8"));
 
-        String addReservedRoomCount = reservationService.addReservedRoomCount(paymentDto.getReservationId());
+        String addReservedRoomCount = paymentService.addReservedRoomCount(paymentDto.getReservationId());
+
+        // 결제 요청을 보냈는데, 이미 모든 객실이 예약이 되었을 경우
         if (Objects.equals(addReservedRoomCount, "FAILURE_NOVACANCY")) {
             return new ResponseEntity<>("FAILURE_NOVACANCY", HttpStatus.CONFLICT);
         }
