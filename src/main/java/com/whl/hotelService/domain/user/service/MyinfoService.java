@@ -79,7 +79,6 @@ public class MyinfoService {
         if(!Objects.equals(dto.getUserid(), principalDetail.getUserDto().getUserid())) {
             if (userRepository.existsById(dto.getUserid())) {
                 redirectAttributes.addAttribute("userid_msg", "동일한 아이디가 존재합니다.");
-                System.out.println("동일 아이디 존재");
                 return false;
             }
 
@@ -91,12 +90,10 @@ public class MyinfoService {
             //id jwt토큰 확인
             if (idJwtAccessToken == null) {
                 redirectAttributes.addAttribute("userid_msg", "아이디의 중복여부확인이 필요합니다.");
-                System.out.println("아이디 중복 확인필요");
                 return false;
 
             } else if (!jwtTokenProvider.validateToken(idJwtAccessToken)) {
                 redirectAttributes.addAttribute("userid_msg", "아이디의 중복여부확인 유효시간을 초과했습니다");
-                System.out.println("아이디 유효시간 초과");
                 return false;
 
             } else {
@@ -105,12 +102,10 @@ public class MyinfoService {
                 String id = (String) claims.get("id");
                 if (isIdAuth == null || !isIdAuth) {
                     redirectAttributes.addAttribute("userid_msg", "아이디의 중복여부확인이 필요합니다.");
-                    System.out.println("아이디 중복 확인필요");
                     return false;
                 }
                 if (!id.equals(dto.getUserid())) {
                     redirectAttributes.addAttribute("userid_msg", "아이디가 변동되었습니다.");
-                    System.out.println("아이디 변동됨");
                     return false;
                 }
             }
@@ -124,11 +119,9 @@ public class MyinfoService {
             //email jwt토큰 확인
             if(emailJwtAccessToken == null){
                 redirectAttributes.addAttribute("email_msg", "이메일 인증이 필요합니다.");
-                System.out.println("이메일 인증 필요");
                 return false;
             } else if (!jwtTokenProvider.validateToken(emailJwtAccessToken)) {
                 redirectAttributes.addAttribute("email_msg", "이메일 인증 유효시간을 초과하였거나 인증을 하지 않았습니다.");
-                System.out.println("이메일 유효시간 초과");
                 return false;
             } else {
                 Claims claims = jwtTokenProvider.parseClaims(emailJwtAccessToken);
@@ -136,12 +129,10 @@ public class MyinfoService {
                 String id = (String) claims.get("id");
                 if (isEmailAuth == null || !isEmailAuth) {
                     redirectAttributes.addAttribute("email_msg", "이메일 인증이 필요합니다.");
-                    System.out.println("이메일 인증 필요");
                     return false;
                 }
                 if (!id.equals(dto.getEmail())) {
                     redirectAttributes.addAttribute("email_msg", "이메일이 변동되었습니다..");
-                    System.out.println("이메일 변동됨");
                     return false;
                 }
             }
@@ -177,12 +168,6 @@ public class MyinfoService {
 
             // 쿼리 실행
             int affectedRows = preparedStatement.executeUpdate();
-
-            if (affectedRows > 0) {
-                System.out.println("사용자 ID 업데이트 성공!");
-            } else {
-                System.out.println("사용자 ID 업데이트 실패. 해당 사용자가 없을 수 있습니다.");
-            }
 
             // 연결 닫기
             conn.close();

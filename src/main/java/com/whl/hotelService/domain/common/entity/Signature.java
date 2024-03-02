@@ -14,6 +14,6 @@ public class Signature {
 
     @Id
     @Column(name="signature",nullable = false,length=3072)
-    private byte[] keybyte;
-    private LocalDate date;
+    private byte[] keybyte;     // 서명 key값
+    private LocalDate date;     // 서명한 날짜
 }

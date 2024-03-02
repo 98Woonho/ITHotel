@@ -158,7 +158,6 @@ public class AdminBoardService {
         List<BoardDto> boardDtos = new ArrayList<>();
         for (AdminBoard board : adminBoards) {
             User user = board.getUser();
-            System.out.println("Authentication" + authentication.getName());
             BoardDto result = BoardDto.
                     builder()
                     .id(board.getId())

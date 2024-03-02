@@ -37,12 +37,10 @@ public class UserService {
     public boolean memberjoin(UserDto dto, Model model, HttpServletRequest request, HttpServletResponse response) {
         if (!idValid(dto.getUserid())) {
             model.addAttribute("userid", "동일한 아이디가 존재합니다.");
-            System.out.println("동일 아이디 존재");
             return false;
         }
         if (!dto.getPassword().equals(dto.getRepassword())) {
             model.addAttribute("password", "비밀번호가 일치하지 않습니다.");
-            System.out.println("비밀번호 불일치");
             return false;
         }
 
@@ -59,12 +57,10 @@ public class UserService {
         //id jwt토큰 확인
         if(idJwtAccessToken == null){
             model.addAttribute("userid", "아이디의 중복여부확인이 필요합니다.");
-            System.out.println("아이디 중복 확인필요");
             return false;
 
         } else if (!jwtTokenProvider.validateToken(idJwtAccessToken)) {
             model.addAttribute("userid", "아이디의 중복여부확인 유효시간을 초과했습니다");
-            System.out.println("아이디 유효시간 초과");
             return false;
 
         } else {
@@ -73,12 +69,10 @@ public class UserService {
             String id = (String) claims.get("id");
             if (isIdAuth == null || !isIdAuth) {
                 model.addAttribute("userid", "아이디의 중복여부확인이 필요합니다.");
-                System.out.println("아이디 중복 확인필요");
                 return false;
             }
             if (!id.equals(dto.getUserid())) {
                 model.addAttribute("userid", "아이디가 변동되었습니다.");
-                System.out.println("아이디 변동됨");
                 return false;
             }
         }
@@ -86,11 +80,9 @@ public class UserService {
         //email jwt토큰 확인
         if(emailJwtAccessToken == null){
             model.addAttribute("email", "이메일 인증이 필요합니다.");
-            System.out.println("이메일 인증 필요");
             return false;
         } else if (!jwtTokenProvider.validateToken(emailJwtAccessToken)) {
             model.addAttribute("email", "이메일 인증 유효시간을 초과하였거나 인증을 하지 않았습니다.");
-            System.out.println("이메일 유효시간 초과");
             return false;
         } else {
             Claims claims = jwtTokenProvider.parseClaims(emailJwtAccessToken);
@@ -98,12 +90,10 @@ public class UserService {
             String id = (String) claims.get("id");
             if (isEmailAuth == null || !isEmailAuth) {
                 model.addAttribute("email", "이메일 인증이 필요합니다.");
-                System.out.println("이메일 인증 필요");
                 return false;
             }
             if (!id.equals(dto.getEmail())) {
                 model.addAttribute("email", "이메일이 변동되었습니다..");
-                System.out.println("이메일 변동됨");
                 return false;
             }
         }
