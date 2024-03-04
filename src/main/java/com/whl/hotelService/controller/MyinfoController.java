@@ -183,8 +183,8 @@ public class MyinfoController {
         headers.add("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
 
         MultiValueMap<String,String> params = new LinkedMultiValueMap<>();
-        params.add("imp_key","6657073734734057");
-        params.add("imp_secret","0cSYrvl3ygdd4JpYjcbHjzp2wYMGjihJMWQrKhgMSWnQjYD3oYAPzvjFFdeAOYcdIqyfkkwvCb7RIQKD");
+        params.add("imp_key", "7582034642764268");
+        params.add("imp_secret", "JxMwheK2PKBrxFxOifDLwwZvdyzjwDERKj4TzStgSZ06Wmg3oQp7h3WjK3nOfdjXsSXF0ZNgCbBWyPrV");
 
         HttpEntity< MultiValueMap<String,String>> entity = new HttpEntity(params,headers);
 
