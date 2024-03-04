@@ -221,7 +221,7 @@ public class MyinfoController {
         else if(period.getYears() == 0 && period.getMonths() == 0 && period.getDays() == 1) // 체크인 하루 전에 환불시
             params.add("amount", String.valueOf(payment.getPaidAmount() * 0.8));          // 80% 환불
         else
-            return new ResponseEntity<>("fail", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("fail", HttpStatus.OK);
 
         params.add("reason", "고객 요청에 의한 환불요청");
 
@@ -231,10 +231,10 @@ public class MyinfoController {
 
         ResponseEntity<String> resp =  restTemplate.exchange(url, HttpMethod.POST,entity,String.class);
 
-        if(reservationService.DeleteReservedRoomCount(id) && reservationService.DeleteReservation(id)) {
+        if(reservationService.DeleteReservedRoomCount(id) && reservationService.DeleteReservation(id))
             return new ResponseEntity<>("Success", HttpStatus.OK);
-        }
-        return new ResponseEntity<>("fail", HttpStatus.BAD_REQUEST);
+        else
+            return new ResponseEntity<>("null", HttpStatus.OK);
     }
 
     @GetMapping("questionInfo")

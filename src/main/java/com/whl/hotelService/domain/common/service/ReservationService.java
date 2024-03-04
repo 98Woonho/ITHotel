@@ -172,7 +172,8 @@ public class ReservationService {
     @Transactional(rollbackFor = Exception.class)
     public boolean DeleteReservedRoomCount(int reservationId){
         Long reservedRoomId = reservationRepository.findById((long)reservationId).get().getRoom().getId();
-        ReservedRoomCount reservedRoomCount = reservedRoomCountRepository.findByRoomId(reservedRoomId);
+        String checkInDate = reservationRepository.findById((long)reservationId).get().getCheckin();
+        ReservedRoomCount reservedRoomCount = reservedRoomCountRepository.findByDateAndRoomId(checkInDate, reservedRoomId);
         reservedRoomCountRepository.delete(reservedRoomCount);
         return reservedRoomCountRepository.findById(reservedRoomId).isEmpty();
     }
