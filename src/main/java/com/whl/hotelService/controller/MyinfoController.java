@@ -231,8 +231,11 @@ public class MyinfoController {
 
         ResponseEntity<String> resp =  restTemplate.exchange(url, HttpMethod.POST,entity,String.class);
 
-        if(reservationService.DeleteReservedRoomCount(id) && reservationService.DeleteReservation(id))
+        reservationService.deleteReservationRoomCount((long)id);
+
+        if(reservationService.DeleteReservation(id)) {
             return new ResponseEntity<>("Success", HttpStatus.OK);
+        }
         else
             return new ResponseEntity<>("null", HttpStatus.OK);
     }
@@ -257,6 +260,7 @@ public class MyinfoController {
         model.addAttribute("board", board);
         model.addAttribute("id", id);
         return "user/questionInfoDetail";
+
     }
 }
 
