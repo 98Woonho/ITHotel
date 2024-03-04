@@ -54,12 +54,6 @@ WEB PROJECT PLANING
 ![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white)
 ![Github](https://img.shields.io/badge/Github-181717?style=for-the-badge&logo=Github&logoColor=white)
 
-
-[참고 배지 사이트] <br/>
-https://badgen.net/ <br/>
-https://shields.io/
-
-
 <br/>
 
 ## ▶️ END POINT 
