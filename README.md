@@ -23,51 +23,18 @@ WEB PROJECT PLANING
 
 <br/>
 
-## ▶️ 개발 환경(플랫폼)
-
-<br/>
-
-## ▶️ IDE 종류
-
-##### IntelliJ Ultimate
-<br/>
-
-## ▶️ Software 목록
-
-##### IDE : IntelliJ Ultimate 2023.3.3
+## ▶️ 개발 환경
+##### IDE : IntelliJ Ultimate
+##### OpenJDK 21
+##### Java21
 ##### SpringBoot 3.1.7
-##### gradle version 8.5
-##### Mysql Server 8.x.x
-##### Mysql Workbench 8.x.x
+##### gradle
+##### Mysql Server
+##### Mysql Workbench
+
 <br/>
 
-## ▶️ 의존 lib
-##### lombok
-##### thymeleaf
-##### spring security
-##### web mvc
-##### mysql
-##### jdbc
-##### mybatis
-##### jpa
-##### oauth2-client
-##### jwt-token
-##### mail
-##### devtools
-##### validation
-
-## ▶️ DevOps 
-##### Amazon Web Service EC2(Deploy Server)
-##### Amazon Web Service RDS(Remote Datebase Server)
-##### Git & Github
-##### Docker(Server Image)
-##### Swagger(API Document)
-##### Adobe XD
-<br/>
-
-
-
-## ▶️ 사용(or 예정) API
+## ▶️ 사용 API
 ##### 아임포트 결제시스템 API
 ##### 카카오 지도 API
 ##### 다음 주소 API
@@ -77,12 +44,15 @@ WEB PROJECT PLANING
 
 ## ▶️ 기술스택
 
-![JAVA](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html&logoColor=white)
+![JAVA](https://img.shields.io/badge/Java-007396?style=for-the-badge&logo=Java&logoColor=white)
+![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=HTML5&logoColor=white)
 ![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
-![MySQL](https://img.shields.io/badge/mysql-%2300f.svg?style=for-the-badge&logo=mysql&logoColor=white)
-![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=java&logoColor=white)
-![AWS](https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white)
+![MySQL](https://img.shields.io/badge/Mysql-4479A1?style=for-the-badge&logo=Mysql&logoColor=white)
+![Spring](https://img.shields.io/badge/Spring-6DB33F?style=for-the-badge&logo=Spring&logoColor=white)
+![Axios](https://img.shields.io/badge/Axios-5A29E4?style=for-the-badge&logo=Axios&logoColor=white)
+![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white)
+![Github](https://img.shields.io/badge/Github-181717?style=for-the-badge&logo=Github&logoColor=white)
 
 
 [참고 배지 사이트] <br/>
