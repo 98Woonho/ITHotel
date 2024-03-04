@@ -53,3 +53,12 @@ WEB PROJECT PLANING
 ![Axios](https://img.shields.io/badge/Axios-5A29E4?style=for-the-badge&logo=Axios&logoColor=white)
 ![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white)
 ![Github](https://img.shields.io/badge/Github-181717?style=for-the-badge&logo=Github&logoColor=white)
+
+<br/>
+
+## ▶️ 주요 기능
+##### 로그인/소셜 로그인 및 회원가입
+##### 게시판
+##### 사용자 마이페이지(회원 정보 수정/탈퇴, 예약 취소, 문의 사항 작성)
+##### 관리자 페이지(예약 현황/취소, 호텔 등록/수정/삭제, 객실 등록/수정/삭제, 공지사항 작성/자주묻는 질문 작성/문의사항 답변, 매출 그래프)
+##### 호텔 객실 예약/결제
