@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class AdminBoardService {
@@ -38,6 +39,7 @@ public class AdminBoardService {
     @Autowired
     private NoticeImageRepository noticeImageRepository;
 
+    @Transactional(rollbackFor = Exception.class)
     public void saveBoard(BoardDto boardDto, String userid) {
 
         // 유저 아이디로 유저 찾기
@@ -55,7 +57,7 @@ public class AdminBoardService {
         AdminBoard save = adminBoardRepository.save(adminBoard);
     }
 
-
+    @Transactional(rollbackFor = Exception.class)
     public BoardDto boardDetail(Long id) {
         AdminBoard board = adminBoardRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시글입니다."));
         User user = board.getUser();
@@ -74,7 +76,7 @@ public class AdminBoardService {
         return result;
     }
 
-
+    @Transactional(rollbackFor = Exception.class)
     public Page<BoardDto> boardList(Pageable pageable) {
         Page<AdminBoard> boards = adminBoardRepository.findAll(pageable);
         List<BoardDto> boardDtos = new ArrayList<>();
@@ -98,6 +100,7 @@ public class AdminBoardService {
         return new PageImpl<>(boardDtos, pageable, boards.getTotalElements());
     }
 
+    @Transactional(rollbackFor = Exception.class)
     public Page<CommentDto> commentList(Pageable pageable) {
         Page<Comment> comments = commentRepository.findAll(pageable);
         List<CommentDto> commentDtos = new ArrayList<>();
@@ -118,12 +121,14 @@ public class AdminBoardService {
 //        return board.getId();
 //    }
 
+    @Transactional(rollbackFor = Exception.class)
     public void boardRemove(Long id) {
         AdminBoard board = adminBoardRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시글입니다."));
         adminBoardRepository.delete(board);
     }
 
 
+    @Transactional(rollbackFor = Exception.class)
     public Page<BoardDto> searchingBoardList(String keyword, String type, Pageable pageable) {
         Page<AdminBoard> boards = adminBoardRepository.searchBoards(keyword, type, pageable);
         List<BoardDto> boardDtos = new ArrayList<>();
@@ -147,6 +152,7 @@ public class AdminBoardService {
         return new PageImpl<>(boardDtos, pageable, boards.getTotalElements());
     }
 
+    @Transactional(rollbackFor = Exception.class)
     public Page<BoardDto> userBoardList(Pageable pageable, Authentication authentication) {
         Page<AdminBoard> adminBoards = adminBoardRepository.findByUserUserid(pageable, authentication.getName());
         List<BoardDto> boardDtos = new ArrayList<>();
@@ -216,7 +222,8 @@ public class AdminBoardService {
             noticeBoardFileInfoRepository.save(noticeBoardFileInfo);
         }
     }
-    public String modifyNotice(Long id, BoardFileDto boardFileDto, String userid) throws IOException {
+    @Transactional(rollbackFor = Exception.class)
+    public void modifyNotice(Long id, BoardFileDto boardFileDto, String userid) throws IOException {
         User user = userRepository.findById(userid)
                 .orElseThrow(() -> new UsernameNotFoundException("유저 아이디가 존재하지 않습니다."));
         if (boardFileDto.getFile() == null) {
@@ -250,31 +257,46 @@ public class AdminBoardService {
                     .fileAttached(boardFileDto.getFileAttached())
                     .build();
             noticeBoardRepsoitory.save(noticeBoard);// long타입으로 저장하는 이유 : 나중에 findById 를 했을 때
-            Long noticeBoardId = noticeBoardFileInfoRepository.findByNoticeBoardId(id).getId();
+            NoticeBoardFileInfo noticeBoardId = noticeBoardFileInfoRepository.findByNoticeBoardId(id);
+            if (noticeBoardId != null){
             NoticeBoard notice = noticeBoardRepsoitory.findById(id).get();
             NoticeBoardFileInfo noticeBoardFileInfo = NoticeBoardFileInfo.builder()
-                    .id(noticeBoardId)
+                    .id(noticeBoardId.getId())
                     .originalFileName(originalFilename)
                     .storedFileName(storedFileName)
                     .noticeBoard(notice)
                     .build();
-            noticeBoardFileInfoRepository.save(noticeBoardFileInfo);
+                noticeBoardFileInfoRepository.save(noticeBoardFileInfo);
+            } else {
+                NoticeBoard notice = noticeBoardRepsoitory.findById(id).get();
+                NoticeBoardFileInfo noticeBoardFileInfo = NoticeBoardFileInfo.builder()
+                        .originalFileName(originalFilename)
+                        .storedFileName(storedFileName)
+                        .noticeBoard(notice)
+                        .build();
+                noticeBoardFileInfoRepository.save(noticeBoardFileInfo);
+            }
         }
-        return "SUCCESS";
     }
 
-
-    public NoticeImage getImage(Long id){
-        NoticeImage noticeImage = noticeImageRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 이미지입니다."));
-        return noticeImage;
-    }
+    @Transactional(rollbackFor = Exception.class)
     public String uploadImage(NoticeImage noticeImage){
 
         noticeImageRepository.save(noticeImage);
 
+
         return "SUCCESS";
     }
 
+    @Transactional(rollbackFor = Exception.class)
+    public NoticeImage getImage(Long id){
+        NoticeImage noticeImage = noticeImageRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 이미지입니다."));
+        return noticeImage;
+    }
+
+
+
+    @Transactional(rollbackFor = Exception.class)
     public List<BoardFileDto> noticeBoardList(BoardFileDto boardFileDto){
         List<NoticeBoard> noticeBoardList = noticeBoardRepsoitory.findAll();
         List<BoardFileDto> boardDtos = new ArrayList<>();
@@ -297,11 +319,47 @@ public class AdminBoardService {
         return boardDtos;
     }
 
+    @Transactional(rollbackFor = Exception.class)
     public String deleteNotice(Long id){
         noticeBoardRepsoitory.deleteById(id);
 
         return "SUCCESS";
     }
 
+    @Transactional(rollbackFor = Exception.class)
+    public void updateComment(String content, Long commentId) {
+        Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 댓글입니다."));
+        comment.update(content);
+        commentRepository.save(comment);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public void deleteComment(Long commentId) {
+        commentRepository.deleteById(commentId);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public Long writeComment(Long boardId, String content, String id) {
+        User user = userRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException("유저 아이디가 존재하지 않습니다."));
+        AdminBoard board = adminBoardRepository.findById(boardId).orElseThrow(() -> new IllegalArgumentException("게시물을 찾을 수 없습니다."));
+        Comment result = Comment.builder()
+                .content(content)
+                .adminBoard(board)
+                .user(user)
+                .build();
+        commentRepository.save(result);
+
+        return result.getId();
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public List<CommentDto> commentList(Long id) {
+        AdminBoard board = adminBoardRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("게시물을 찾을 수 없습니다."));
+        List<Comment> comments = commentRepository.findByAdminBoard(board);
+
+        return comments.stream()
+                .map(comment -> CommentDto.entityToDto(comment, comment.getAdminBoard(), comment.getUser()))
+                .collect(Collectors.toList());
+    }
 
 }

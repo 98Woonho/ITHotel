@@ -4,7 +4,6 @@ package com.whl.hotelService.controller;
 import com.whl.hotelService.domain.common.dto.BoardDto;
 import com.whl.hotelService.domain.common.dto.BoardFileDto;
 import com.whl.hotelService.domain.common.dto.HotelDto;
-import com.whl.hotelService.domain.common.entity.AdminBoard;
 import com.whl.hotelService.domain.common.entity.Hotel;
 import com.whl.hotelService.domain.common.entity.NoticeBoard;
 import com.whl.hotelService.domain.common.entity.NoticeBoardFileInfo;
@@ -47,10 +46,10 @@ public class BoardController {
     }
 
     @PostMapping("/inquiryForm") // 게시판 글쓰기 로그인된 유저만 글을 쓸수 있음
-    public String inquiry(AdminBoard adminBoard, BoardDto boardDto, Authentication authentication) {
+    public String inquiry(BoardDto boardDto, Authentication authentication) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         adminBoardService.saveBoard(boardDto, userDetails.getUsername());
-        return "redirect:/board/inquiryForm";
+        return "redirect:/user/questionInfo?function=read";
     }
 
     @GetMapping("/question/{id}") // 자주하는 질문 조회 수정

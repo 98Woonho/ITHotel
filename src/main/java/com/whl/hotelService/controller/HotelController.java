@@ -23,6 +23,7 @@ public class HotelController {
     @Autowired
     private HotelService hotelService;
 
+    // 호텔 찾기 view
     @GetMapping(value = "find")
     public void getFind(Model model) {
         List<String> regionList = hotelService.getDistinctRegion();
@@ -32,28 +33,28 @@ public class HotelController {
         model.addAttribute("hotelMainFileInfoList", hotelMainFileInfoList);
     }
 
+    // 호텔 찾기 지도 view
     @GetMapping(value = "findMap")
     public void getFindMap() {
-        log.info("getFindMap()");
+
     }
 
-    @GetMapping(value = "info")
-    public void getInfo() {
-        log.info("getInfo()");
-    }
-
-    @GetMapping(value = "HotelList")
-    public @ResponseBody List<Hotel> getHotelInfo() {
+    // 호텔 찾기 지도에서 호텔 위치 표시하기 위한 호텔 list
+    @GetMapping(value = "hotelList")
+    @ResponseBody
+    public List<Hotel> getHotelList() {
         List<Hotel> list = hotelService.getAllHotel();
         return list;
     }
 
+    // 호텔 등록 시 호텔 이름 중복 확인
     @GetMapping(value = "confirmHotelName")
     @ResponseBody
     public String getConfirmHotelName(@RequestParam(value = "hotelName") String hotelName) {
         return hotelService.confirmHotelName(hotelName);
     }
 
+    // 호텔 추가
     @PostMapping(value = "add")
     public ResponseEntity<String> postAdd(HotelDto hotelDto) throws IOException {
         boolean isAdd = hotelService.addHotel(hotelDto);
@@ -65,6 +66,7 @@ public class HotelController {
         }
     }
 
+    // 호텔 수정
     @PutMapping("modify")
     public ResponseEntity<String> putModify(HotelDto hotelDto) throws IOException {
         boolean isModify = hotelService.modifyHotel(hotelDto);
@@ -76,6 +78,7 @@ public class HotelController {
         }
     }
 
+    // 호텔 삭제
     @DeleteMapping("delete")
     @ResponseBody
     public String deleteHotel(@RequestParam(value = "hotelName") String hotelName) {

@@ -15,6 +15,8 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.*;
 
 // DTO -> Entity변환 작업은 (Entity class)컨트롤러가 서비스로 데이터를 넘겨줄 땐 DTO 객체를 반환해야함 반대로 서비스에서 컨트롤러에 데이터를 넘겨줄 땐 DTO 객체를 반환
@@ -32,6 +34,7 @@ public class BoardService {
     @Autowired
     private NoticeBoardFileInfoRepository noticeBoardFileInfoRepository;
 
+    @Transactional(rollbackFor = Exception.class)
     public Long saveBoard(BoardDto boardDto, String id) {
         // 유저 아이디로 유저 찾기
         User user = userRepository.findById(id)
@@ -49,6 +52,7 @@ public class BoardService {
     }
 
 
+    @Transactional(rollbackFor = Exception.class)
     public BoardDto boardDetail(Long id) {
         Board board = boardRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시글입니다."));
         User user = board.getUser();
@@ -65,16 +69,20 @@ public class BoardService {
         return result;
     }
 
+    @Transactional(rollbackFor = Exception.class)
     public NoticeBoardFileInfo noticeBoardFileDetail(Long id) {
         NoticeBoardFileInfo noticeBoardFileInfo = noticeBoardFileInfoRepository.findByNoticeBoardId(id);
 
         return noticeBoardFileInfo;
     }
+
+    @Transactional(rollbackFor = Exception.class)
     public NoticeBoard noticeBoard(Long id) {
         NoticeBoard noticeBoard = noticeBoardRepsoitory.findById(id).orElseThrow();
         return noticeBoard;
     }
 
+    @Transactional(rollbackFor = Exception.class)
     public Page<BoardDto> boardList(Pageable pageable) {
         Page<Board> boards = boardRepository.findAll(pageable);
         List<BoardDto> boardDtos = new ArrayList<>();
@@ -97,6 +105,7 @@ public class BoardService {
     }
 
 
+    @Transactional(rollbackFor = Exception.class)
     public Long boardUpdate(Long id, BoardDto boardDto) {
         Board board = boardRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시글입니다."));
         board.update(boardDto.getTitle(), boardDto.getContent());
@@ -105,12 +114,13 @@ public class BoardService {
         return board.getId();
     }
 
+    @Transactional(rollbackFor = Exception.class)
     public void boardRemove(Long id) {
         Board board = boardRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시글입니다."));
         boardRepository.delete(board);
     }
 
-
+    @Transactional(rollbackFor = Exception.class)
     public Page<BoardDto> searchingBoardList(String keyword, String type, Pageable pageable) {
         Page<Board> boards = boardRepository.searchBoards(keyword, type, pageable);
         List<BoardDto> boardDtos = new ArrayList<>();
@@ -132,6 +142,7 @@ public class BoardService {
         return new PageImpl<>(boardDtos, pageable, boards.getTotalElements());
     }
 
+    @Transactional(rollbackFor = Exception.class)
     public List<String> searchHotelname(){
         List<Hotel> hotels = hotelRepository.findAll();
         List<String> hotelNames = new ArrayList<>();
@@ -147,4 +158,6 @@ public class BoardService {
         }
         return hotelNames;
     }
+
+
 }

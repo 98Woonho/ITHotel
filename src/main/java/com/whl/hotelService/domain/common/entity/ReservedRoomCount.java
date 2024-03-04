@@ -21,10 +21,6 @@ public class ReservedRoomCount {
     @ManyToOne
     @JoinColumn(name="room_id", foreignKey = @ForeignKey(name="fk_reservedRoomCount_room_id", foreignKeyDefinition = "FOREIGN KEY(room_id) REFERENCES room(id) ON DELETE CASCADE ON UPDATE CASCADE"))
     private Room room;
-
-    @Column(nullable = false)
     private String date;
-
-    @Column(nullable = false)
     private int reservedCount = 1;
 }
