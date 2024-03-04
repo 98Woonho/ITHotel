@@ -260,6 +260,7 @@ public class MyinfoController {
         model.addAttribute("board", board);
         model.addAttribute("id", id);
         return "user/questionInfoDetail";
+
     }
 }
 
