@@ -186,7 +186,6 @@ public class AdminController {
     @GetMapping("{id}/comment/{commentId}/remove") // 답변삭제
     public String deleteComment(@PathVariable Long id, @PathVariable Long commentId) {
         adminBoardService.deleteComment(commentId);
-        System.out.println(id);
         return "redirect:/admin/inquiryList/" + id;
     }
 

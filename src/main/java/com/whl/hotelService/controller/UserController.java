@@ -59,18 +59,15 @@ public class UserController {
 
     @InitBinder
     public void dataBinder(WebDataBinder dataBinder) {
-        log.info("databinder obj : " + dataBinder);
         dataBinder.registerCustomEditor(String.class, "phone", new PhoneNumberEditor());
     }
 
     @GetMapping(value = "login")
     public void getLogin() {
-        log.info("getLogin()");
     }
 
     @GetMapping("existId")
     public @ResponseBody JSONObject existId(String name, String email) {
-        log.info("getConfirmEmail name : " + name + ", email : " + email);
         JSONObject obj = new JSONObject();
         if (userService.isExists(name, email)) {
             obj.put("success", true);
@@ -86,7 +83,6 @@ public class UserController {
 
     @GetMapping("existPw")
     public @ResponseBody JSONObject existId(String id, String name, String email) {
-        log.info("getConfirmEmail id : " + id + " name : " + name + ", email : " + email);
         JSONObject obj = new JSONObject();
         if (userService.isExists(id, name, email)) {
             obj.put("success", true);
@@ -102,17 +98,14 @@ public class UserController {
 
     @GetMapping("findId")
     public void findId(){
-        log.info("getfindId");
     }
 
     @GetMapping("findPw")
     public void findPw(){
-        log.info("getfindPw");
     }
 
     @GetMapping("sendId")
     public @ResponseBody JSONObject sendid(@RequestParam boolean confirm, @RequestParam String email) {
-        log.info("getsendid");
         JSONObject obj = new JSONObject();
         if (confirm) {
             obj.put("message", userService.sendId(email));
@@ -124,7 +117,6 @@ public class UserController {
 
     @GetMapping("sendPw")
     public @ResponseBody JSONObject sendpw(@RequestParam boolean confirm, @RequestParam String email) {
-        log.info("getsendpw");
         JSONObject obj = new JSONObject();
         if (confirm) {
             //랜덤 임시비밀번호 생성
@@ -151,7 +143,6 @@ public class UserController {
 
     @GetMapping("Oauthjoin")
     public void getOauthLogin(Authentication authentication, Model model){
-        log.info("getOauthjoin()");
         PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
         String provider = principalDetails.getUserDto().getProvider();
         model.addAttribute("provider", provider);
@@ -159,7 +150,6 @@ public class UserController {
 
     @PostMapping("Oauthjoin")
     public String postOauthLogin(@Valid UserDto dto, BindingResult bindingResult, Model model, HttpServletRequest request){
-        log.info("postOauthjoin()");
         if (bindingResult.hasFieldErrors()) {
             for (FieldError error : bindingResult.getFieldErrors()) {
                 log.info(error.getField() + " : " + error.getDefaultMessage());
@@ -178,12 +168,10 @@ public class UserController {
 
     @GetMapping(value = "join")
     public void getjoin() {
-        log.info("getjoin()");
     }
 
     @PostMapping("join")
     public String postjoin(@Valid UserDto dto, BindingResult bindingResult, Model model, HttpServletRequest request, HttpServletResponse response) {
-        log.info("postjoin() dto : " + dto);
 
         if (bindingResult.hasFieldErrors()) {
             for (FieldError error : bindingResult.getFieldErrors()) {
@@ -203,7 +191,6 @@ public class UserController {
 
     @GetMapping("ConfirmId")
     public @ResponseBody JSONObject ConfirmId(String id, HttpServletResponse response) {
-        log.info("getConfirmId id : " + id);
         boolean IdValid = userService.idValid(id);
         JSONObject obj = new JSONObject();
         if (!Objects.equals(id, "") && IdValid) {
@@ -232,7 +219,6 @@ public class UserController {
 
     @GetMapping("ConfirmEmail/{email}")
     public @ResponseBody JSONObject confirmEmail(@PathVariable String email){
-        log.info("getConfirmEmail email : " + email);
         JSONObject obj = new JSONObject();
         if (!Objects.equals(email, "")) {
             obj.put("success", true);
@@ -246,7 +232,6 @@ public class UserController {
 
     @GetMapping("sendEmail/{email}")
     public @ResponseBody ResponseEntity<JSONObject> SendEmail(@PathVariable("email") String email) throws NoSuchAlgorithmException {
-        log.info("getSendEmail : " + email);
 
         //랜덤 임시번호 6자리 생성
         SecureRandom random = SecureRandom.getInstanceStrong();
@@ -270,7 +255,6 @@ public class UserController {
 
     @GetMapping("confirmCode")
     public @ResponseBody JSONObject ConfirmCode(String email, String code, HttpServletResponse response) {
-        log.info("getConfirmEmail email : " + email + ", code : " + code);
         JSONObject obj = new JSONObject();
         if (Objects.equals(Email_code, code)) {
             obj.put("success", true);
