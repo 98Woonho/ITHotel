@@ -199,7 +199,7 @@ public class MyinfoService {
         return UserReservationList;
     }
 
-    public Payment FindUserPayment(int id) {
+    public Payment FindUserPayment(Long id) {
         return paymentRepository.findByReservationId(id);
     }
 }

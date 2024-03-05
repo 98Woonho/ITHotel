@@ -55,7 +55,7 @@
                         <td th:text="${reservation.checkout}"></td>
                         <td th:text="${reservation.status}"></td>
                         <td>
-                            <button class="button cancel-button" th:id="${reservation.id}" onclick="cancelReservation(this)">예약 취소</button>
+                            <button class="button cancel-button" th:reservationId="${reservation.id}" onclick="cancelReservation(this)">예약 취소</button>
                         </td>
                     </tr>
                     </tbody>
