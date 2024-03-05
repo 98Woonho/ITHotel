@@ -8,7 +8,6 @@ import com.whl.hotelService.domain.common.entity.Payment;
 import com.whl.hotelService.domain.common.dto.BoardDto;
 import com.whl.hotelService.domain.common.dto.CommentDto;
 import com.whl.hotelService.domain.common.entity.Reservation;
-import com.whl.hotelService.domain.common.service.AdminBoardService;
 import com.whl.hotelService.domain.common.service.BoardService;
 import com.whl.hotelService.domain.common.service.ReservationService;
 import com.whl.hotelService.domain.user.dto.UserDto;
@@ -41,7 +40,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -54,8 +52,6 @@ public class MyinfoController {
     MyinfoService myinfoService;
     @Autowired
     BoardService boardService;
-    @Autowired
-    AdminBoardService adminBoardService;
     @Autowired
     ReservationService reservationService;
     @Autowired
@@ -234,26 +230,26 @@ public class MyinfoController {
             return new ResponseEntity<>("null", HttpStatus.OK);
     }
 
-    @GetMapping("questionInfo")
-    public void questionInfo(@RequestParam(value="function", required = false) String function,
+    @GetMapping("inquiryInfo")
+    public void inquiryInfo(@RequestParam(value="function", required = false) String function,
                              @PageableDefault(page = 0, size = 10)Pageable pageable,
                              Authentication authentication, Model model){
         List<String> hotelnames = boardService.searchHotelname();
-        Page<BoardDto> boardList = adminBoardService.userBoardList(pageable, authentication);
-        Page<CommentDto> commentList = adminBoardService.commentList(pageable);
+        Page<BoardDto> boardList = boardService.userBoardList(pageable, authentication);
+        Page<CommentDto> commentList = boardService.commentList(pageable);
         model.addAttribute("commentList", commentList);
         model.addAttribute("boardList", boardList);
         model.addAttribute("hotelnames", hotelnames);
         model.addAttribute("function", function);
     }
-    @GetMapping("/questionInfo/{id}") // 게시판 조회
-    public String adminBoardDetail(@PathVariable Long id, Model model) {
-        BoardDto board = adminBoardService.boardDetail(id);
-        List<CommentDto> commentDtos = adminBoardService.commentList(id);
+    @GetMapping("/inquiryInfo/{id}") // 나의 문의 게시판 조회
+    public String inquiryBoardDetail(@PathVariable Long id, Model model) {
+        BoardDto board = boardService.inquiryBoardDetail(id);
+        List<CommentDto> commentDtos = boardService.commentList(id);
         model.addAttribute("comments", commentDtos);
         model.addAttribute("board", board);
         model.addAttribute("id", id);
-        return "user/questionInfoDetail";
+        return "user/inquiryInfoDetail";
 
     }
 }

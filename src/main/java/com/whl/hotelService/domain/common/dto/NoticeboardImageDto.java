@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class NoticeImageDto {
+public class NoticeboardImageDto {
     private Long id;
     private String name;
     private String type;
