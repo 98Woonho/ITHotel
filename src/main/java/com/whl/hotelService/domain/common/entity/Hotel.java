@@ -18,17 +18,10 @@ import lombok.NoArgsConstructor;
 public class Hotel {
     @Id
     private String hotelName; // 호텔 이름
-
-    @Column(nullable = false)
     private String region;
-    @Column(nullable = false)
     private String addr1;
-
     private String addr2;
-    @Column(nullable = false)
     private String zipcode;
-    @Column(nullable = false)
     private String contactInfo; // 호텔 연락처
-    @Column(nullable = false)
     private String hotelDetails;
 }

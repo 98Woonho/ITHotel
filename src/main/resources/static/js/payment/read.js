@@ -35,7 +35,6 @@ document.addEventListener('mousemove', function (event) {
                         window.history.back();
                     })
                     .catch(err => {
-                        console.log(err);
                         isDeleteExecuted = false;
                     })
             }
@@ -115,9 +114,12 @@ payButton.addEventListener('click', function () {
     } else if (phonepayButton.classList.contains("clicked")) {
         pg = "danal";
         pay_method = "phone";
+    } else {
+        alert('결제 수단을 선택해 주세요.');
+        return false;
     }
 
-    IMP.init("imp40654467");
+    IMP.init("imp82217082");
 
     IMP.request_pay({
             pg: pg,
@@ -142,6 +144,7 @@ payButton.addEventListener('click', function () {
                     console.log(resp.data);
                     if (resp.data === "SUCCESS") {
                         alert('예약이 완료 되었습니다. 예약 확인 페이지로 이동합니다.');
+                        location.href="/user/reservationInfo?function=read"
                     }
                 })
                 .catch(err => {

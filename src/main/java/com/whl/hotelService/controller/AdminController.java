@@ -4,7 +4,6 @@ import com.whl.hotelService.domain.common.dto.BoardDto;
 import com.whl.hotelService.domain.common.dto.BoardFileDto;
 import com.whl.hotelService.domain.common.dto.CommentDto;
 import com.whl.hotelService.domain.common.entity.*;
-import com.whl.hotelService.domain.common.service.InquiryBoardService;
 import com.whl.hotelService.domain.common.service.AdminService;
 import com.whl.hotelService.domain.common.service.BoardService;
 import lombok.extern.slf4j.Slf4j;
@@ -184,7 +183,6 @@ public class AdminController {
     @GetMapping("{id}/comment/{commentId}/remove") // 답변삭제
     public String deleteComment(@PathVariable Long id, @PathVariable Long commentId) {
         boardService.deleteComment(commentId);
-        System.out.println(id);
         return "redirect:/admin/inquiryList/" + id;
     }
 

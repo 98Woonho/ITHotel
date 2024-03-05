@@ -7,7 +7,6 @@ import com.whl.hotelService.domain.common.dto.HotelDto;
 import com.whl.hotelService.domain.common.entity.Hotel;
 import com.whl.hotelService.domain.common.entity.NoticeBoard;
 import com.whl.hotelService.domain.common.entity.NoticeBoardFileInfo;
-import com.whl.hotelService.domain.common.service.InquiryBoardService;
 import com.whl.hotelService.domain.common.service.BoardService;
 import com.whl.hotelService.domain.common.service.HotelService;
 import jakarta.servlet.http.HttpServletRequest;

@@ -9,5 +9,4 @@ import org.springframework.stereotype.Repository;
 public interface ReservedRoomCountRepository extends JpaRepository<ReservedRoomCount, Long> {
     ReservedRoomCount findByDateAndRoomId(String date, Long roomId);
 
-    ReservedRoomCount findByRoomId(Long roomId);
 }

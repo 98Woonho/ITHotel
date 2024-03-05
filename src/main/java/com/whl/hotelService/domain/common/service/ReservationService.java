@@ -22,6 +22,9 @@ import java.util.List;
 @Service
 public class ReservationService {
     @Autowired
+    private PaymentRepository paymentRepository;
+
+    @Autowired
     private ReservationRepository reservationRepository;
 
     @Autowired
@@ -39,15 +42,19 @@ public class ReservationService {
     @Autowired
     private RoomFileInfoRepository roomFileInfoRepository;
 
-
+    @Transactional(rollbackFor = Exception.class)
+    public Payment getPayment(Long id) {
+        return paymentRepository.findByReservationId(id);
+    }
 
     @Transactional(rollbackFor = Exception.class)
     public List<Room> getHotelsRoom(String hotelname, int people) {
         return roomRepository.findByHotelHotelNameAndStandardPeopleGreaterThanEqual(hotelname, people);
     }
 
-//    @Scheduled(fixedRate = 1000000)
+    @Scheduled(fixedRate = 1000) // 해당 메서드를 1000ms 주기로 실행
     @Transactional(rollbackFor = Exception.class)
+    // reservation table에서 status="예약 중" 인 데이터가 생성 시점으로부터 10분이 넘을 시 자동으로 삭제해 줌.
     public void deleteExpiredReservations() {
         List<LocalDateTime> createdAtList = reservationRepository.findCreatedAtByStatus("예약 중");
         LocalDateTime currentDate = LocalDateTime.now();
@@ -96,14 +103,13 @@ public class ReservationService {
 
         Room room = roomRepository.findById(reservationDto.getRoomId()).get();
 
-        String status = reservationDto.getStatus();
+        String status = reservationDto.getStatus(); // "예약 중"
 
         if (user != null && room != null) {
-            // Check if a reservation already exists for the user and room
             Reservation existingReservation = reservationRepository.findByUserUseridAndStatus(userid, status);
 
+            // 이미 해당 계정으로 같은 객실의 status="예약 중" 인 예약 정보가 있으면
             if (existingReservation != null) {
-                // Update existing reservation
                 existingReservation.setCheckin(reservationDto.getCheckin());
                 existingReservation.setCheckout(reservationDto.getCheckout());
                 existingReservation.setRoom(room);
@@ -114,7 +120,6 @@ public class ReservationService {
                 reservationRepository.save(existingReservation);
 
             } else {
-                // Create a new reservation
                 Reservation reservation = new Reservation();
                 reservation.setRoom(room);
                 reservation.setUser(user);
@@ -135,26 +140,21 @@ public class ReservationService {
         return roomFileInfoRepository.findAllMainFiles(hotelname);
     }
 
+    // 예약을 취소할 때, 예약된 객실 개수 차감
     @Transactional(rollbackFor = Exception.class)
-    public Reservation getReservationList() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String userid = authentication.getName();
-        return reservationRepository.findByUserUseridAndStatus(userid, "예약 중");
-    }
-
-    public String addReservedRoomCount(Long reservationId) {
+    public void deleteReservationRoomCount(Long reservationId) {
         Reservation reservation = reservationRepository.findById(reservationId).get();
 
         Room room = reservation.getRoom();
 
-        // Parse the strings to LocalDate objects
+        // 날짜 문자열을 LocalDate로 변환
         LocalDate date1 = LocalDate.parse(reservation.getCheckin());
         LocalDate date2 = LocalDate.parse(reservation.getCheckout());
 
-        // Calculate the number of days between the two dates
+        // 두 날짜 사이의 일수 계산
         long daysDifference = ChronoUnit.DAYS.between(date1, date2);
 
-        // Create a list containing LocalDate objects for each day between the two dates
+        // 두 날짜를 포함한 사이의 날짜 List 생성
         List<LocalDate> dateList = new ArrayList<>();
         for (int i = 0; i <= daysDifference - 1; i++) {
             dateList.add(date1.plusDays(i));
@@ -163,47 +163,16 @@ public class ReservationService {
         for (LocalDate date : dateList) {
             ReservedRoomCount existingReservedRoomCount = reservedRoomCountRepository.findByDateAndRoomId(String.valueOf(date), room.getId());
 
-            if (existingReservedRoomCount != null) {
-                if (existingReservedRoomCount.getReservedCount() == room.getCount()) {
-                    reservationRepository.deleteById(reservationId);
-                    return "FAILURE_NOVACANCY";
-                } else {
-                    existingReservedRoomCount.setReservedCount(existingReservedRoomCount.getReservedCount() + 1);
-                }
+            existingReservedRoomCount.setReservedCount(existingReservedRoomCount.getReservedCount() - 1);
 
-                try {
-                    reservedRoomCountRepository.save(existingReservedRoomCount);
-                } catch (Exception e) {
-                    e.printStackTrace(); // Handle the exception appropriately
-                    return "FAILURE";
-                }
-            } else {
-                ReservedRoomCount reservedRoomCount = new ReservedRoomCount();
-                reservedRoomCount.setDate(String.valueOf(date));
-                reservedRoomCount.setRoom(room);
-
-                try {
-                    reservedRoomCountRepository.save(reservedRoomCount);
-                } catch (Exception e) {
-                    e.printStackTrace(); // Handle the exception appropriately
-                    return "FAILURE";
-                }
-            }
+            reservedRoomCountRepository.save(existingReservedRoomCount);
         }
-        return "SUCCESS";
     }
-
-    public boolean DeleteReservedRoomCount(int reservationId){
-        Long reservedRoomId = reservationRepository.findById((long)reservationId).get().getRoom().getId();
-        ReservedRoomCount reservedRoomCount = reservedRoomCountRepository.findByRoomId(reservedRoomId);
-        reservedRoomCountRepository.delete(reservedRoomCount);
-        return reservedRoomCountRepository.findById(reservedRoomId).isEmpty();
-    }
-
-    @Transactional
-    public boolean DeleteReservation(int id) {
-        Reservation reservation = reservationRepository.findById((long) id).get();
+  
+    @Transactional(rollbackFor = Exception.class)
+    public boolean deleteReservation(Long reservationId) {
+        Reservation reservation = reservationRepository.findById(reservationId).get();
         reservationRepository.delete(reservation);
-        return reservationRepository.findById((long) id).isEmpty();
+        return reservationRepository.findById(reservationId).isEmpty();
     }
 }

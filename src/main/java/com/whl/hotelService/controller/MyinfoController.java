@@ -71,7 +71,6 @@ public class MyinfoController {
                                    @RequestParam(value="data", required = false) String data,
                                    @RequestParam(value="href", required = false) String href,
                                    HttpServletRequest request, Model model, Authentication authentication){
-        log.info("get information");
         model.addAttribute("auth_msg", "회원정보 수정을 위해 비밀번호가 필요합니다.");
         model.addAttribute("function", function);
 
@@ -104,7 +103,6 @@ public class MyinfoController {
 
     @PostMapping("infoAuth/{password}")
     public @ResponseBody JSONObject infoAuth(@PathVariable String password, Authentication authentication, HttpServletResponse response) throws IOException {
-        log.info("get infoAuth");
         JSONObject obj = new JSONObject();
         boolean isValid = myinfoService.isValid(password, authentication);
         if(isValid) {
@@ -150,7 +148,6 @@ public class MyinfoController {
 
     @PostMapping("deleteinfo")
     public String deleteInfo(String password, String word, Authentication authentication, RedirectAttributes redirectAttributes) throws IOException {
-        log.info("post deleteinfo");
         boolean isDelete = myinfoService.DeleteInfo(password, word, authentication, redirectAttributes);
         if(isDelete) {
             redirectAttributes.addAttribute("data", "회원탈퇴가 완료되었습니다. 이용해주셔서 감사합니다.");
@@ -162,14 +159,12 @@ public class MyinfoController {
 
     @GetMapping("reservationInfo")
     public void ReservationInfo(@RequestParam(value="function", defaultValue = "read") String function, Model model, Authentication authentication){
-        log.info("get reservation");
         model.addAttribute("function", function);
         List<Reservation> reservationList = myinfoService.FindUserReservation(authentication);
         model.addAttribute("reservationList", reservationList);
     }
 
     public String getAccessToken(){
-        log.info("GET /payment/getAccessToken....");
 
         //URL
         String url = "https://api.iamport.kr/users/getToken";
@@ -179,8 +174,8 @@ public class MyinfoController {
         headers.add("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
 
         MultiValueMap<String,String> params = new LinkedMultiValueMap<>();
-        params.add("imp_key","6657073734734057");
-        params.add("imp_secret","0cSYrvl3ygdd4JpYjcbHjzp2wYMGjihJMWQrKhgMSWnQjYD3oYAPzvjFFdeAOYcdIqyfkkwvCb7RIQKD");
+        params.add("imp_key", "7582034642764268");
+        params.add("imp_secret", "JxMwheK2PKBrxFxOifDLwwZvdyzjwDERKj4TzStgSZ06Wmg3oQp7h3WjK3nOfdjXsSXF0ZNgCbBWyPrV");
 
         HttpEntity< MultiValueMap<String,String>> entity = new HttpEntity(params,headers);
 
@@ -191,9 +186,8 @@ public class MyinfoController {
         return resp.getBody().getResponse().getAccess_token();
     }
 
-    @Transactional
     @DeleteMapping("deleteReservation/{id}")
-    public @ResponseBody ResponseEntity<String> DeleteReservation(@PathVariable int id){
+    public @ResponseBody ResponseEntity<String> DeleteReservation(@PathVariable Long id){
         Payment payment = myinfoService.FindUserPayment(id);
 
         String imp_uid = payment.getImpUid();
@@ -217,7 +211,7 @@ public class MyinfoController {
         else if(period.getYears() == 0 && period.getMonths() == 0 && period.getDays() == 1) // 체크인 하루 전에 환불시
             params.add("amount", String.valueOf(payment.getPaidAmount() * 0.8));          // 80% 환불
         else
-            return new ResponseEntity<>("fail", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("fail", HttpStatus.OK);
 
         params.add("reason", "고객 요청에 의한 환불요청");
 
@@ -227,10 +221,13 @@ public class MyinfoController {
 
         ResponseEntity<String> resp =  restTemplate.exchange(url, HttpMethod.POST,entity,String.class);
 
-        if(reservationService.DeleteReservedRoomCount(id) && reservationService.DeleteReservation(id)) {
+        reservationService.deleteReservationRoomCount(id);
+
+        if(reservationService.deleteReservation(id)) {
             return new ResponseEntity<>("Success", HttpStatus.OK);
         }
-        return new ResponseEntity<>("fail", HttpStatus.BAD_REQUEST);
+        else
+            return new ResponseEntity<>("null", HttpStatus.OK);
     }
 
     @GetMapping("inquiryInfo")
@@ -253,6 +250,7 @@ public class MyinfoController {
         model.addAttribute("board", board);
         model.addAttribute("id", id);
         return "user/inquiryInfoDetail";
+
     }
 }
 

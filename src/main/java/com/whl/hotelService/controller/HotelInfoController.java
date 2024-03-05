@@ -11,16 +11,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class HotelInfoController {
     @GetMapping("info")
     public void getInfo() {
-
     }
 
     @GetMapping("history")
     public void getHistory() {
-
     }
 
     @GetMapping("award")
     public void getAward() {
-
     }
 }
