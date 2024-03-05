@@ -1,13 +1,11 @@
 package com.whl.hotelService.controller;
 
-import com.whl.hotelService.domain.common.dto.PaymentDto;
 import com.whl.hotelService.domain.common.dto.ReservationDto;
 import com.whl.hotelService.domain.common.entity.Hotel;
 import com.whl.hotelService.domain.common.entity.Payment;
 import com.whl.hotelService.domain.common.entity.Room;
 import com.whl.hotelService.domain.common.entity.RoomFileInfo;
 import com.whl.hotelService.domain.common.service.ReservationService;
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
@@ -121,6 +119,7 @@ public class ReservationController {
     }
 
     @PostMapping(value = "select")
+    @ResponseBody
     public ResponseEntity<String> postReservationStep1(ReservationDto reservationDto) {
         boolean isInserted = reservationService.insertReservation(reservationDto);
 
@@ -132,8 +131,9 @@ public class ReservationController {
     }
 
     @DeleteMapping(value="delete/{reservationId}")
-    public ResponseEntity<String> deletePayment(@PathVariable("reservationId") String reservationId) {
-        boolean isDeleted = reservationService.DeleteReservation(Integer.parseInt(reservationId));
+    @ResponseBody
+    public ResponseEntity<String> deletePayment(@PathVariable("reservationId") Long reservationId) {
+        boolean isDeleted = reservationService.deleteReservation(reservationId);
 
         if(isDeleted) {
             return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
@@ -174,11 +174,11 @@ public class ReservationController {
 
     @GetMapping("cancel")
     @ResponseBody
-    public void getCancel(Long id) {
+    public void getCancel(@RequestParam(value="reservationId") Long reservationId) {
         // accessToken 받기
         String accessToken = getAccessToken();
 
-        Payment payment = reservationService.getPayment(id);
+        Payment payment = reservationService.getPayment(reservationId);
         String imp_uid = payment.getImpUid();
 
         // URL
@@ -206,7 +206,7 @@ public class ReservationController {
         ResponseEntity<String> resp = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
 
         // DB 삭제
-        reservationService.deleteReservationRoomCount(id);
-        reservationService.DeleteReservation(Math.toIntExact(id));
+        reservationService.deleteReservationRoomCount(reservationId);
+        reservationService.deleteReservation(reservationId);
     }
 }

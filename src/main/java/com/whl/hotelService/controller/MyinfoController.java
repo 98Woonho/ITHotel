@@ -195,9 +195,8 @@ public class MyinfoController {
         return resp.getBody().getResponse().getAccess_token();
     }
 
-    @Transactional
     @DeleteMapping("deleteReservation/{id}")
-    public @ResponseBody ResponseEntity<String> DeleteReservation(@PathVariable int id){
+    public @ResponseBody ResponseEntity<String> DeleteReservation(@PathVariable Long id){
         Payment payment = myinfoService.FindUserPayment(id);
 
         String imp_uid = payment.getImpUid();
@@ -231,9 +230,9 @@ public class MyinfoController {
 
         ResponseEntity<String> resp =  restTemplate.exchange(url, HttpMethod.POST,entity,String.class);
 
-        reservationService.deleteReservationRoomCount((long)id);
+        reservationService.deleteReservationRoomCount(id);
 
-        if(reservationService.DeleteReservation(id)) {
+        if(reservationService.deleteReservation(id)) {
             return new ResponseEntity<>("Success", HttpStatus.OK);
         }
         else

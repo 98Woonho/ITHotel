@@ -142,8 +142,8 @@ public class ReservationService {
 
     // 예약을 취소할 때, 예약된 객실 개수 차감
     @Transactional(rollbackFor = Exception.class)
-    public void deleteReservationRoomCount(Long id) {
-        Reservation reservation = reservationRepository.findById(id).get();
+    public void deleteReservationRoomCount(Long reservationId) {
+        Reservation reservation = reservationRepository.findById(reservationId).get();
 
         Room room = reservation.getRoom();
 
@@ -170,9 +170,9 @@ public class ReservationService {
     }
   
     @Transactional(rollbackFor = Exception.class)
-    public boolean DeleteReservation(int id) {
-        Reservation reservation = reservationRepository.findById((long) id).get();
+    public boolean deleteReservation(Long reservationId) {
+        Reservation reservation = reservationRepository.findById(reservationId).get();
         reservationRepository.delete(reservation);
-        return reservationRepository.findById((long) id).isEmpty();
+        return reservationRepository.findById(reservationId).isEmpty();
     }
 }

@@ -1,7 +1,7 @@
 const cancelReservation = (button) => {
-    const id = button.getAttribute('id');
+    const reservationId = button.getAttribute('reservationId');
 
-    axios.get("/reservation/cancel?id=" + id)
+    axios.get("/reservation/cancel?reservationId=" + reservationId)
         .then(
             res => {
                 alert('예약 취소가 완료 되었습니다.');

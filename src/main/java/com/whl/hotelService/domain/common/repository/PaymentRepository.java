@@ -13,5 +13,5 @@ public interface PaymentRepository extends JpaRepository<Payment, Long> {
 
     List<Payment> findAllByReservationRoomHotelRegion(String region);
 
-    Payment findByReservationId(long id);
+    Payment findByReservationId(Long id);
 }

@@ -35,7 +35,6 @@ document.addEventListener('mousemove', function (event) {
                         window.history.back();
                     })
                     .catch(err => {
-                        console.log(err);
                         isDeleteExecuted = false;
                     })
             }
