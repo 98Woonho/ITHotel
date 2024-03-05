@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="/css/user/myinfo.css">
 
     <!-- js -->
-    <script defer src="/js/user/questionInfo.js"></script>
+    <script defer src="/js/user/inquiryInfo.js"></script>
 </head>
 <body>
 
@@ -48,7 +48,7 @@
             <tbody id="main_tbody">
             <tr class="addDetail" th:each="board : ${boardList}">
                 <td>
-                    <a th:href="@{'/user/questionInfo/' + ${board.id}}">
+                    <a th:href="@{'/user/inquiryInfo/' + ${board.id}}">
                     <span th:text="${board.title}"></span>
                     </a>
                 </td>
@@ -87,7 +87,7 @@
 
                 <li th:classappend="${boardList.first} ? 'disabled'" class="page-item">
                     <a class="page-link"
-                       th:href="${boardList.first} ? '#' : @{/user/questionInfo?function=read(page=${pageNumber - 1})}"
+                       th:href="${boardList.first} ? '#' : @{/user/inquiryInfo?function=read(page=${pageNumber - 1})}"
                        aria-label="Previous">
                         <span aria-hidden="true">이전</span>
                     </a>
@@ -95,11 +95,11 @@
                 <li th:each="page: ${#numbers.sequence(startPage, endPage)}"
                     th:classappend="${page == pageNumber + 1} ? 'active'" class="page-item">
                     <a th:text="${page}" class="page-link"
-                       th:href="@{/user/questionInfo?function=read(page=${page - 1})}"></a>
+                       th:href="@{/user/inquiryInfo?function=read(page=${page - 1})}"></a>
                 </li>
                 <li th:classappend="${boardList.last} ? 'disabled'" class="page-item">
                     <a class="page-link"
-                       th:href="${boardList.last} ? '#' : @{/user/questionInfo?function=read(page=${pageNumber + 1})}"
+                       th:href="${boardList.last} ? '#' : @{/user/inquiryInfo?function=read(page=${pageNumber + 1})}"
                        aria-label="Next">
                         <span aria-hidden="true">다음</span>
                     </a>
@@ -119,12 +119,6 @@
 
 </body>
 <script>
-    const listReq = () => {
-        if (history.length > 1) {
-            history.back();
-        } else {
-            window.close();
-        }
-    }
+
 </script>
 </html>

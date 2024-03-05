@@ -11,7 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Setter
 @Builder
 @Entity
-public class NoticeImage extends BaseEntity {
+public class NoticeBoardImage extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id; // 이미지 인덱스 확인용
@@ -22,9 +22,9 @@ public class NoticeImage extends BaseEntity {
     @Column(columnDefinition = "LONGBLOB")
     private byte[] data; // 공지게시판 이미지 데이터 저장 용량
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="notice_board_id", foreignKey = @ForeignKey(name="fk_notice_image_notice_board_id", foreignKeyDefinition = "FOREIGN KEY(notice_board_id) REFERENCES notice_board(id) ON DELETE CASCADE ON UPDATE CASCADE"))
+    @JoinColumn(name="notice_board_id", foreignKey = @ForeignKey(name="fk_notice_board_image_notice_board_id", foreignKeyDefinition = "FOREIGN KEY(notice_board_id) REFERENCES notice_board(id) ON DELETE CASCADE ON UPDATE CASCADE"))
     private NoticeBoard noticeBoard; // 공지게시판 부모키로 이미지를 외래키로 조인하여 공지게시판 삭제시 이미지파일도 같이 삭제
-    public NoticeImage(MultipartFile file) throws IOException, java.io.IOException {
+    public NoticeBoardImage(MultipartFile file) throws IOException, java.io.IOException {
         super();
         this.name = file.getOriginalFilename();
         this.type = file.getContentType();

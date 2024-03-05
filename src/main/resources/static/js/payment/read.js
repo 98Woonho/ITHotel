@@ -117,7 +117,7 @@ payButton.addEventListener('click', function () {
         pay_method = "phone";
     }
 
-    IMP.init("imp13376034");
+    IMP.init("imp40654467");
 
     IMP.request_pay({
             pg: pg,

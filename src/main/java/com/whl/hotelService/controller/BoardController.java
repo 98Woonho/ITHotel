@@ -7,7 +7,7 @@ import com.whl.hotelService.domain.common.dto.HotelDto;
 import com.whl.hotelService.domain.common.entity.Hotel;
 import com.whl.hotelService.domain.common.entity.NoticeBoard;
 import com.whl.hotelService.domain.common.entity.NoticeBoardFileInfo;
-import com.whl.hotelService.domain.common.service.AdminBoardService;
+import com.whl.hotelService.domain.common.service.InquiryBoardService;
 import com.whl.hotelService.domain.common.service.BoardService;
 import com.whl.hotelService.domain.common.service.HotelService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -34,8 +34,6 @@ public class BoardController {
     @Autowired
     private BoardService boardService;
     @Autowired
-    private AdminBoardService adminBoardService;
-    @Autowired
     private HotelService hotelService;
 
     @GetMapping("/inquiryForm")
@@ -45,16 +43,16 @@ public class BoardController {
         model.addAttribute("hotelnames", hotelnames);
     }
 
-    @PostMapping("/inquiryForm") // 게시판 글쓰기 로그인된 유저만 글을 쓸수 있음
-    public String inquiry(BoardDto boardDto, Authentication authentication) {
+    @PostMapping("/inquiryForm") // 문의 게시판 글쓰기 로그인된 유저만 글을 쓸수 있음
+    public String inquiryFromWrite(BoardDto boardDto, Authentication authentication) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        adminBoardService.saveBoard(boardDto, userDetails.getUsername());
-        return "redirect:/user/questionInfo?function=read";
+        boardService.saveInquiryBoard(boardDto, userDetails.getUsername());
+        return "redirect:/user/inquiryInfo?function=read";
     }
 
     @GetMapping("/question/{id}") // 자주하는 질문 조회 수정
     public String boardDetail(@PathVariable Long id, Model model) {
-        BoardDto board = boardService.boardDetail(id);
+        BoardDto board = boardService.questionBoardDetail(id);
         model.addAttribute("board", board);
         model.addAttribute("id", id);
 
@@ -64,8 +62,8 @@ public class BoardController {
     @GetMapping("/question") // 게시판 전체 조회 + paging 처리 + 검색처리 + 답변완료 처리
     public void boardList(Model model, @PageableDefault(page = 0, size = 10, sort = "id") Authentication authentication, Pageable pageable, String keyword, String type) {
 
-        Page<BoardDto> boardList = boardService.boardList(pageable);
-        Page<BoardDto> boardSerchList = boardService.searchingBoardList(keyword, type, pageable);
+        Page<BoardDto> boardList = boardService.questionBoardList(pageable);
+        Page<BoardDto> boardSerchList = boardService.searchingQuestionBoardList(keyword, type, pageable);
         if (keyword == null) {
             model.addAttribute("boardList", boardList);
         } else {
@@ -76,7 +74,7 @@ public class BoardController {
     @GetMapping("/question/{id}/update") // 게시판 업데이트화면 이동
     public String boardUpdateForm(@PathVariable Long id, Authentication authentication, Model model) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal(); //로그인된 회원을 조회해서
-        BoardDto board = boardService.boardDetail(id);
+        BoardDto board = boardService.questionBoardDetail(id);
         if (!(board.getUserid().equals(userDetails.getUsername()))) { //확인해서 같으면 수정페이지 이동
             return "redirect:/";
         } else {
@@ -89,7 +87,7 @@ public class BoardController {
 
     @PostMapping("/question/{id}/update") // 게시글 업데이트
     public String boardUpdate(@PathVariable Long id, BoardDto boardDto) {
-        boardService.boardUpdate(id, boardDto);
+        boardService.questionBoardUpdate(id, boardDto);
 
         return "redirect:/board/question/{id}";
     }
@@ -97,11 +95,11 @@ public class BoardController {
     @GetMapping("/question/{id}/remove") // 게시판 삭제
     public String boardRemove(@PathVariable Long id, Authentication authentication) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        BoardDto board = boardService.boardDetail(id);
+        BoardDto board = boardService.questionBoardDetail(id);
         if (!(board.getUserid().equals(userDetails.getUsername()))) {
             return "redirect:/";
         } else {
-            boardService.boardRemove(id);
+            boardService.questionBoardRemove(id);
             return "redirect:/board/question";
         }
     }
@@ -117,7 +115,7 @@ public class BoardController {
     }
     @GetMapping("noticeList")
     public void noticeBoardList(BoardFileDto boardFileDto, Model model) throws IOException {
-        List<BoardFileDto> noticeBoardList = adminBoardService.noticeBoardList(boardFileDto);
+        List<BoardFileDto> noticeBoardList = boardService.noticeBoardList(boardFileDto);
 
         model.addAttribute("noticeBoardList", noticeBoardList);
     }
@@ -176,7 +174,7 @@ public class BoardController {
     @DeleteMapping("delete")
     @ResponseBody
     public String deleteNotice(@RequestParam(value = "id") Long id) {
-        adminBoardService.deleteNotice(id);
+        boardService.deleteNotice(id);
 
         return "SUCCESS";
     }

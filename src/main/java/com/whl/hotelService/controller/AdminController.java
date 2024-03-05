@@ -4,7 +4,7 @@ import com.whl.hotelService.domain.common.dto.BoardDto;
 import com.whl.hotelService.domain.common.dto.BoardFileDto;
 import com.whl.hotelService.domain.common.dto.CommentDto;
 import com.whl.hotelService.domain.common.entity.*;
-import com.whl.hotelService.domain.common.service.AdminBoardService;
+import com.whl.hotelService.domain.common.service.InquiryBoardService;
 import com.whl.hotelService.domain.common.service.AdminService;
 import com.whl.hotelService.domain.common.service.BoardService;
 import lombok.extern.slf4j.Slf4j;
@@ -37,8 +37,6 @@ public class AdminController {
     @Autowired
     private AdminService adminService;
     @Autowired
-    private AdminBoardService adminBoardService;
-    @Autowired
     private BoardService boardService;
 
 
@@ -49,16 +47,16 @@ public class AdminController {
     }
 
     @GetMapping("inquiryList")
-    public JSONObject adminBoardList(Model model,
+    public JSONObject inquiryBoardList(Model model,
                                      @PageableDefault(page = 0, size = 10, sort = "id") Pageable pageable,
                                      @RequestParam(name = "keyword", required = false) String keyword,
                                      @RequestParam(name = "type", required = false) String type) {
 
         model.addAttribute("type", type);
 
-        Page<BoardDto> boardList = adminBoardService.boardList(pageable);
-        Page<BoardDto> boardSearchList = adminBoardService.searchingBoardList(keyword, type, pageable);
-        Page<CommentDto> commentList = adminBoardService.commentList(pageable);
+        Page<BoardDto> boardList = boardService.inquiryBoardList(pageable);
+        Page<BoardDto> boardSearchList = boardService.searchingInquiryBoardList(keyword, type, pageable);
+        Page<CommentDto> commentList = boardService.commentList(pageable);
         if (keyword == null) {
             model.addAttribute("boardList", boardList);
             model.addAttribute("commentList", commentList);
@@ -75,8 +73,8 @@ public class AdminController {
 
     @GetMapping("/inquiryList/{id}") // 게시판 조회
     public String adminBoardDetail(@PathVariable Long id, Model model) {
-        BoardDto board = adminBoardService.boardDetail(id);
-        List<CommentDto> commentDtos = adminBoardService.commentList(id);
+        BoardDto board = boardService.inquiryBoardDetail(id);
+        List<CommentDto> commentDtos = boardService.commentList(id);
         model.addAttribute("comments", commentDtos);
         model.addAttribute("board", board);
         model.addAttribute("id", id);
@@ -84,27 +82,27 @@ public class AdminController {
         return "admin/inquiryListDetail";
     }
 
-    @GetMapping("/inquiryList/{id}/adminRemove") // 게시판 삭제
-    public String adminBoardRemove(@PathVariable Long id) {
-        adminBoardService.boardRemove(id);
+    @GetMapping("/inquiryList/{id}/adminRemove") // 관리자가 나의문의 게시판 삭제
+    public String inquiryBoardRemoveByAdmin(@PathVariable Long id) {
+        boardService.inquiryBoardRemove(id);
         return "redirect:/admin/inquiryList";
     }
 
-    @GetMapping("/questionInfo/{id}/adminRemove") // 게시판 삭제
-    public String questionInfoBoardRemove(@PathVariable Long id) {
-        adminBoardService.boardRemove(id);
-        return "redirect:/user/questionInfo?function=read";
+    @GetMapping("/inquiryInfo/{id}/Remove") // 회원이 나의문의 게시판 삭제
+    public String inquiryBoardRemoveByUser(@PathVariable Long id) {
+        boardService.inquiryBoardRemove(id);
+        return "redirect:/user/inquiryInfo?function=read";
     }
 
     @GetMapping("/questionWrite")
-    public void adminWrite(){
+    public void questionWrite(){
 
     }
 
     @PostMapping("/questionWrite") // 관리자 게시판 글쓰기
-    public String write(BoardDto boardDto, Authentication authentication) {
+    public String questionFromWrite(BoardDto boardDto, Authentication authentication) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        boardService.saveBoard(boardDto, userDetails.getUsername());
+        boardService.saveQuestionBoard(boardDto, userDetails.getUsername());
         return "redirect:/board/question";
     }
     @GetMapping("/noticeWrite")
@@ -115,7 +113,7 @@ public class AdminController {
     @ResponseBody
     public String noticeWrite(BoardFileDto boardFileDto, Authentication authentication) throws IOException {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        adminBoardService.fileAttach(boardFileDto, userDetails.getUsername());
+        boardService.fileAttach(boardFileDto, userDetails.getUsername());
         return "SUCCESS";
     }
     @GetMapping("modifyNotice/{id}")
@@ -130,20 +128,20 @@ public class AdminController {
     @ResponseBody
     public String putModifyNotice(@PathVariable Long id, BoardFileDto boardFileDto, Authentication authentication) throws IOException {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        adminBoardService.modifyNotice(id, boardFileDto, userDetails.getUsername());
+        boardService.modifyNotice(id, boardFileDto, userDetails.getUsername());
         return "SUCCESS";
     }
     @GetMapping("image")
     public ResponseEntity<byte[]> getImage(@RequestParam("id") long id){
         ResponseEntity<byte[]> response;
-        NoticeImage noticeImage = adminBoardService.getImage(id);
-        if (noticeImage == null){
+        NoticeBoardImage noticeBoardImage = boardService.getImage(id);
+        if (noticeBoardImage == null){
             response = new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else {
             HttpHeaders httpHeaders = new HttpHeaders();
-            httpHeaders.setContentLength(noticeImage.getSize());
-            httpHeaders.setContentType(MediaType.parseMediaType(noticeImage.getType()));
-            response = new ResponseEntity<>(noticeImage.getData(), httpHeaders, HttpStatus.OK);
+            httpHeaders.setContentLength(noticeBoardImage.getSize());
+            httpHeaders.setContentType(MediaType.parseMediaType(noticeBoardImage.getType()));
+            response = new ResponseEntity<>(noticeBoardImage.getData(), httpHeaders, HttpStatus.OK);
         }
         return response;
     }
@@ -152,11 +150,11 @@ public class AdminController {
     @PostMapping("image")
     @ResponseBody
     public String postImage(@RequestParam("upload") MultipartFile file) throws IOException{
-        NoticeImage noticeImage = new NoticeImage(file);
-        String result = adminBoardService.uploadImage(noticeImage);
+        NoticeBoardImage noticeBoardImage = new NoticeBoardImage(file);
+        String result = boardService.uploadImage(noticeBoardImage);
         JSONObject responseObject = new JSONObject();
         if (result.equals("SUCCESS")){
-            responseObject.put("url", "/admin/image?id=" + noticeImage.getId());
+            responseObject.put("url", "/admin/image?id=" + noticeBoardImage.getId());
         } else {
             JSONObject messageObject = new JSONObject();
             messageObject.put("message", "알 수 없는 이유로 이미지를 업로드 하지 못하였습니다.");
@@ -170,7 +168,7 @@ public class AdminController {
                                @RequestParam("content")String content,
                                Authentication authentication) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        adminBoardService.writeComment(id, content, userDetails.getUsername());
+        boardService.writeComment(id, content, userDetails.getUsername());
         return "redirect:/admin/inquiryList/" + id;
     }
 
@@ -179,13 +177,13 @@ public class AdminController {
     public String updateComment(@PathVariable Long id,
                                 @PathVariable Long commentId,
                                 @RequestParam("content")String content) {
-        adminBoardService.updateComment(content, commentId);
+        boardService.updateComment(content, commentId);
         return "/admin/inquiryList/" + id;
     }
 
     @GetMapping("{id}/comment/{commentId}/remove") // 답변삭제
     public String deleteComment(@PathVariable Long id, @PathVariable Long commentId) {
-        adminBoardService.deleteComment(commentId);
+        boardService.deleteComment(commentId);
         System.out.println(id);
         return "redirect:/admin/inquiryList/" + id;
     }
