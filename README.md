@@ -23,6 +23,9 @@ WEB PROJECT PLANING
 
 <br/>
 
+## ▶️ ERD
+![ITHOTEL ERD](https://github.com/98Woonho/ITHotel/assets/145889732/e2fcbf21-d3f8-477e-a2b9-2ead065e483f)
+
 ## ▶️ 개발 환경
 ##### IDE : IntelliJ Ultimate
 ##### OpenJDK 21
