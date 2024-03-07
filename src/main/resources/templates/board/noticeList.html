@@ -39,7 +39,6 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <!-- 댓글 !-->
                     <tr th:each="noticeBoard : ${noticeBoardList}">
                         <td>
                             <a th:href="@{'/board/noticeList/' + ${noticeBoard.id}}">
@@ -52,6 +51,36 @@
                     </tr>
                     </tbody>
                 </table>
+                <div th:if="${!noticeBoardList.isEmpty()}">
+                    <ul class="pagination" style="justify-content: center"
+                        th:with="
+            pageNumber = ${noticeBoardList.pageable.pageNumber},
+            pageSize = ${noticeBoardList.pageable.pageSize},
+            totalPages = ${noticeBoardList.totalPages},
+            startPage = ${T(java.lang.Math).floor(pageNumber / pageSize) * pageSize + 1},
+            tempEndPage = ${startPage + pageSize - 1},
+            endPage = (${tempEndPage < totalPages ? tempEndPage : totalPages})">
+
+                        <li th:classappend="${noticeBoardList.first} ? 'disabled'" class="page-item">
+                            <a class="page-link"
+                               th:href="${noticeBoardList.first} ? '#' : @{/board/noticeList(page=${pageNumber - 1})}"
+                               aria-label="Previous">
+                                <span aria-hidden="true">이전</span>
+                            </a>
+                        </li>
+                        <li th:each="page: ${#numbers.sequence(startPage, endPage)}"
+                            th:classappend="${page == pageNumber + 1} ? 'active'" class="page-item">
+                            <a th:text="${page}" class="page-link"
+                               th:href="@{/board/noticeList(page=${page - 1})}"></a>
+                        </li>
+                        <li th:classappend="${noticeBoardList.last} ? 'disabled'" class="page-item">
+                            <a class="page-link" th:href="${noticeBoardList.last} ? '#' : @{/board/noticeList(page=${pageNumber + 1})}"
+                               aria-label="Next">
+                                <span aria-hidden="true">다음</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
