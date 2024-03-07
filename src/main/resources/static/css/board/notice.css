@@ -74,3 +74,14 @@ body > .content-container-wrapper > .content-container {
     color: black;
     font-weight: 500;
 }
+.page-link {
+    border: unset!important;
+}
+.page-item.active > .page-link{
+    background-color: rgb(32, 150, 243)!important;
+}
+
+.page-link > span {
+    font-weight: bold;
+    color: gray;
+}

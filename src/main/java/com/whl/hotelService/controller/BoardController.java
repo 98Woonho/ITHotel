@@ -113,8 +113,10 @@ public class BoardController {
         model.addAttribute("hotels", hotels);
     }
     @GetMapping("noticeList")
-    public void noticeBoardList(BoardFileDto boardFileDto, Model model) throws IOException {
-        List<BoardFileDto> noticeBoardList = boardService.noticeBoardList(boardFileDto);
+    public void noticeBoardList(@PageableDefault(page = 0, size = 10, sort = "id") Pageable pageable,
+                                BoardFileDto boardFileDto,
+                                Model model) throws IOException {
+        Page<BoardFileDto> noticeBoardList = boardService.noticeBoardList(pageable, boardFileDto);
 
         model.addAttribute("noticeBoardList", noticeBoardList);
     }

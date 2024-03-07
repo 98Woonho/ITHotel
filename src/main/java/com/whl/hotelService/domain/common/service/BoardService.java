@@ -427,8 +427,8 @@ public class BoardService {
 
 
     @Transactional(rollbackFor = Exception.class)
-    public List<BoardFileDto> noticeBoardList(BoardFileDto boardFileDto){
-        List<NoticeBoard> noticeBoardList = noticeBoardRepsoitory.findAll();
+    public Page<BoardFileDto> noticeBoardList(Pageable pageable, BoardFileDto boardFileDto){
+        Page<NoticeBoard> noticeBoardList = noticeBoardRepsoitory.findAll(pageable);
         List<BoardFileDto> boardDtos = new ArrayList<>();
         for (NoticeBoard board : noticeBoardList) {
             if (boardFileDto.getFileAttached() == null){
@@ -446,7 +446,7 @@ public class BoardService {
                     .build();
             boardDtos.add(result);
         }
-        return boardDtos;
+        return new PageImpl<>(boardDtos, pageable, noticeBoardList.getTotalElements());
     }
 
     @Transactional(rollbackFor = Exception.class)
