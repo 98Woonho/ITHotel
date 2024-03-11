@@ -5,7 +5,7 @@ import com.whl.hotelService.domain.common.entity.Hotel;
 import com.whl.hotelService.domain.common.entity.Payment;
 import com.whl.hotelService.domain.common.entity.Room;
 import com.whl.hotelService.domain.common.entity.RoomFileInfo;
-import com.whl.hotelService.domain.common.service.ReservationService;
+import com.whl.hotelService.service.ReservationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;

@@ -1,4 +1,4 @@
-package com.whl.hotelService.domain.user.service;
+package com.whl.hotelService.service;
 
 import com.whl.hotelService.config.DataSourceConfig;
 import com.whl.hotelService.config.auth.PrincipalDetails;

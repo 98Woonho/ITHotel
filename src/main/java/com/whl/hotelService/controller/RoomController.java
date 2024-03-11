@@ -1,7 +1,7 @@
 package com.whl.hotelService.controller;
 
 import com.whl.hotelService.domain.common.dto.RoomDto;
-import com.whl.hotelService.domain.common.service.RoomService;
+import com.whl.hotelService.service.RoomService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

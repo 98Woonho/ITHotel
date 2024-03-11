@@ -1,4 +1,4 @@
-package com.whl.hotelService.domain.common.service;
+package com.whl.hotelService.service;
 
 import com.whl.hotelService.domain.common.dto.BoardDto;
 import com.whl.hotelService.domain.common.dto.BoardFileDto;

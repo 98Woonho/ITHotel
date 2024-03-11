@@ -1,4 +1,4 @@
-package com.whl.hotelService.domain.common.service;
+package com.whl.hotelService.service;
 
 import com.whl.hotelService.domain.common.entity.*;
 import com.whl.hotelService.domain.common.repository.*;
