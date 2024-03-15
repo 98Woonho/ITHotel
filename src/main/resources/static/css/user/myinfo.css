@@ -59,6 +59,7 @@
 
 .user-container > .user-right > .information-info-container {
     margin-top: 5rem;
+    padding: 0.5rem 1rem;
     min-height: 500px;
     max-height: 1000px;
     border: 0.0625rem solid black;
@@ -74,4 +75,16 @@
 .page-link > span {
     font-weight: bold;
     color: gray;
+}
+
+.information-info-container .sub-title-container {
+    margin-bottom: 0.75rem;
+}
+
+.information-info-container .info-content-container {
+    margin-bottom: 0.35rem;
+}
+
+.information-info-container label {
+    font-weight: 500;
 }
