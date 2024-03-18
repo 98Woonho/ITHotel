@@ -10,10 +10,14 @@ input:focus {
 }
 
 #main {
-    align-items: center;
+    align-items: stretch;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+}
+
+.content-container {
+    margin: 0 auto;
 }
 
 .slide-container {
@@ -22,6 +26,7 @@ input:focus {
 }
 
 .slide {
+    z-index: 1;
     overflow: hidden;
     margin: 0 auto;
     position: relative;
@@ -49,6 +54,7 @@ input:focus {
 }
 
 .slide button.prev {
+    z-index: 10;
     position: absolute;
     left: 0;
     top: 50%;
@@ -58,6 +64,7 @@ input:focus {
 }
 
 .slide button.next {
+    z-index: 10;
     position: absolute;
     right: 0;
     top: 50%;
