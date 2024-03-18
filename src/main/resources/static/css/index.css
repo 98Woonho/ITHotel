@@ -10,14 +10,10 @@ input:focus {
 }
 
 #main {
-    align-items: stretch;
+    align-items: center;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-}
-
-.content-container {
-    margin: 0 auto;
 }
 
 .slide-container {
@@ -53,7 +49,6 @@ input:focus {
 }
 
 .slide button.prev {
-    z-index: 10;
     position: absolute;
     left: 0;
     top: 50%;
@@ -63,7 +58,6 @@ input:focus {
 }
 
 .slide button.next {
-    z-index: 10;
     position: absolute;
     right: 0;
     top: 50%;
@@ -130,6 +124,11 @@ input:focus {
     margin-bottom: 5rem;
     width: 100%;
     height: 600px;
+}
+
+.swiper .text {
+    font-size: 1.2rem;
+    font-weight: 500;
 }
 
 .swiper.visible {
@@ -246,8 +245,11 @@ input:focus {
 }
 
 .chat-icon {
+    position: fixed;
+    z-index: 999;
     cursor: pointer;
-    float: right;
+    bottom: 30px;
+    right: 80px;
     padding: 10px;
     border-radius: 50%;
     background-color: white;

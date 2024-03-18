@@ -73,12 +73,12 @@
 
                             <li th:classappend="${boardList.first} ? 'disabled'" class="page-item">
                                 <a class="page-link" th:if="${param.keyword == null}"
-                                   th:href="${boardList.first} ? '#' : @{/board/list(page=${pageNumber - 1})}"
+                                   th:href="${boardList.first} ? '#' : @{/board/question(page=${pageNumber - 1})}"
                                    aria-label="Previous">
                                     <span aria-hidden="true">이전</span>
                                 </a>
                                 <a class="page-link" th:if="${param.keyword != null}"
-                                   th:href="${boardList.first} ? '#' : @{/board/list(page=${pageNumber - 1}, type=${param.type}, keyword=${param.keyword})}"
+                                   th:href="${boardList.first} ? '#' : @{/board/question(page=${pageNumber - 1}, type=${param.type}, keyword=${param.keyword})}"
                                    aria-label="Previous">
                                     <span aria-hidden="true">이전</span>
                                 </a>
@@ -87,18 +87,18 @@
                             <li th:each="page: ${#numbers.sequence(startPage, endPage)}"
                                 th:classappend="${page == pageNumber + 1} ? 'active'" class="page-item">
                                 <a th:text="${page}" th:if="${param.keyword == null}" class="page-link"
-                                   th:href="@{/board/list(page=${page - 1})}"></a>
+                                   th:href="@{/board/question(page=${page - 1})}"></a>
                                 <a th:text="${page}" th:if="${param.keyword != null}" class="page-link"
-                                   th:href="@{/board/list(page=${page - 1}, type=${param.type}, keyword=${param.keyword})}"></a>
+                                   th:href="@{/board/question(page=${page - 1}, type=${param.type}, keyword=${param.keyword})}"></a>
                             </li>
 
                             <li th:classappend="${boardList.last} ? 'disabled'" class="page-item">
                                 <a class="page-link" th:if="${param.keyword == null}"
-                                   th:href="${boardList.last} ? '#' : @{/board/list(page=${pageNumber + 1})}" aria-label="Next">
+                                   th:href="${boardList.last} ? '#' : @{/board/question(page=${pageNumber + 1})}" aria-label="Next">
                                     <span aria-hidden="true">다음</span>
                                 </a>
                                 <a class="page-link" th:if="${param.keyword != null}"
-                                   th:href="${boardList.last} ? '#' : @{/board/list(page=${pageNumber + 1}, type=${param.type}, keyword=${param.keyword})}"
+                                   th:href="${boardList.last} ? '#' : @{/board/question(page=${pageNumber + 1}, type=${param.type}, keyword=${param.keyword})}"
                                    aria-label="Next">
                                     <span aria-hidden="true">다음</span>
                                 </a>
