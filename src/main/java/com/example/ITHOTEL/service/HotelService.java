@@ -154,21 +154,25 @@ public class HotelService {
         }
 
         // 추가 이미지
-        for (String fileName : hotelDto.getFileNames()) {
-            for (MultipartFile file : hotelDto.getFiles()) {
-                if (Objects.equals(fileName, file.getOriginalFilename())) {
-                    File fileobj = new File(dir, file.getOriginalFilename());    //파일객체생성
+        if (hotelDto.getFileNames() != null) {
+            for (String fileName : hotelDto.getFileNames()) {
+                if (hotelDto.getFiles() != null) {
+                    for (MultipartFile file : hotelDto.getFiles()) {
+                        if (Objects.equals(fileName, file.getOriginalFilename())) {
+                            File fileobj = new File(dir, file.getOriginalFilename());    //파일객체생성
 
-                    if (!fileobj.exists()) {
-                        // DB에 파일경로 저장
-                        HotelFileInfo hotelFileInfo = new HotelFileInfo();
-                        hotelFileInfo.setHotel(hotel);
-                        String dirPath = File.separator + "hotelimage" + File.separator + hotelDto.getHotelName() + File.separator;
-                        hotelFileInfo.setDir(dirPath);
-                        hotelFileInfo.setFileName(file.getOriginalFilename());
-                        hotelFileInfoRepository.save(hotelFileInfo);
+                            if (!fileobj.exists()) {
+                                // DB에 파일경로 저장
+                                HotelFileInfo hotelFileInfo = new HotelFileInfo();
+                                hotelFileInfo.setHotel(hotel);
+                                String dirPath = File.separator + "hotelimage" + File.separator + hotelDto.getHotelName() + File.separator;
+                                hotelFileInfo.setDir(dirPath);
+                                hotelFileInfo.setFileName(file.getOriginalFilename());
+                                hotelFileInfoRepository.save(hotelFileInfo);
+                            }
+                            file.transferTo(fileobj);   //저장
+                        }
                     }
-                    file.transferTo(fileobj);   //저장
                 }
             }
         }
@@ -209,7 +213,7 @@ public class HotelService {
 
         File[] hotelFiles = hotelDir.listFiles();
 
-        for(File file : hotelFiles) {
+        for (File file : hotelFiles) {
             file.delete();
         }
 
@@ -247,7 +251,8 @@ public class HotelService {
             e.printStackTrace();
         }
     }
-    public List<Hotel> hotelContact(HotelDto hotelDto){
+
+    public List<Hotel> hotelContact(HotelDto hotelDto) {
         Hotel hotel = Hotel.builder()
                 .hotelName(hotelDto.getHotelName())
                 .region(hotelDto.getRegion())

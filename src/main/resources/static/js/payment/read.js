@@ -1,3 +1,8 @@
+const price = document.querySelector('.price');
+
+priceText = price.innerText;
+price.innerText = priceText + '원';
+
 const createdAt = document.querySelector('.created-at');
 
 const createdAtDate = new Date(createdAt.value);

@@ -58,11 +58,11 @@
                     <ul class="user-info">
                         <li>
                             <span class="text bold">이름</span>
-                            <span class="name text" th:text="${reservation.user.name}"></span>
+                            <span class="name" th:text="${reservation.user.name}"></span>
                         </li>
                         <li>
                             <span class="text bold">연락처</span>
-                            <span class="contact text" th:text="${reservation.user.phone}"></span>
+                            <span class="contact" th:text="${reservation.user.phone}"></span>
                         </li>
                     </ul>
                     <span class="text subtitle">결제 수단</span>
@@ -75,10 +75,12 @@
                     </div>
                 </div>
                 <div class="payment-right">
-                    <span class="text subtitle">결제 금액</span>
+                    <span class="text subtitle">결제 정보</span>
                     <div class="price-container">
-                        <span class="text">결제 금액 및 약관동의 및 결제버튼</span>
-                        <span class="text price" th:text="${reservation.price}"></span>
+                        <div class="price-text-container">
+                            <span class="text bold">결제 금액</span>
+                            <span class="text bold price" th:text="${#numbers.formatInteger(reservation.price, 0, 'COMMA')}"></span>
+                        </div>
                         <button class="pay-button">결제</button>
                     </div>
                 </div>
