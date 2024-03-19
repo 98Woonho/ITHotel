@@ -143,7 +143,7 @@ public class RoomService {
         String[] existingFileNameArray = roomDto.getExistingFileNames();
 
         // 객실 종류가 바뀌지 않았다면 기존 파일 리스트와 수정된 파일 리스트를 비교해서 제거/추가
-        if (Objects.equals(roomDto.getExistingKind(), roomDto.getKind())) {
+        if (Objects.equals(roomDto.getCurrentKind(), roomDto.getKind())) {
 
             File[] files = dir.listFiles();
 
@@ -156,9 +156,9 @@ public class RoomService {
             // 객실 종류가 바꼈으면 기존 파일 리스트와 수정된 파일 리스트를 비교해서 제거/추가 후 객실 파일을 새 dir로 옮김
         } else {
 
-            String existingUploadPath = "c:\\" + File.separator + "roomimage" + File.separator + roomDto.getHotelName() + File.separator + roomDto.getExistingKind();
+            String currentUploadPath = "c:\\" + File.separator + "roomimage" + File.separator + roomDto.getHotelName() + File.separator + roomDto.getCurrentKind();
 
-            File existingDir = new File(existingUploadPath);
+            File existingDir = new File(currentUploadPath);
             if (!existingDir.exists())
                 existingDir.mkdirs();
 
@@ -172,7 +172,7 @@ public class RoomService {
             }
 
             for (String existingFileName : existingFileNameArray) {
-                Path existingFile = Paths.get(existingUploadPath + File.separator + existingFileName);
+                Path existingFile = Paths.get(currentUploadPath + File.separator + existingFileName);
                 Path newFile = Paths.get(uploadPath + File.separator + existingFileName);
 
                 Files.move(existingFile, newFile, StandardCopyOption.REPLACE_EXISTING);
