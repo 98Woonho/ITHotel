@@ -231,12 +231,6 @@ modifyHotelBtn.addEventListener('click', function (e) {
     const mainPreview = document.getElementById('mainPreview');
     const hotelPreview = document.getElementById('hotelPreview');
 
-    let newExistingFileNameArray = [];
-    const existingFileNames = modifyHotel.querySelectorAll('.existing-file-name');
-    existingFileNames.forEach(fileName => {
-        newExistingFileNameArray.push(fileName.value)
-    })
-
     const contactRegex = new RegExp("^\\d{2,3}-\\d{3,4}-\\d{4}$");
 
     if (hotelForm['zipcode'].value === "") {
@@ -274,9 +268,9 @@ modifyHotelBtn.addEventListener('click', function (e) {
         return;
     }
 
-    formData.append("existingFileNames", newExistingFileNameArray);
-    formData.append("mainFileName", mainFileName);
-    formData.append("fileNames", fileNameArray);
+    formData.append("existingFileNames", existingFileNameArray); // 기존에 있던 파일들
+    formData.append("mainFileName", mainFileName); // 대표 파일 이름
+    formData.append("fileNames", fileNameArray); // 추가한 파일들
     formData.append("hotelName", hotelForm['hotelName'].value);
     formData.append("region", hotelForm['region'].value);
     formData.append("addr1", hotelForm['addr1'].value);
