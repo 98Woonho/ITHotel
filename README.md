@@ -1,4 +1,4 @@
-![image](https://github.com/98Woonho/ITHotel/assets/145889732/2b22e8dd-992a-4871-9148-b45e867d6e55)WEB PROJECT PLANING
+WEB PROJECT PLANING
 =
 
 ## ▶️ 개발 동기
