@@ -34,6 +34,7 @@ if (mainForm) {
         axios.post("/admin/noticeWrite", formData, {header: {'Content-Type': 'multipart/form-data'}})
             .then(res => {
                 if (res.data === "SUCCESS") {
+                    console.log(res);
                     alert('공지사항 등록이 완료되었습니다.');
                     location.href = "/board/noticeList";
                 }

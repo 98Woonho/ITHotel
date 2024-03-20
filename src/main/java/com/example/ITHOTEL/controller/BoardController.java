@@ -59,7 +59,7 @@ public class BoardController {
     }
 
     @GetMapping("/question") // 게시판 전체 조회 + paging 처리 + 검색처리 + 답변완료 처리
-    public void boardList(Model model, @PageableDefault(page = 0, size = 10, sort = "id") Authentication authentication, Pageable pageable, String keyword, String type) {
+    public void boardList(@PageableDefault(page = 0, size = 10)Pageable pageable, Authentication authentication, Model model, String keyword, String type) {
 
         Page<BoardDto> boardList = boardService.questionBoardList(pageable);
         Page<BoardDto> boardSerchList = boardService.searchingQuestionBoardList(keyword, type, pageable);
