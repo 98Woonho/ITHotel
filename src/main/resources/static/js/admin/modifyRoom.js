@@ -1,42 +1,26 @@
-const hotelSelect = document.getElementById('hotelSelect');
-const roomSelect = document.getElementById('roomSelect');
 const modifyRoomForm = document.getElementById('modifyRoomForm');
 const hotelName = document.getElementById('hotelName').value;
 const formData = new FormData();
 
-
-function selectHotel() {
-    location.href = "/admin/modifyRoom?hotelName=" + hotelSelect.value;
-}
-
-function selectRoom() {
-    location.href = "/admin/modifyRoom?hotelName=" + hotelName + "&roomKind=" + roomSelect.value;
-}
-
-let kind = modifyRoomForm['kind'];
-
-kind.addEventListener('input', function() {
-    if(kind.classList.contains("confirmed")) {
-        kind.classList.remove("confirmed");
+modifyRoomForm['kind'].addEventListener('input', function() {
+    if(modifyRoomForm['kind'].classList.contains("confirmed")) {
+        modifyRoomForm['kind'].classList.remove("confirmed");
     }
 })
 
-function confirmDuplication() {
-    currentKind = modifyRoomForm['currentKind'];
-    kind = modifyRoomForm['kind'];
-
-    if(kind.value === "") {
+modifyRoomForm['confirmRoomKindDuplicationBtn'].addEventListener('click', function() {
+    if(modifyRoomForm['kind'].value === "") {
         alert("객실 종류를 입력해 주세요.");
         return;
     }
 
-    if(kind.value === currentKind.value) {
+    if(modifyRoomForm['kind'].value === modifyRoomForm['currentKind'].value) {
         alert("기존 객실 종류와 동일합니다.");
-        kind.classList.add("confirmed");
+        modifyRoomForm['kind'].classList.add("confirmed");
         return;
     }
 
-    axios.get("/room/confirmKind?kind=" + encodeURIComponent(kind.value) + "&hotelName=" + hotelName)
+    axios.get("/room/confirmKind?kind=" + encodeURIComponent(modifyRoomForm['kind'].value) + "&hotelName=" + hotelName)
         .then(res => {
             if (res.data === "FAILURE_DUPLICATED_KIND") {
                 alert("이미 존재하는 객실 종류입니다. 다른 객실 종류를 입력해 주세요.");
@@ -48,7 +32,9 @@ function confirmDuplication() {
         .catch(err => {
             console.log(err);
         })
-}
+})
+
+
 
 
 
@@ -127,7 +113,7 @@ mainUploadBox.addEventListener('drop', function (e) {
                 <li class="item">
                     <input hidden type="text" class="file-name" id="mainFileName" th:value="${file.name}">
                     <img src="${src}" alt="">
-                    <a class="btn btn-secondary delete-btn">삭제</a>
+                    <button type="button" class="btn btn-secondary ms-2 text-nowrap delete-btn">삭제</button>
                 </li>
             `, 'text/html').querySelector('.item');
             const deleteBtn = item.querySelector('.delete-btn');
@@ -136,11 +122,11 @@ mainUploadBox.addEventListener('drop', function (e) {
                 mainPreview.append(item);
             }
 
-            deleteBtn.onclick = function () {
+            deleteBtn.addEventListener('click', function() {
                 mainFileName = null;
                 fileNameArray = fileNameArray.filter(name => name !== file.name);
                 item.remove();
-            }
+            })
         }
         mainFileName = file.name;
         formData.append("mainFiles", file);
@@ -216,7 +202,7 @@ additionalUploadBox.addEventListener('drop', function (e) {
                 <li class="item">
                     <input hidden type="text" class="file-name" name="fileName" th:value="${file.name}">
                     <img class="img" src="${src}" alt="">
-                    <a class="btn btn-secondary delete-btn">삭제</a>
+                    <button type="button" class="btn btn-secondary ms-2 text-nowrap delete-btn">삭제</button>
                 </li>
             `, 'text/html').querySelector('.item');
             const deleteBtn = item.querySelector('.delete-btn');
@@ -224,10 +210,10 @@ additionalUploadBox.addEventListener('drop', function (e) {
             additionalPreview.append(item);
             additionalPreview.scrollLeft = additionalPreview.scrollWidth; // 파일이 추가 되면 스크롤을 오른쪽 끝으로 알아서 당겨줌.
 
-            deleteBtn.onclick = function () {
+            deleteBtn.addEventListener('click', function() {
                 fileNameArray = fileNameArray.filter(name => name !== file.name);
                 item.remove();
-            }
+            })
         }
         formData.append("files", file);
     }
@@ -238,10 +224,10 @@ const items = document.querySelectorAll('.item');
 items.forEach(item => {
     const existingFileName = item.querySelector('.existing-file-name');
     const deleteBtn = item.querySelector('.delete-btn');
-    deleteBtn.onclick = function () {
+    deleteBtn.addEventListener('click', function() {
         existingFileNameArray = existingFileNameArray.filter(name => name !== existingFileName.value);
         item.remove();
-    }
+    })
 })
 
 modifyRoomForm['modifyRoomBtn'].addEventListener('click', function(e) {

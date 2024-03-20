@@ -31,103 +31,98 @@
                 <div class="title-container">
                     <h1 class="title">호텔 관리 > 호텔 수정 및 삭제</h1>
                 </div>
-                <th:block th:if="${hotelName == null}">
-                    <label>
-                        <span>호텔을 선택해 주세요</span>
-                        <select class="form-select" id="hotelSelect">
-                            <th:block th:each="hotel : ${hotelList}">
-                                <option th:value="${hotel}" th:text="${hotel}"></option>
-                            </th:block>
-                        </select>
-                    </label>
-                    <div>
-                        <button class="btn btn-primary select-hotel-btn w-100" onclick = selectHotel()>확인</button>
-                    </div>
-                </th:block>
+                <form action="/admin/modifyHotel" method="get" th:if="${hotelName == null}">
+                    <label for="hotelSelect" class="text">호텔을 선택해 주세요</label>
+                    <select class="form-select" id="hotelSelect" name="hotelName">
+                        <th:block th:each="hotel : ${hotelList}">
+                            <option th:value="${hotel}" th:text="${hotel}"></option>
+                        </th:block>
+                    </select>
+                    <button class="btn btn-primary w-100">확인</button>
+                </form>
 
-                <th:block th:if="${hotelName != null}">
-                    <div class="modify-hotel-container">
-                        <section class="hotel-img-section">
+                <div class="modify-hotel-container" th:if="${hotelName != null}">
+                    <section class="hotel-img-section">
+                        <div>
+                            <span>대표 이미지</span>
+                            <div class="upload-box" id="mainUploadBox">
+                                <div class="plus">+</div>
+                            </div>
+                            <span>PREVIEW</span>
+                            <ul class="preview" id="mainPreview">
+                                <li class="item">
+                                    <input hidden type="text" class="existing-file-name" id="existingMainFileName"
+                                           th:value="${hotelMainFile.fileName}">
+                                    <img th:src="@{${hotelMainFile.dir} + ${hotelMainFile.fileName}}" alt="">
+                                    <button type="button" class="btn btn-secondary ms-2 text-nowrap delete-btn">삭제</button>
+                                </li>
+                            </ul>
+                        </div>
+                        <div>
+                            <span>추가 이미지</span>
+                            <div class="upload-box" id="additionalUploadBox">
+                                <div class="plus">+</div>
+                            </div>
+                            <span>PREVIEW</span>
+                            <ul class="preview" id="additionalPreview">
+                                <li class="item" th:each="file : ${hotelFileList}">
+                                    <input hidden type="text" class="existing-file-name" id="existingAdditionalFileName"
+                                           th:value="${file.fileName}">
+                                    <img th:src="@{${file.dir} + ${file.fileName}}" alt="">
+                                    <button type="button" class="btn btn-secondary ms-2 text-nowrap delete-btn">삭제</button>
+                                </li>
+                            </ul>
+                        </div>
+                    </section>
+
+                    <section class="hotel-info-section">
+                        <form id="modifyHotelForm">
                             <div>
-                                <span>대표 이미지</span>
-                                <div class="upload-box" id="mainUploadBox">
-                                    <div class="plus">+</div>
-                                </div>
-                                <span>PREVIEW</span>
-                                <ul class="preview" id="mainPreview">
-                                    <li class="item">
-                                        <input hidden type="text" class="existing-file-name" id="existingMainFileName"
-                                               th:value="${hotelMainFile.fileName}">
-                                        <img th:src="@{${hotelMainFile.dir} + ${hotelMainFile.fileName}}" alt="">
-                                        <a class="btn btn-secondary delete-btn">삭제</a>
-                                    </li>
-                                </ul>
+                                <label>호텔 이름</label>
+                                <input disabled name="hotelName" class="form-control" th:value="${hotel.hotelName}"
+                                       required>
                             </div>
                             <div>
-                                <span>추가 이미지</span>
-                                <div class="upload-box" id="additionalUploadBox">
-                                    <div class="plus">+</div>
-                                </div>
-                                <span>PREVIEW</span>
-                                <ul class="preview" id="additionalPreview">
-                                    <li class="item" th:each="file : ${hotelFileList}">
-                                        <input hidden type="text" class="existing-file-name" id="existingAdditionalFileName"
-                                               th:value="${file.fileName}">
-                                        <img th:src="@{${file.dir} + ${file.fileName}}" alt="">
-                                        <a class="btn btn-secondary delete-btn">삭제</a>
-                                    </li>
-                                </ul>
+                                <input hidden name="region" id="region" class="form-control"
+                                       th:value="${hotel.region}" type="text">
                             </div>
-                        </section>
-
-                        <section class="hotel-info-section">
-                            <form id="modifyHotelForm">
+                            <div>
                                 <div>
-                                    <label>호텔 이름</label>
-                                    <input disabled name="hotelName" class="form-control" th:value="${hotel.hotelName}"
-                                           required>
-                                </div>
-                                <div>
-                                    <input hidden name="region" id="region" class="form-control"
-                                           th:value="${hotel.region}" type="text">
-                                </div>
-                                <div>
-                                    <div>
-                                        <label>우편번호</label>
-                                        <div class="row-container">
-                                            <input disabled class="form-control" name="zipcode" id="zipcode"
-                                                   th:value="${hotel.zipcode}"/>
-                                            <a onclick="AddressSearch()" class="btn btn-secondary search-addr-btn">우편번호
-                                                찾기</a>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <label>주소</label>
-                                        <input class="form-control" name="addr1" id="addr1" th:value="${hotel.addr1}"/>
-                                    </div>
-                                    <div>
-                                        <label>상세주소</label>
-                                        <input class="form-control" name="addr2" id="addr2" placeholder="상세 주소"
-                                               th:value="${hotel.addr2}">
+                                    <label>우편번호</label>
+                                    <div class="row-container">
+                                        <input disabled class="form-control" name="zipcode" id="zipcode"
+                                               th:value="${hotel.zipcode}"/>
+                                        <button type="button" class="btn btn-secondary w-50" name="searchAddressBtn">
+                                            우편번호 찾기
+                                        </button>
                                     </div>
                                 </div>
                                 <div>
-                                    <label>연락처</label>
-                                    <input name="contactInfo" class="form-control"
-                                           th:value="${hotel.contactInfo}" required>
+                                    <label>주소</label>
+                                    <input class="form-control" name="addr1" id="addr1" th:value="${hotel.addr1}"/>
                                 </div>
                                 <div>
-                                    <label>호텔 소개</label>
-                                    <input name="hotelDetails" class="form-control" th:value="${hotel.hotelDetails}">
+                                    <label>상세주소</label>
+                                    <input class="form-control" name="addr2" id="addr2" placeholder="상세 주소"
+                                           th:value="${hotel.addr2}">
                                 </div>
-                                <div>
-                                    <button class="btn btn-primary w-100" name="modifyHotelBtn">수정</button>
-                                    <button class="btn btn-primary w-100" name="deleteHotelBtn">삭제</button>
-                                </div>
-                            </form>
-                        </section>
-                    </div>
-                </th:block>
+                            </div>
+                            <div>
+                                <label>연락처</label>
+                                <input name="contactInfo" class="form-control"
+                                       th:value="${hotel.contactInfo}" required>
+                            </div>
+                            <div>
+                                <label>호텔 소개</label>
+                                <input name="hotelDetails" class="form-control" th:value="${hotel.hotelDetails}">
+                            </div>
+                            <div>
+                                <button class="btn btn-primary w-100" name="modifyHotelBtn">수정</button>
+                                <button class="btn btn-primary w-100" name="deleteHotelBtn">삭제</button>
+                            </div>
+                        </form>
+                    </section>
+                </div>
             </div>
         </div>
     </div>
