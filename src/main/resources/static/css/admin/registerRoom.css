@@ -20,7 +20,7 @@
     justify-content: space-between;
 }
 
-.room_img_block {
+.room-img-section {
     width: 500px;
 }
 
@@ -65,13 +65,6 @@
     top: -5%;
 }
 
-.preview_img_block {
-    width: 100%;
-    position: relative;
-    top: 10px;
-    margin-bottom: 4rem;
-}
-
 .preview {
     width: 100%;
     height: 200px;
@@ -88,7 +81,7 @@
     overflow: auto hidden;
 }
 
-.preview_img_block .item {
+.preview .item {
     border: 0.0625rem solid #4a4a4a;
     margin: 0 0.5rem;
     padding: 0.5rem;
@@ -100,7 +93,7 @@
     align-items: center;
 }
 
-.preview_img_block .delete-btn {
+.preview .delete-btn {
     margin-left: 0.5rem;
     white-space: nowrap;
 }
@@ -110,15 +103,15 @@
     height: 150px;
 }
 
-.room_info_block {
+.room-info-section {
     width: 300px;
     position: relative;
 }
 
-.room_info_block > form > * {
+.room-info-section > form > * {
     margin-bottom: 20px;
 }
 
-.room_info_block label {
+.room-info-section label {
     margin: 5px 0;
 }

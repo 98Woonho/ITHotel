@@ -409,7 +409,7 @@ public class AdminController {
                     octoberSales += payment.getPaidAmount();
                 } else if (month == 11) {
                     novemberSales += payment.getPaidAmount();
-                } else if (month == 12) {
+                } else {
                     decemberSales += payment.getPaidAmount();
                 }
             }

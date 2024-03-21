@@ -38,11 +38,11 @@
                 </div>
                 <div class="sales-container">
                     <div class="category-container">
-                        <button disabled class="category-btn">카테고리</button>
-                        <div hidden class="row-container category">
+                        <button disabled class="category-btn" id="categoryBtn">카테고리</button>
+                        <div hidden class="row-container" id="category">
                             <ul>
                                 <li>
-                                    <a class="link total" href="javascript:void(0)">전체</a>
+                                    <a id="totalLink" href="javascript:void(0)">전체</a>
                                 </li>
                                 <li th:each="region : ${regionList}">
                                     <span class="region" th:text="${region}"></span>

@@ -138,11 +138,9 @@ public class MyinfoController {
                 cookie.setMaxAge(0);
                 response.addCookie(cookie);
             }
-            redirectAttributes.addAttribute("data", "정보수정이 확인되어 로그아웃됩니다.");
-            redirectAttributes.addAttribute("href", "/logout");
-            return "redirect:/user/informationInfo?function=update";
-        }else
-            return "redirect:/user/informationInfo?function=update";
+            return "redirect:/";
+        } else
+            return "redirect:/";
     }
 
     @PostMapping("deleteinfo")
