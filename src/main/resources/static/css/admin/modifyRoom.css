@@ -82,11 +82,6 @@
     align-items: center;
 }
 
-.preview .delete-btn {
-    margin-left: 0.5rem;
-    white-space: nowrap;
-}
-
 .modify-room-container img {
     width: 150px;
     height: 150px;

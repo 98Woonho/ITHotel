@@ -36,25 +36,23 @@ new Chart(ctx, {
 
 
 
-const categoryBtn = document.querySelector('.category-btn');
+const categoryBtn = document.getElementById('categoryBtn');
+const category = document.getElementById('category');
 
 categoryBtn.addEventListener('mouseover', function () {
-    document.querySelector('.category').removeAttribute('hidden');
+    category.removeAttribute('hidden');
 })
 
 categoryBtn.addEventListener('mouseout', function () {
-    document.querySelector('.category').setAttribute('hidden', '');
+    category.setAttribute('hidden', '');
 })
 
-
-const categoryContainer = document.querySelector('.category');
-
-categoryContainer.addEventListener('mouseover', function () {
-    document.querySelector('.category').removeAttribute('hidden');
+category.addEventListener('mouseover', function () {
+    category.removeAttribute('hidden');
 })
 
-categoryContainer.addEventListener('mouseout', function () {
-    document.querySelector('.category').setAttribute('hidden', '');
+category.addEventListener('mouseout', function () {
+    category.setAttribute('hidden', '');
 })
 
 const regions = document.querySelectorAll('.region');
@@ -85,7 +83,7 @@ regions.forEach(region => {
     })
 })
 
-const totalLink = document.querySelector('.total.link');
+const totalLink = document.getElementById('totalLink');
 
 totalLink.addEventListener('click', function () {
     location.href = "/admin/monthSales?region=total";

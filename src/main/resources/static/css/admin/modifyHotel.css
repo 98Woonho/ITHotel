@@ -3,11 +3,6 @@
     flex-direction: row;
 }
 
-.search-addr-btn {
-    margin-left: 0.5rem;
-    width: 200px;
-}
-
 .modify-hotel-container {
     margin-top: 5rem;
 
@@ -80,11 +75,6 @@
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
-}
-
-.preview .delete-btn {
-    margin-left: 0.5rem;
-    white-space: nowrap;
 }
 
 .modify-hotel-container img {
