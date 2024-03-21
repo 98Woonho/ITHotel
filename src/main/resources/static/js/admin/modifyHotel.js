@@ -213,83 +213,83 @@ items.forEach(item => {
     })
 })
 
-modifyHotelForm['modifyHotelBtn'].addEventListener('click', function (e) {
+modifyHotelForm.onsubmit = function(e) {
     e.preventDefault();
 
-    const mainPreview = document.getElementById('mainPreview');
-    const additionalPreview = document.getElementById('additionalPreview');
+    const action = e.submitter.value;
 
-    const contactRegex = new RegExp("^\\d{2,3}-\\d{3,4}-\\d{4}$");
+    if (action === "modify") {
+        const mainPreview = document.getElementById('mainPreview');
+        const additionalPreview = document.getElementById('additionalPreview');
 
-    if (modifyHotelForm['zipcode'].value === "") {
-        alert("주소 찾기를 통해 주소를 입력해 주세요.");
-        return;
-    }
+        const contactRegex = new RegExp("^\\d{2,3}-\\d{3,4}-\\d{4}$");
 
-    if (modifyHotelForm['addr1'].value === "") {
-        alert("주소 찾기를 통해 주소를 입력해 주세요.");
-        return;
-    }
+        if (modifyHotelForm['zipcode'].value === "") {
+            alert("주소 찾기를 통해 주소를 입력해 주세요.");
+            return;
+        }
 
-    if (modifyHotelForm['contactInfo'].value === "") {
-        alert("연락처를 입력해 주세요.");
-        return;
-    }
+        if (modifyHotelForm['addr1'].value === "") {
+            alert("주소 찾기를 통해 주소를 입력해 주세요.");
+            return;
+        }
 
-    if (!contactRegex.test(modifyHotelForm['contactInfo'].value)) {
-        alert("올바른 연락처를 입력해 주세요.");
-        return;
-    }
+        if (modifyHotelForm['contactInfo'].value === "") {
+            alert("연락처를 입력해 주세요.");
+            return;
+        }
 
-    if (modifyHotelForm['hotelDetails'].value === "") {
-        alert("호텔 소개를 입력해 주세요.");
-        return;
-    }
+        if (!contactRegex.test(modifyHotelForm['contactInfo'].value)) {
+            alert("올바른 연락처를 입력해 주세요.");
+            return;
+        }
 
-    if (mainPreview.querySelector('.item') == null) {
-        alert("대표 이미지를 등록해 주세요.");
-        return;
-    }
+        if (modifyHotelForm['hotelDetails'].value === "") {
+            alert("호텔 소개를 입력해 주세요.");
+            return;
+        }
 
-    if (additionalPreview.querySelector('.item') == null) {
-        alert("한 개 이상의 객실 이미지를 등록해 주세요.");
-        return;
-    }
+        if (mainPreview.querySelector('.item') == null) {
+            alert("대표 이미지를 등록해 주세요.");
+            return;
+        }
 
-    formData.append("existingFileNames", existingFileNameArray); // 기존에 있던 파일들
-    formData.append("mainFileName", mainFileName); // 대표 파일 이름
-    formData.append("fileNames", fileNameArray); // 추가한 파일들
-    formData.append("hotelName", modifyHotelForm['hotelName'].value);
-    formData.append("region", modifyHotelForm['region'].value);
-    formData.append("addr1", modifyHotelForm['addr1'].value);
-    formData.append("addr2", modifyHotelForm['addr2'].value);
-    formData.append("zipcode", modifyHotelForm['zipcode'].value);
-    formData.append("contactInfo", modifyHotelForm['contactInfo'].value);
-    formData.append("hotelDetails", modifyHotelForm['hotelDetails'].value);
+        if (additionalPreview.querySelector('.item') == null) {
+            alert("한 개 이상의 객실 이미지를 등록해 주세요.");
+            return;
+        }
 
-    axios.put("/hotel/modify", formData, {header: {'Content-Type': 'multipart/form-data'}})
-        .then(res => {
-            alert("호텔 수정이 완료 되었습니다.");
-            location.href = "/admin/hotelStatus";
-        })
-        .catch(err => {
-            console.log(err);
-        })
-})
+        formData.append("existingFileNames", existingFileNameArray); // 기존에 있던 파일들
+        formData.append("mainFileName", mainFileName); // 대표 파일 이름
+        formData.append("fileNames", fileNameArray); // 추가한 파일들
+        formData.append("hotelName", modifyHotelForm['hotelName'].value);
+        formData.append("region", modifyHotelForm['region'].value);
+        formData.append("addr1", modifyHotelForm['addr1'].value);
+        formData.append("addr2", modifyHotelForm['addr2'].value);
+        formData.append("zipcode", modifyHotelForm['zipcode'].value);
+        formData.append("contactInfo", modifyHotelForm['contactInfo'].value);
+        formData.append("hotelDetails", modifyHotelForm['hotelDetails'].value);
 
-modifyHotelForm['deleteHotelBtn'].addEventListener('click', function (e) {
-    e.preventDefault();
-
-    if (confirm("호텔을 삭제 하면 객실 정보도 함께 삭제 됩니다. 정말로 삭제 하시겠습니까?")) {
-        axios.delete("/hotel/delete?hotelName=" + modifyHotelForm['hotelName'].value)
+        axios.put("/hotel/modify", formData, {header: {'Content-Type': 'multipart/form-data'}})
             .then(res => {
-                if (res.data === "SUCCESS") {
-                    alert("호텔이 성공적으로 삭제 되었습니다.");
-                    location.href = "/admin/hotelStatus";
-                }
+                alert("호텔 수정이 완료 되었습니다.");
+                location.href = "/admin/hotelStatus";
             })
             .catch(err => {
-                alert("알 수 없는 이유로 호텔을 삭제하지 못하였습니다. 잠시 후 다시 시도해 주세요.");
+                console.log(err);
             })
+    } else {
+        if (confirm("호텔을 삭제 하면 객실 정보도 함께 삭제 됩니다. 정말로 삭제 하시겠습니까?")) {
+            axios.delete("/hotel/delete?hotelName=" + modifyHotelForm['hotelName'].value)
+                .then(res => {
+                    if (res.data === "SUCCESS") {
+                        alert("호텔이 성공적으로 삭제 되었습니다.");
+                        location.href = "/admin/hotelStatus";
+                    }
+                })
+                .catch(err => {
+                    alert("알 수 없는 이유로 호텔을 삭제하지 못하였습니다. 잠시 후 다시 시도해 주세요.");
+                })
+        }
     }
-})
+}

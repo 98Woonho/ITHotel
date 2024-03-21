@@ -1,5 +1,4 @@
 const modifyRoomForm = document.getElementById('modifyRoomForm');
-const hotelName = document.getElementById('hotelName').value;
 const formData = new FormData();
 
 modifyRoomForm['kind'].addEventListener('input', function() {
@@ -20,7 +19,7 @@ modifyRoomForm['confirmRoomKindDuplicationBtn'].addEventListener('click', functi
         return;
     }
 
-    axios.get("/room/confirmKind?kind=" + encodeURIComponent(modifyRoomForm['kind'].value) + "&hotelName=" + hotelName)
+    axios.get("/room/confirmKind?kind=" + encodeURIComponent(modifyRoomForm['kind'].value) + "&hotelName=" + modifyRoomForm['hotelName'].value)
         .then(res => {
             if (res.data === "FAILURE_DUPLICATED_KIND") {
                 alert("이미 존재하는 객실 종류입니다. 다른 객실 종류를 입력해 주세요.");
@@ -230,190 +229,191 @@ items.forEach(item => {
     })
 })
 
-modifyRoomForm['modifyRoomBtn'].addEventListener('click', function(e) {
+
+modifyRoomForm.onsubmit = function(e) {
     e.preventDefault();
 
-    const mainPreview = document.getElementById('mainPreview');
-    const additionalPreview = document.getElementById('additionalPreview');
+    const action = e.submitter.value;
 
-    const kindRegex = new RegExp("^[^/]*$");
-    const checkinHourRegex = new RegExp("^(0?[0-9]|1[0-9]|2[0-3])$");
-    const checkoutHourRegex = new RegExp("^(0?[0-9]|1[0-9]|2[0-3])$");
-    const checkinMinuteRegex = new RegExp("^[0-5]?[0-9]$");
-    const checkoutMinuteRegex = new RegExp("^[0-5]?[0-9]$");
-    const fridayPriceRegex = new RegExp("^\\d+$");
-    const saturdayPriceRegex = new RegExp("^\\d+$");
-    const weekdayPriceRegex = new RegExp("^\\d+$");
-    const standardPeopleRegex = new RegExp("^\\d+$");
-    const maximumPeopleRegex = new RegExp("^\\d+$");
-    const countRegex = new RegExp("^\\d+$");
+    if (action === "modify") {
+        const mainPreview = document.getElementById('mainPreview');
+        const additionalPreview = document.getElementById('additionalPreview');
 
-
-    if(modifyRoomForm['kind'].value === "") {
-        alert("객실 종류를 입력해 주세요.");
-        return;
-    }
-
-    if(!kindRegex.test(modifyRoomForm['kind'].value)) {
-        alert("/ 은 사용할 수 없습니다. 객실 종류를 다시 입력해 주세요.");
-        return;
-    }
-
-    if(modifyRoomForm['checkinHour'].value === "" || modifyRoomForm['checkinMinute'].value === "") {
-        alert("체크인 시간을 입력해 주세요.");
-        return;
-    }
-
-    if(!checkinHourRegex.test(modifyRoomForm['checkinHour'].value) || !checkinMinuteRegex.test(modifyRoomForm['checkinMinute'].value)) {
-        alert("올바른 체크인 시간을 입력해 주세요.");
-        return;
-    }
-
-    if(modifyRoomForm['checkoutHour'].value === "" || modifyRoomForm['checkoutMinute'].value === "") {
-        alert("체크아웃 시간을 입력해 주세요.");
-        return;
-    }
-
-    if(!checkoutHourRegex.test(modifyRoomForm['checkoutHour'].value) || !checkoutMinuteRegex.test(modifyRoomForm['checkoutMinute'].value)) {
-        alert("올바른 체크아웃 시간을 입력해 주세요.");
-        return;
-    }
-
-    if(modifyRoomForm['fridayPrice'].value === "") {
-        alert("금요일 가격을 입력해 주세요.");
-        return;
-    }
-
-    if(!fridayPriceRegex.test(modifyRoomForm['fridayPrice'].value)) {
-        alert("올바른 금요일 가격을 입력해 주세요.");
-        return;
-    }
-
-    if(modifyRoomForm['saturdayPrice'].value === "") {
-        alert("토요일 가격을 입력해 주세요.");
-        return;
-    }
-
-    if(!saturdayPriceRegex.test(modifyRoomForm['saturdayPrice'].value)) {
-        alert("올바른 토요일 가격을 입력해 주세요.");
-        return;
-    }
-
-    if(modifyRoomForm['weekdayPrice'].value === "") {
-        alert("주중 가격을 입력해 주세요.");
-        return;
-    }
-
-    if(!weekdayPriceRegex.test(modifyRoomForm['weekdayPrice'].value)) {
-        alert("올바른 주중 가격을 입력해 주세요.");
-        return;
-    }
-
-    if(modifyRoomForm['standardPeople'].value === "") {
-        alert("기준 인원을 입력해 주세요.");
-        return;
-    }
-
-    if(!standardPeopleRegex.test(modifyRoomForm['standardPeople'].value)) {
-        alert("올바른 기준 인원을 입력해 주세요.");
-        return;
-    }
-
-    if(modifyRoomForm['maximumPeople'].value === "") {
-        alert("최대 인원을 입력해 주세요.");
-        return;
-    }
-
-    if(!maximumPeopleRegex.test(modifyRoomForm['maximumPeople'].value)) {
-        alert("올바른 최대 인원을 입력해 주세요.");
-        return;
-    }
-
-    if(modifyRoomForm['count'].value === "") {
-        alert("객실 개수를 입력해 주세요.");
-        return;
-    }
-
-    if(!countRegex.test(modifyRoomForm['count'].value)) {
-        alert("올바른 객실 개수를 입력해 주세요.");
-        return;
-    }
-
-    if (mainPreview.querySelector('.item') == null) {
-        alert("대표 이미지를 등록해 주세요.");
-        return;
-    }
-
-    if (additionalPreview.querySelector('.item') == null) {
-        alert("한 개 이상의 객실 이미지를 등록해 주세요.");
-        return;
-    }
-
-    let checkinHour = modifyRoomForm['checkinHour'].value;
-    let checkinMinute = modifyRoomForm['checkinMinute'].value;
-    let checkoutHour = modifyRoomForm['checkoutHour'].value;
-    let checkoutMinute = modifyRoomForm['checkoutMinute'].value;
-
-    if (modifyRoomForm['checkinHour'].value.length < 2) {
-        checkinHour = '0' + modifyRoomForm['checkinHour'].value;
-    }
-    if (modifyRoomForm['checkinMinute'].value.length < 2) {
-        checkinMinute = '0' + modifyRoomForm['checkinMinute'].value;
-
-    }if (modifyRoomForm['checkoutHour'].value.length < 2) {
-        checkoutHour = '0' + modifyRoomForm['checkoutHour'].value;
-
-    }if (modifyRoomForm['checkoutMinute'].value.length < 2) {
-        checkoutMinute = '0' + modifyRoomForm['checkoutMinute'].value;
-    }
-
-    if (!modifyRoomForm['kind'].classList.contains("confirmed")) {
-        alert("객실 종류 중복 확인을 진행해주세요.");
-        return;
-    }
-
-    formData.append("existingFileNames", existingFileNameArray);
-    formData.append("currentKind", modifyRoomForm['currentKind'].value);
-    formData.append("mainFileName", mainFileName);
-    formData.append("fileNames", fileNameArray);
-    formData.append("id", modifyRoomForm['roomId'].value);
-    formData.append("hotelName", hotelName);
-    formData.append("kind", modifyRoomForm['kind'].value);
-    formData.append("checkinTime", checkinHour + ":" + checkinMinute);
-    formData.append("checkoutTime", checkoutHour + ":" + checkoutMinute);
-    formData.append("fridayPrice", modifyRoomForm['fridayPrice'].value);
-    formData.append("saturdayPrice", modifyRoomForm['saturdayPrice'].value);
-    formData.append("weekdayPrice", modifyRoomForm['weekdayPrice'].value);
-    formData.append("standardPeople", modifyRoomForm['standardPeople'].value);
-    formData.append("maximumPeople", modifyRoomForm['maximumPeople'].value);
-    formData.append("count", modifyRoomForm['count'].value);
-
-    axios.put("/room/modify", formData, {header : {'Content-Type': 'multipart/form-data'}})
-        .then(res => {
-            alert("객실 수정이 완료 되었습니다.");
-            location.href = "/admin/roomStatus?hotelName=" + hotelName;
-        })
-        .catch(err => {
-            console.log(err);
-        })
-})
+        const kindRegex = new RegExp("^[^/]*$");
+        const checkinHourRegex = new RegExp("^(0?[0-9]|1[0-9]|2[0-3])$");
+        const checkoutHourRegex = new RegExp("^(0?[0-9]|1[0-9]|2[0-3])$");
+        const checkinMinuteRegex = new RegExp("^[0-5]?[0-9]$");
+        const checkoutMinuteRegex = new RegExp("^[0-5]?[0-9]$");
+        const fridayPriceRegex = new RegExp("^\\d+$");
+        const saturdayPriceRegex = new RegExp("^\\d+$");
+        const weekdayPriceRegex = new RegExp("^\\d+$");
+        const standardPeopleRegex = new RegExp("^\\d+$");
+        const maximumPeopleRegex = new RegExp("^\\d+$");
+        const countRegex = new RegExp("^\\d+$");
 
 
-modifyRoomForm['deleteRoomBtn'].addEventListener('click', function(e) {
-    e.preventDefault();
+        if(modifyRoomForm['kind'].value === "") {
+            alert("객실 종류를 입력해 주세요.");
+            return;
+        }
 
-    if(confirm("정말로 객실을 삭제 하시겠습니까?")) {
-        axios.delete("/room/delete?hotelName=" + hotelName + "&kind=" + modifyRoomForm['kind'].value)
+        if(!kindRegex.test(modifyRoomForm['kind'].value)) {
+            alert("/ 은 사용할 수 없습니다. 객실 종류를 다시 입력해 주세요.");
+            return;
+        }
+
+        if(modifyRoomForm['checkinHour'].value === "" || modifyRoomForm['checkinMinute'].value === "") {
+            alert("체크인 시간을 입력해 주세요.");
+            return;
+        }
+
+        if(!checkinHourRegex.test(modifyRoomForm['checkinHour'].value) || !checkinMinuteRegex.test(modifyRoomForm['checkinMinute'].value)) {
+            alert("올바른 체크인 시간을 입력해 주세요.");
+            return;
+        }
+
+        if(modifyRoomForm['checkoutHour'].value === "" || modifyRoomForm['checkoutMinute'].value === "") {
+            alert("체크아웃 시간을 입력해 주세요.");
+            return;
+        }
+
+        if(!checkoutHourRegex.test(modifyRoomForm['checkoutHour'].value) || !checkoutMinuteRegex.test(modifyRoomForm['checkoutMinute'].value)) {
+            alert("올바른 체크아웃 시간을 입력해 주세요.");
+            return;
+        }
+
+        if(modifyRoomForm['fridayPrice'].value === "") {
+            alert("금요일 가격을 입력해 주세요.");
+            return;
+        }
+
+        if(!fridayPriceRegex.test(modifyRoomForm['fridayPrice'].value)) {
+            alert("올바른 금요일 가격을 입력해 주세요.");
+            return;
+        }
+
+        if(modifyRoomForm['saturdayPrice'].value === "") {
+            alert("토요일 가격을 입력해 주세요.");
+            return;
+        }
+
+        if(!saturdayPriceRegex.test(modifyRoomForm['saturdayPrice'].value)) {
+            alert("올바른 토요일 가격을 입력해 주세요.");
+            return;
+        }
+
+        if(modifyRoomForm['weekdayPrice'].value === "") {
+            alert("주중 가격을 입력해 주세요.");
+            return;
+        }
+
+        if(!weekdayPriceRegex.test(modifyRoomForm['weekdayPrice'].value)) {
+            alert("올바른 주중 가격을 입력해 주세요.");
+            return;
+        }
+
+        if(modifyRoomForm['standardPeople'].value === "") {
+            alert("기준 인원을 입력해 주세요.");
+            return;
+        }
+
+        if(!standardPeopleRegex.test(modifyRoomForm['standardPeople'].value)) {
+            alert("올바른 기준 인원을 입력해 주세요.");
+            return;
+        }
+
+        if(modifyRoomForm['maximumPeople'].value === "") {
+            alert("최대 인원을 입력해 주세요.");
+            return;
+        }
+
+        if(!maximumPeopleRegex.test(modifyRoomForm['maximumPeople'].value)) {
+            alert("올바른 최대 인원을 입력해 주세요.");
+            return;
+        }
+
+        if(modifyRoomForm['count'].value === "") {
+            alert("객실 개수를 입력해 주세요.");
+            return;
+        }
+
+        if(!countRegex.test(modifyRoomForm['count'].value)) {
+            alert("올바른 객실 개수를 입력해 주세요.");
+            return;
+        }
+
+        if (mainPreview.querySelector('.item') == null) {
+            alert("대표 이미지를 등록해 주세요.");
+            return;
+        }
+
+        if (additionalPreview.querySelector('.item') == null) {
+            alert("한 개 이상의 객실 이미지를 등록해 주세요.");
+            return;
+        }
+
+        let checkinHour = modifyRoomForm['checkinHour'].value;
+        let checkinMinute = modifyRoomForm['checkinMinute'].value;
+        let checkoutHour = modifyRoomForm['checkoutHour'].value;
+        let checkoutMinute = modifyRoomForm['checkoutMinute'].value;
+
+        if (modifyRoomForm['checkinHour'].value.length < 2) {
+            checkinHour = '0' + modifyRoomForm['checkinHour'].value;
+        }
+        if (modifyRoomForm['checkinMinute'].value.length < 2) {
+            checkinMinute = '0' + modifyRoomForm['checkinMinute'].value;
+
+        }if (modifyRoomForm['checkoutHour'].value.length < 2) {
+            checkoutHour = '0' + modifyRoomForm['checkoutHour'].value;
+
+        }if (modifyRoomForm['checkoutMinute'].value.length < 2) {
+            checkoutMinute = '0' + modifyRoomForm['checkoutMinute'].value;
+        }
+
+        if (!modifyRoomForm['kind'].classList.contains("confirmed")) {
+            alert("객실 종류 중복 확인을 진행해주세요.");
+            return;
+        }
+
+        formData.append("existingFileNames", existingFileNameArray);
+        formData.append("currentKind", modifyRoomForm['currentKind'].value);
+        formData.append("mainFileName", mainFileName);
+        formData.append("fileNames", fileNameArray);
+        formData.append("id", modifyRoomForm['id'].value);
+        formData.append("hotelName", modifyRoomForm['hotelName'].value);
+        formData.append("kind", modifyRoomForm['kind'].value);
+        formData.append("checkinTime", checkinHour + ":" + checkinMinute);
+        formData.append("checkoutTime", checkoutHour + ":" + checkoutMinute);
+        formData.append("fridayPrice", modifyRoomForm['fridayPrice'].value);
+        formData.append("saturdayPrice", modifyRoomForm['saturdayPrice'].value);
+        formData.append("weekdayPrice", modifyRoomForm['weekdayPrice'].value);
+        formData.append("standardPeople", modifyRoomForm['standardPeople'].value);
+        formData.append("maximumPeople", modifyRoomForm['maximumPeople'].value);
+        formData.append("count", modifyRoomForm['count'].value);
+
+        axios.put("/room/modify", formData, {header : {'Content-Type': 'multipart/form-data'}})
             .then(res => {
-                console.log(res.data);
-                if(res.data === "SUCCESS") {
-                    alert("객실이 성공적으로 삭제 되었습니다.");
-                    location.href = "/admin/roomStatus";
-                }
+                alert("객실 수정이 완료 되었습니다.");
+                location.href = "/admin/roomStatus?hotelName=" + modifyRoomForm['hotelName'].value;
             })
             .catch(err => {
-                alert("알 수 없는 이유로 호텔을 삭제하지 못하였습니다. 잠시 후 다시 시도해 주세요.");
+                console.log(err);
             })
     }
 
-})
+    else {
+        if(confirm("정말로 객실을 삭제 하시겠습니까?")) {
+            axios.delete("/room/delete?hotelName=" + modifyRoomForm['hotelName'].value + "&kind=" + modifyRoomForm['kind'].value)
+                .then(res => {
+                    console.log(res.data);
+                    if(res.data === "SUCCESS") {
+                        alert("객실이 성공적으로 삭제 되었습니다.");
+                        location.href = "/admin/roomStatus";
+                    }
+                })
+                .catch(err => {
+                    alert("알 수 없는 이유로 호텔을 삭제하지 못하였습니다. 잠시 후 다시 시도해 주세요.");
+                })
+        }
+    }
+}

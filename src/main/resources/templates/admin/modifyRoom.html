@@ -90,7 +90,8 @@
 
                     <section class="room-info-section">
                         <form id="modifyRoomForm">
-                            <input hidden name="roomId" type="text" th:value="${roomMainFile.room.id}">
+                            <input hidden id="hotelName" name="hotelName" type="text" th:value="${hotelName}">
+                            <input hidden name="id" type="text" th:value="${roomMainFile.room.id}">
                             <input hidden name="currentKind" class="form-control"
                                    th:value="${roomMainFile.room.kind}" required>
                             <label for="kind">객실 종류</label>
@@ -155,9 +156,9 @@
                             </div>
                             <div>
                                 <button class="btn btn-primary w-100"
-                                        name="modifyRoomBtn">수정
+                                        name="modifyRoomBtn" value="modify">수정
                                 </button>
-                                <button class="btn btn-primary w-100" name="deleteRoomBtn">삭제</button>
+                                <button class="btn btn-primary w-100" name="deleteRoomBtn" value="delete">삭제</button>
                             </div>
                         </form>
                     </section>
@@ -165,8 +166,6 @@
             </div>
         </div>
     </div>
-
-    <input hidden id="hotelName" type="text" th:value="${hotelName}">
 </main>
 
 <th:block th:insert="~{fragments/footer.html :: footer_fragment}"></th:block>
