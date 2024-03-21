@@ -90,7 +90,7 @@
 
                     <section class="room-info-section">
                         <form id="modifyRoomForm">
-                            <input hidden id="hotelName" name="hotelName" type="text" th:value="${hotelName}">
+                            <input hidden name="hotelName" type="text" th:value="${hotelName}">
                             <input hidden name="id" type="text" th:value="${roomMainFile.room.id}">
                             <input hidden name="currentKind" class="form-control"
                                    th:value="${roomMainFile.room.kind}" required>

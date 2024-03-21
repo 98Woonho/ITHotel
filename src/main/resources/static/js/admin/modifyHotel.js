@@ -36,17 +36,9 @@ let fileNameArray = [];
 let mainFileName = document.getElementById('existingMainFileName').value;
 const mainUploadBox = document.getElementById('mainUploadBox');
 
-mainUploadBox.addEventListener('dragenter', function (e) {
-    e.preventDefault();
-});
 mainUploadBox.addEventListener('dragover', function (e) {
     e.preventDefault();
     mainUploadBox.style.opacity = '0.5';
-
-});
-mainUploadBox.addEventListener('dragleave', function (e) {
-    e.preventDefault();
-    mainUploadBox.style.opacity = '1';
 });
 
 mainUploadBox.addEventListener('drop', function (e) {
@@ -122,17 +114,9 @@ mainUploadBox.addEventListener('drop', function (e) {
 // 추가 이미지
 const additionalUploadBox = document.getElementById('additionalUploadBox');
 
-additionalUploadBox.addEventListener('dragenter', function (e) {
-    e.preventDefault();
-});
 additionalUploadBox.addEventListener('dragover', function (e) {
     e.preventDefault();
     additionalUploadBox.style.opacity = '0.5';
-
-});
-additionalUploadBox.addEventListener('dragleave', function (e) {
-    e.preventDefault();
-    additionalUploadBox.style.opacity = '1';
 });
 
 additionalUploadBox.addEventListener('drop', function (e) {

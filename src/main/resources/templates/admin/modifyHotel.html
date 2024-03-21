@@ -77,8 +77,8 @@
 
                     <section class="hotel-info-section">
                         <form id="modifyHotelForm">
-                            <input hidden name="region" id="region" class="form-control"
-                                   th:value="${hotel.region}" type="text">
+                            <input type="hidden" name="region" id="region" class="form-control"
+                                   th:value="${hotel.region}">
                             <div>
                                 <label for="hotelName">호텔 이름</label>
                                 <input disabled name="hotelName" id="hotelName" class="form-control" th:value="${hotel.hotelName}"

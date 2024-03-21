@@ -19,13 +19,13 @@ modifyRoomForm['confirmRoomKindDuplicationBtn'].addEventListener('click', functi
         return;
     }
 
-    axios.get("/room/confirmKind?kind=" + encodeURIComponent(modifyRoomForm['kind'].value) + "&hotelName=" + modifyRoomForm['hotelName'].value)
+    axios.get("/room/confirmKind?kind=" + modifyRoomForm['kind'].value + "&hotelName=" + modifyRoomForm['hotelName'].value)
         .then(res => {
             if (res.data === "FAILURE_DUPLICATED_KIND") {
                 alert("이미 존재하는 객실 종류입니다. 다른 객실 종류를 입력해 주세요.");
             } else {
                 alert("사용 가능한 객실 종류입니다.");
-                kind.classList.add("confirmed");
+                modifyRoomForm['kind'].classList.add("confirmed");
             }
         })
         .catch(err => {
@@ -50,17 +50,9 @@ let fileNameArray = [];
 let mainFileName = document.getElementById('existingMainFileName').value;
 const mainUploadBox = document.getElementById('mainUploadBox');
 
-mainUploadBox.addEventListener('dragenter', function (e) {
-    e.preventDefault();
-});
 mainUploadBox.addEventListener('dragover', function (e) {
     e.preventDefault();
     mainUploadBox.style.opacity = '0.5';
-
-});
-mainUploadBox.addEventListener('dragleave', function (e) {
-    e.preventDefault();
-    mainUploadBox.style.opacity = '1';
 });
 
 mainUploadBox.addEventListener('drop', function (e) {
@@ -138,17 +130,9 @@ mainUploadBox.addEventListener('drop', function (e) {
 // 추가 이미지
 const additionalUploadBox = document.getElementById('additionalUploadBox');
 
-additionalUploadBox.addEventListener('dragenter', function (e) {
-    e.preventDefault();
-});
 additionalUploadBox.addEventListener('dragover', function (e) {
     e.preventDefault();
     additionalUploadBox.style.opacity = '0.5';
-
-});
-additionalUploadBox.addEventListener('dragleave', function (e) {
-    e.preventDefault();
-    additionalUploadBox.style.opacity = '1';
 });
 
 additionalUploadBox.addEventListener('drop', function (e) {

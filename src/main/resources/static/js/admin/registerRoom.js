@@ -1,62 +1,43 @@
-const hotelList = document.querySelector('.hotel-list');
-const roomForm = document.querySelector('.room-form');
-const mainImg = document.querySelector('.main-img');
-const roomImg = document.querySelector('.room-img');
+const registerRoomForm = document.getElementById('registerRoomForm');
 const formData = new FormData();
 
-function selectedHotel() {
-    location.href = "/admin/registerRoom?hotelName=" + hotelList.value;
-}
-
-let kind = roomForm['kind'];
-
-kind.addEventListener('input', function() {
-    if(kind.classList.contains("confirmed")) {
-        kind.classList.remove("confirmed");
+registerRoomForm['kind'].addEventListener('input', function() {
+    if(registerRoomForm['kind'].classList.contains("confirmed")) {
+        registerRoomForm['kind'].classList.remove("confirmed");
     }
 })
 
-function confirmDuplication() {
-    const hotelName = roomForm['hotelName'].value;
-    kind = roomForm['kind'];
-
-    if(encodeURIComponent(kind.value) === "") {
+registerRoomForm['confirmRoomKindDuplicationBtn'].addEventListener('click', function() {
+    if(registerRoomForm['kind'].value === "") {
         alert("객실 종류를 입력해 주세요.");
         return;
     }
 
-    axios.get("/room/confirmKind?kind=" + encodeURIComponent(kind.value) + "&hotelName=" + hotelName)
+    axios.get("/room/confirmKind?kind=" + registerRoomForm['kind'].value + "&hotelName=" + registerRoomForm['hotelName'].value)
         .then(res => {
             if (res.data === "FAILURE_DUPLICATED_KIND") {
                 alert("이미 존재하는 객실 종류입니다. 다른 객실 종류를 입력해 주세요.");
             } else {
                 alert("사용 가능한 객실 종류입니다.");
-                kind.classList.add("confirmed");
+                registerRoomForm['kind'].classList.add("confirmed");
             }
         })
         .catch(err => {
             console.log(err);
         })
-}
+})
 
 
 // 대표 이미지
 
 let fileNameArray = [];
 let mainFileName;
-const mainUploadBox = mainImg.querySelector('.main-upload-box');
+const mainUploadBox = document.getElementById('mainUploadBox');
 
-mainUploadBox.addEventListener('dragenter', function (e) {
-    e.preventDefault();
-});
+
+
 mainUploadBox.addEventListener('dragover', function (e) {
     e.preventDefault();
-    mainUploadBox.style.opacity = '0.5';
-
-});
-mainUploadBox.addEventListener('dragleave', function (e) {
-    e.preventDefault();
-    mainUploadBox.style.opacity = '1';
 });
 
 mainUploadBox.addEventListener('drop', function (e) {
@@ -77,10 +58,10 @@ mainUploadBox.addEventListener('drop', function (e) {
     })
 
     const reader = new FileReader(); // FileReader
-    const preview = document.querySelector('#mainPreview');
+    const mainPreview = document.getElementById('mainPreview');
 
     for (const file of imgFiles) {
-        if(preview.querySelectorAll('.item').length == 1) {
+        if(mainPreview.querySelectorAll('.item').length === 1) {
             alert("대표 이미지는 한 개만 등록 가능합니다.");
             return;
         }
@@ -97,22 +78,22 @@ mainUploadBox.addEventListener('drop', function (e) {
 
             const item = new DOMParser().parseFromString(`
                 <li class="item">
-                    <input hidden type="text" class="file-name" name="fileName" th:value="${file.name}">
-                    <img class="img" src="${src}" alt="">
-                    <a class="btn btn-secondary delete-btn">삭제</a>
+                    <input hidden type="text" class="file-name" name="mainFileName" th:value="${file.name}">
+                    <img src="${src}" alt="">
+                    <button type="button" class="btn btn-secondary ms-2 text-nowrap delete-btn">삭제</button>
                 </li>
             `, 'text/html').querySelector('.item');
             const deleteBtn = item.querySelector('.delete-btn');
 
-            if(preview.querySelectorAll('.item').length !== 1) {
-                preview.append(item);
+            if(mainPreview.querySelectorAll('.item').length !== 1) {
+                mainPreview.append(item);
             }
 
-            deleteBtn.onclick = function () {
+            deleteBtn.addEventListener('click', function() {
                 mainFileName = null;
                 fileNameArray = fileNameArray.filter(name => name !== file.name);
                 item.remove();
-            }
+            })
         }
         mainFileName = file.name;
         formData.append("mainFiles", file);
@@ -124,22 +105,14 @@ mainUploadBox.addEventListener('drop', function (e) {
 
 // 추가 이미지
 
-const roomUploadBox = roomImg.querySelector('.room-upload-box');
+const additionalUploadBox = document.getElementById('additionalUploadBox');
 
-roomUploadBox.addEventListener('dragenter', function (e) {
+additionalUploadBox.addEventListener('dragover', function (e) {
     e.preventDefault();
-});
-roomUploadBox.addEventListener('dragover', function (e) {
-    e.preventDefault();
-    roomUploadBox.style.opacity = '0.5';
-
-});
-roomUploadBox.addEventListener('dragleave', function (e) {
-    e.preventDefault();
-    roomUploadBox.style.opacity = '1';
+    additionalUploadBox.style.opacity = '0.5';
 });
 
-roomUploadBox.addEventListener('drop', function (e) {
+additionalUploadBox.addEventListener('drop', function (e) {
     e.preventDefault();
 
     // 유효성 체크
@@ -174,20 +147,20 @@ roomUploadBox.addEventListener('drop', function (e) {
         fileNameArray.push(file.name);
         reader.readAsDataURL(file); // reader에 file 정보를 넣어줌.
         reader.onload = function (e) { // preview 태그에 이미지가 업로드 되었을 때 동작 함수
-            const preview = document.querySelector('#roomPreview');
+            const additionalPreview = document.getElementById('additionalPreview');
             const src = e.target.result;
 
             const item = new DOMParser().parseFromString(`
                 <li class="item">
                     <input hidden type="text" class="file-name" name="fileName" th:value="${file.name}">
-                    <img class="img" src="${src}" alt="">
-                    <a class="btn btn-secondary delete-btn">삭제</a>
+                    <img src="${src}" alt="">
+                    <button type="button" class="btn btn-secondary ms-2 text-nowrap delete-btn">삭제</button>
                 </li>
             `, 'text/html').querySelector('.item');
             const deleteBtn = item.querySelector('.delete-btn');
 
-            preview.append(item);
-            preview.scrollLeft = preview.scrollWidth; // 파일이 추가 되면 스크롤을 오른쪽 끝으로 알아서 당겨줌.
+            additionalPreview.append(item);
+            additionalPreview.scrollLeft = additionalPreview.scrollWidth; // 파일이 추가 되면 스크롤을 오른쪽 끝으로 알아서 당겨줌.
 
             deleteBtn.onclick = function () {
                 fileNameArray = fileNameArray.filter(name => name !== file.name);
@@ -198,17 +171,12 @@ roomUploadBox.addEventListener('drop', function (e) {
     }
 });
 
-
-
-
-const addRoomBtn = roomForm.querySelector('.add_room_btn');
-
-addRoomBtn.addEventListener('click', function(e) {
+registerRoomForm.onsubmit = function(e) {
     e.preventDefault();
 
     const mainPreview = document.getElementById('mainPreview');
-    const roomPreview = document.getElementById('roomPreview');
-
+    const additionalPreview = document.getElementById('additionalPreview');
+    
     const kindRegex = new RegExp("^[^\/]+$");
     const checkinHourRegex = new RegExp("^(0?[0-9]|1[0-9]|2[0-3])$");
     const checkoutHourRegex = new RegExp("^(0?[0-9]|1[0-9]|2[0-3])$");
@@ -222,92 +190,92 @@ addRoomBtn.addEventListener('click', function(e) {
     const countRegex = new RegExp("^\\d+$");
 
 
-    if(roomForm['kind'].value === "") {
+    if(registerRoomForm['kind'].value === "") {
         alert("객실 종류를 입력해 주세요.");
         return;
     }
 
-    if(!kindRegex.test(roomForm['kind'].value)) {
+    if(!kindRegex.test(registerRoomForm['kind'].value)) {
         alert("특수문자 / 은 사용할 수 없습니다. 객실 종류를 다시 한 번 확인해 주세요.");
         return;
     }
 
-    if(roomForm['checkinHour'].value === "" || roomForm['checkinMinute'].value === "") {
+    if(registerRoomForm['checkinHour'].value === "" || registerRoomForm['checkinMinute'].value === "") {
         alert("체크인 시간을 입력해 주세요.");
         return;
     }
 
-    if(!checkinHourRegex.test(roomForm['checkinHour'].value) || !checkinMinuteRegex.test(roomForm['checkinMinute'].value)) {
+    if(!checkinHourRegex.test(registerRoomForm['checkinHour'].value) || !checkinMinuteRegex.test(registerRoomForm['checkinMinute'].value)) {
         alert("올바른 체크인 시간을 입력해 주세요.");
         return;
     }
 
-    if(roomForm['checkoutHour'].value === "" || roomForm['checkoutMinute'].value === "") {
+    if(registerRoomForm['checkoutHour'].value === "" || registerRoomForm['checkoutMinute'].value === "") {
         alert("체크아웃 시간을 입력해 주세요.");
         return;
     }
 
-    if(!checkoutHourRegex.test(roomForm['checkoutHour'].value) || !checkoutMinuteRegex.test(roomForm['checkoutMinute'].value)) {
+    if(!checkoutHourRegex.test(registerRoomForm['checkoutHour'].value) || !checkoutMinuteRegex.test(registerRoomForm['checkoutMinute'].value)) {
         alert("올바른 체크아웃 시간을 입력해 주세요.");
         return;
     }
 
-    if(roomForm['fridayPrice'].value === "") {
+    if(registerRoomForm['fridayPrice'].value === "") {
         alert("금요일 가격을 입력해 주세요.");
         return;
     }
 
-    if(!fridayPriceRegex.test(roomForm['fridayPrice'].value)) {
+    if(!fridayPriceRegex.test(registerRoomForm['fridayPrice'].value)) {
         alert("올바른 금요일 가격을 입력해 주세요.");
         return;
     }
 
-    if(roomForm['saturdayPrice'].value === "") {
+    if(registerRoomForm['saturdayPrice'].value === "") {
         alert("토요일 가격을 입력해 주세요.");
         return;
     }
 
-    if(!saturdayPriceRegex.test(roomForm['saturdayPrice'].value)) {
+    if(!saturdayPriceRegex.test(registerRoomForm['saturdayPrice'].value)) {
         alert("올바른 토요일 가격을 입력해 주세요.");
         return;
     }
 
-    if(roomForm['weekdayPrice'].value === "") {
+    if(registerRoomForm['weekdayPrice'].value === "") {
         alert("주중 가격을 입력해 주세요.");
         return;
     }
 
-    if(!weekdayPriceRegex.test(roomForm['weekdayPrice'].value)) {
+    if(!weekdayPriceRegex.test(registerRoomForm['weekdayPrice'].value)) {
         alert("올바른 주중 가격을 입력해 주세요.");
         return;
     }
 
-    if(roomForm['standardPeople'].value === "") {
+    if(registerRoomForm['standardPeople'].value === "") {
         alert("기준 인원을 입력해 주세요.");
         return;
     }
 
-    if(!standardPeopleRegex.test(roomForm['standardPeople'].value)) {
+    if(!standardPeopleRegex.test(registerRoomForm['standardPeople'].value)) {
         alert("올바른 기준 인원을 입력해 주세요.");
         return;
     }
 
-    if(roomForm['maximumPeople'].value === "") {
+    if(registerRoomForm['maximumPeople'].value === "") {
         alert("최대 인원을 입력해 주세요.");
         return;
     }
 
-    if(!maximumPeopleRegex.test(roomForm['maximumPeople'].value)) {
+    if(!maximumPeopleRegex.test(registerRoomForm['maximumPeople'].value)) {
         alert("올바른 최대 인원을 입력해 주세요.");
         return;
     }
 
-    if(roomForm['count'].value === "") {
+    if(registerRoomForm['count'].value === "") {
         alert("객실 개수를 입력해 주세요.");
         return;
     }
 
-    if(!countRegex.test(roomForm['count'].value)) {
+    if(!countRegex.test(registerRoomForm['count'].value)) {
         alert("올바른 객실 개수를 입력해 주세요.");
         return;
     }
@@ -317,46 +285,46 @@ addRoomBtn.addEventListener('click', function(e) {
         return;
     }
 
-    if (roomPreview.querySelector('.item') == null) {
+    if (additionalPreview.querySelector('.item') == null) {
         alert("한 개 이상의 객실 이미지를 등록해 주세요.");
         return;
     }
 
-    let checkinHour = roomForm['checkinHour'].value;
-    let checkinMinute = roomForm['checkinMinute'].value;
-    let checkoutHour = roomForm['checkoutHour'].value;
-    let checkoutMinute = roomForm['checkoutMinute'].value;
+    let checkinHour = registerRoomForm['checkinHour'].value;
+    let checkinMinute = registerRoomForm['checkinMinute'].value;
+    let checkoutHour = registerRoomForm['checkoutHour'].value;
+    let checkoutMinute = registerRoomForm['checkoutMinute'].value;
 
-    if (roomForm['checkinHour'].value.length < 2) {
-        checkinHour = '0' + roomForm['checkinHour'].value;
+    if (registerRoomForm['checkinHour'].value.length < 2) {
+        checkinHour = '0' + registerRoomForm['checkinHour'].value;
     }
-    if (roomForm['checkinMinute'].value.length < 2) {
-        checkinMinute = '0' + roomForm['checkinMinute'].value;
+    if (registerRoomForm['checkinMinute'].value.length < 2) {
+        checkinMinute = '0' + registerRoomForm['checkinMinute'].value;
 
-    }if (roomForm['checkoutHour'].value.length < 2) {
-        checkoutHour = '0' + roomForm['checkoutHour'].value;
+    }if (registerRoomForm['checkoutHour'].value.length < 2) {
+        checkoutHour = '0' + registerRoomForm['checkoutHour'].value;
 
-    }if (roomForm['checkoutMinute'].value.length < 2) {
-        checkoutMinute = '0' + roomForm['checkoutMinute'].value;
+    }if (registerRoomForm['checkoutMinute'].value.length < 2) {
+        checkoutMinute = '0' + registerRoomForm['checkoutMinute'].value;
     }
 
-    if (!roomForm['kind'].classList.contains("confirmed")) {
+    if (!registerRoomForm['kind'].classList.contains("confirmed")) {
         alert("객실 종류 중복 확인을 진행해주세요.");
         return;
     }
 
     formData.append("mainFileName", mainFileName);
     formData.append("fileNames", fileNameArray);
-    formData.append("hotelName", roomForm['hotelName'].value);
-    formData.append("kind", roomForm['kind'].value);
+    formData.append("hotelName", registerRoomForm['hotelName'].value);
+    formData.append("kind", registerRoomForm['kind'].value);
     formData.append("checkinTime", checkinHour + ":" + checkinMinute);
     formData.append("checkoutTime", checkoutHour + ":" + checkoutMinute);
-    formData.append("fridayPrice", roomForm['fridayPrice'].value);
-    formData.append("saturdayPrice", roomForm['saturdayPrice'].value);
-    formData.append("weekdayPrice", roomForm['weekdayPrice'].value);
-    formData.append("standardPeople", roomForm['standardPeople'].value);
-    formData.append("maximumPeople", roomForm['maximumPeople'].value);
-    formData.append("count", roomForm['count'].value);
+    formData.append("fridayPrice", registerRoomForm['fridayPrice'].value);
+    formData.append("saturdayPrice", registerRoomForm['saturdayPrice'].value);
+    formData.append("weekdayPrice", registerRoomForm['weekdayPrice'].value);
+    formData.append("standardPeople", registerRoomForm['standardPeople'].value);
+    formData.append("maximumPeople", registerRoomForm['maximumPeople'].value);
+    formData.append("count", registerRoomForm['count'].value);
 
     axios.post("/room/add", formData, {header : {'Content-Type': 'multipart/form-data'}})
         .then(res => {
@@ -366,4 +334,4 @@ addRoomBtn.addEventListener('click', function(e) {
         .catch(err => {
             console.log(err);
         })
-})
+}
