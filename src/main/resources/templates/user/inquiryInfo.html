@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>마이페이지_문의사항</title>
+
+    <!--  cdns  -->
+    <th:block th:insert="~{fragments/link.html :: link_fragment}"></th:block>
+
+    <!-- css -->
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/user/myinfo.css">
+
+    <!-- js -->
+    <script defer src="/js/user/inquiryInfo.js"></script>
+</head>
+<body>
+
+<header id="header" class="content-container-wrapper">
+    <th:block th:insert="~{fragments/header.html :: header_fragment}"></th:block>
+</header>
+
+<main id="main" class="content-container-wrapper">
+    <div class="content-container">
+        <div class="user-container">
+            <th:block th:replace="~{fragments/userLeft.html :: userLeft_fragment}"></th:block>
+            <div class="user-right">
+                <div class="title-container" th:switch="${function}">
+                    <h1 class="title">문의사항 > 1:1 문의내역</h1>
+                </div>
+                <div class="information-info-container">
+                    <th:block th:switch="${function}">
+                        <span class="text" th:case='read'>
+                             <table class="table table-striped table-hover">
+            <thead>
+            <tr>
+                <th>글제목</th>
+                <th>호텔이름</th>
+                <th>질문유형</th>
+                <th>작성자</th>
+                <th>작성일</th>
+                <th>답변작성여부</th>
+            </tr>
+            </thead>
+            <tbody id="main_tbody">
+            <tr class="addDetail" th:each="board : ${boardList}">
+                <td>
+                    <a th:href="@{'/user/inquiryInfo/' + ${board.id}}">
+                    <span th:text="${board.title}"></span>
+                    </a>
+                </td>
+                <td>
+                    <span th:text="${board.hotelname}"></span>
+                </td>
+                <td>
+                    <span th:text="${board.relation}"></span>
+                </td>
+                <td>
+                    <span th:text="${board.username}"></span>
+                </td>
+                <td>
+                    <span th:text="${#temporals.format(board.createdTime, 'yyyy-MM-dd HH:mm:ss')}"></span>
+                </td>
+                <td>
+                    <th:block th:each="comment: ${commentList}">
+                        <th:block th:if="${comment.board.id} == ${board.id}">
+                            <button>답변완료</button>
+                        </th:block>
+                    </th:block>
+                </td>
+            </tr>
+
+            </tbody>
+        </table>
+                            <div th:if="${!boardList.isEmpty()}">
+            <ul class="pagination" style="justify-content: center;"
+                th:with="
+            pageNumber = ${boardList.pageable.pageNumber},
+            pageSize = ${boardList.pageable.pageSize},
+            totalPages = ${boardList.totalPages},
+            startPage = ${T(java.lang.Math).floor(pageNumber / pageSize) * pageSize + 1},
+            tempEndPage = ${startPage + pageSize - 1},
+            endPage = (${tempEndPage < totalPages ? tempEndPage : totalPages})">
+
+                <li th:classappend="${boardList.first} ? 'disabled'" class="page-item">
+                    <a class="page-link"
+                       th:href="${boardList.first} ? '#' : @{/user/inquiryInfo?function=read(page=${pageNumber - 1})}"
+                       aria-label="Previous">
+                        <span aria-hidden="true">이전</span>
+                    </a>
+                </li>
+                <li th:each="page: ${#numbers.sequence(startPage, endPage)}"
+                    th:classappend="${page == pageNumber + 1} ? 'active'" class="page-item">
+                    <a th:text="${page}" class="page-link"
+                       th:href="@{/user/inquiryInfo?function=read(page=${page - 1})}"></a>
+                </li>
+                <li th:classappend="${boardList.last} ? 'disabled'" class="page-item">
+                    <a class="page-link"
+                       th:href="${boardList.last} ? '#' : @{/user/inquiryInfo?function=read(page=${pageNumber + 1})}"
+                       aria-label="Next">
+                        <span aria-hidden="true">다음</span>
+                    </a>
+                </li>
+            </ul>
+                            </div>
+                        </span>
+                    </th:block>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<th:block th:insert="~{fragments/footer.html :: footer_fragment}"></th:block>
+
+
+</body>
+<script>
+
+</script>
+</html>

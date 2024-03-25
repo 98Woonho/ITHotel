@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>나의 문의</title>
+
+    <link rel="stylesheet" href="/css/user/inquiryInfoDetail.css">
+    <link rel="stylesheet" href="/css/user/myinfo.css">
+    <link rel="stylesheet" href="/css/common.css">
+    <script defer src="/js/user/inquiryInfoDetail.js"></script>
+    <th:block th:insert="~{fragments/link.html :: link_fragment}"></th:block>
+</head>
+<body>
+<header id="header" class="content-container-wrapper">
+    <th:block th:insert="~{fragments/header.html :: header_fragment}"></th:block>
+</header>
+<main id="main" class="content-container-wrapper">
+    <div class="content-container">
+        <div class="user-container">
+            <th:block th:replace="~{fragments/userLeft.html :: userLeft_fragment}"></th:block>
+            <div class="user-right">
+                <div class="title-container">
+                    <h1 class="title">문의사항 > 나의문의 </h1>
+                </div>
+                <div class="information-info-container">
+        <div class="table_wrapper">
+            <table class="main_table">
+                <tbody>
+                <tr>
+                    <th>
+                        <span>*</span>
+                        호텔이름
+                    </th>
+                    <td>
+                        <div th:text="${board.hotelname}"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <span>*</span>
+                        질문유형
+                    </th>
+                    <td>
+                        <div th:text="${board.relation}"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <span>*</span>
+                        제목
+                    </th>
+                    <td>
+                        <div th:text="${board.title}"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <span>*</span>
+                        작성일
+                    </th>
+                    <td>
+                        <div th:text="${board.createdTime}"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <span>*</span>
+                        작성자
+                    </th>
+                    <td>
+                        <div th:text="${board.username}"></div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="card my-4">
+            <h4 class="card-header">질문보기</h4>
+            <div class="card-body" th:text="${board.content}">
+
+            </div>
+        </div>
+                    <div class="card my-4">
+                        <h5 class="card-header">답글</h5>
+                        <div class="card-body">
+                            <div th:each="comment : ${comments}">
+                                <div class="media mb-4">
+                                    <div class="media-body">
+                                        <h5 class="mt-0" th:text="${comment.username}">작성자</h5>
+                                        <p th:text="${comment.content}" th:id="'comment-' + ${comment.id}">댓글 내용</p>
+                                        <small class="text-muted"
+                                               th:text="${#temporals.format(comment.createdTime, 'yyyy-MM-dd HH:mm')}">댓글 작성
+                                            시간</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-outline-secondary" onclick="listReq()">문의현황으로 가기</button>
+                    <th:block
+                            th:if="${board != null and #authentication.principal instanceof T(org.springframework.security.core.userdetails.UserDetails) and board.getUserid() == #authentication.principal.username}">
+                        <a th:href="@{/admin/inquiryInfo/{id}/Remove(id=${id})}" class="btn btn-outline-danger"
+                           onclick="return confirm('삭제하시겠습니까?')">나의 문의 삭제</a>
+                    </th:block>
+        </div>
+                </div>
+            </div>
+        </div>
+</main>
+<th:block th:replace="~{/fragments/footer.html :: footer_fragment}"></th:block>
+</body>
+</html>

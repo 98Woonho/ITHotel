@@ -1,0 +1,84 @@
+@charset "UTF-8";
+
+.list-container {
+    border-top: 0.175rem solid #575757;
+    margin-bottom: 5rem;
+}
+
+.region-ul img {
+    width: 200px;
+    height: 200px;
+}
+
+.region-ul li {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 2rem;
+}
+
+.region-ul li div {
+    display: flex;
+    flex-direction: column;
+}
+
+.address-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.subtitle-container {
+    width: 1150px;
+    margin: 0.5rem auto;
+}
+
+.subtitle {
+    font-size: 2.25rem;
+    font-weight: 400;
+}
+
+.region {
+    width: 1150px;
+    margin: 0 auto;
+}
+
+.item {
+    border-top: 0.0625rem solid #D2C4A5;
+}
+
+.item button {
+    width: 100%;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 1rem 0;
+}
+
+.item button .text {
+    font-size: 1.25rem;
+}
+
+.item button .icon {
+    height: 2rem;
+}
+
+.region-ul {
+    max-height: 0;
+    overflow: hidden;
+    transition-duration: 500ms;
+    transition-property: max-height;
+    transition-timing-function: ease;
+}
+
+.region-ul.visible {
+    max-height: 500vh;
+}
+
+.hotel-info-container {
+    margin-left: 1rem;
+}
+
+.hotel-name {
+    font-size: 1.5rem;
+    font-weight: 500;
+}

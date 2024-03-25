@@ -1,0 +1,90 @@
+.user-container {
+    margin: 5rem 0;
+
+    align-items: flex-start;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.user-container h1 {
+    font-size: 2rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.user-container h2 {
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin-top: 0.5rem;
+}
+
+.user-container .title-container {
+    border-bottom: 0.3rem solid #4a4a4a;
+}
+
+.user-container > .user-left {
+    padding: 1rem;
+    width: 250px;
+    border: 0.0625rem solid #4a4a4a;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.user-container > .user-left > .menu > .link-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin-left: 2rem;
+}
+
+.user-container > .user-left > .menu > .link-container > .link {
+    margin: 0.5rem 0;
+}
+
+
+.user-container > .user-right {
+    width: 950px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 1rem 1rem 1rem 5rem;
+}
+
+.user-container > .user-right > .title-container > h1{
+    display: inline;
+}
+
+.user-container > .user-right > .information-info-container {
+    margin-top: 5rem;
+    padding: 0.5rem 1rem;
+    min-height: 500px;
+    max-height: 1000px;
+    border: 0.0625rem solid black;
+}
+
+.page-link {
+    border: unset!important;
+}
+.page-item.active > .page-link{
+    background-color: rgb(32, 150, 243)!important;
+}
+
+.page-link > span {
+    font-weight: bold;
+    color: gray;
+}
+
+.information-info-container .sub-title-container {
+    margin-bottom: 0.75rem;
+}
+
+.information-info-container .info-content-container {
+    margin-bottom: 0.35rem;
+}
+
+.information-info-container label {
+    font-weight: 500;
+}

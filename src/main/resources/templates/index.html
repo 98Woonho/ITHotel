@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>ITHOTEL</title>
+
+    <!--  cdns  -->
+    <th:block th:insert="~{fragments/link.html :: link_fragment}"></th:block>
+
+    <!--    common.css  -->
+    <link rel="stylesheet" href="/css/common.css">
+    <!--    index.css  -->
+    <link rel="stylesheet" href="/css/index.css">
+
+    <!-- swiper.js -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <!--  datepicker jQuery -->
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.1/jquery.min.js"></script>
+    <link type="text/css" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/base/jquery-ui.css"
+          rel="stylesheet">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+    <!-- js    -->
+    <script defer src="/js/common.js"></script>
+    <script defer src="/js/index.js"></script>
+
+    <style>
+        .ui-widget-header {
+            border: 0px solid #dddddd;
+            background: #fff;
+        }
+
+        .ui-datepicker-calendar > thead > tr > th {
+            font-size: 14px !important;
+        }
+
+        .ui-datepicker .ui-datepicker-header {
+            position: relative;
+            padding: 10px 0;
+        }
+
+        .ui-state-default,
+        .ui-widget-content .ui-state-default,
+        .ui-widget-header .ui-state-default,
+        .ui-button,
+        html .ui-button.ui-state-disabled:hover,
+        html .ui-button.ui-state-disabled:active {
+            border: 0px solid #c5c5c5;
+            background-color: transparent;
+            font-weight: normal;
+            color: #454545;
+            text-align: center;
+        }
+
+        .ui-datepicker .ui-datepicker-title {
+            margin: 0 0em;
+            line-height: 16px;
+            text-align: center;
+            font-size: 14px;
+            padding: 0px;
+            font-weight: bold;
+        }
+
+        .ui-datepicker {
+            display: none;
+            background-color: #fff;
+            border-radius: 4px;
+            margin-top: 10px;
+            margin-left: 0px;
+            margin-right: 0px;
+            padding: 20px;
+            padding-bottom: 10px;
+            width: 300px;
+            box-shadow: 10px 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .ui-widget.ui-widget-content {
+            border: 1px solid #eee;
+        }
+
+        #datepicker:focus > .ui-datepicker {
+            display: block;
+        }
+
+        .ui-datepicker-prev,
+        .ui-datepicker-next {
+            cursor: pointer;
+        }
+
+        .ui-datepicker-next {
+            float: right;
+        }
+
+        .ui-state-disabled {
+            cursor: auto;
+            color: hsla(0, 0%, 80%, 1);
+        }
+
+        .ui-datepicker-title {
+            text-align: center;
+            padding: 10px;
+            font-weight: 100;
+            font-size: 20px;
+        }
+
+        .ui-datepicker-calendar {
+            width: 100%;
+        }
+
+        .ui-datepicker-calendar > thead > tr > th {
+            padding: 5px;
+            font-size: 20px;
+            font-weight: 400;
+        }
+
+        .ui-datepicker-calendar > tbody > tr > td > a {
+            color: #000;
+            font-size: 12px !important;
+            font-weight: bold !important;
+            text-decoration: none;
+        }
+
+        .ui-datepicker-calendar > tbody > tr > .ui-state-disabled:hover {
+            cursor: auto;
+            background-color: #fff;
+        }
+
+        .ui-datepicker-calendar > tbody > tr > td {
+            border-radius: 100%;
+            width: 44px;
+            height: 30px;
+            cursor: pointer;
+            padding: 5px;
+            font-weight: 100;
+            text-align: center;
+            font-size: 12px;
+        }
+
+        .ui-datepicker-calendar > tbody > tr > td:hover {
+            background-color: transparent;
+            opacity: 0.6;
+        }
+
+        .ui-state-hover,
+        .ui-widget-content .ui-state-hover,
+        .ui-widget-header .ui-state-hover,
+        .ui-state-focus,
+        .ui-widget-content .ui-state-focus,
+        .ui-widget-header .ui-state-focus,
+        .ui-button:hover,
+        .ui-button:focus {
+            border: 0px solid #cccccc;
+            background-color: transparent;
+            font-weight: normal;
+            color: #2b2b2b;
+        }
+
+        .ui-widget-header .ui-icon {
+            background-image: url('/images/btns.png');
+        }
+
+        .ui-icon-circle-triangle-e {
+            background-position: -20px 0px;
+            background-size: 36px;
+        }
+
+        .ui-icon-circle-triangle-w {
+            background-position: -0px -0px;
+            background-size: 36px;
+        }
+
+        .ui-datepicker-calendar > tbody > tr > td:first-child a {
+            color: red !important;
+        }
+
+        .ui-datepicker-calendar > tbody > tr > td:last-child a {
+            color: #0099ff !important;
+        }
+
+        .ui-datepicker-calendar > thead > tr > th:first-child {
+            color: red !important;
+        }
+
+        .ui-datepicker-calendar > thead > tr > th:last-child {
+            color: #0099ff !important;
+        }
+
+        .ui-state-highlight,
+        .ui-widget-content .ui-state-highlight,
+        .ui-widget-header .ui-state-highlight {
+            border: 0px;
+            background: #f1f1f1;
+            border-radius: 50%;
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+
+        .inp {
+            padding: 10px 10px;
+            background-color: #f1f1f1;
+            border-radius: 4px;
+            border: 0px;
+        }
+
+        .inp:focus {
+            outline: none;
+            background-color: #eee;
+        }
+    </style>
+</head>
+<body>
+
+<th:block th:replace="~{fragments/hotelList.html :: hotelList}"></th:block>
+
+<header id="header" class="content-container-wrapper">
+    <th:block th:insert="~{fragments/header.html :: header_fragment}"></th:block>
+</header>
+
+<img class="chat-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAACXBIWXMAAAsTAAALEwEAmpwYAAAB8ElEQVR4nO3Wy4vOURzH8dd4plFjFmwsjCI9I38Dhixm80gjxFrERCYbbEjIJZZCbjEL1wVj6bJQKJSV5H63sGClMBboV9/n6dfMc5nn8isL7zr1+33O93y/v3PO73vOl/9UZyZWYhB7og2GNkOLmY5DeIFfuI9hHI82HFrS9xwH0d1MwCk4iR+4hAImVbHvCpvL+B4fNbneoAvwHteQb+Cj8zE28dE73kGL8Q0DmmcgfBVqGS4Mw2Vax/LwWXHmyf69xQatZxNeo7Nc537cQVsGgSfgHvaO7ujAV8yXHb34ErFKLI1lzmK2RdrwBkvSYpL0R2TPMRxICxewtYxhO4ZwJp4b1Ytsw/nSG25htbH04E+0fBN6kTW4XnrDFWxWORU2tkBP2IGzUuzDKdkzhF1poQ8fI9+yoiPSaW5azOED+jMMvCLSaUzKrscTTMwgaGcEXVeuM1nmuzicQeCj4bviVnbHXm9vYdDd4TMpm6qS5OI7nK5RcdSiK3x8xpzxDpqK27jaQMDkR12Fl7iBafU6SK6wE6O02RWOwkSbh514FW1to5fO41Qlkouf7jd+4ike4BE+YSSW9FyUuol9Q/TFNZmLO/phzKIn6udFkZf9cSDMasWV2h6zfRblykiUuXWXqvVSwE1cxJZmi/N/jr+CkGqw8/NbqwAAAABJRU5ErkJggg==">
+
+<main id="main" class="content-container-wrapper">
+    <div class="slide-container">
+        <div class="slide">
+            <button onclick="slideImage('prev')" class="prev" type="button">
+                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAAA30lEQVR4nO3YQWoCQRCF4Vq4MbpQ0RMKnkLwWDKCFFUNTbe2tsmFlJAQDKhb+w3vg9nM7ufNNMOIEBERgTm7L5LZUtAjsvtXdr9ms7XAR/jvhRZTVOfZ7PNfxM+1V9WBIAghTLNZeRDhqjoWBIERjeASLS2RzI7QL3ZVnTCiBZVLNKL2YYkY4yy7nx59O5VSPgRmCfcD9BK9CvnGGLRlkrv1KubSdSNBUhmDd5rtYoxDQVIZ0yguA7hMB3cAxCef/clsC/PL9NUyyX0jiOpdDGzE/WOWQlj93SAiIpL3ugFKeOV7KuCVQAAAAABJRU5ErkJggg=="
+                     alt="">
+            </button>
+            <button onclick="slideImage('next')" class="next" type="button">
+                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAAA3UlEQVR4nO3WWwrCMBSE4bgXwdtmBMWNaRVXk55psYm4C8HLFvQhUlEftPVRcuJ8kAX8TGhjDBERUSQcMN5Z2zeaVSITJ3LxImdfFCOjOgII9yNyUhnjRdaviMdxwGFblj2jSQih40SW7zH1Mg4YGk0CY+JeJkvpmmWM0bRMlecDk0KMA44qYzywYExsklvGAauPDwCw31jbNQqXmTct4zW9mr9dMa8lpPVxqelqhZYlGPFrXCIWXCIWXCIWXCIWIYU/di2JiJrP85kHrqojGmL0Rjw5YKo+goiI/tINGwPylqRAtaEAAAAASUVORK5CYII="
+                     alt="">
+            </button>
+            <ul>
+                <li><img src="/images/hotel1.jpg" alt=""></li>
+                <li><img src="/images/hotel2.jpg" alt=""></li>
+                <li><img src="/images/hotel3.jpg" alt=""></li>
+            </ul>
+        </div>
+    </div>
+    <div class="content-container">
+        <form class="search-form" id="searchForm">
+            <label class="label hotel">
+                <span class="text">호텔</span>
+                <div class="hotel-search-container">
+                    <input readonly type="text" name="hotelName" placeholder="호텔을 선택해 주세요.">
+                    <img class="icon"
+                         src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAACJklEQVR4nO2WsWsUURDGXxCJ1irpJGKhBNuUtjaCon9AopBUEQIWkSBREiFFIODfELHw7FLs3nzfWxZUjghXKZImiKTVxgQsTMLK6Cy+QI7su92IYj645thv5jfvzc6sc8f6F1QUxQDJUQBPSL4g+ZqkJ7kCYDpN0+EjSw7gBoAPJItDfqve+5HGEud5fork8zIBgG+WZIbkGIAJkvMk10ju2TM7IjJVO3mn0zlN8k0ZFMAyyTO9nheRKwDSAHaxFgB/V/5VRK5F9MlccCXj/Sa/aQF2SV6P9QNYslPY9t4PRZmLohgoG06P3fWhVqt1guQ7K+JplJnkaNBwPe/8MInILYvzWYEqGwEslK+Uq6EkSQYBbGks7/3Vykb+GjJK/qAOgMXKLNZEZROAV3YCYw0APDOARzEmH03dQwBeWjGzMQArBrDQAMBbi3U3xjRt1Gt1kusbpBNUY2VZdqmyMU3TYQPY0/FaA+C+Vb/Rj3nVzKkOplh/nudnAXyxGPeiAbz3IwC+R3ewc67b7Z4EkNsprutSc/1IRKaCzbZUZZpZ5Xngu+3qCMBisNne63jVCXdQw+mdl8ceAHwSkQu1IEiO60oOgm7ZhNPXtWUfI7tB4nWtXJM3BpEkyTndarpYen2Oabdrw5V3rkkbhVBpH+hi0SkJ4DGAhyJyp91uX3YH6EggYkXyPMmPdlKbWZZddP8lhOy/juSPA5QQJAXA5M8/jvW36AeJmI3/H6vYawAAAABJRU5ErkJggg==">
+                </div>
+            </label>
+            <label class="label checkin">
+                <span class="text">체크인</span>
+                <input readonly type="text" id="datepicker1" name="checkin">
+            </label>
+            <label class="label checkout">
+                <span class="text">체크아웃</span>
+                <input readonly type="text" id="datepicker2" name="checkout">
+            </label>
+            <label class="label person">
+                <div class="adult-container">
+                    <div class="text-container">
+                        <div class="text">성인</div>
+                    </div>
+                    <div class="count-container">
+                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIUlEQVR4nGNgGAWjYBSMApLBfyrhgbNgFIyCUTAKGDABAOkcI91xODUvAAAAAElFTkSuQmCC"
+                             class="icon" onclick="adultMinus()">
+                        <input readonly th:value="${adultCount}" type="text" name="adultCount">
+                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAAANklEQVR4nGNgGGngPxSPWoAT/B8NIkLg/8gOov9UxvS3YOjHATHg/6gFhMD/0SAa8CBiGHQAAOITS7WQXzPpAAAAAElFTkSuQmCC"
+                             class="icon" onclick="adultPlus()">
+                    </div>
+                </div>
+                <div class="child-container">
+                    <div class="text-container">
+                        <div class="text">어린이</div>
+                    </div>
+                    <div class="count-container">
+                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIUlEQVR4nGNgGAWjYBSMApLBfyrhgbNgFIyCUTAKGDABAOkcI91xODUvAAAAAElFTkSuQmCC"
+                             class="icon" onclick="childMinus()">
+                        <input readonly th:value="${childCount}" type="text" name="childCount" placeholder="0">
+                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAAANklEQVR4nGNgGGngPxSPWoAT/B8NIkLg/8gOov9UxvS3YOjHATHg/6gFhMD/0SAa8CBiGHQAAOITS7WQXzPpAAAAAElFTkSuQmCC"
+                             class="icon" onclick="childPlus()">
+                    </div>
+                </div>
+            </label>
+            <input type="submit" value="검색" class="search-button">
+        </form>
+
+        <section class="main-section-1">
+            <h1 class="title">IT호텔만의 모던한 객실</h1>
+            <span class="text">IT호텔의 객실은 모던하면서도 세련되게 디자인된 라이프 스타일 공간으로<br>비교할 수 없는 럭셔리함과 편안함의 세계를 고객에게 제공합니다.</span>
+            <div class="img-container">
+                <img src="/images/room1.webp" alt="">
+                <img src="/images/room2.webp" alt="">
+                <img src="/images/room3.webp" alt="">
+            </div>
+        </section>
+
+        <section class="main-section-2">
+            <h1 class="title">다양한 고품격 서비스</h1>
+            <span class="text">다양한 소셜 라이프를 즐길 수 있는 라운지부터<br>수영장, 퍼스널 트레이닝 시설, 그리고 훌륭한 음식을 제공하는 다이닝 존을 경험할 수 있습니다.</span>
+            <div class="img-container">
+                <img src="/images/lounge.jpg" alt="">
+                <img src="/images/diningRoom.jpg" alt="">
+                <img src="/images/gym.jpg" alt="">
+            </div>
+        </section>
+
+
+        <div class="swiper">
+            <div class="swiper-wrapper">
+                <!-- Slides -->
+                <div class="swiper-slide" th:each="mainFile : ${mainFileInfoList}">
+                    <img th:src="@{${mainFile.dir} + ${mainFile.fileName}}" alt="">
+                    <div class="info-container">
+                        <span class="text" th:text="${mainFile.hotel.hotelDetails}"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+        </div>
+    </div>
+
+    <div class="chat-container">
+        <div class="chat">
+            <div class="chat-messages"></div>
+            <div class="user-input">
+                <input type="text" placeholder="메시지를 입력하세요..."/>
+                <button>전송</button>
+            </div>
+        </div>
+    </div>
+</main>
+
+<th:block th:insert="~{fragments/footer.html :: footer_fragment}"></th:block>
+
+
+</body>
+</html>

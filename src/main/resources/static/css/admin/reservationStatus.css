@@ -1,0 +1,28 @@
+.reservationList-table {
+    margin-top: 5rem;
+
+    border-collapse: separate;
+    border-spacing: 0.35rem;
+}
+
+.reservationList-table th {
+    font-weight: 500;
+    font-size: 1.15rem;
+    background-color: #EBEAEA;
+    border-radius: 5px;
+}
+
+.reservationList-table td {
+    background-color: #F9F8F8;
+    border-radius: 5px;
+}
+.page-link {
+    border: unset!important;
+}
+.page-item.active > .page-link{
+    background-color: rgb(32, 150, 243)!important;
+}
+
+.page-link > span {
+    font-weight: bold;
+}

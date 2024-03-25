@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+<div class="admin-left" th:fragment="adminLeft_fragment">
+    <div class="title-container">
+        <h1 class="title">관리자 페이지</h1>
+    </div>
+    <ul>
+        <li>
+            <h2>예약</h2>
+            <a href="/admin/reservationStatus" class="link">예약 현황</a>
+        </li>
+        <li>
+            <h2>고객문의</h2>
+            <a href="/admin/questionWrite" class="link">자주하는 질문 작성</a>
+            <a href="/admin/noticeWrite" class="link">공지사항 작성</a>
+            <a href="/admin/inquiryList" class="link">1:1 문의 내역</a>
+        </li>
+        <li>
+            <h2>호텔 관리</h2>
+            <a href="/admin/hotelStatus" class="link">호텔 현황</a>
+            <a href="/admin/registerHotel" class="link">호텔 등록</a>
+            <a href="/admin/modifyHotel" class="link">호텔 수정 및 삭제</a>
+            <a href="/admin/roomStatus" class="link">객실 현황</a>
+            <a href="/admin/registerRoom" class="link">객실 등록</a>
+            <a href="/admin/modifyRoom" class="link">객실 수정 및 삭제</a>
+        </li>
+        <li>
+            <h2>매출 현황</h2>
+            <a href="/admin/monthSales?region=total" class="link">월별 매출</a>
+        </li>
+    </ul>
+</div>
+
+</body>
+</html>

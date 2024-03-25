@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>마이페이지_예약정보</title>
+
+    <!--  cdns  -->
+    <th:block th:insert="~{fragments/link.html :: link_fragment}"></th:block>
+
+    <!-- css -->
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/user/myinfo.css">
+    <link rel="stylesheet" href="/css/user/reservationinfo.css">
+
+    <!-- js -->
+    <script defer src="/js/user/reservationInfo.js"></script>
+
+</head>
+<body>
+
+<header id="header" class="content-container-wrapper">
+    <th:block th:insert="~{fragments/header.html :: header_fragment}"></th:block>
+</header>
+
+<main id="main" class="content-container-wrapper">
+    <div class="content-container">
+        <div class="user-container">
+            <th:block th:replace="~{fragments/userLeft.html :: userLeft_fragment}"></th:block>
+            <div class="user-right">
+                <div class="title-container" th:switch="${function}">
+                    <h1 class="title">예약정보 > </h1>
+                    <h1 class="tag" th:case='read'>예약목록</h1>
+                    <h1 class="tag" th:case='delete'>예약취소</h1>
+                </div>
+                <div class="information-info-container" th:switch="${function}">
+                    <th:block th:case='read'>
+                        <div class="reservation-content-container">
+                            <table class="reservationList-table">
+                                <thead>
+                                <tr>
+                                    <th>예약자 성함</th>
+                                    <th>호텔</th>
+                                    <th>객실 종류</th>
+                                    <th>체크인</th>
+                                    <th>체크 아웃</th>
+                                    <th>예약 상태</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr class="empty" th:if="${reservationList.size() == 0}">
+                                    <td colspan="5">예약이 존재하지 않습니다.</td>
+                                </tr>
+                                <tr th:each="reservation : ${reservationList}">
+                                    <td id="Name" th:text="${reservation.user.name}"></td>
+                                    <td id="HotelName" th:text="${reservation.room.hotel.hotelName}"></td>
+                                    <td id="Kind" th:text="${reservation.room.kind}"></td>
+                                    <td id="Checkin" th:text="${reservation.checkin}"></td>
+                                    <td id="Checkout" th:text="${reservation.checkout}"></td>
+                                    <td id="Status"th:text="${reservation.status}"></td>
+                                    <th class="Cancel" style="background: white"></th>
+                                    <td class="Cancel_btn" th:id="${reservation.id}" th:onclick="cancel(this.getAttribute('id'))" style="background: white" th:if="${reservation.status} == '예약 완료'">
+                                        <img src="/images/cancel_btn.png" alt="취소">
+                                    </td>
+                                    <td class="Cancel_btn" onclick="location.href='/payment/read'" style="background: white" th:if="${reservation.status} == '예약 중'">예약 이어하기</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </th:block>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<th:block th:insert="~{fragments/footer.html :: footer_fragment}"></th:block>
+
+
+</body>
+</html>

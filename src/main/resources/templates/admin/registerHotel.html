@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <!--  cdns  -->
+    <th:block th:insert="~{fragments/link.html :: link_fragment}"></th:block>
+
+    <!-- css -->
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/admin/registerHotel.css">
+
+    <!-- js -->
+    <script defer src="/js/admin/registerHotel.js"></script>
+</head>
+<body>
+
+<header id="header" class="content-container-wrapper">
+    <th:block th:insert="~{fragments/header.html :: header_fragment}"></th:block>
+</header>
+
+<main id="main" class="content-container-wrapper">
+    <div class="content-container">
+        <div class="admin-container">
+            <th:block th:replace="~{fragments/adminLeft.html :: adminLeft_fragment}"></th:block>
+            <div class="admin-right">
+                <div class="title-container">
+                    <h1 class="title">호텔 관리 > 호텔 등록</h1>
+                </div>
+                <div class="register-hotel-container">
+                    <section class="hotel-img-section">
+                        <div>
+                            <span>대표 이미지</span>
+                            <div class="upload-box" id="mainUploadBox">
+                                <div class="plus">+</div>
+                            </div>
+                            <label>PREVIEW</label>
+                            <ul class="preview" id="mainPreview"></ul>
+                        </div>
+
+                        <div>
+                            <span>추가 이미지</span>
+                            <div class="upload-box" id="additionalUploadBox">
+                                <div class="plus">+</div>
+                            </div>
+                            <label>PREVIEW</label>
+                            <ul class="preview" id="additionalPreview"></ul>
+                        </div>
+                    </section>
+
+                    <section class="hotel-info-section">
+                        <form id="registerHotelForm">
+                            <input type="hidden" name="region" id="region" class="form-control">
+                            <label for="hotelName">호텔 이름</label>
+                            <div class="row-container">
+                                <input name="hotelName" id="hotelName" class="form-control" placeholder="호텔 이름(특수문자 불가능)"
+                                       required>
+                                <button type="button" class="btn btn-secondary w-50 ms-2" name="confirmHotelNameDuplicationBtn">중복
+                                    확인
+                                </button>
+                            </div>
+                            <div>
+                                <div>
+                                    <label for="zipcode">우편번호</label>
+                                    <div class="row-container">
+                                        <input disabled class="form-control" name="zipcode" id="zipcode"
+                                               placeholder="우편번호"/>
+                                        <button type="button" class="btn btn-secondary w-50" name="searchAddressBtn">
+                                            우편번호 찾기
+                                        </button>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label for="addr1">주소</label>
+                                    <input class="form-control" name="addr1" id="addr1" placeholder="주소"/>
+                                </div>
+                                <div>
+                                    <label for="addr2">상세주소</label>
+                                    <input class="form-control" name="addr2" id="addr2" placeholder="상세주소">
+                                </div>
+                            </div>
+                            <div>
+                                <label for="contactInfo">연락처</label>
+                                <input name="contactInfo" id="contactInfo" class="form-control"
+                                       placeholder="000-0000-0000 또는 000-000-0000" required>
+                            </div>
+                            <div>
+                                <label for="hotelDetails">호텔 소개</label>
+                                <input name="hotelDetails" id="hotelDetails" class="form-control" placeholder="호텔 소개" required>
+                            </div>
+                            <div>
+                                <button class="btn btn-primary w-100">등록</button>
+                            </div>
+                        </form>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<th:block th:insert="~{fragments/footer.html :: footer_fragment}"></th:block>
+
+<!-- map -->
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
+</body>
+</html>

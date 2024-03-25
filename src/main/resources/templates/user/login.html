@@ -5,33 +5,75 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <th:block th:insert="~{fragments.html :: headCdns}"></th:block>
-    <link rel="stylesheet" th:href="@{/resources/stylesheets/common.css}">
-    <link rel="stylesheet" th:href="@{/user/resources/stylesheets/login.css}">
+
+    <!--  cdns  -->
+    <th:block th:insert="~{fragments/link.html :: link_fragment}"></th:block>
+
+    <!--    common.css  -->
+    <link rel="stylesheet" href="/css/common.css">
+    <!--    login.css  -->
+    <link rel="stylesheet" href="/css/user/login.css">
+    <!-- datePicker's css -->
+    <link rel="stylesheet" href="/css/datepicker.min.css" >
+
+
+    <!-- js -->
+    <script defer src="/js/datepicker.js"></script>
+    <script defer src="/js/datepicker.ko.js"></script>
+
     <title>로그인</title>
 
 </head>
 <body>
+<header id="header" class="content-container-wrapper">
+    <th:block th:insert="~{fragments/header.html :: header_fragment}"></th:block>
+</header>
 
-<th:block th:replace="~{fragments.html :: header}"></th:block>
 
 <main id="main" class="content-container-wrapper">
     <div class="content-container">
         <div class="title-container">
             <h1 class="title">로그인</h1>
         </div>
-        <div class="role-container">
-            <span class="text">회원</span>
-            <span class="text">관리자</span>
-        </div>
-        <form action="/login" method="post" class="login-form" id="loginForm">
-
+        <form action="/user/login" method="post">
+            <div class="form-login">
+                <label class="form-label">아이디</label>
+                <input name="username" class="form-control" placeholder="로그인"/> <br/>
+            </div>
+            <div class="form-login">
+                <label class="form-label">비밀 번호</label>
+                <input name="password" type="password" class="form-control" placeholder="비밀번호"/> <br/>
+            </div>
+            <div class="form-option">
+                <div class="form-remember">
+                    <input type="checkbox" name="remember-me" id="remember-me" class="form-check-input"/>
+                    <label for="remember-me" class="form-check-label">로그인 유지</label>
+                </div>
+                <div class="form-find">
+                    <div class="form-findId">
+                        <a href="findId">아이디 찾기</a>
+                    </div>
+                    <div class="form-findPw">
+                        <a href="findPw">비밀번호 찾기</a>
+                    </div>
+                </div>
+            </div>
+            <div class="form-login">
+                <input class="login_btn" type="submit" value="로그인"/>
+            </div>
         </form>
+        <div class="form-oauth2">
+            <button onclick="location.href='/oauth2/authorization/kakao'" class="oauth2-btn">카카오로 로그인</button>
+            <button onclick="location.href='/oauth2/authorization/google'" class="oauth2-btn">구글로 로그인</button>
+        </div>
+        <div class="form-login">
+            <button onclick="location.href='/user/join'" class="register_btn">회원가입</button>
+        </div>
+        <div th:text="${param.error}" class="form-login"></div>
     </div>
 </main>
 
-<th:block th:replace="~{fragments.html :: footer}"></th:block>
-
+<th:block th:insert="~{fragments/footer.html :: footer_fragment}"></th:block>
 
 </body>
 </html>

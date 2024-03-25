@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <!--  cdns  -->
+    <th:block th:insert="~{fragments/link.html :: link_fragment}"></th:block>
+
+    <!--    common.css  -->
+    <link rel="stylesheet" href="/css/common.css">
+    <!--    index.css  -->
+    <link rel="stylesheet" href="/css/hotel/find.css">
+
+
+    <!--    js  -->
+    <script defer src="/js/hotel/find.js"></script>
+
+    <title>Document</title>
+</head>
+<body>
+
+<header id="header" class="content-container-wrapper">
+    <th:block th:insert="~{fragments/header.html :: header_fragment}"></th:block>
+</header>
+
+<main id="main" class="content-container-wrapper">
+    <div class="content-container">
+        <th:block th:replace="~{fragments/findTop.html :: findTop_fragment}"></th:block>
+        <div class="list-container">
+            <div class="subtitle-container">
+                <h1 class="subtitle">한국</h1>
+            </div>
+            <ul class="region" th:each="region : ${regionList}">
+                <li class="item">
+                    <button th:data-value="${region}" class="hotel-info-btn">
+                        <span class="text" th:text="${region}"></span>
+                        <img class="icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAu0lEQVR4nO2USQoCMRAAx6voF1R8kwdfEDCdXkTmeyouz5DRn0gEL+O4TDY8dB2ThipC6KpSFEX5FwRxweguzDzL5dhYO/WONcHy5dJaO2KCA5O75ojwckFoBN3RuzqHjDFDJtgKwk1kNU8lJ6LJ43UJTnVdjz8Om8QRveSpI4LkqSKi5LERSeShEU+5EJyj5X0jssh/jcgq/xZRRP4uoqi8a2379Zrkt4dECLodE+yLy1sM2geKoihVD+6/lLSmbVocyQAAAABJRU5ErkJggg==" alt="">
+                    </button>
+                    <ul th:data-value="${region}" class="region-ul">
+                        <li th:each="hotelMainFileInfo : ${hotelMainFileInfoList}" th:if="${hotelMainFileInfo.hotel.region == region}">
+                            <img th:src="@{${hotelMainFileInfo.dir} + ${hotelMainFileInfo.fileName}}" alt="">
+                            <div class="hotel-info-container">
+                                <span class="text hotel-name" th:text="${hotelMainFileInfo.hotel.hotelName}"></span>
+                                <div class="address-container">
+                                    <span class="text" th:text="${hotelMainFileInfo.hotel.addr1}"></span>
+                                    <span class="text" th:text="${hotelMainFileInfo.hotel.addr2}"></span>
+                                </div>
+                                <span class="text" th:text="${hotelMainFileInfo.hotel.contactInfo}"></span>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</main>
+
+<th:block th:insert="~{fragments/footer.html :: footer_fragment}"></th:block>
+
+</body>
+</html>

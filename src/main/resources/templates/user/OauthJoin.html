@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <!--  cdns  -->
+    <th:block th:insert="~{fragments/link.html :: link_fragment}"></th:block>
+
+    <!--    common.css  -->
+    <link rel="stylesheet" href="/css/common.css">
+
+    <!--    OauthJoin.js    -->
+    <script defer src="/js/user/OauthJoin.js"></script>
+
+</head>
+<body>
+
+<header id="header" class="content-container-wrapper">
+    <th:block th:insert="~{fragments/header.html :: header_fragment}"></th:block>
+</header>
+
+
+<main>
+    <section>
+        <h1>JOIN PAGE</h1>
+        <form name="joinform" action="/user/Oauthjoin" method="post" onsubmit="return false;">
+            <div class="join_wrapper">
+                <div>
+                    <label>수정 비밀번호</label><span th:text="${password}" id="pw_msg" class="msg"></span> <br/>
+                    <span style="color: gray">정보수정 및 탈퇴시 사용되니 신중히 작성해주세요</span> <br/>
+                    <input name="password" id="password" type="password" placeholder="비밀번호" oninput="PwCheck()"/>
+                    <input id="pwCheck" type="hidden" value="false">
+                </div>
+                <th:block th:if="${provider} == 'google'">
+                    <label>전화번호</label><span th:text="${phone}" class="msg"></span> <br/>
+                    <input name="phone" id="phone" placeholder="-제외한 전화번호"/>
+                </th:block>
+                <th:block th:if="${provider} == 'kakao'">
+                    <input name="phone" type="hidden" value="."/>
+                </th:block>
+                <div>
+                    <label>우편번호</label><span th:text="${zipcode}" class="msg"></span> <br/>
+                    <input name="zipcode" id="zipcode" placeholder="우편번호" /> <a href="javascript:AddressSearch()" class="btn btn-secondary search_addr_btn">우편번호 찾기</a> <br/>
+                </div>
+                <div>
+                    <label>주소</label><span th:text="${addr1}" class="msg"></span> <br/>
+                    <input name="addr1" id="addr1" placeholder="주소" /> <br/>
+                </div>
+                <div>
+                    <label>상세주소</label> <br/>
+                    <input name="addr2" id="addr2" placeholder="상세주소" /> <br/>
+                </div>
+                <div>
+                    <button class="btn btn-secondary search_addr_btn" onclick="isValid()">가입요청</button>
+                </div>
+                <input name="userid" type="hidden" value=".">
+                <input name="repassword" type="hidden" value=".">
+                <input name="email" type="hidden" value=".">
+                <input name="name" type="hidden" value=".">
+            </div>
+        </form>
+    </section>
+</main>
+
+<!-- axios -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js" integrity="sha512-uMtXmF28A2Ab/JJO2t/vYhlaa/3ahUOgj1Zf27M5rOo8/+fcTUVH0/E0ll68njmjrLqOBjXM3V9NiPFL5ywWPQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<!-- map -->
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
+</body>
+</html>

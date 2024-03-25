@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <!--  cdns  -->
+    <th:block th:insert="~{fragments/link.html :: link_fragment}"></th:block>
+
+    <!-- css -->
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/board/notice.css">
+
+    <!-- js -->
+    <!--    <script defer src="/js/admin/modifyRoom.js"></script>-->
+</head>
+<body>
+
+<header id="header" class="content-container-wrapper">
+    <th:block th:insert="~{fragments/header.html :: header_fragment}"></th:block>
+</header>
+
+<main id="main" class="content-container-wrapper">
+    <div class="content-container">
+        <div class="board-container">
+            <th:block th:replace="~{fragments/boardLeft.html :: boardLeft_fragment}"></th:block>
+            <div class="board-right">
+                <div class="title-container">
+                    <h1 class="title">고객문의 안내 > 공지사항</h1>
+                </div>
+                <table id="table_List" class="table table-striped table-hover">
+                    <thead>
+                    <tr>
+                        <th>글제목</th>
+                        <th>작성일</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="noticeBoard : ${noticeBoardList}">
+                        <td>
+                            <a th:href="@{'/board/noticeList/' + ${noticeBoard.id}}">
+                                <span th:text="${noticeBoard.title}"></span>
+                            </a>
+                        </td>
+                        <td>
+                            <span th:text="${#temporals.format(noticeBoard.createdTime, 'yyyy-MM-dd')}"></span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div th:if="${!noticeBoardList.isEmpty()}">
+                    <ul class="pagination" style="justify-content: center"
+                        th:with="
+            pageNumber = ${noticeBoardList.pageable.pageNumber},
+            pageSize = ${noticeBoardList.pageable.pageSize},
+            totalPages = ${noticeBoardList.totalPages},
+            startPage = ${T(java.lang.Math).floor(pageNumber / pageSize) * pageSize + 1},
+            tempEndPage = ${startPage + pageSize - 1},
+            endPage = (${tempEndPage < totalPages ? tempEndPage : totalPages})">
+
+                        <li th:classappend="${noticeBoardList.first} ? 'disabled'" class="page-item">
+                            <a class="page-link"
+                               th:href="${noticeBoardList.first} ? '#' : @{/board/noticeList(page=${pageNumber - 1})}"
+                               aria-label="Previous">
+                                <span aria-hidden="true">이전</span>
+                            </a>
+                        </li>
+                        <li th:each="page: ${#numbers.sequence(startPage, endPage)}"
+                            th:classappend="${page == pageNumber + 1} ? 'active'" class="page-item">
+                            <a th:text="${page}" class="page-link"
+                               th:href="@{/board/noticeList(page=${page - 1})}"></a>
+                        </li>
+                        <li th:classappend="${noticeBoardList.last} ? 'disabled'" class="page-item">
+                            <a class="page-link" th:href="${noticeBoardList.last} ? '#' : @{/board/noticeList(page=${pageNumber + 1})}"
+                               aria-label="Next">
+                                <span aria-hidden="true">다음</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<th:block th:insert="~{fragments/footer.html :: footer_fragment}"></th:block>
+
+</body>
+</html>

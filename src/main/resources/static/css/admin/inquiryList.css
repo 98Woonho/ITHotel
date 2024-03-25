@@ -1,0 +1,33 @@
+.admin-container > .admin-right > .inquiry-container {
+    margin-top: 5rem;
+    height: 500px;
+    border: 0.0625rem solid black;
+}
+
+.page-link {
+    border: unset!important;
+}
+.page-item.active > .page-link{
+    background-color: rgb(32, 150, 243)!important;
+}
+
+.page-link > span {
+    font-weight: bold;
+    color: gray;
+}
+.search {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.form-select {
+    width: unset!important;
+}
+.form-control {
+    width: unset!important;
+}
+
+.admin-right >.title-container {
+    margin-bottom: 1rem;
+}
+

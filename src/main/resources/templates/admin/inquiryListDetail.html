@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>게시글</title>
+    <link rel="stylesheet" href="/css/admin/inquiryListDetail.css">
+    <link rel="stylesheet" href="/css/common.css">
+    <th:block th:insert="~{/fragments/link.html :: link_fragment}"></th:block>
+    <script defer src="/js/admin/inquiryListDetail.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+<header id="header" class="content-container-wrapper">
+    <th:block th:insert="~{fragments/header.html :: header_fragment}"></th:block>
+</header>
+<main id="main">
+    <div id="main_wrapper">
+        <div class="table_wrapper">
+            <h1>1:1 문의글</h1>
+                <table class="main_table">
+                    <tbody>
+                    <tr>
+                        <th>
+                            <span>*</span>
+                            호텔이름
+                        </th>
+                        <td>
+                            <div th:text="${board.hotelname}"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <span>*</span>
+                            질문유형
+                        </th>
+                        <td>
+                            <div th:text="${board.relation}"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <span>*</span>
+                            제목
+                        </th>
+                        <td>
+                            <div th:text="${board.title}"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <span>*</span>
+                            작성일
+                        </th>
+                        <td>
+                            <div th:text="${board.createdTime}"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <span>*</span>
+                            작성자
+                        </th>
+                        <td>
+                            <div th:text="${board.username}"></div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+        </div>
+        <div class="card my-4">
+            <h4 class="card-header">질문보기</h4>
+            <div class="card-body" th:text="${board.content}">
+
+            </div>
+        </div>
+        <div class="comment_admin card my-4" th:if="${comments.isEmpty()}">
+            <h5 class="card-header">답변 쓰기</h5>
+            <div class="card-body">
+                <form th:action="@{/admin/{id}/comment(id=${id})}" th:method="post">
+                    <div class="form-group" style="margin-bottom: 10px;">
+                        <input type="hidden" name="idx" th:value="*{idx}"/>
+                        <textarea name="content" class="form-control" rows="3"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">답변</button>
+                </form>
+            </div>
+        </div>
+        <!-- 댓글 화면-->
+        <div class="card my-4">
+            <h5 class="card-header">답글</h5>
+            <div class="card-body">
+                <div th:each="comment : ${comments}">
+                    <div class="media mb-4">
+                        <div class="media-body">
+                            <h5 class="mt-0" th:text="${comment.username}">작성자</h5>
+                            <p th:text="${comment.content}" th:id="'comment-' + ${comment.id}">답변 내용</p>
+                            <small class="text-muted"
+                                   th:text="${#temporals.format(comment.createdTime, 'yyyy-MM-dd HH:mm')}">답변 작성
+                                시간</small>
+                            <div>
+                                <button class="btn btn-sm btn-outline-warning" th:attr="data-comment_id=${comment.id}, data-board_id=${board.id}"
+                                        onclick="editComment(this)">수정
+                                </button>
+                                <a th:href="@{/admin/{id}/comment/{commentId}/remove(id=${id}, commentId=${comment.id})}"
+                                   class="btn btn-sm btn-outline-danger"
+                                   onclick="return confirm('답변을 삭제하시겠습니까?')">삭제</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button class="btn btn-outline-secondary" onclick="listReq()">게시판 목록</button>
+        <th:block>
+
+            <a th:href="@{/admin/inquiryList/{id}/adminRemove(id=${id})}" class="btn btn-outline-danger"
+               onclick="return confirm('글을 삭제하시겠습니까?')">회원 글 삭제</a>
+        </th:block>
+    </div>
+</main>
+<th:block th:replace="~{/fragments/footer.html :: footer_fragment}"></th:block>
+</body>
+
+<script>
+    const listReq = () => {
+        window.location = '/admin/inquiryList';
+    }
+</script>
+</html>

@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <!--  cdns  -->
+    <th:block th:insert="~{fragments/link.html :: link_fragment}"></th:block>
+
+    <!-- css -->
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/admin/noticeWrite.css">
+    <script defer src="/js/admin/noticeWrite.js"></script>
+    <script type="application/json" src="/js/board/libraries/translations"></script>
+    <script src="/js/board/libraries/ckeditor.js"></script>
+</head>
+<body>
+
+<header id="header" class="content-container-wrapper">
+    <th:block th:insert="~{fragments/header.html :: header_fragment}"></th:block>
+</header>
+
+<main id="main" class="content-container-wrapper">
+    <div class="content-container">
+        <div class="admin-container">
+            <th:block th:replace="~{fragments/adminLeft.html :: adminLeft_fragment}"></th:block>
+            <div class="admin-right">
+                <div class="title-container">
+                    <h1 class="title">고객문의 > 공지사항 작성</h1>
+                </div>
+                <div id="main_wrapper">
+                    <form id="mainForm" enctype="multipart/form-data">
+                        <div>
+                            <label class="form-label fw-bold fs-5">제목</label>
+                            <input class="form-control" type="text" name="title">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold fs-5">내용</label>
+                            <textarea class="form-control" name="content" maxlength="100000" placeholder="내용을 입력해주세요" rows="15"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <input type="file" name="file" multiple>
+                        </div>
+                        <span class="mb-3">
+        <input class="form-control write" type="submit" value="글작성">
+    </span>
+                    </form>
+
+                    <span class="button mt-3">
+    <button class="btn btn-primary mb-3" onclick="listReq()">목록</button>
+</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<th:block th:replace="~{/fragments/footer.html :: footer_fragment}"></th:block>
+</body>
+<script>
+    const listReq = () => {
+        if (history.length > 1) {
+            history.back();
+        } else {
+            window.close();
+        }
+    }
+</script>
+</html>
