@@ -99,7 +99,7 @@ const userInput = document.querySelector('.user-input input');
 // 전송 버튼
 const sendButton = document.querySelector('.user-input button');
 // 발급받은 OpenAI API 키를 변수로 저장
-const apiKey = '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';
+const apiKey = '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';
 // OpenAI API 엔드포인트 주소를 변수로 저장
 const apiEndpoint = 'https://api.openai.com/v1/chat/completions'
 function addMessage(sender, message) {
