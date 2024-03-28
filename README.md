@@ -39,6 +39,7 @@ https://www.youtube.com/watch?v=F1wef3CZO58
 ##### gradle
 ##### Mysql Server
 ##### Mysql Workbench
+##### Connection Pool : HikariCP
 
 <br/>
 
