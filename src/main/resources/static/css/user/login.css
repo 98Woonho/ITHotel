@@ -1,7 +1,33 @@
-.content-container > .title-container > .title{
+.title {
+    text-align: center;
     font-size: 2.25rem;
-    margin-top: 50px;
+    font-weight: 500;
 }
+
+.kakao {
+    background-color: #fddc35;
+}
+
+.google {
+    border: 1px solid #afafaf;
+}
+
+.oauth2-btn img {
+    position: absolute;
+
+    top: 50%;
+    left: 5px;
+    transform: translateY(-50%);
+}
+
+.oauth2-btn span {
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
 a{
     color: inherit;
     text-decoration: none;
@@ -11,41 +37,35 @@ a:hover{
     color: inherit;
 }
 
-#main > .content-container{
-    height: 550px;
+form {
+    margin-top: 5rem;
 }
 
-#main > .content-container > .title-container{
-    text-align: center;
-}
-
-#main > .content-container > .title-container:after{
-    content: "";
-    display: block;
-    width: 450px;
-    border-bottom: 1px solid #bcbcbc;
-    margin: 40px auto;
+#main > .content-container {
+    margin: 5rem 0;
 }
 
 #main > .content-container > .form-login {
-    width: 450px;
+    width: 300px;
     margin: 0 auto;
 }
 
 #main > .content-container > form > .form-login{
-    width: 450px;
+    width: 300px;
     margin: 0 auto;
 }
 
 #main > .content-container > form > .form-login > .login_btn{
-    width: 450px;
+    width: 300px;
     height: 50px;
     margin-top: 20px;
 }
 
 #main > .content-container > .form-login > .register_btn{
-    width: 450px;
+    width: 300px;
     height: 50px;
+    border-radius: 5px;
+    background-color: #e3cfc3;
     margin-top: 20px;
 }
 
@@ -54,7 +74,7 @@ a:hover{
 }
 
 #main > .content-container > form > .form-option{
-    width: 450px;
+    width: 300px;
     display: flex;
     justify-content: space-between;
     margin: 0 auto;
@@ -87,15 +107,15 @@ a:hover{
 }
 
 #main > .content-container > .form-oauth2{
-    width: 450px;
-    display: flex;
-    justify-content: space-between;
+    width: 300px;
     margin: 0 auto;
 }
 
 #main > .content-container > .form-oauth2 > .oauth2-btn{
-    width: 220px;
+    position: relative;
+    border-radius: 5px;
+    width: 100%;
     height: 50px;
     margin-top: 20px;
-    display: inline;
+    padding: 0 30px;
 }
