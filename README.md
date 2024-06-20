@@ -19,7 +19,7 @@ WEB PROJECT PLANING
 ## ▶️ 구성인원 
 ##### 이운호(조장) : Git, UI, 예약 및 결제 CRUD, 관리자 CRUD
 ##### 황보성현(조원1) : 게시판 CRUD, UI
-##### 함성모(조원2) : 고객 CRUD, UI
+##### 함성모(조원2) : 고객 CRUD
 
 <br/>
 
