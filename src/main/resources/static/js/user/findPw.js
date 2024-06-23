@@ -3,26 +3,29 @@ const isValid = function(){
     const name = document.querySelector('#name').value;
     const email = document.querySelector('#email').value;
     const code = document.querySelector('#emailCode').value;
-    if(id === ""){
+
+    if (id === "") {
         alert('아이디를 입력하세요');
         return ;
-    } else if(name === ""){
+    }
+    if (name === "") {
         alert('이름을 입력하세요');
         return ;
-    } else if(email === "") {
+    }
+    if (email === "") {
         alert('이메일을 입력하세요');
         return;
     }
+
     axios.get('/user/confirmEmail?email='+email+"&code="+code)
         .then( res => {
-            console.log(res);
             if(code === ""){
                 alert('이메일 인증이 필요합니다.');
                 return ;
             }
+
             axios.get('/user/sendPw?confirm=' + res.data.success + '&email=' + email)
                 .then(res => {
-                    console.log(res);
                     alert(res.data.message);
                 })
                 .catch(err => {
