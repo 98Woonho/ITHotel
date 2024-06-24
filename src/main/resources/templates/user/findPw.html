@@ -10,37 +10,49 @@
 
     <!--    common.css  -->
     <link rel="stylesheet" href="/css/common.css">
-    <!--    login.css  -->
-    <link rel="stylesheet" href="/css/login.css">
+    <!--    findPw.css  -->
+    <link rel="stylesheet" href="/css/user/findPw.css">
     <!--    findPw.js -->
     <script defer src="/js/user/findPw.js"></script>
 
     <title>비밀번호 찾기</title>
 </head>
 <body>
-<div class="findPw_wrapper">
-    <div>
-        <label>아이디</label> <br/>
-        <input name="id" id="id" placeholder="아이디"> <br/>
-    </div>
-    <div>
-        <label>이름</label> <br/>
-        <input name="name" id="name" placeholder="이름"> <br/>
-    </div>
-    <div>
-        <label>이메일</label> <span id="email_msg"></span> <br/>
-        <input name="email" id="email" placeholder="회원가입시 등록한 이메일"> <button type="button" onclick="SendEmail()">인증</button><br/>
-    </div>
-    <div class="code" style="display:none;">
-        <label>인증코드</label> <span id="code_msg"></span> <br/>
-        <input name="emailCode" id="emailCode" placeholder="인증코드"> <br/>
-    </div>
-    <div>
-        <button type="button" onclick="isValid()">비밀번호 찾기</button>
-    </div>
-</div>
 
-<!-- axios -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js" integrity="sha512-uMtXmF28A2Ab/JJO2t/vYhlaa/3ahUOgj1Zf27M5rOo8/+fcTUVH0/E0ll68njmjrLqOBjXM3V9NiPFL5ywWPQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<header id="header" class="content-container-wrapper">
+    <th:block th:insert="~{fragments/header.html :: header_fragment}"></th:block>
+</header>
+
+<main id="main" class="content-container-wrapper">
+    <div class="content-container">
+        <h1 class="title">비밀번호 찾기</h1>
+        <div class="find-pw-container">
+            <div>
+                <label>아이디</label>
+                <input class="common-input" name="id" id="id" placeholder="아이디">
+            </div>
+            <div>
+                <label>이름</label>
+                <input class="common-input" name="name" id="name" placeholder="이름">
+            </div>
+            <div>
+                <label>이메일</label> <span id="email_msg"></span>
+                <span>
+                    <input class="common-input" name="email" id="email" placeholder="회원가입시 등록한 이메일">
+                    <button type="button" onclick="SendEmail()">인증</button>
+                </span>
+            </div>
+            <div class="code" style="display:none;">
+                <label>인증코드</label> <span id="code_msg"></span>
+                <input class="common-input" name="emailCode" id="emailCode" placeholder="인증코드">
+            </div>
+            <button class="btn btn-secondary" type="button" onclick="isValid()">비밀번호 찾기</button>
+        </div>
+    </div>
+</main>
+
+
+<th:block th:insert="~{fragments/footer.html :: footer_fragment}"></th:block>
+
 </body>
 </html>

@@ -67,8 +67,8 @@ const SendEmail = function(){
         email_msg.style.color = 'green';
         axios.get('/user/sendEmail/' + email)
             .then(res => {
-                console.log(res);
-                document.querySelector('.code').style.display = 'block';
+                alert('입력하신 이메일로 인증코드를 전송 하였습니다. 확인 후 인증코드를 입력해 주세요.');
+                document.querySelector('.code').classList.add('visible');
             })
             .catch( err => {console.log(err);} )
     }

@@ -11,7 +11,7 @@
     justify-content: flex-start;
 }
 
-.find-id-container {
+.find-pw-container {
     margin-top: 5rem;
     margin-bottom: 2rem;
 
@@ -20,17 +20,17 @@
     align-items: stretch;
 }
 
-.find-id-container div.code {
+.find-pw-container div.code {
     display: none;
 }
 
-.find-id-container div,
-.find-id-container div.code.visible {
+.find-pw-container div,
+.find-pw-container div.code.visible {
     display: flex;
     flex-direction: column;
     align-items: stretch;
 }
 
-.find-id-container > button {
+.find-pw-container > button {
     margin-top: 2rem;
 }

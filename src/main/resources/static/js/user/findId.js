@@ -1,20 +1,19 @@
-const isValid = function(){
+const isValid = function () {
     const name = document.querySelector('#name').value;
     const email = document.querySelector('#email').value;
     const code = document.querySelector('#emailCode').value;
-    if(name === ""){
+    if (name === "") {
         alert('이름을 입력하세요');
-        return ;
-    } else if(email === "") {
+        return;
+    } else if (email === "") {
         alert('이메일을 입력하세요');
         return;
     }
-    axios.get('/user/confirmEmail?email='+email+"&code="+code)
-        .then( res => {
-            console.log(res);
-            if(code === ""){
+    axios.get('/user/confirmEmail?email=' + email + "&code=" + code)
+        .then(res => {
+            if (code === "") {
                 alert('이메일 인증이 필요합니다.');
-                return ;
+                return;
             }
             axios.get('/user/sendId?confirm=' + res.data.success + '&email=' + email)
                 .then(res => {
@@ -25,7 +24,9 @@ const isValid = function(){
                     console.log(err);
                 })
         })
-        .catch( err => { console.log(err); })
+        .catch(err => {
+            console.log(err);
+        })
 }
 const EmailCheck = () => {
     const name = document.querySelector('#name').value;
@@ -35,7 +36,7 @@ const EmailCheck = () => {
     axios.get('/user/existId?name=' + name + '&email=' + email)
         .then(res => {
             console.log(res);
-            if(res.data.success){
+            if (res.data.success) {
                 email_msg.style.color = 'green';
                 email_msg.innerHTML = res.data.message;
                 return true;
@@ -45,24 +46,28 @@ const EmailCheck = () => {
                 return false;
             }
         })
-        .catch( err => {console.log(err);})
-    if(!regexEmail.test(email.trim())){
+        .catch(err => {
+            console.log(err);
+        })
+    if (!regexEmail.test(email.trim())) {
         email_msg.textContent = "이메일 형식으로 작성해야 합니다.";
         email_msg.style.color = 'orange';
         return false;
     }
 }
 
-const SendEmail = function(){
+const SendEmail = function () {
     const email = document.querySelector('#email').value;
     const email_msg = document.querySelector('#email_msg');
-    if(EmailCheck){
+    if (EmailCheck) {
         email_msg.style.color = 'green';
         axios.get('/user/sendEmail/' + email)
             .then(res => {
-                console.log(res);
-                document.querySelector('.code').style.display = 'block';
+                alert('입력하신 이메일로 인증코드를 전송 하였습니다. 확인 후 인증코드를 입력해 주세요.');
+                document.querySelector('.code').classList.add('visible');
             })
-            .catch( err => {console.log(err);} )
+            .catch(err => {
+                console.log(err);
+            })
     }
 }
