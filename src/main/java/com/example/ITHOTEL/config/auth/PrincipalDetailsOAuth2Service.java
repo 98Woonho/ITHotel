@@ -72,7 +72,7 @@ public class PrincipalDetailsOAuth2Service extends DefaultOAuth2UserService {
             dto = User.entityToDto(user);
         }
 
-        //PrincipalDetails생성
+        // PrincipalDetails생성
         PrincipalDetails principalDetails = new PrincipalDetails();
         principalDetails.setAttributes(oAuth2UserInfo.getAttributes());
         principalDetails.setAccessToken(userRequest.getAccessToken().getTokenValue());
