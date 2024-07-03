@@ -34,7 +34,7 @@
                     <span th:text="${userid}" id="id_msg" class="msg"></span>
                 </span>
                 <span>
-                    <input class="big" name="userid" id="userid" placeholder="아이디"/>
+                    <input class="big form-control" name="userid" id="userid" placeholder="아이디"/>
                     <button type="button" class="btn btn-secondary" onclick="IdCheck()">중복확인</button>
                 </span>
             </div>
@@ -43,21 +43,21 @@
                     <label>비밀번호</label>
                     <span th:text="${password}" id="pw_msg" class="msg"></span>
                 </span>
-                <input name="password" type="password" oninput="Re_PwCheck()" placeholder="비밀번호"/>
+                <input class="form-control"  name="password" type="password" oninput="Re_PwCheck()" placeholder="비밀번호"/>
             </div>
             <div>
                 <span>
                     <label>비밀번호확인</label>
                     <span th:text="${repassword}" id="re_pw_msg" class="msg"></span>
                 </span>
-                <input name="repassword" type="password" oninput="Re_PwCheck()" placeholder="비밀번호 확인"/> 
+                <input class="form-control" name="repassword" type="password" oninput="Re_PwCheck()" placeholder="비밀번호 확인"/>
             </div>
             <div>
                 <span>
                     <label>이름</label>
                     <span th:text="${name}" class="msg"></span>
                 </span>
-                <input name="name" placeholder="이름"/> 
+                <input class="form-control" name="name" placeholder="이름"/>
             </div>
             <div>
                 <span>
@@ -65,7 +65,7 @@
                     <span th:text="${email}" id="email_msg" class="msg"></span>
                 </span>
                 <span>
-                    <input class="big" name="email" id="email" type="email" placeholder="이메일"/>
+                    <input class="big form-control" name="email" id="email" type="email" placeholder="이메일"/>
                     <button type="button" class="btn btn-secondary" onclick="SendEmail()">인증</button>
                 </span>
             </div>
@@ -75,7 +75,7 @@
                     <span id="code_msg" class="msg"></span>
                 </span>
                 <span>
-                    <input name="emailCode" id="code" placeholder="인증코드입력">
+                    <input class="form-control" name="emailCode" id="code" placeholder="인증코드입력">
                     <button name="email_btn" class="btn btn-secondary" type="button" onclick="ConfirmEmail()">
                     확인
                     </button>
@@ -86,7 +86,7 @@
                     <label>전화번호</label>
                     <span th:text="${phone}" id="phone_msg" class="msg"></span>
                 </span>
-                <input name="phone" type="phone" placeholder="-제외한 전화번호"/>
+                <input class="form-control" name="phone" type="phone" placeholder="-제외한 전화번호"/>
             </div>
             <div>
                 <span>
@@ -94,7 +94,7 @@
                     <span th:text="${zipcode}" class="msg"></span>
                 </span>
                 <span>
-                    <input class="big" name="zipcode" id="zipcode" placeholder="우편번호"/>
+                    <input class="big form-control" name="zipcode" id="zipcode" placeholder="우편번호"/>
                     <button onClick="AddressSearch()" class="btn btn-secondary">우편번호 찾기</button>
                 </span>
             </div>
@@ -103,11 +103,11 @@
                     <label>주소</label>
                     <span th:text="${addr1}" class="msg"></span>
                 </span>
-                <input name="addr1" id="addr1" placeholder="주소"/> 
+                <input class="form-control" name="addr1" id="addr1" placeholder="주소"/>
             </div>
             <div>
                 <label>상세주소</label> 
-                <input name="addr2" id="addr2" placeholder="상세주소"/> 
+                <input class="form-control" name="addr2" id="addr2" placeholder="상세주소"/>
             </div>
             <button class="btn btn-secondary search_addr_btn">가입요청</button>
         </form>

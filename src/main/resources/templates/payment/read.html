@@ -37,49 +37,76 @@
                 <div class="image-container">
                     <img th:src="@{${mainFile.dir} + ${mainFile.fileName}}" alt="">
                 </div>
-                <ul class="info">
+                <ul class="reservation-info">
+                    <li>
+                        <h2>예약 정보</h2>
+                    </li>
                     <li>
                         <span class="text bold">호텔 및 객실</span>
-                        <span class="text"><span th:text="${reservation.room.hotel.hotelName}"></span>, <span th:text="${reservation.room.kind}"></span></span>
+                        <span class="text"><span th:text="${reservation.room.hotel.hotelName}"></span>, <span
+                                th:text="${reservation.room.kind}"></span></span>
                     </li>
                     <li>
                         <span class="text bold">투숙 날짜</span>
-                        <span class="text"><span th:text="${reservation.checkin}"></span> <span th:text="${reservation.room.checkinTime}"></span> ~ <span th:text="${reservation.checkout}"></span> <span th:text="${reservation.room.checkoutTime}"></span></span>
+                        <span class="text"><span th:text="${reservation.checkin}"></span> <span
+                                th:text="${reservation.room.checkinTime}"></span> ~ <span
+                                th:text="${reservation.checkout}"></span> <span
+                                th:text="${reservation.room.checkoutTime}"></span></span>
                     </li>
                     <li>
                         <span class="text bold">인원</span>
                         <span class="text">성인 <span th:text="${reservation.people}"></span>, 어린이 0</span>
                     </li>
+                    <li>
+                        <h2>예약자 정보</h2>
+                    </li>
+                    <li>
+                        <span class="text bold">이름</span>
+                        <span class="name" th:text="${reservation.user.name}"></span>
+                    </li>
+                    <li>
+                        <span class="text bold">연락처</span>
+                        <span class="contact" th:text="${reservation.user.phone}"></span>
+                    </li>
                 </ul>
             </div>
             <div class="payment-container">
                 <div class="payment-left">
-                    <span class="text subtitle">예약자 정보</span>
-                    <ul class="user-info">
-                        <li>
-                            <span class="text bold">이름</span>
-                            <span class="name" th:text="${reservation.user.name}"></span>
-                        </li>
-                        <li>
-                            <span class="text bold">연락처</span>
-                            <span class="contact" th:text="${reservation.user.phone}"></span>
-                        </li>
-                    </ul>
                     <span class="text subtitle">결제 수단</span>
                     <div class="pay-method-container">
+                        <button class="pay-method-button kakaopay-button">
+                            <img src="https://i.namu.wiki/i/DRTBUHA314XYTx-pkzY4XSmQ0Job0j10vQhiETotjLCGUULQemriSC67Yh9UCsYq7Dw7WyvK0GkP9f3jP8r8gA.svg" alt="" />
+                        </button>
+                        <button class="pay-method-button tosspay-button">
+                            <img src="/images/tosspay.png" alt="">
+                        </button>
+                        <button class="pay-method-button payco-button">
+                            <img src="/images/payco.png" alt="">
+                        </button>
                         <button class="pay-method-button card-button">신용/체크 카드</button>
-                        <button class="pay-method-button kakaopay-button">카카오페이</button>
-                        <button class="pay-method-button tosspay-button">토스페이</button>
-                        <button class="pay-method-button payco-button">페이코</button>
                         <button class="pay-method-button phonepay-button">휴대폰 결제</button>
                     </div>
+                    <div class="payment-event-container"></div>
                 </div>
                 <div class="payment-right">
-                    <span class="text subtitle">결제 정보</span>
                     <div class="price-container">
+                        <h2>결제 정보</h2>
                         <div class="price-text-container">
-                            <span class="text bold">결제 금액</span>
-                            <span class="text bold price" th:text="${#numbers.formatInteger(reservation.price, 0, 'COMMA')}"></span>
+                            <div>
+                                <span class="bold">상품 금액</span>
+                                <span class="spring"></span>
+                                <span class="bold price" id="originalPrice" th:text="${reservation.price}"></span>&nbsp;<span class="bold price">원</span>
+                            </div>
+                            <div>
+                                <span class="bold">할인 금액</span>
+                                <span class="spring"></span>
+                                <span class="bold price" id="discountPrice">0</span>&nbsp;<span class="bold price">원</span>
+                            </div>
+                            <div>
+                                <span class="bold">결제 금액</span>
+                                <span class="spring"></span>
+                                <span class="bold price" id="paymentPrice" th:text="${reservation.price}"></span>&nbsp;<span class="bold price">원</span>
+                            </div>
                         </div>
                         <button class="pay-button">결제</button>
                     </div>

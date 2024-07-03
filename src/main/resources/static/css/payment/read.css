@@ -8,8 +8,12 @@
     margin-right: 1rem;
 }
 
+.pay-method-button img {
+    width: 70%;
+}
+
 .pay-method-button.clicked {
-    background-color: #bcbcbc;
+    background-color: #f1f1f1;
 }
 
 
@@ -79,17 +83,22 @@
     width: 550px;
 }
 
-.info {
+.reservation-info {
     width: 600px;
     border-bottom: #9c9c9c 0.0625rem solid;
 }
 
-.info .text.bold {
+.reservation-info h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.reservation-info .text.bold {
     display: inline-block;
     width: 10rem;
 }
 
-.info li {
+.reservation-info li {
     margin-bottom: 1rem;
 }
 
@@ -112,56 +121,78 @@
     justify-content: flex-start;
 }
 
-.user-info {
-    border: 0.0625rem solid #9c9c9c;
-    border-radius: 10px;
-    padding: 1rem;
-    margin-top: 1.25rem;
-    margin-bottom: 3rem;
-    width: 800px;
-    height: 200px;
-}
-
-.user-info li {
-    margin-bottom: 0.5rem;
-}
-
-.user-info .text {
-    display: inline-block;
-    width: 5rem;
-}
-
 .pay-method-container {
-    padding: 1.25rem;
-    border: 0.0625rem solid #9c9c9c;
-    border-radius: 10px;
-    margin-top: 1.25rem;
+    margin-top: 0.75rem;
     width: 800px;
 }
 
 .price-container {
-    border: 0.0625rem solid #9c9c9c;
+    border: 1px solid #666;
     border-radius: 10px;
     padding: 1rem;
     margin-top: 1.25rem;
-    width: 200px;
+    width: 300px;
+}
+
+.price-container h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
 }
 
 .price-text-container {
-    align-items: center;
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    margin-bottom: 1.5rem;
+    flex-direction: column;
+    margin: 1.5rem 0;
+}
+
+.price-text-container div {
+    display: flex;
+    padding: 1rem 0;
+}
+
+.price-text-container div:not(:last-child) {
+    border-bottom: 1px solid #666;
 }
 
 .price {
     font-size: 1.2rem;
 }
 
+.payment-event {
+    margin-top: 1.75rem;
+}
+
+.payment-event h3 {
+    display: inline-block;
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.payment-event .benefit {
+    margin-right: 0.35rem;
+    color: #f45858;
+    font-weight: 700;
+    background-color: #ffbebe;
+    padding: 0.25rem 0.25rem;
+    text-align: center;
+    border-radius: 5px;
+}
+
+.payment-event .event-text {
+    line-height: 110%;
+    margin-top: 0.75rem;
+    background-color: #f1f1f1;
+    border-radius: 5px;
+    padding: 1.25rem;
+}
+
 .pay-button {
     width: 100%;
     height: 50px;
-    background-color: #9c9c9c;
+    background-color: #dfdfdf;
     border-radius: 10px;
+}
+
+.pay-button:hover {
+    background-color: #c3c3c3;
 }

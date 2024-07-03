@@ -1,8 +1,6 @@
-const price = document.querySelector('.price');
-
-priceText = price.innerText;
-price.innerText = priceText + '원';
-
+const originalPrice = document.getElementById('originalPrice');
+const discountPrice = document.getElementById('discountPrice');
+const paymentPrice = document.getElementById('paymentPrice');
 const createdAt = document.querySelector('.created-at');
 
 const createdAtDate = new Date(createdAt.value);
@@ -47,6 +45,7 @@ document.addEventListener('mousemove', function (event) {
     }
 });
 
+const paymentEventContainer = document.querySelector('.payment-event-container');
 const cardButton = document.querySelector('.card-button');
 const kakaopayButton = document.querySelector('.kakaopay-button');
 const tosspayButton = document.querySelector('.tosspay-button');
@@ -59,6 +58,25 @@ cardButton.addEventListener('click', function () {
     tosspayButton.classList.remove("clicked");
     paycoButton.classList.remove("clicked");
     phonepayButton.classList.remove("clicked");
+
+    const paymentEvent = new DOMParser().parseFromString(`
+        <div class='payment-event'>
+            <div>
+                <span class='benefit'>혜택</span>
+                <h3>신용/체크 카드</h3>
+            </div>
+            <div class='event-text'>
+                <p>현대카드 M포인트 10% 사용, 2.5% 적립</p>
+                <p>우리카드 2.5% 즉시 적립</p>
+            </div>
+        </div>;
+    `, 'text/html').querySelector('.payment-event');
+
+    discountPrice.innerText = 0;
+
+    paymentEventContainer.innerHTML = '';
+    paymentEventContainer.appendChild(paymentEvent);
+    paymentPrice.innerText = originalPrice.innerText;
 })
 
 kakaopayButton.addEventListener('click', function () {
@@ -67,6 +85,32 @@ kakaopayButton.addEventListener('click', function () {
     tosspayButton.classList.remove("clicked");
     paycoButton.classList.remove("clicked");
     phonepayButton.classList.remove("clicked");
+
+    const paymentEvent = new DOMParser().parseFromString(`
+        <div class='payment-event'>
+            <div>
+                <span class='benefit'>혜택</span>
+                <h3>카카오페이</h3>
+            </div>
+            <div class='event-text'>
+                <p>결제 금액의 최대 2% 적립</p>
+                <p>7만원 이상, 10% 할인 (최대 10000원)</p>
+                <p>3만원 이상, 2천원 할인</p>
+            </div>
+        </div>
+    `, 'text/html').querySelector('.payment-event');
+
+    if (originalPrice.innerText >= 70000) {
+        discountPrice.innerText = originalPrice.innerText * 0.1;
+
+        if (discountPrice.innerText > 10000) {
+            discountPrice.innerText = 10000;
+        }
+    }
+
+    paymentEventContainer.innerHTML = '';
+    paymentEventContainer.appendChild(paymentEvent);
+    paymentPrice.innerText = parseInt(originalPrice.innerText) - parseInt(discountPrice.innerText);
 })
 
 tosspayButton.addEventListener('click', function () {
@@ -75,6 +119,31 @@ tosspayButton.addEventListener('click', function () {
     kakaopayButton.classList.remove("clicked");
     paycoButton.classList.remove("clicked");
     phonepayButton.classList.remove("clicked");
+
+    const paymentEvent = new DOMParser().parseFromString(`
+        <div class='payment-event'>
+            <div>
+                <span class='benefit'>혜택</span>
+                <h3>토스페이</h3>
+            </div>
+            <div class='event-text'>
+                <p>결제 금액의 최대 2% 적립</p>
+                <p>3만원 이상, 5% 할인 (최대 5000원)</p>
+            </div>
+        </div>
+    `, 'text/html').querySelector('.payment-event');
+
+    if (originalPrice.innerText >= 30000) {
+        discountPrice.innerText = originalPrice.innerText * 0.05;
+
+        if (discountPrice.innerText > 5000) {
+            discountPrice.innerText = 5000;
+        }
+    }
+
+    paymentEventContainer.innerHTML = '';
+    paymentEventContainer.appendChild(paymentEvent);
+    paymentPrice.innerText = parseInt(originalPrice.innerText) - parseInt(discountPrice.innerText);
 })
 
 paycoButton.addEventListener('click', function () {
@@ -83,6 +152,27 @@ paycoButton.addEventListener('click', function () {
     kakaopayButton.classList.remove("clicked");
     tosspayButton.classList.remove("clicked");
     phonepayButton.classList.remove("clicked");
+
+    const paymentEvent = new DOMParser().parseFromString(`
+                        <div class='payment-event'>
+                    <div>
+                        <span class='benefit'>혜택</span>
+                        <h3>페이코</h3>
+                    </div>
+                    <div class='event-text'>
+                        <p>결제 금액의 최대 2.5% 적립</p>
+                        <p>3만원 이상, 2천원 할인</p>
+                    </div>
+                </div>
+    `, 'text/html').querySelector('.payment-event');
+
+    if (originalPrice.innerText >= 30000) {
+        discountPrice.innerText = 2000;
+    }
+
+    paymentEventContainer.innerHTML = '';
+    paymentEventContainer.appendChild(paymentEvent);
+    paymentPrice.innerText = parseInt(originalPrice.innerText) - parseInt(discountPrice.innerText);
 })
 
 phonepayButton.addEventListener('click', function () {
@@ -91,6 +181,26 @@ phonepayButton.addEventListener('click', function () {
     kakaopayButton.classList.remove("clicked");
     tosspayButton.classList.remove("clicked");
     paycoButton.classList.remove("clicked");
+
+    const paymentEvent = new DOMParser().parseFromString(`
+    <div class='payment-event'>
+        <div>
+            <span class='benefit'>혜택</span>
+            <h3>휴대폰 결제</h3>
+        </div>
+        <div class='event-text'>
+            <p>SKT 포인트 5% 적립</p>
+            <p>KT 포인트 5% 적립</p>
+            <p>LG 포인트 5% 적립</p>
+        </div>
+    </div>;
+    `, 'text/html').querySelector('.payment-event');
+
+    discountPrice.innerText = 0;
+
+    paymentEventContainer.innerHTML = '';
+    paymentEventContainer.appendChild(paymentEvent);
+    paymentPrice.innerText = originalPrice.innerText;
 })
 
 const payButton = document.querySelector('.pay-button');
@@ -149,7 +259,7 @@ payButton.addEventListener('click', function () {
                     console.log(resp.data);
                     if (resp.data === "SUCCESS") {
                         alert('예약이 완료 되었습니다. 예약 확인 페이지로 이동합니다.');
-                        location.href="/user/reservationInfo?function=read"
+                        location.href = "/user/reservationInfo?function=read"
                     }
                 })
                 .catch(err => {

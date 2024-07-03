@@ -64,7 +64,7 @@ ol, ul {
     padding-inline: unset;
 }
 
-button {
+button, p {
     margin: 0;
     padding: 0;
     border: 0;
