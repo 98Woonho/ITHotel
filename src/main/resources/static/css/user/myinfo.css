@@ -57,12 +57,27 @@
     display: inline;
 }
 
-.user-container > .user-right > .information-info-container {
-    margin-top: 5rem;
-    padding: 0.5rem 1rem;
-    min-height: 500px;
-    max-height: 1000px;
-    border: 0.0625rem solid black;
+.information-info-container {
+    margin-top: 3rem;
+}
+
+.info-table {
+    width: 100%;
+
+    border-top: 2px solid #666;
+    border-bottom: 2px solid #666;
+}
+
+.info-table tr:not(:last-child) {
+    border-bottom: 1px solid #666;
+}
+
+.info-table tr td {
+    padding: 1.5rem 2rem;
+}
+
+.info-table tr td:not(:last-child) {
+    border-right: 1px solid #666;
 }
 
 .page-link {
@@ -87,4 +102,52 @@
 
 .information-info-container label {
     font-weight: 500;
+}
+
+.info-auth-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 3rem;
+}
+
+.info-auth-container input {
+    margin-top: 1rem;
+}
+
+.info-auth-container button {
+    width: 100px;
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    color: white;
+    background-color: #1e88e5;
+}
+
+.info-auth-container button:hover {
+    background-color: #1872c1;
+}
+
+.auth-msg {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+#infoUpdateForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    width: 500px;
+    margin: 0 auto;
+}
+
+#infoUpdateForm .info-content-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+#infoUpdateForm .info-content-container > div {
+    display: flex;
 }

@@ -59,7 +59,7 @@ public class UserController {
     @InitBinder
     public void dataBinder(WebDataBinder dataBinder) {
         dataBinder.registerCustomEditor(String.class, "phone", new PhoneNumberEditor());
-    }
+    }   
 
     @GetMapping(value = "login")
     public void getLogin() {
