@@ -142,6 +142,11 @@
     margin: 0 auto;
 }
 
+#infoUpdateForm button {
+    margin-left: 15px;
+    width: 120px;
+}
+
 #infoUpdateForm .info-content-container {
     width: 100%;
     display: flex;

@@ -91,15 +91,15 @@
                         <button onclick="userAuth()">확인</button>
                     </div>
 
-                    <form id="infoUpdateForm" name="updateinfo" action="/user/updateinfo" method="post">
-                        <div class="info-content-container" th:if="${provider} == null">
+                    <form id="infoUpdateForm" name="updateinfo" action="/user/updateinfo" method="post" th:if="${auth}">
+                        <div class="info-content-container">
                             <div>
                                 <label>아이디</label>
                                 <span id="id_msg" th:text="${userid_msg}"></span>
                             </div>
                             <div>
                                 <input name="userid" class="big common-input" th:value="${userid}">
-                                <button type="button" onclick="IdCheck()">중복확인</button>
+                                <button type="button" class="btn btn-secondary" onclick="IdCheck()">중복확인</button>
                             </div>
                         </div>
                         <div class="info-content-container">
@@ -115,32 +115,34 @@
                                 <span id="email_msg" th:text="${email_msg}"></span>
                             </div>
                             <div>
-                                <input name="email" id="email" type="email" class="info" th:value="${email}">
-                                <button type="button" onclick="SendEmail()">인증</button>
+                                <input name="email" id="email" type="email" class="info common-input big" th:value="${email}">
+                                <button type="button" class="btn btn-secondary" onclick="SendEmail()">인증</button>
                             </div>
                         </div>
                         <div class="info-content-container" id="auth_code" style="display: none;">
                             <label>인증코드</label> <span id="code_msg"></span> <br/>
-                            <input id="code" class="info">
-                            <button type="button" onclick="ConfirmEmail()">확인</button>
+                            <input id="code" class="info common-input big">
+                            <button type="button" class="btn btn-secondary" onclick="ConfirmEmail()">확인</button>
                             <br/>
                         </div>
                         <div class="info-content-container">
                             <label>전화번호</label> <span id="phone_msg" th:text="${phone_msg}"></span> <br/>
-                            <input name="phone" class="info" th:value="${phone}"> <br/>
+                            <input name="phone" class="info common-input" th:value="${phone}"> <br/>
                         </div>
                         <div class="info-content-container">
                             <label>우편번호</label> <span id="zipcode_msg" th:text="${zipcode_msg}"></span> <br/>
-                            <input name="zipcode" id="zipcode" class="info" th:value="${zipcode}">
-                            <button onclick="AddressSearch()" type="button">우편번호 찾기</button>
+                            <div>
+                                <input name="zipcode" id="zipcode" class="info common-input big" th:value="${zipcode}">
+                                <button class="btn btn-secondary" onclick="AddressSearch()" type="button">우편번호 찾기</button>
+                            </div>
                             <br/>
                         </div>
                         <div class="info-content-container">
                             <label>주소</label> <span id="addr1_msg" th:text="${addr1_msg}"></span> <br/>
-                            <input name="addr1" id="addr1" class="info" th:value="${addr1}"> <br/>
-                            <input name="addr2" id="addr2" class="info" th:value="${addr2}">
+                            <input name="addr1" id="addr1" class="info common-input" th:value="${addr1}"> <br/>
+                            <input name="addr2" id="addr2" class="info common-input" th:value="${addr2}">
                         </div>
-                        <button>수정</button>
+                        <button class="btn btn-secondary">수정</button>
                         <input name="password" type="hidden" value=".">
                         <input name="repassword" type="hidden" value=".">
                     </form>
@@ -157,12 +159,12 @@
                             </p>
                             <div class="info-content-container">
                                 <label>비밀번호</label> <span th:text="${msg}"></span><br/>
-                                <input name="password" type="password" placeholder="비밀번호"> <br/>
+                                <input name="password" class="common-input" type="password" placeholder="비밀번호"> <br/>
                             </div>
                             <div class="info-content-container">
-                                <input name="word" placeholder="위의 내용을 인지하였으며 회원탈퇴에 동의합니다."> <br/>
+                                <input name="word" class="common-input" placeholder="위의 내용을 인지하였으며 회원탈퇴에 동의합니다."> <br/>
                             </div>
-                            <button>회원탈퇴</button>
+                            <button class="btn btn-secondary">회원탈퇴</button>
                         </form>
                     </div>
                 </div>

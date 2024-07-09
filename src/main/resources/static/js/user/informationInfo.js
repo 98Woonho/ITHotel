@@ -7,8 +7,7 @@ const userAuth = function (){
         return ;
     }
     axios.post("/user/infoAuth/" + pw)
-        .then( res => {
-            console.log(res);
+        .then( res => {;
             if(!res.data.success){
                 pw_msg.innerHTML = res.data.massage;
                 pw_msg.style.color = 'orange';
