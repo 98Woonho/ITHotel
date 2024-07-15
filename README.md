@@ -48,6 +48,7 @@ WEB PROJECT PLANING
 ##### 카카오 지도 API
 ##### 다음 주소 API
 ##### OAuth2 로그인 API
+##### JAVA PERSISTENCE API
 
 <br/>
 
