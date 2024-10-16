@@ -1,0 +1,297 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36" version="24.7.17">
+  <diagram id="C5RBs43oDa-KdzZeNtuy" name="Page-1">
+    <mxGraphModel dx="1366" dy="735" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="3300" pageHeight="4681" math="0" shadow="0">
+      <root>
+        <mxCell id="WIyWlLk6GJQsqaUBKTNV-0" />
+        <mxCell id="WIyWlLk6GJQsqaUBKTNV-1" parent="WIyWlLk6GJQsqaUBKTNV-0" />
+        <mxCell id="zkfFHV4jXpPFQw0GAbJ--0" value="DispatcherServlet" style="swimlane;fontStyle=2;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;marginBottom=0;rounded=0;shadow=0;strokeWidth=1;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="200" y="230" width="140" height="90" as="geometry">
+            <mxRectangle x="220" y="120" width="160" height="26" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="zkfFHV4jXpPFQw0GAbJ--1" value="+ field: Type" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="zkfFHV4jXpPFQw0GAbJ--0" vertex="1">
+          <mxGeometry y="26" width="140" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="zkfFHV4jXpPFQw0GAbJ--4" value="" style="line;html=1;strokeWidth=1;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;" parent="zkfFHV4jXpPFQw0GAbJ--0" vertex="1">
+          <mxGeometry y="52" width="140" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="zkfFHV4jXpPFQw0GAbJ--5" value="+ method() : Type" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="zkfFHV4jXpPFQw0GAbJ--0" vertex="1">
+          <mxGeometry y="60" width="140" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-0" value="Presentation Layer (프레젠테이션 계층)" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="40" y="40" width="480" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-1" value="Controller" style="shape=umlFrame;whiteSpace=wrap;html=1;pointerEvents=0;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="40" y="140" width="480" height="4330" as="geometry" />
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-2" value="관리자 Controller" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="145" y="390" width="270" height="480" as="geometry" />
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-3" value="- adminService : AdminService&lt;div&gt;- boardService : BoardService&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="J04vA8MsYsXbSL1sjRPu-2">
+          <mxGeometry y="26" width="270" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-4" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" vertex="1" parent="J04vA8MsYsXbSL1sjRPu-2">
+          <mxGeometry y="60" width="270" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-5" value="+ getReservationStatus(Pageable, Model) : void&lt;div&gt;+ inquiryBoardList(Model, Pageable, String, String) : JSONObject&lt;/div&gt;&lt;div&gt;+ adminBoardDetail(Long, Model) : String&lt;/div&gt;&lt;div&gt;+ inquiryBoardRemoveByAdmin(Long) : String&lt;/div&gt;&lt;div&gt;+ inquiryBoardRemoveByUser(Long) : String&lt;/div&gt;&lt;div&gt;+ questionFromWrite(BoardDto, Authentication) : String&lt;/div&gt;&lt;div&gt;+ noticeWrite(BoardFileDto, Authentication) : String&lt;/div&gt;&lt;div&gt;+ modifyNotice(Long, Model) : String&lt;/div&gt;&lt;div&gt;+ putModifyNotice(Long, BoardFileDto, Authentication) : String&lt;/div&gt;&lt;div&gt;+ getImage(long) : ResponseEntity&amp;lt;byte[]&amp;gt;&lt;/div&gt;&lt;div&gt;+ postImage(MultipartFile) : String&lt;/div&gt;&lt;div&gt;+ writeComment(Long, String, Authentication) : String&lt;/div&gt;&lt;div&gt;+ updateComment(Long, Long, String) : String&lt;/div&gt;&lt;div&gt;+ deleteComment(Long, Long) : String&lt;/div&gt;&lt;div&gt;+ getRegisterHotel() : void&lt;/div&gt;&lt;div&gt;+ getModifyHotel(String, Model) : void&lt;/div&gt;&lt;div&gt;+ getMonthSales(String, String, Model) : void&lt;/div&gt;&lt;div&gt;+ getRegisterRoom(String, Model) : void&lt;/div&gt;&lt;div&gt;+ getModifyRoom(String, String, Model) : void&lt;/div&gt;&lt;div&gt;+ getHotelStatus(Model) : void&lt;/div&gt;&lt;div&gt;+ getRoomStatus(String, Model) : void&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="J04vA8MsYsXbSL1sjRPu-2">
+          <mxGeometry y="70" width="270" height="410" as="geometry" />
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-11" value="게시판 Controller" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="145" y="1210" width="270" height="350" as="geometry" />
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-12" value="&lt;div&gt;- boardService : BoardService&lt;/div&gt;&lt;div&gt;- hotelService : HotelService&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="J04vA8MsYsXbSL1sjRPu-11">
+          <mxGeometry y="26" width="270" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-13" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" vertex="1" parent="J04vA8MsYsXbSL1sjRPu-11">
+          <mxGeometry y="60" width="270" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-14" value="&lt;div&gt;&lt;div&gt;+ inquiryForm(Model) : void&lt;/div&gt;&lt;div&gt;+ inquiryFromWrite(BoardDto, Authentication) : String&lt;/div&gt;&lt;div&gt;+ boardDetail(Long, Model) : String&lt;/div&gt;&lt;div&gt;+ boardList(Pageable, Authentication, Model, String, String) : void&lt;/div&gt;&lt;div&gt;+ boardUpdateForm(Long, Authentication, Model) : String&lt;/div&gt;&lt;div&gt;+ boardUpdate(Long, BoardDto) : String&lt;/div&gt;&lt;div&gt;+ boardRemove(Long, Authentication) : String&lt;/div&gt;&lt;div&gt;+ boardBasic() : void&lt;/div&gt;&lt;div&gt;+ hotelContact(HotelDto, Model) : void&lt;/div&gt;&lt;div&gt;+ noticeBoardList(Pageable, BoardFileDto, Model) : void&lt;/div&gt;&lt;div&gt;+ noticeBoardDetail(Long, Model) : String&lt;/div&gt;&lt;div&gt;+ downloadFile(HttpServletRequest, HttpServletResponse) : void&lt;/div&gt;&lt;div&gt;+ deleteNotice(Long) : String&lt;/div&gt;&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="J04vA8MsYsXbSL1sjRPu-11">
+          <mxGeometry y="70" width="270" height="280" as="geometry" />
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-15" value="호텔 Controller" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="145" y="1810" width="270" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-16" value="&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;- hotelService : HotelService&lt;/span&gt;&lt;br&gt;&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="J04vA8MsYsXbSL1sjRPu-15">
+          <mxGeometry y="26" width="270" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-17" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" vertex="1" parent="J04vA8MsYsXbSL1sjRPu-15">
+          <mxGeometry y="50" width="270" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-18" value="&lt;div&gt;&lt;div&gt;+ getFind(Model) : void&lt;/div&gt;&lt;div&gt;+ getFindMap() : void&lt;/div&gt;&lt;div&gt;+ getHotelList() : List&amp;lt;Hotel&amp;gt;&lt;/div&gt;&lt;div&gt;+ getConfirmHotelName(String) : String&lt;/div&gt;&lt;div&gt;+ postAdd(HotelDto) : ResponseEntity&amp;lt;String&amp;gt;&lt;/div&gt;&lt;div&gt;+ putModify(HotelDto) : ResponseEntity&amp;lt;String&amp;gt;&lt;/div&gt;&lt;div&gt;+ deleteHotel(String) : String&lt;/div&gt;&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="J04vA8MsYsXbSL1sjRPu-15">
+          <mxGeometry y="60" width="270" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-19" value="내정보 Controller" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="145" y="2240" width="270" height="430" as="geometry" />
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-20" value="&lt;div&gt;myinfoService : MyinfoService&lt;/div&gt;&lt;div&gt;boardService : BoardService&lt;/div&gt;&lt;div&gt;reservationService : ReservationService&lt;/div&gt;&lt;div&gt;jwtTokenProvider : JwtTokenProvider&lt;/div&gt;&lt;div&gt;response : HttpServletResponse&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="J04vA8MsYsXbSL1sjRPu-19">
+          <mxGeometry y="26" width="270" height="84" as="geometry" />
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-21" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" vertex="1" parent="J04vA8MsYsXbSL1sjRPu-19">
+          <mxGeometry y="110" width="270" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-22" value="&lt;div&gt;&lt;div&gt;+ getInformationInfo(String, String, String, String, String, String, String, String, String, String, HttpServletRequest, Model, Authentication) : void&lt;/div&gt;&lt;div&gt;+ infoAuth(String, Authentication, HttpServletresponse) : JSONObject&lt;/div&gt;&lt;div&gt;+ updateInfo(UserDto, BindingResult, Authentication, RedirectAttributes, HttpServletRequest, HttpServletResponse) : String&lt;/div&gt;&lt;div&gt;+ deleteInfo(String, String, Authentication, RedirectAttributes) : String&lt;/div&gt;&lt;div&gt;+ ReservationInfo(String, Model, Authentication) : void&lt;/div&gt;&lt;div&gt;+ getAccessToken() : String&lt;/div&gt;&lt;div&gt;+ DeleteReservation(Long) : ResponseEntity&amp;lt;String&amp;gt;&lt;/div&gt;&lt;div&gt;+ inquiryInfo(String, Pageable, Authentication, Model) : void&lt;/div&gt;&lt;div&gt;+ inquiryBoardDetail(Long, Model) : String&lt;/div&gt;&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="J04vA8MsYsXbSL1sjRPu-19">
+          <mxGeometry y="120" width="270" height="310" as="geometry" />
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-23" value="결제 Controller" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="150" y="2945" width="270" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-24" value="&lt;div&gt;paymentService : PaymentService&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="J04vA8MsYsXbSL1sjRPu-23">
+          <mxGeometry y="26" width="270" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-25" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" vertex="1" parent="J04vA8MsYsXbSL1sjRPu-23">
+          <mxGeometry y="50" width="270" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-26" value="+ getRead(Model) : void&lt;div&gt;+ postPayment(PaymentDto) : ResponseEntity&amp;lt;String&amp;gt;&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="J04vA8MsYsXbSL1sjRPu-23">
+          <mxGeometry y="60" width="270" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-27" value="예약 Controller" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="150" y="3235" width="270" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-28" value="&lt;div&gt;reservationService : ReservationService&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="J04vA8MsYsXbSL1sjRPu-27">
+          <mxGeometry y="26" width="270" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-29" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" vertex="1" parent="J04vA8MsYsXbSL1sjRPu-27">
+          <mxGeometry y="50" width="270" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-30" value="+ getReservationStep1(String, String, int, int, Model) : void&lt;div&gt;+ postReservationStep1(ReservationDto) : ResponseEntity&amp;lt;String&amp;gt;&lt;/div&gt;&lt;div&gt;+ deletePayment(Long) : ResponseEntity&amp;lt;String&amp;gt;&lt;/div&gt;&lt;div&gt;+ getAccessToken() : String&lt;/div&gt;&lt;div&gt;+ getCancel(Long) : void&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="J04vA8MsYsXbSL1sjRPu-27">
+          <mxGeometry y="60" width="270" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-31" value="객실 Controller" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="145" y="3840" width="270" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-32" value="&lt;div&gt;roomService : RoomService&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="J04vA8MsYsXbSL1sjRPu-31">
+          <mxGeometry y="26" width="270" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-33" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" vertex="1" parent="J04vA8MsYsXbSL1sjRPu-31">
+          <mxGeometry y="50" width="270" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-34" value="+ getConfirmKind(String, String) : String&lt;div&gt;+ postAdd(RoomDto) : ResponseEntity&amp;lt;String&amp;gt;&lt;/div&gt;&lt;div&gt;+ putModify(RoomDto) : ResponseEntity&amp;lt;String&amp;gt;&lt;/div&gt;&lt;div&gt;+ deleteRoom(String, String) : String&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="J04vA8MsYsXbSL1sjRPu-31">
+          <mxGeometry y="60" width="270" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-35" value="사용자 Controller" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="145" y="4020" width="270" height="430" as="geometry" />
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-36" value="&lt;div&gt;userService : UserService&lt;/div&gt;&lt;div&gt;javaMailSender : JavaMailSender&lt;/div&gt;&lt;div&gt;jwtTokenProvider : JwtTokenProvider&lt;/div&gt;&lt;div&gt;Email_code : String&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="J04vA8MsYsXbSL1sjRPu-35">
+          <mxGeometry y="26" width="270" height="64" as="geometry" />
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-37" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" vertex="1" parent="J04vA8MsYsXbSL1sjRPu-35">
+          <mxGeometry y="90" width="270" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-38" value="&lt;div&gt;+ dataBinder(WebDataBinder) : void&lt;/div&gt;&lt;div&gt;+ getLogin() : void&lt;/div&gt;&lt;div&gt;+ existId(String, String) : JSONObject&lt;/div&gt;&lt;div&gt;+ existId(String, String, String) : JSONObject&lt;/div&gt;&lt;div&gt;+ findId() : void&lt;/div&gt;&lt;div&gt;+ findPw() : void&lt;/div&gt;&lt;div&gt;+ sendid(boolean, String) : JSONObject&lt;/div&gt;&lt;div&gt;+ sendpw(boolean, String) : JSONObect&lt;/div&gt;&lt;div&gt;+ getOauthLogin(Authentication, Model) : void&lt;/div&gt;&lt;div&gt;+ postOauthLogin(UserDto, BindingResult, Model) : String&lt;/div&gt;&lt;div&gt;+ getjoin() : void&lt;/div&gt;&lt;div&gt;+ postjoin(UserDto, BindingResult, Model, HttpServletRequest, HttpServletResponse) : String&lt;/div&gt;&lt;div&gt;+ ConfirmId(String, HttpServletResponse) : JSONObject&lt;/div&gt;&lt;div&gt;+ confirmEmail(String) : JSONObject&lt;/div&gt;&lt;div&gt;+ SendEmail(String) : ResponseEntity&amp;lt;JSONObject&amp;gt;&lt;/div&gt;&lt;div&gt;+ ConfirmCode(String, String, HttpServletResponse) : JSONObject&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="J04vA8MsYsXbSL1sjRPu-35">
+          <mxGeometry y="100" width="270" height="330" as="geometry" />
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-39" value="MVC Patten" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="235" y="200" width="70" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-43" value="Business Layer(비즈니스 계층)" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="560" y="40" width="560" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-44" value="Service" style="shape=umlFrame;whiteSpace=wrap;html=1;pointerEvents=0;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="560" y="140" width="560" height="4390" as="geometry" />
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-45" value="관리자 Service" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="640" y="250" width="400" height="350" as="geometry" />
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-46" value="- hotelRepository : HotelRepository&lt;div&gt;- hotelFileInfoRepository : HotelFileInfoRepository&lt;/div&gt;&lt;div&gt;- roomRepository : RoomRepository&lt;/div&gt;&lt;div&gt;- roomFileInfoRepository :&amp;nbsp;&lt;span style=&quot;background-color: initial;&quot;&gt;RoomFileInfoRepository&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;- paymentRepository : P&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;aymentRepository&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;- reservationRepository : ReservationRepository&lt;/span&gt;&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="J04vA8MsYsXbSL1sjRPu-45">
+          <mxGeometry y="26" width="400" height="94" as="geometry" />
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-47" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" vertex="1" parent="J04vA8MsYsXbSL1sjRPu-45">
+          <mxGeometry y="120" width="400" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-48" value="+ getAllReservationList(Pageable) : Page&amp;lt;Reservation&amp;gt;&lt;div&gt;+ getHotelMainFileInfo(String, boolean) : HotelFileInfo&lt;/div&gt;&lt;div&gt;+ getHotel(String) : Hotel&lt;/div&gt;&lt;div&gt;+ getHotelNameList() : List&amp;lt;String&amp;gt;&lt;/div&gt;&lt;div&gt;+ getRegionList() : List&amp;lt;String&amp;gt;&lt;/div&gt;&lt;div&gt;+ getHotelFileInfoList(String, boolean) : List&amp;lt;HotelFileInfo&amp;gt;&lt;/div&gt;&lt;div&gt;+&amp;nbsp;getAllHotelList() : List&amp;lt;Hotel&amp;gt;&lt;/div&gt;&lt;div&gt;+&amp;nbsp;getAllPaymentList() : List&amp;lt;Payment&amp;gt;&lt;/div&gt;&lt;div&gt;+&amp;nbsp;getPaymentListByRegion(String) : List&amp;lt;Payment&amp;gt;&lt;/div&gt;&lt;div&gt;+&amp;nbsp;getPaymentListByHotelName(String) : List&amp;lt;Payment&amp;gt;&lt;/div&gt;&lt;div&gt;+&amp;nbsp;getRoomKindList(String) : List&amp;lt;String&amp;gt;&lt;/div&gt;&lt;div&gt;+&amp;nbsp;getRoomMainFileInfo(String, String, boolean) : RoomFileInfo&lt;/div&gt;&lt;div&gt;+&amp;nbsp;getRoomFileList(String, String, boolean) : List&amp;lt;RoomFileInfo&amp;gt;&lt;/div&gt;&lt;div&gt;+&amp;nbsp;getRoomList(String) : List&amp;lt;Room&amp;gt;&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="J04vA8MsYsXbSL1sjRPu-45">
+          <mxGeometry y="130" width="400" height="220" as="geometry" />
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-49" value="게시판 Service" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="640" y="640" width="400" height="390" as="geometry" />
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-50" value="- questionBoardRepository : QuestionBoardRepository&lt;div&gt;- userRepository : UserRepository&lt;/div&gt;&lt;div&gt;- hotelRepository : HotelRepository&lt;/div&gt;&lt;div&gt;- noticeBoardRepository : NoticeBoardRepository&lt;/div&gt;&lt;div&gt;- noticeBoardFileInfoRepository : N&lt;span style=&quot;background-color: initial;&quot;&gt;oticeBoardFileInfoRepository&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;- inquiryBoardRepository : InquiryBoardRepository&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;- commentRepository : CommentRepository&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;- noticeImageRepository : NoticeImageRepository&lt;/span&gt;&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="J04vA8MsYsXbSL1sjRPu-49">
+          <mxGeometry y="26" width="400" height="124" as="geometry" />
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-51" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" vertex="1" parent="J04vA8MsYsXbSL1sjRPu-49">
+          <mxGeometry y="150" width="400" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-52" value="+&amp;nbsp;inquiryBoardList(Pageable) : Page&amp;lt;BoardDto&amp;gt;&lt;div&gt;+&amp;nbsp;searchingInquiryBoardList(String, String, Pageable) : Page&amp;lt;BoardDto&amp;gt;&lt;/div&gt;&lt;div&gt;+&amp;nbsp;commentList(Long) : List&amp;lt;CommentDto&amp;gt;&lt;/div&gt;&lt;div&gt;+&amp;nbsp;inquiryBoardDetail(Long) : BoardDto&lt;/div&gt;&lt;div&gt;+&amp;nbsp;inquiryBoardRemove(Long) : void&lt;/div&gt;&lt;div&gt;+&amp;nbsp;saveQuestionBoard(BoardDto) : Long&lt;/div&gt;&lt;div&gt;+&amp;nbsp;fileAttach(BoardFileDto, String) : void&lt;/div&gt;&lt;div&gt;+&amp;nbsp;noticeBoardFileDetail(Long) : NoticeBoardFileInfo&lt;/div&gt;&lt;div&gt;+&amp;nbsp;noticeBoard(Long) : NoticeBoard&lt;/div&gt;&lt;div&gt;+&amp;nbsp;modifyNotice(Long, BoardFileDto, String) : void&lt;/div&gt;&lt;div&gt;+&amp;nbsp;getImage(Long) : NoticeBoardImage&lt;/div&gt;&lt;div&gt;+&amp;nbsp;uploadImage(NoticeBoardImage) : String&lt;/div&gt;&lt;div&gt;+&amp;nbsp;writeComment(Long, String, String) : Long&lt;/div&gt;&lt;div&gt;+&amp;nbsp;updateComment(String, Long) : void&lt;/div&gt;&lt;div&gt;+&amp;nbsp;deleteComment(Long) : void&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="J04vA8MsYsXbSL1sjRPu-49">
+          <mxGeometry y="160" width="400" height="230" as="geometry" />
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-53" value="model" style="shape=umlFrame;whiteSpace=wrap;html=1;pointerEvents=0;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="600" y="200" width="480" height="850" as="geometry" />
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-54" value="" style="endArrow=classic;html=1;rounded=0;exitX=-0.001;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.996;entryY=0.405;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="J04vA8MsYsXbSL1sjRPu-53" target="J04vA8MsYsXbSL1sjRPu-5">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="500" y="680" as="sourcePoint" />
+            <mxPoint x="420" y="626" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-55" value="model" style="shape=umlFrame;whiteSpace=wrap;html=1;pointerEvents=0;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="600" y="1100" width="480" height="580" as="geometry" />
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-56" value="게시판 Service" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="640" y="1150" width="400" height="350" as="geometry" />
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-57" value="- questionBoardRepository : QuestionBoardRepository&lt;div&gt;- userRepository : UserRepository&lt;/div&gt;&lt;div&gt;- hotelRepository : HotelRepository&lt;/div&gt;&lt;div&gt;- noticeBoardRepository : NoticeBoardRepository&lt;/div&gt;&lt;div&gt;- noticeBoardFileInfoRepository : N&lt;span style=&quot;background-color: initial;&quot;&gt;oticeBoardFileInfoRepository&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;- inquiryBoardRepository : InquiryBoardRepository&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;- commentRepository : CommentRepository&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;- noticeImageRepository : NoticeImageRepository&lt;/span&gt;&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="J04vA8MsYsXbSL1sjRPu-56">
+          <mxGeometry y="26" width="400" height="124" as="geometry" />
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-58" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" vertex="1" parent="J04vA8MsYsXbSL1sjRPu-56">
+          <mxGeometry y="150" width="400" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-59" value="&lt;div&gt;+&amp;nbsp;searchHotelname() : List&amp;lt;String&amp;gt;&lt;/div&gt;&lt;div&gt;+&amp;nbsp;saveInquiryBoard(BoardDto, String) : void&lt;/div&gt;&lt;div&gt;+&amp;nbsp;questionBoardDetail(Long) : BoardDto&lt;/div&gt;&lt;div&gt;+&amp;nbsp;questionBoardList(Pageable) : Page&amp;lt;BoardDto&amp;gt;&lt;/div&gt;&lt;div&gt;+&amp;nbsp;searchingQuestionBoardList(String, String, Pageable) : Page&amp;lt;BoardDto&amp;gt;&lt;/div&gt;&lt;div&gt;+&amp;nbsp;questionBoardUpdate(Long, BoardDto) : Long&lt;/div&gt;&lt;div&gt;+&amp;nbsp;questionBoardRemove(Long) : void&lt;/div&gt;&lt;div&gt;+&amp;nbsp;noticeBoardList(Pageable, BoardFileDto) : Page&amp;lt;BoardFileDto&amp;gt;&lt;/div&gt;&lt;div&gt;+&amp;nbsp;noticeBoardFileDetail(Long) : NoticeBoardFileInfo&lt;br&gt;&lt;/div&gt;&lt;div&gt;+ noticeBoard(Long) : NoticeBoard&lt;br&gt;&lt;/div&gt;&lt;div&gt;+&amp;nbsp;deleteNotice(Long) : String&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="J04vA8MsYsXbSL1sjRPu-56">
+          <mxGeometry y="160" width="400" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-60" value="호텔 Service" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="640" y="1530" width="400" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-61" value="- hotelRepository : HotelRepository&lt;br&gt;&lt;div&gt;- roomRepository : RoomRepository&lt;/div&gt;&lt;div&gt;- hotelFileInfoRepository : HotelFileInfoRepository&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="J04vA8MsYsXbSL1sjRPu-60">
+          <mxGeometry y="26" width="400" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-62" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" vertex="1" parent="J04vA8MsYsXbSL1sjRPu-60">
+          <mxGeometry y="80" width="400" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-63" value="&lt;div&gt;+&amp;nbsp;hotelContact(HotelDto) : List&amp;lt;Hotel&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="J04vA8MsYsXbSL1sjRPu-60">
+          <mxGeometry y="90" width="400" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-64" value="" style="endArrow=classic;html=1;rounded=0;exitX=-0.003;exitY=0.505;exitDx=0;exitDy=0;exitPerimeter=0;entryX=1.003;entryY=0.406;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="J04vA8MsYsXbSL1sjRPu-55" target="J04vA8MsYsXbSL1sjRPu-14">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="610" y="1310" as="sourcePoint" />
+            <mxPoint x="460" y="1393" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-66" value="호텔 Service" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="640" y="1800" width="400" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-67" value="- hotelRepository : HotelRepository&lt;br&gt;&lt;div&gt;- roomRepository : RoomRepository&lt;/div&gt;&lt;div&gt;- hotelFileInfoRepository : HotelFileInfoRepository&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="J04vA8MsYsXbSL1sjRPu-66">
+          <mxGeometry y="26" width="400" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-68" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" vertex="1" parent="J04vA8MsYsXbSL1sjRPu-66">
+          <mxGeometry y="80" width="400" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-69" value="+&amp;nbsp;getDistinctRegion() : List&amp;lt;String&amp;gt;&lt;div&gt;+&amp;nbsp;getHotelMainFileInfoList(boolean) : List&amp;lt;HotelFileInfo&amp;gt;&lt;/div&gt;&lt;div&gt;+&amp;nbsp;getAllHotel() : List&amp;lt;Hotel&amp;gt;&lt;/div&gt;&lt;div&gt;+&amp;nbsp;confirmHotelName(String) : String&lt;/div&gt;&lt;div&gt;+&amp;nbsp;addHotel(HotelDto) : boolean&lt;/div&gt;&lt;div&gt;+&amp;nbsp;modifyHotel(HotelDto) : boolean&lt;/div&gt;&lt;div&gt;+&amp;nbsp;deleteHotel(String) : void&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="J04vA8MsYsXbSL1sjRPu-66">
+          <mxGeometry y="90" width="400" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-70" value="" style="endArrow=classic;html=1;rounded=0;exitX=-0.001;exitY=0.093;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="J04vA8MsYsXbSL1sjRPu-69">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="500" y="1720" as="sourcePoint" />
+            <mxPoint x="416" y="1900" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-71" value="내정보 Service" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="640" y="2070" width="400" height="220" as="geometry" />
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-72" value="- hotelRepository : HotelRepository&lt;br&gt;&lt;div&gt;- roomRepository : RoomRepository&lt;/div&gt;&lt;div&gt;- hotelFileInfoRepository : HotelFileInfoRepository&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="J04vA8MsYsXbSL1sjRPu-71">
+          <mxGeometry y="26" width="400" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-73" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" vertex="1" parent="J04vA8MsYsXbSL1sjRPu-71">
+          <mxGeometry y="80" width="400" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-74" value="+&amp;nbsp;ReadMyinfo(String, Model) : void&lt;div&gt;+&amp;nbsp;isValid(String, Authentication) : boolean&lt;/div&gt;&lt;div&gt;+&amp;nbsp;UpdateInfo(UserDto, Authentication, RedirectAttributes, HttpServletRequest) : boolean&lt;/div&gt;&lt;div&gt;+&amp;nbsp;IdUpdate(UserDto) : void&lt;/div&gt;&lt;div&gt;+&amp;nbsp;DeleteInfo(String, String, Authentication, RedirectAttribute) : boolean&lt;/div&gt;&lt;div&gt;+&amp;nbsp;FindUserReservation(Authentication) : List&amp;lt;Reservation&amp;gt;&lt;/div&gt;&lt;div&gt;+&amp;nbsp;FindUserPayment(Long) : Payment&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="J04vA8MsYsXbSL1sjRPu-71">
+          <mxGeometry y="90" width="400" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-75" value="게시판 Service" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="640" y="2320" width="400" height="250" as="geometry" />
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-76" value="- questionBoardRepository : QuestionBoardRepository&lt;div&gt;- userRepository : UserRepository&lt;/div&gt;&lt;div&gt;- hotelRepository : HotelRepository&lt;/div&gt;&lt;div&gt;- noticeBoardRepository : NoticeBoardRepository&lt;/div&gt;&lt;div&gt;- noticeBoardFileInfoRepository : N&lt;span style=&quot;background-color: initial;&quot;&gt;oticeBoardFileInfoRepository&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;- inquiryBoardRepository : InquiryBoardRepository&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;- commentRepository : CommentRepository&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;- noticeImageRepository : NoticeImageRepository&lt;/span&gt;&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="J04vA8MsYsXbSL1sjRPu-75">
+          <mxGeometry y="26" width="400" height="124" as="geometry" />
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-77" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" vertex="1" parent="J04vA8MsYsXbSL1sjRPu-75">
+          <mxGeometry y="150" width="400" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-78" value="&lt;div&gt;+&amp;nbsp;searchHotelname() : List&amp;lt;String&amp;gt;&lt;/div&gt;&lt;div&gt;+&amp;nbsp;userBoardList(Pageable, Authentication) : Page&amp;lt;BoardDto&amp;gt;&lt;/div&gt;&lt;div&gt;+&amp;nbsp;commentList(Pageable) : Page&amp;lt;CommentDto&amp;gt;&lt;/div&gt;&lt;div&gt;+&amp;nbsp;inquiryBoardDetail(Long) : BoardDto&lt;/div&gt;&lt;div&gt;+ commentList(Long) : List&amp;lt;CommentDto&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="J04vA8MsYsXbSL1sjRPu-75">
+          <mxGeometry y="160" width="400" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-79" value="예약 Service" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="640" y="2600" width="400" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-80" value="- paymentRepository : PaymentRepository&lt;br&gt;&lt;div&gt;- reservationRepository : ReservationRepository&lt;/div&gt;&lt;div&gt;- hotelRepository : HotelRepository&lt;/div&gt;&lt;div&gt;- userRepository : UserRepository&lt;/div&gt;&lt;div&gt;- roomRepository : RoomRepository&lt;/div&gt;&lt;div&gt;- reservedRoomCountRepository : ReservedRoomCountRepository&lt;/div&gt;&lt;div&gt;- roomFileInfoRepository : RoomFileInfoRepository&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="J04vA8MsYsXbSL1sjRPu-79">
+          <mxGeometry y="26" width="400" height="124" as="geometry" />
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-81" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" vertex="1" parent="J04vA8MsYsXbSL1sjRPu-79">
+          <mxGeometry y="150" width="400" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-82" value="&lt;div&gt;+&amp;nbsp;&lt;span style=&quot;background-color: initial;&quot;&gt;deleteReservationRoomCount(Long) : void&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;+&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;deleteReservation(Long) : boolean&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="J04vA8MsYsXbSL1sjRPu-79">
+          <mxGeometry y="160" width="400" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-83" value="model" style="shape=umlFrame;whiteSpace=wrap;html=1;pointerEvents=0;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="600" y="2020" width="480" height="820" as="geometry" />
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-87" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.228;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="J04vA8MsYsXbSL1sjRPu-83" target="J04vA8MsYsXbSL1sjRPu-22">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-88" value="결제 Service" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="640" y="2920" width="400" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-89" value="- paymentRepository : PaymentRepository&lt;br&gt;&lt;div&gt;- reservationRepository : ReservationRepository&lt;/div&gt;&lt;div&gt;- reservedRoomCountRepository : ReservedRoomCountRepository&lt;/div&gt;&lt;div&gt;- roomFileInfoRepository : RoomFileInfoRepository&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="J04vA8MsYsXbSL1sjRPu-88">
+          <mxGeometry y="26" width="400" height="64" as="geometry" />
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-90" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" vertex="1" parent="J04vA8MsYsXbSL1sjRPu-88">
+          <mxGeometry y="90" width="400" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-91" value="&lt;div&gt;+&amp;nbsp;getReservationList() : Reservation&lt;/div&gt;&lt;div&gt;+&amp;nbsp;getRoomsMainFileInfo(Long) : RoomFileInfo&lt;/div&gt;&lt;div&gt;+&amp;nbsp;addReservedRoomCount(Long) : String&lt;/div&gt;&lt;div&gt;+&amp;nbsp;addPayment(PaymentDto) : boolean&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="J04vA8MsYsXbSL1sjRPu-88">
+          <mxGeometry y="100" width="400" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-95" value="" style="endArrow=classic;html=1;rounded=0;exitX=-0.001;exitY=0.981;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.999;entryY=0.063;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="J04vA8MsYsXbSL1sjRPu-89" target="J04vA8MsYsXbSL1sjRPu-26">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="500" y="2990" as="sourcePoint" />
+            <mxPoint x="550" y="2940" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-96" value="예약 Service" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="640" y="3150" width="400" height="370" as="geometry" />
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-97" value="- paymentRepository : PaymentRepository&lt;br&gt;&lt;div&gt;- reservationRepository : ReservationRepository&lt;/div&gt;&lt;div&gt;- hotelRepository : HotelRepository&lt;/div&gt;&lt;div&gt;- userRepository : UserRepository&lt;/div&gt;&lt;div&gt;- roomRepository : RoomRepository&lt;/div&gt;&lt;div&gt;- reservedRoomCountRepository : ReservedRoomCountRepository&lt;/div&gt;&lt;div&gt;- roomFileInfoRepository : RoomFileInfoRepository&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="J04vA8MsYsXbSL1sjRPu-96">
+          <mxGeometry y="26" width="400" height="124" as="geometry" />
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-98" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" vertex="1" parent="J04vA8MsYsXbSL1sjRPu-96">
+          <mxGeometry y="150" width="400" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-99" value="&lt;div&gt;+&amp;nbsp;getHotelsRoom(String, int) : List&amp;lt;Room&amp;gt;&lt;/div&gt;&lt;div&gt;+&amp;nbsp;getReservedRoomCount(String, Long) : int&lt;/div&gt;&lt;div&gt;+&amp;nbsp;addReservedRoomCount(Long, int) : void&lt;/div&gt;&lt;div&gt;+&amp;nbsp;getAllHotel() : List&amp;lt;Hotel&amp;gt;&lt;/div&gt;&lt;div&gt;+&amp;nbsp;getDistinctRegion() : List&amp;lt;String&amp;gt;&lt;/div&gt;&lt;div&gt;+&amp;nbsp;getAllMainFiles(String) : List&amp;lt;RoomFileInfo&amp;gt;&lt;/div&gt;&lt;div&gt;+&amp;nbsp;insertReservation(ReservationDto) : boolean&lt;/div&gt;&lt;div&gt;+&amp;nbsp;deleteReservation(Long) : boolean&lt;/div&gt;&lt;div&gt;+&amp;nbsp;getPayment(Long) : Payment&lt;/div&gt;&lt;div&gt;+&amp;nbsp;&lt;span style=&quot;background-color: initial;&quot;&gt;deleteReservationRoomCount(Long) : void&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="J04vA8MsYsXbSL1sjRPu-96">
+          <mxGeometry y="160" width="400" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="J04vA8MsYsXbSL1sjRPu-100" value="" style="endArrow=classic;html=1;rounded=0;exitX=-0.001;exitY=0.981;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.999;entryY=0.063;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="640" y="3350" as="sourcePoint" />
+            <mxPoint x="420" y="3350" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
