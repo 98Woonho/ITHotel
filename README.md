@@ -23,11 +23,19 @@ WEB PROJECT PLANING
 
 <br/>
 
+## ▶️ 시연 영상
+[https://www.youtube.com/watch?v=4Y_hGYJT9Pc](https://www.youtube.com/watch?v=DTQzaR3oxDE)
+
+<br/>
+
 ## ▶️ ERD
 ![ITHOTEL ERD](https://github.com/98Woonho/ITHotel/assets/145889732/e2fcbf21-d3f8-477e-a2b9-2ead065e483f)
 
-## ▶️ 시연 영상
-[https://www.youtube.com/watch?v=4Y_hGYJT9Pc](https://www.youtube.com/watch?v=DTQzaR3oxDE)
+<br/>
+
+## ▶️ 클래스 다이어그램
+![ITHotel_ClassDiagram](https://github.com/user-attachments/assets/5b655918-5b52-463c-addb-2bdc766bddef)
+
 
 <br/>
 
