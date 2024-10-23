@@ -1,8 +1,12 @@
-WEB PROJECT PLANING
+ITHotel PROJECT PLANING
 =
+
+<br/>
 
 ## ▶️ 개발 동기
 ##### 호텔 예약 사이트에 챗봇 기능이 있으면 좋겠다고 생각
+
+<br/>
 
 ## ▶️ 개발 목표
 ##### 챗봇 기능이 추가된 호텔 예약 사이트 구현
