@@ -4,7 +4,7 @@ ITHotel PROJECT PLANING
 <br/>
 
 ## ▶️ 개발 동기
-##### 호텔 예약 사이트에 챗봇 기능이 있으면 좋겠다고 생각
+##### 호텔 예약 사이트에 챗봇 기능이 있으면 좋겠다고 생각하여 챗봇 기능이 추가된 호텔 예약 사이트를 개발하게 되었습니다.
 
 <br/>
 
@@ -14,53 +14,51 @@ ITHotel PROJECT PLANING
 <br/>
 
 ## ▶️ 개발 일정
-#### 2024-01-15 ~ 2024-01-16(02Days) : 주제 선정 및 요구사항 분석, 기술스택 결정, 개발환경 구축
-#### 2024-01-17 ~ 2024-01-19(03Days) : 기본 프론트엔드 구조 기획 및 개발, DB 기획 및 개발
-#### 2024-01-20 ~ 2024-02-10(22Days) : 프론트엔드 및 백엔드 개발
+|PLAN|일정|DESCRIPTION|
+|---------------|----------------|------------------------|
+|주제 선정 <br/> 요구사항 분석 <br/> 기술스택 결정 <br/> 개발환경 구축|2024-01-15 ~ 2024-01-16(02Days)|완료| 
+|기본 프론트엔드 구조 기획 및 개발 <br/> DB 설계|2024-01-17 ~ 2024-01-19(03Days)|완료| 
+|프론트엔드 및 백엔드 개발|2024-01-20 ~ 2024-02-10(22Days)|완료| 
 
 <br/>
 
 ## ▶️ 구성인원 
-##### 이운호(조장) : Git, UI, 예약 및 결제 CRUD, 관리자 CRUD, 문서 작성 및 정리
-##### 황보성현(조원1) : 게시판 CRUD, UI, 문서 작성 및 정리
-##### 함성모(조원2) : 고객 CRUD
-
-<br/>
-
-## ▶️ 시연 영상
-[https://www.youtube.com/watch?v=4Y_hGYJT9Pc](https://www.youtube.com/watch?v=DTQzaR3oxDE)
-
-<br/>
-
-## ▶️ ERD
-![ITHOTEL ERD](https://github.com/98Woonho/ITHotel/assets/145889732/e2fcbf21-d3f8-477e-a2b9-2ead065e483f)
-
-<br/>
-
-## ▶️ 클래스 다이어그램
-![ITHotel_ClassDiagram](https://github.com/user-attachments/assets/5b655918-5b52-463c-addb-2bdc766bddef)
-
+|조원|역할|
+|---------------|----------------|
+|공통|요구사항분석 및 시스템 설계|
+|이운호(조장)|Git, UI, 예약 및 결제 CRUD, 관리자 CRUD, 문서 작성 및 정리|
+|황보성현(조원1)|게시판 CRUD, UI, 문서 작성 및 정리|
+|함성모(조원2)|고객 CRUD|
 
 <br/>
 
 ## ▶️ 개발 환경
-##### IDE : IntelliJ Ultimate
-##### OpenJDK 21
-##### Java21
-##### SpringBoot 3.1.7
-##### gradle
-##### Mysql Server
-##### Mysql Workbench
-##### Connection Pool : HikariCP
+|-|개발 환경|
+|---------------|----------------|
+|IDE|IntelliJ Ultimate|
+|JDK|JDK 21|
+|Java|Java 21|
+|SpringBoot Version|3.1.7|
+|Build Tool|gradle|
+|DBMS|Mysql|
+|Connection Pool|HikariCP|
+|Version Control|Git|
+|Repository Hosting|GitHub|
+|Security|Spring Security|
 
 <br/>
 
 ## ▶️ 사용 API
-##### 아임포트 결제시스템 API
-##### 카카오 지도 API
-##### 다음 주소 API
-##### OAuth2 로그인 API
-##### JAVA PERSISTENCE API
+|용도|제공|API 문서|
+|---------------|----------------|------------------------|
+|결제|아임포트|[링크](https://developers.portone.io/docs/ko/readme?v=v1)|
+|인증|아임포트|[링크](https://developers.portone.io/docs/ko/readme?v=v1)|
+|주소 찾기|다음|[링크](https://postcode.map.daum.net/guide)|
+|지도|카카오|[링크](https://apis.map.kakao.com)|
+|OAuth2 로그인|카카오|[링크](https://developers.kakao.com/docs/latest/ko/index)|
+|OAuth2 로그인|구글|[링크](https://console.cloud.google.com/)|
+|OAuth2 로그인|네이버|[링크](https://developers.naver.com/products/login/api/api.md)|
+|JAVA PERSISTENCE API|Spring|[링크](https://docs.spring.io/spring-data/jpa/reference/index.html)|
 
 <br/>
 
@@ -85,6 +83,31 @@ ITHotel PROJECT PLANING
 ##### 사용자 마이페이지(회원 정보 수정/탈퇴, 예약 취소, 문의 사항 작성)
 ##### 관리자 페이지(예약 현황/취소, 호텔 등록/수정/삭제, 객실 등록/수정/삭제, 공지사항 작성/자주묻는 질문 작성/문의사항 답변, 매출 그래프)
 ##### 호텔 객실 예약/결제
+
+## ▶️ 주요 기능
+|서비스|주요 기능|
+|---------------|----------------|
+|회원 서비스|<ul><li>JWT 기반 로그인</li><li>소셜 로그인 및 회원가입</li></ul>|
+|게시판 서비스|<ul><li>공지사항, 고객 문의, FAQ 게시판</li></ul>|
+|호텔 서비스|<ul><li>호텔 객실 예약/결제</li></ul>|
+|사용자 마이페이지|<ul><li>회원 정보 수정/탈퇴</li><li>예약 취소</li><li>문의 사항 작성</li></ul>|
+|관리자 페이지|<ul><li>예약 현황/취소</li><li>호텔 등록/수정/삭제</li><li>객실 등록/수정/삭제</li><li>공지사항 작성/자주묻는 질문 작성/문의사항 답변</li><li>매출 그래프</li></ul>|
+
+<br/>
+
+## ▶️ 시연 영상
+[https://www.youtube.com/watch?v=4Y_hGYJT9Pc](https://www.youtube.com/watch?v=DTQzaR3oxDE)
+
+<br/>
+
+## ▶️ ERD
+![ITHOTEL ERD](https://github.com/98Woonho/ITHotel/assets/145889732/e2fcbf21-d3f8-477e-a2b9-2ead065e483f)
+
+<br/>
+
+## ▶️ 클래스 다이어그램
+![ITHotel_ClassDiagram](https://github.com/user-attachments/assets/5b655918-5b52-463c-addb-2bdc766bddef)
+
 
 <br/>
 
