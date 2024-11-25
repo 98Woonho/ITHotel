@@ -112,8 +112,29 @@ ITHotel PROJECT PLANING
 ## ▶️ 클래스 다이어그램
 ![ITHotel_ClassDiagram](https://github.com/user-attachments/assets/5b655918-5b52-463c-addb-2bdc766bddef)
 
+<br/>
+
+## ▶️ 유스케이스
+![UseCase](https://github.com/user-attachments/assets/5f89a676-dfd7-4240-8c5b-ee68e475cd9a)
 
 <br/>
+
+## ▶️ 시퀀스 다이어그램
+### 회원가입
+![회원가입](https://github.com/user-attachments/assets/9af05232-5823-4f93-858b-a9f4eb8c0dcf)
+
+### 로그인
+![로그인](https://github.com/user-attachments/assets/659e4e6b-d432-4fd1-a159-af6eb6b80985)
+
+### 아이디 찾기
+![아이디 찾기](https://github.com/user-attachments/assets/d032c7d5-6468-4680-9cb6-51cd749d9a7a)
+
+### 비밀번호 찾기
+![비밀번호 찾기](https://github.com/user-attachments/assets/0786b470-dbcc-4197-b683-c721d852793f)
+
+### 호텔 예약 및 결제
+![호텔 예약 및 결제](https://github.com/user-attachments/assets/906507e9-542a-4334-8970-9173638aa776)
+
 
 📃: File Tree
 ---
