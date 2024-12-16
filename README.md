@@ -58,6 +58,7 @@ ITHotel PROJECT PLANING
 |OAuth2 로그인|구글|[링크](https://console.cloud.google.com/)|
 |OAuth2 로그인|네이버|[링크](https://developers.naver.com/products/login/api/api.md)|
 |JAVA PERSISTENCE API|Spring|[링크](https://docs.spring.io/spring-data/jpa/reference/index.html)|
+|챗봇|OpenAI|[링크](https://openai.com/index/openai-api/)|
 
 <br/>
 
